@@ -7,6 +7,7 @@ import time
 import math
 from gtk import *
 from libglade import *
+import string
 
 from omniORB import CORBA
 import CosNaming
@@ -90,12 +91,13 @@ class levelFaderFactory:
         w = self.tree.get_widget("newCoreItem")
         e = self.tree.get_widget("nameEntry")
         name = e.get_text()
-        o = self.tree.get_widget("coreMenu")
-        corename = o.children()[0].get()
-        if not lb.levelfader.has_key(name):
-            threads_leave()
-            c = levelfader(name, corename)
-            threads_enter()
+        if (string.strip(name) != ''):
+            o = self.tree.get_widget("coreMenu")
+            corename = o.children()[0].get()
+            if not lb.levelfader.has_key(name):
+                threads_leave()
+                c = levelfader(name, corename)
+                threads_enter()
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):

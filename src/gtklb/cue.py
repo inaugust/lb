@@ -179,12 +179,20 @@ class instrument_cue_proxy:
         if c.live_updates:
             i.set_attribute(name, value)
         c.update_display2(n)
+        try:
+            c.attribute_widgets[name].set_string_value(value)
+        except:
+            pass
+        
 
 class cue(completion):
 
     def __init__(self, name, update_refs=1):
         self.my_locals={'lb': lb}
         completion.__init__(self, self.my_locals)
+        self.cue_proxies={}
+        self.attribute_widgets={}
+        self.block_change=0
         self.instrument={}
         self.apparent={}
         self.valid=0
@@ -282,9 +290,20 @@ class cue(completion):
 
     def update_display2(self, name):
         """just update it"""
-        row = self.in_tree.find_row_from_data(self.my_locals[name])
-
         dict=self.apparent[name]
+        row = self.in_tree.find_row_from_data(self.cue_proxies[name])
+        if (row<0):
+            l=[name]
+            for a in tree_columns:
+                if (dict.has_key(a)):
+                    l.append(dict[a])
+                else:
+                    l.append('')
+            pos = self.in_tree.append (l)
+            node = self.in_tree.node_nth(pos)
+            self.in_tree.node_set_row_data(node, self.cue_proxies[name])
+            return
+        
         col = 1
         for a in tree_columns:
             if (dict.has_key(a)):
@@ -310,7 +329,7 @@ class cue(completion):
                         l.append('')
                 pos = self.in_tree.append (l)
                 node = self.in_tree.node_nth(pos)
-                self.in_tree.node_set_row_data(node, self.my_locals[name])
+                self.in_tree.node_set_row_data(node, self.cue_proxies[name])
             l = lb.instrument.keys()
             l.sort()
             for name in l:
@@ -505,10 +524,20 @@ class cue(completion):
         win.destroy()
 
     def edit_attr_changed(self, widget, data=None):
-        i = self.locals[self.editing_instrument]
-        threads_leave()
-        setattr(i, widget.attribute, widget.get_string_value())
-        threads_enter()
+        n = self.editing_instrument
+
+        name = widget.attribute
+        value = widget.get_string_value()
+        if (not self.instrument.has_key(n)):
+            self.instrument[n]={}
+        if (not self.apparent.has_key(n)):
+            self.apparent[n]={}
+        self.instrument[n][name]=value
+        self.apparent[n][name]=value
+        self.build_time=time.time()
+        if self.live_updates:
+            lb.instrument[n].set_attribute(name, value)
+        self.update_display2(n)
         
     def edit_row_selected(self, widget, row, column, data=None):
         in_tree = self.editTree.get_widget("inTree")
@@ -539,11 +568,19 @@ class cue(completion):
             w = GtkLabel(a)
             table.attach(w, 0,1, i,i+1, xoptions=FILL, yoptions=0)
             w = lb.attr_widget(a)(v, self.edit_attr_changed)            
+            self.attribute_widgets[a]=w
             align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
             align.add(w.get_widget())
             table.attach(align, 1,2, i,i+1, xoptions=FILL, yoptions=0)
         table.show_all()
         return 1
+
+    def edit_row_unselected(self, widget, row, column, data=None):
+        self.editing_instrument=None
+        table = self.editTree.get_widget("attributeTable")
+        
+        for c in table.children():
+            table.remove(c)
            
     def edit(self):
         cue = self.copy()
@@ -566,6 +603,7 @@ class cue(completion):
         for name in l:
             p = instrument_cue_proxy(name, self)
             self.my_locals[name]=p
+            self.cue_proxies[name]=p
 
         threads_enter()
         try:
@@ -601,8 +639,10 @@ class cue(completion):
             self.in_tree = wTree.get_widget ("inTree")
             w=wTree.get_widget("cueEdit")
             w.connect ('destroy', self.edit_destroyed)
+            w.set_title ('Edit Cue %s' % self.name)
             
             self.in_tree.connect ('select-row', self.edit_row_selected)
+            self.in_tree.connect ('unselect-row', self.edit_row_unselected)
         finally:
             threads_leave()
 

@@ -126,12 +126,7 @@
 </programs>
 <procedures>
 
-  <procedure name="chase">
-
-
-
-
-
+  <procedure name="chase" args="instruments">
 # arguments:  instruments (list)
 
 import math, time, string
@@ -155,19 +150,9 @@ while(self.running):
 
 if (prev):
     prev.set_attribute(attribute='level', value='0%', source=self.name)
-
-  
-  
-  
-  
-  
   </procedure>
-  <procedure name="circle">
 
-
-
-
-
+  <procedure name="circle" args="instrument, center, radius">
 # arguments:  instrument, center, radius
 
 import math, time, string
@@ -193,18 +178,9 @@ while(self.running):
   t=t+.1
   time.sleep(0.5)
 
-  
-  
-  
-  
-  
   </procedure>
-  <procedure name="benchmark">
 
-
-
-
-
+  <procedure name="benchmark" args="">
 import math, time, string
 
 ins=[]
@@ -217,12 +193,6 @@ for y in range(1,4*80):
     x.set_attribute(attribute='target', value='(10ft, 10ft, 10ft)')
 e=time.time()
 print 'set', 4*80*50 ,'instruments in ', e-s
-
-  
-  
-  
-  
-  
   </procedure>
 </procedures>
 </show>

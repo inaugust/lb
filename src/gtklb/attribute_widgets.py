@@ -20,7 +20,7 @@ def initialize():
         if (l[0]=='!'): continue
         m = p.match(l)
         r,g,b,n = m.group(1), m.group(2), m.group(3), m.group(4)
-        rgb_table[n]=(float(r)/255.0, float(g)/255.0, float(b)/255.0)
+        rgb_table[n]=(float(r)/255.0*100.0, float(g)/255.0*100.0, float(b)/255.0*100.0)
     f.close()
 
 class AttributeWidget:
@@ -47,9 +47,13 @@ class AttributeWidget:
         pass
 
     def changed(self, widget, *args):
+        self.internal_change (widget, args)
         if (self.changed_callback):
             self.changed_callback(self)
 
+    def internal_change(self, widget, args=None):
+        pass
+            
     def set_sensitive(self, v):
         self.widget.set_sensitive(v)
 
@@ -180,7 +184,7 @@ def color_string_to_core(color):
 def color_core_to_string(color):
     if (type(color) is not ListType):
         return color
-    s = '#%02x%02x%02x' % (int(color[0]/100.0*255), int(color[1]/100.0*255), int(color[2]/100.0*255))
+    s = '#%02x%02x%02x' % (int(round(color[0]/100.0*255)), int(round(color[1]/100.0*255)), int(round(color[2]/100.0*255)))
     return s
     
 class ColorWidget(AttributeWidget):
@@ -188,24 +192,51 @@ class ColorWidget(AttributeWidget):
     def __init__(self, value, changed_callback):
         AttributeWidget.__init__(self)
         self.changed_callback=changed_callback
-        self.widget = GtkColorSelection()
-        self.widget.connect('color_changed', self.changed)
+
+        self.widget = GtkVBox()
+
+        self.color_widget = GtkColorSelection()
+        self.color_widget.connect('color_changed', self.changed)
+        self.color_widget.show()
+        
+        self.entry_widget = GtkEntry()
+        self.entry_widget.connect('activate', self.changed)
+
+        align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+        align.add(self.entry_widget)
+
+        self.widget.pack_start(self.color_widget)
+        self.widget.pack_start(align)
+
         self.set_string_value(value)
-        self.widget.show()
+        self.widget.show_all()
+        self.color_widget.set_opacity(0)
 
     def get_string_value(self):
         v = self.get_core_value()
         return color_core_to_string(v)
 
     def set_string_value(self, value):
-        (r,g,b) = color_string_to_core(value)
-        self.set_core_value([r,g,b])
+        c = color_string_to_core(value)
+        self.set_core_value(c)
 
+    def internal_change (self, widget, args=None):
+        if (widget == self.color_widget):
+            c = self.color_widget.get_color()
+            (r,g,b) = (c[0]*100.0, c[1]*100.0, c[2]*100.0)
+            self.core_value = [r,g,b]
+            self.entry_widget.set_text (color_core_to_string(self.core_value))
+        else:
+            t = self.entry_widget.get_text()
+            value = self.core_value = color_string_to_core(t)
+            c = (value[0]/100.0, value[1]/100.0, value[2]/100.0)
+            self.color_widget.set_color(c)
+            
     def get_core_value(self):
-        c = self.widget.get_color()
-        (r,g,b) = (c[0]*100.0, c[1]*100.0, c[2]*100.0)
-        return [r,g,b]
+        return self.core_value
 
     def set_core_value(self, value):
-        c = (int(value[0]/100.0), int(value[1]/100.0), int(value[2]/100.0))
-        self.widget.set_color(c)
+        self.core_value = value
+        c = (value[0]/100.0, value[1]/100.0, value[2]/100.0)
+        self.color_widget.set_color(c)
+        self.entry_widget.set_text (color_core_to_string(self.core_value))

@@ -147,10 +147,12 @@ void LB_Fader_i::do_run(void)
   double adelta=fabs(delta);
   long steps=(long)(fabs(tolevel-fromlevel)/adelta);
 
+  // Correct for rounding errors.
+
   if ((tolevel-fromlevel)>0)
     while ((double(steps) * delta) < (tolevel-fromlevel)) steps++;
   else
-    while ((double(steps) * delta) < (tolevel-fromlevel)) steps++;
+    while ((double(steps) * delta) > (tolevel-fromlevel)) steps++;
 
   /*
   printf ("steps: ((%f - %f)=%f)/%f = %f =? %li\n", tolevel, fromlevel,

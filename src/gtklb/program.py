@@ -8,19 +8,31 @@ from cue import cue
 import time
 from gtk import *
 from libglade import *
+import crossfader
+import levelfader
 
 run_menu=None
 edit_menu=None
 
+def get_cue_keys():
+    return lb.cue.keys()
+
+def get_crossfader_keys():
+    return lb.crossfader.keys()
+
+def get_levelfader_keys():
+    return lb.levelfader.keys()
+
 action_types={
-    'crossfader_load': (('crossfader', lb.crossfader.keys),
-                        ('cue', lb.cue.keys)),
-    'crossfader_run': (('crossfader', lb.crossfader.keys), ('uptime', ''),
+    'crossfader_load': (('crossfader', get_crossfader_keys),
+                        ('cue', get_cue_keys)),
+    'crossfader_run': (('crossfader', get_crossfader_keys), ('uptime', ''),
                        ('downtime', '')),
     
-    'levelfader_load': (('levelfader', lb.levelfader.keys),
-                        ('cue', lb.cue.keys)),
-    'levelfader_run': (('levelfader', lb.levelfader.keys), ('time', '')),
+    'levelfader_load': (('levelfader', get_levelfader_keys),
+                        ('cue', get_cue_keys)),
+    'levelfader_run': (('levelfader', get_levelfader_keys), ('time', ''),
+                       ('level', '')),
     }
 
 def format_step(name, arg_dict):
@@ -64,6 +76,10 @@ def reset():
     new1.connect("activate", newProgram_cb, None)
     program1_menu.append(new1)
 
+    new1=GtkMenuItem("New With Druid")
+    new1.connect("activate", newDruid_cb, None)
+    program1_menu.append(new1)
+
     menubar.show_all()
     threads_leave()
     
@@ -103,10 +119,11 @@ class programFactory:
         w = self.tree.get_widget("nameDialog")
         e = self.tree.get_widget("nameEntry")
         name = e.get_text()
-        if not lb.program.has_key(name):
-            threads_leave()
-            p=program(name)
-            threads_enter()
+        if (string.strip(name) != ''):
+            if not lb.program.has_key(name):
+                threads_leave()
+                p=program(name)
+                threads_enter()
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):
@@ -118,6 +135,13 @@ def newProgram_cb(widget, data=None):
     # called from menu
     threads_leave()
     f = programFactory()
+    threads_enter()
+    # that's it.
+
+def newDruid_cb(widget, data=None):
+    # called from menu
+    threads_leave()
+    f = programDruid()
     threads_enter()
     # that's it.
 
@@ -505,12 +529,7 @@ class program:
     def run_action (self, action, args):
         ### Level fader
         if (action=='levelfader_load'):
-            if (args.has_key('cue')):
-                lb.levelfader[args['levelfader']].set_cue(args['cue'])
-            if (args.has_key('instrument')):
-                lb.levelfader[args['levelfader']].set_instrument(args['instrument'])
-        if (action=='levelfader_level'):
-            lb.levelfader[args['levelfader']].set_level(args['level'])
+            lb.levelfader[args['levelfader']].setCue(args['cue'])
         if (action=='levelfader_run'):
             intime=args.get('time',0)
             lb.levelfader[args['levelfader']].run(args['level'], intime)
@@ -844,4 +863,122 @@ class program:
         threads_leave()
         self.run()
         threads_enter()
-        
+
+
+def drag_data_get (widget,context,data,info,time,user):
+    data.set(data.target,123,user)
+
+def drag_data_rec (widget,context,x,y,data,info,time,user) :
+    print 'rec'
+    
+class programDruid:
+
+    target = [('text/cuename',0,-1)]
+    
+    def __init__(self):
+        threads_enter()
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "programDruid")
+            
+            dic = {"on_ok_clicked": self.ok_clicked,
+                   "on_cancel_clicked": self.cancel_clicked,
+                   "on_add_clicked": self.add_clicked,
+                   "on_remove_clicked": self.remove_clicked,
+                   }
+            
+            wTree.signal_autoconnect (dic)
+
+            tree = wTree.get_widget("cueTree")
+            
+            cues = lb.cue.keys()
+            cues.sort()
+            for c in cues:
+                tree.insert_node(None, None, [c], is_leaf=TRUE)
+
+            tree = wTree.get_widget("programTree")
+            tree.set_reorderable(1)
+
+            optionMenu = wTree.get_widget("faderMenu")
+            menu=GtkMenu()
+            faders = lb.crossfader.keys() + lb.levelfader.keys()
+            faders.sort()
+            for f in faders:
+                i=GtkMenuItem(f)
+                i.show()
+                menu.append(i)
+            menu.show_all()
+            optionMenu.set_menu(menu)
+            optionMenu.set_history(0)
+            menu.show()
+
+            self.newTree=wTree
+        finally:
+            threads_leave()
+    
+    def ok_clicked(self, widget, data=None):
+        window = self.newTree.get_widget("programDruid")
+        ptree = self.newTree.get_widget("programTree")
+        e = self.newTree.get_widget("nameEntry")
+        name = e.get_text()
+        if (string.strip(name) != ''):        
+            if not lb.program.has_key(name):
+                threads_leave()
+                fader_name = self.newTree.get_widget('faderMenu').children()[0].get()
+                fade_time = self.newTree.get_widget('timeEntry').get_text()
+                try:
+                    f = lb.crossfader[fader_name]
+                except:
+                    try:
+                        f = lb.levelfader[fader_name]
+                    except:
+                        pass
+
+                p=program(name)
+                if (isinstance (f, crossfader.crossfader)):
+                    load_action = action(p)
+                    load_action.kind='crossfader_load'
+                    load_action.args={'crossfader': fader_name}
+                    run_action = action(p)
+                    run_action.kind='crossfader_run'
+                    run_action.args={'crossfader': fader_name,
+                                      'uptime': fade_time,
+                                      'downtime': fade_time}
+                if (isinstance (f, levelfader.levelfader)):
+                    load_action = action(p)
+                    load_action.kind='levelfader_load'
+                    load_action.args={'levelfader': fader_name}
+                    run_action = action(p)
+                    run_action.kind='levelfader_run'
+                    run_action.args={'levelfader': fader_name,
+                                      'time': fade_time}
+                count = 1
+                for n in ptree.base_nodes():
+                    cue_name = ptree.get_node_info(n)[0]
+                    s = step(p)
+                    s.actions = [load_action.copy(), run_action.copy()]
+                    s.actions[0].args['cue']=cue_name
+                    s.name = 'Cue %i [%s]' % (count, cue_name)
+                    count = count + 1
+                    p.actions.append(s)
+                    
+                threads_enter()
+        window.destroy()
+    
+    def cancel_clicked(self, widget, data=None):
+        w = self.newTree.get_widget("programDruid")
+        w.destroy()
+
+    def add_clicked(self, widget, data=None):
+        ctree = self.newTree.get_widget("cueTree")
+        ptree = self.newTree.get_widget("programTree")
+        for n in ctree.selection:
+            name = ctree.get_node_info(n)[0]
+            ptree.insert_node(None, None, [name], is_leaf=TRUE)
+
+    def remove_clicked(self, widget, data=None):
+        ptree = self.newTree.get_widget("programTree")
+        for n in ptree.selection:
+            ptree.remove_node(n)
+
+    
