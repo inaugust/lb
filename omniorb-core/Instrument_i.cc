@@ -217,21 +217,20 @@ void LB_Instrument_i::doFireLevelEvent(const LB::Event &evt)
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-void LB_Instrument_i::addLevelListener(const char *l)
+void LB_Instrument_i::addLevelListener(const LB::InstrumentLevelListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
 
-  printf ("l = %s\n", l);
-  CORBA::Object_var obj = orb->string_to_object(l);
-  //  printf ("obj = %p\n", obj);
-  LB::InstrumentLevelListener_ptr p = LB::InstrumentLevelListener::_narrow(obj);
-  printf ("p = %p\n", p);
+  //printf ("l = %s\n", l);
+
+  LB::InstrumentLevelListener_ptr p = LB::InstrumentLevelListener::_duplicate(l);
+  //printf ("p = %p\n", p);
 
   this->level_listeners=g_slist_append(this->level_listeners, p);
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-void LB_Instrument_i::removeLevelListener(const char *l)
+void LB_Instrument_i::removeLevelListener(const LB::InstrumentLevelListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
   pthread_mutex_unlock(&this->listener_lock);

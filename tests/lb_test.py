@@ -40,21 +40,21 @@ f = o.getFader('C1')
 #f = f._narrow(LB.CueFader)
 print f, dir(f)
 
-for n in range(1,1):
+for n in range(1,51):
   i = o.getInstrument(str(n))
   print i
   servant=pci()
   listener=servant._this()
   print listener
-  ior=orb.object_to_string(listener)
-  print "Reference for servant:", n
-  i.addLevelListener(ior)
+  #ior=orb.object_to_string(listener)
+  #print "Reference for servant:", n
+  i.addLevelListener(listener)
 
 class dummy:
   pass
 
 def test_ins():
-  num_ins=1024
+  num_ins=50
 
   attr=dummy()
   attr.attr=LB.attr_level

@@ -51,8 +51,8 @@ public:
   virtual void setLevel(CORBA::Double level);
   virtual CORBA::Double getLevel();
   
-  void addLevelListener(const char *l);
-  void removeLevelListener(const char *l);
+  void addLevelListener(const LB::InstrumentLevelListener_ptr l);
+  void removeLevelListener(const LB::InstrumentLevelListener_ptr l);
 
   virtual void setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z);
   virtual void getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z);

@@ -15,8 +15,8 @@ module LB
   
     void setLevel (in double level); /* percent */
     double getLevel ();
-    void addLevelListener (in string l);
-    void removeLevelListener (in string l);
+    void addLevelListener (in InstrumentLevelListener l);
+    void removeLevelListener (in InstrumentLevelListener l);
 
     void setTarget(in double x, in double y, in double z);
     void getTarget(out double x, out double y, out double z);
