@@ -46,7 +46,6 @@ def shutdown():
 class parser(XMLParser):
     def start_moving_instrument (self, attrs):
         name = attrs['name']
-        bank = int(attrs['bank'])
         dimmer = int(attrs['dimmer'])
         if attrs.has_key('xloc'):  x = len_to_ft (attrs['xloc'])
         else: x=0
@@ -59,7 +58,7 @@ class parser(XMLParser):
         if attrs.has_key('phi'):  phi = float (attrs['phi'])
         else: phi=0
     
-        lb.instrument[attrs['name']]=moving_instrument(name, bank, dimmer,
+        lb.instrument[attrs['name']]=moving_instrument(name, dimmer,
                                                        x, y, z, theta, phi)
                                                        
 
@@ -73,8 +72,8 @@ class moving_instrument(instrument):
     # phidelta   = beam change in y direction in degrees per dmx unit
     phi_delta = 0.05
     
-    def __init__(self, name, bank, number, x, y, z, theta, phi):
-        instrument.__init__(self, name, bank, number)
+    def __init__(self, name, dimmer_number, x, y, z, theta, phi):
+        instrument.__init__(self, name, dimmer_number)
         self.current_location = (0.0, 0.0, 0.0)
         
         # xyz location of instrument, in feet
@@ -87,8 +86,24 @@ class moving_instrument(instrument):
         self.phi_correction = phi
 
         #subclass sets these
-        self.x_dimmer=lb.dimmer_bank[self.bank][self.number+1]
-        self.y_dimmer=lb.dimmer_bank[self.bank][self.number+2]
+        self.lamp_dimmer_number=self.dimmer_number
+        self.x_dimmer_number=self.dimmer_number+1
+        self.y_dimmer_number=self.dimmer_number+2
+
+        self.lamp_dimmer=lb.dimmer[self.lamp_dimmer_number]
+        self.x_dimmer=lb.dimmer[self.x_dimmer_number]
+        self.y_dimmer=lb.dimmer[self.y_dimmer_number]
+
+    def get_matrix(self, dict):
+        matrix=lb.newmatrix()
+        for (attr, val) in dict.items():
+            if attr=='level':
+                matrix[self.lamp_dimmer_number]=self.make_level(val)
+            if attr=='location':
+                (x, y)=self.xyz_to_xy (val)
+                matrix[self.x_dimmer_number]=x
+                matrix[self.y_dimmer_number]=y
+        return matrix
 
 #private
     def set_attribute_real(self, args):
@@ -135,38 +150,13 @@ class moving_instrument(instrument):
         return (xlevel, ylevel)
         
     def do_set_location (self, value, typ, source):
-        if (typ=='min' and value==''):
-            if (self.sources.has_key(source) and
-                self.sources[source].has_key('location')):
-                del self.sources[source]['location']
-        else:
-            if (not self.sources.has_key(source)):
-                self.sources[source]={}
-            self.sources[source]['location']=(value, typ)
-        self.update_location()
+        dict = lb.get_sources(typ)
+        m = self.get_matrix({'location': value})
+        try:
+            matrix=dict[source]
+        except:
+            matrix=lb.newmatrix()
+        matrix=choose(greater(m, 0), (matrix, m))        
+        dict[source]=matrix
+        lb.update_dimmers()
         
-    def update_location(self):
-        location=''
-        capture=None
-        blackout=None
-        
-        for source in self.sources.values():
-            (v,typ) = source['location']
-            if typ=='capture':
-                capture=v
-            elif typ=='blackout':
-                blackout=0
-            else:
-                location=v
-                
-        if (blackout!=None):
-            location='(0ft, 0ft, 0ft)'
-        elif (capture!=None):
-            location=capture
-
-        self.current_location=location
-        (x, y)=self.xyz_to_xy (location)
-        print 'update location', x, y
-        self.x_dimmer.set_level(int(x))
-        self.y_dimmer.set_level(int(y))
-

@@ -40,19 +40,21 @@ class parser(XMLParser):
 
 class levelfader(fader):
 
-    def __init__(self, name, typ='min', callback=None, callback_arg=None):
-        fader.__init__(self, name, callback, callback_arg)
+    def __init__(self, name, typ='min', callback=None, callback_arg=None,
+                 groupname=None):
+        fader.__init__(self, name, callback, callback_arg, groupname)
         self.typ=typ
         self.cue=None
-        self.instrument={}
+        self.sourcedict=lb.get_sources(typ)
 
     def set_level(self, level):
-        #lb.send_signal('Level Fader Set Level', itself=self, level=level)
-        self.set_level_real({'level':level})
-
+        lb.send_signal('Level Fader Set Level', itself=self, level=level)
+        #self.set_level_real({'level':level})
+    
     def set_cue(self, cue):
         lb.send_signal('Level Fader Set Cue', itself=self, cue=cue)
-
+        #self.set_cue_real({'cue':cue})
+        
     def set_instrument(self, instrument):
         lb.send_signal('Level Fader Set Instrument', itself=self,
                        instrument=instrument)
@@ -81,10 +83,7 @@ class levelfader(fader):
         self.levellock.acquire()
 
         self.cue=lb.cue[args['cue']]
-        self.instrument={}
-        for (name, ins) in self.cue.instrument.items():
-            self.instrument[name]=ins['level']
-            
+        print 'setting ',args['cue'], self.cue
         self.levellock.release()
 
     def set_instrument_real (self, args):
@@ -96,10 +95,8 @@ class levelfader(fader):
         self.threadlock.release()
         self.levellock.acquire()
 
-        self.cue=None
-        self.instrument={}
-        self.instrument[args['instrument']]=0
-            
+        self.cue=dummy()
+        self.cue.matrix=lb.instrument[args['instrument']].get_matrix({'level':'100%'})
         self.levellock.release()
         
     def set_type_real(self, args):
@@ -112,27 +109,18 @@ class levelfader(fader):
         self.levellock.acquire()
 
         self.typ=args['typ']
-
+        self.sourcedict=lb.get_sources(self.typ)
         self.levellock.release()
         
     def act_on_set_ratio(self, ratio):
         # we have the lock
-        if (self.cue): 
-            for (name, ins) in self.cue.instrument.items():
-                setlevel=int(float(ins['level'])*ratio)
-                self.instrument[name]=setlevel
-                if (not self.callback):
-                    instrument=lb.instrument[name]
-                    instrument.set_attribute(attribute='level', value=setlevel, source=self.sourcename, typ=self.typ)
-        else:
-            for (name, level) in self.instrument.items():
-                ins = lb.instrument[name]
-                self.instrument[name]=level
+        self.matrix=self.cue.matrix*ratio
 
-        # callback happens in calling function
+        if not self.callback:
+            self.sourcedict[self.sourcename]=self.matrix
+            lb.update_dimmers()
         
     def clear_real (self, args):
         self.wait_for()
         self.set_level_real({'level':0})
         self.cue=None
-        self.instrument={}

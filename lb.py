@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from Numeric import *
+
 libraries=(
     'dimmer',
     'instrument',

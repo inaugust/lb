@@ -1,7 +1,8 @@
 from xmllib import XMLParser
 from os import path
 import lightboard
-
+import time
+from Numeric import *
 
 #types:
 # max
@@ -9,6 +10,7 @@ import lightboard
 # add
 # sub
 # capture
+# scale
 # blackout
 
 
@@ -30,7 +32,6 @@ class parser(XMLParser):
 
     def start_instrument (self, attrs):
         lb.instrument[attrs['name']]=instrument(attrs['name'],
-                                                int(attrs['bank']),
                                                 int(attrs['dimmer']))
 
 
@@ -38,24 +39,23 @@ class instrument:
 
     attributes=('level',)
 
-    def __init__(self, name, bank, number):
+    def __init__(self, name, dimmer_number):
         self.name=name
-        self.bank=bank
-        self.number=number
+        self.dimmer_number=dimmer_number
         self.sources={}
         self.current_level=0
-        self.dimmer=lb.dimmer_bank[self.bank][self.number]
+        self.dimmer=lb.dimmer[self.dimmer_number]
 
 #public
 
     def set_attribute(self, attribute, value, source, typ='min'):
-        #lb.send_signal('Instrument Set Attribute', itself=self,
-        #               attribute=attribute, value=value, source=source,
-        #               typ=typ)
-        self.set_attribute_real_vf({'attribute':attribute,
-                                    'value':value,
-                                    'source':source,
-                                    'typ':typ})
+        lb.send_signal('Instrument Set Attribute', itself=self,
+                       attribute=attribute, value=value, source=source,
+                       typ=typ)
+        #self.set_attribute_real({'attribute':attribute,
+        #                         'value':value,
+        #                         'source':source,
+        #                         'typ':typ})
 
     def make_level(self, level):
         return self.dimmer.make_level(level)
@@ -63,67 +63,32 @@ class instrument:
     def get_attributes(self):
         return self.attributes
 
+    def get_matrix(self, dict):
+        matrix=lb.newmatrix()
+        for (attr, val) in dict.items():
+            if attr=='level':
+                matrix[self.dimmer_number]=self.make_level(val)
+        return matrix
+
 #private
 
     def set_attribute_real_vf(self, args):
+        # only needed for recieving signals
         self.set_attribute_real(args)
         
     def set_attribute_real(self, args):
-        attribute=str(args['attribute'])
-        value=str(args['value'])
-        typ=args['typ']
-        source=args['source']
-        
-        if (attribute=='level'):
-            self.do_set_level (value, typ, source)
-            
+        if (args['attribute']=='level'):
+            self.do_set_level (args['value'], args['typ'], args['source'])
+
     def do_set_level (self, value, typ, source):
-        level=self.dimmer.make_level(value)
-
-        if (typ=='min' and level==0):
-            if (self.sources.has_key(source)):
-                del self.sources[source]
-        else:
-            if (not self.sources.has_key(source)):
-                self.sources[source]={}
-            self.sources[source]['level']=(level, typ)
-        self.update_level()
+        dict = lb.get_sources(typ)
+        m = self.get_matrix({'level': value})
+        try:
+            matrix=dict[source]
+        except:
+            matrix=lb.newmatrix()
+        matrix=choose(greater(m, 0), (matrix, m))        
+        dict[source]=matrix
+        lb.update_dimmers()
         
-    def update_level(self):
-        min_of_maxs=self.dimmer.max_level
-        max_of_mins=0
-        total_adds=0
-        total_subs=0
-        capture=None
-        blackout=None
 
-        for source in self.sources.values():
-            (v,typ) = source['level']
-            if typ=='max':
-                if (min_of_maxs>v):
-                    min_of_maxs=v
-            if typ=='min':
-                if (max_of_mins<v):
-                    max_of_mins=v
-            if typ=='add':
-                total_adds=total_adds+v
-            if typ=='sub':
-                total_subs=total_subs+v
-            if typ=='capture':
-                capture=v
-            if typ=='blackout':
-                blackout=0
-
-        if (blackout!=None):
-            level=0
-        elif (capture!=None):
-            level=capture
-        else:
-            level=min_of_maxs
-            if (level>max_of_mins):
-                level=max_of_mins
-            level=level+total_adds
-            level=level-total_subs
-
-        self.current_level=level
-        self.dimmer.set_level(level)

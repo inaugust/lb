@@ -11,9 +11,12 @@ import time
 import math
 
 class fader:
-    def __init__(self, name, callback=None, callback_arg=None):
+    def __init__(self, name, callback=None, callback_arg=None, groupname=None):
         self.name=name
-        self.sourcename='fader.'+name
+        if (groupname):
+            self.sourcename=(groupname, 'fader.'+name)
+        else:
+            self.sourcename='fader.'+name
         self.level=0
         self.mythread=None
         self.callback=callback
@@ -61,7 +64,7 @@ class fader:
         self.act_on_set_ratio (ratio)
                 
         if (self.callback):
-            self.callback(self.callback_arg, self.name, self.instrument)
+            self.callback(self.callback_arg, self.name, self.matrix)
 
         self.levellock.release()
 
@@ -120,7 +123,7 @@ class fader:
         delay=float(intime)/float(steps)
         times=range (0, steps)
 
-        #print 'schedule'
+        print 'schedule'
         mylevel=level
         mytime=start
         for s in range (0, steps):
@@ -129,7 +132,7 @@ class fader:
             #print str(mylevel) + ' @ ' + str(mytime)
             times[s]=(mylevel, mytime)
 
-        #print 'running'
+        print 'running'
 
         for (target_level, target_time) in times:
             #print str(target_level) + ' @ ' + str(target_time) + ' s ' + str(max(target_time-time.time(),0))

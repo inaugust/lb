@@ -3,6 +3,7 @@ from xmllib import XMLParser
 from os import path
 from levelfader import levelfader
 import instrument
+from Numeric import *
 
 def initialize(lb):
     lb.crossfader={}
@@ -32,10 +33,10 @@ class parser(XMLParser):
         name=self.crossfader.name+'.'+attrs['name']
 
         f=levelfader(name, callback=crossfader.fader_return_levels,
-                callback_arg=self.crossfader)
+                callback_arg=self.crossfader, groupname='crossfader.'+self.crossfader.name)
         lb.levelfader[name]=f
 
-        self.crossfader.levels[name]={}
+        self.crossfader.levels[name]=lb.newmatrix()
 
         if attrs['direction']=='up':
             self.crossfader.up[name]=f
@@ -47,6 +48,7 @@ class crossfader:
     def __init__(self, name, typ='min'):
         self.name=name
         self.sourcename='crossfader.'+name
+        self.sourcedict=lb.get_sources(typ)
         self.level=0
         self.typ=typ
         self.up={}
@@ -90,9 +92,9 @@ class crossfader:
         
     #private
     
-    def fader_return_levels(self, name, levels):
-        #print name, levels
-        if (levels==None):
+    def fader_return_levels(self, name, matrix):
+        #print 'return levels', name, matrix
+        if (matrix==None):
             #run is done
             self.running_fader_lock.acquire()
             self.running_fader_count=self.running_fader_count-1
@@ -101,19 +103,18 @@ class crossfader:
                 self.update_count.release()
             self.running_fader_lock.release()
             return
-        self.levels[name]=levels
+        self.levels[name]=matrix
         self.update_count.release()
         
     def update_levels_from_faders(self):
-        instrument={}
-        for dict in self.levels.values():
-            for (name, level) in dict.items():
-                if not instrument.has_key(name): instrument[name]=0
-                instrument[name]=instrument[name]+level
-
-        for (name, level) in instrument.items():
-            instrument=lb.instrument[name]
-            instrument.set_attribute(attribute='level', value=level, source=self.sourcename, typ=self.typ)
+        self.matrix=lb.newmatrix()
+        #print self.levels
+        #print self.levels.values()
+        for matrix in self.levels.values():
+            self.matrix=self.matrix+matrix
+        # self.sourcedict == lb.min_source, or somesuch
+        self.sourcedict[self.sourcename]=self.matrix
+        lb.update_dimmers()
 
     def set_level_real(self, args):
         self.threadlock.acquire()
