@@ -1,11 +1,11 @@
 #CXX = g++-3.0
 
-CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -I. -I/usr/include -I/usr/include/COS -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
+CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
 
 #Older version
 #CPPFLAGS = -D_REENTRANT -D__OMNIORB3__ -D__x86__ -D__linux__ -D__OSVERSION__=2 -I. -I/usr/include -I/usr/include/COS -I/usr/local/include/omniORB3
 
-LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3  -ltcpwrapGK -lomnithread -L/usr/local/lib/omniORB3 `glib-config --libs`
+LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3 -lomnithread -L/usr/local/lib/omniORB3 `glib-config --libs`
 
 #
 

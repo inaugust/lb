@@ -4,7 +4,7 @@
 #include "Dimmer_i.hh"
 #include "lb.hh"
 
-#include <Lightboard.hh>
+#include "Lightboard.hh"
 
 //
 // Example class implementing IDL interface LB::Lightboard

@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <expat.h>
 #include "Lightboard.hh"
-#include <CosEventChannelAdmin.hh>
 
 #include <map.h>
 struct ltstr

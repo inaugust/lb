@@ -1,7 +1,7 @@
 #ifndef __FADER_I_HH__
 #define __FADER_I_HH__
 #include <iostream.h>
-#include <Fader.hh>
+#include "Fader.hh"
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
 #include <iostream.h>
-#include <MovingInstrument.hh>
+#include "MovingInstrument.hh"
 #include "Instrument_i.hh"
 #include "lb.hh"
 

@@ -1,6 +1,6 @@
 #include <iostream.h>
-#include <CueFader.hh>
-#include <Fader_i.hh>
+#include "CueFader.hh"
+#include "Fader_i.hh"
 
 #include "Lightboard.hh"
 
