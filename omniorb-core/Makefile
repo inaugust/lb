@@ -42,9 +42,6 @@ OBJECTS := $(foreach file,$(IMPL_FILES),$(file).o) \
 IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
 	$(foreach file,$(IDL_FILES),$(file).hh) 
 
-IDL_I := $(foreach file,$(IMPL_IDL_FILES),$(file)_i.cc) \
-	$(foreach file,$(IDL_FILES),$(file)_i.cc) 
-
 IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc $(file)DynSK.cc) \
 	$(foreach file,$(IDL_FILES),$(file)SK.cc $(file)DynSK.cc)
 
@@ -52,8 +49,6 @@ lb : idl $(OBJECTS)
 	$(CXX) -o lb $(LDFLAGS) $(OBJECTS) 
 
 idl : $(IDL_H)
-
-example_code: $(IDL_I)
 
 %SK.cc: %.idl
 	$(IDLC) $(IDL_ARGS) $<
@@ -67,7 +62,7 @@ example_code: $(IDL_I)
 %.cc: %.idl
 	$(IDLC) $(IDL_ARGS) $<
 
-%_i.cc: %.idl
+%_example.cc: %.idl
 	$(IDLC) $(IDL_ARGS) $(IDL_EXAMPLE_ARGS) $<
 
 clean:
