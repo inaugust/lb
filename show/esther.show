@@ -1,0 +1,1756 @@
+<show name="esther" >
+  <programs >
+    <program name="Followspot madness" >
+      <init >
+        <levelfader_load cue="Hannah" levelfader="hannah" />
+        <levelfader_load cue="Gaby" levelfader="gaby" />
+        <levelfader_load cue="Beau" levelfader="beau" />
+        <levelfader_load cue="Austin" levelfader="austin" />
+      </init>
+      <step name="Cue 1 [Beau madness]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 2 [Gaby madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 3 [Austin madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 4 [Hannah madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 5 [Beau madness]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 6 [Austin madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 7 [Gaby madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 8 [Hannah madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 9 [All Spots]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 10 [Gaby madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 11 [Austin madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 12 [Beau madness]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 13 [Hannah madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 14 [All Spots]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 15 [Beau madness]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 16 [Gaby madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 17 [Hannah madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 18 [Austin madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 19 [All Spots]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 20 [Beau madness]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 21 [Austin madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 22 [Gaby madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 23 [Hannah madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 24 [All Spots]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 25 [Gaby madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="100" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 26 [Hannah madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Cue 27 [Beau madness]" >
+        <levelfader_run time="0" level="100" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="10" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 28 [Austin madness]" >
+        <levelfader_run time="0" level="10" levelfader="beau" />
+        <levelfader_run time="0" level="10" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="10" levelfader="hannah" />
+      </step>
+      <step name="Cue 29 [All Spots]" >
+        <levelfader_run time="0" level="0" levelfader="beau" />
+        <levelfader_run time="0" level="0" levelfader="gaby" />
+        <levelfader_run time="0" level="100" levelfader="austin" />
+        <levelfader_run time="0" level="100" levelfader="hannah" />
+      </step>
+      <step name="Spots out" >
+        <levelfader_run time="0" level="0" levelfader="beau" />
+        <levelfader_run time="0" level="0" levelfader="gaby" />
+        <levelfader_run time="0" level="0" levelfader="austin" />
+        <levelfader_run time="0" level="0" levelfader="hannah" />
+      </step>
+    </program>
+    <program name="esther" >
+      <init >
+        <levelfader_load cue="Hannah" levelfader="hannah" />
+        <levelfader_load cue="Gaby" levelfader="gaby" />
+        <levelfader_load cue="Beau" levelfader="beau" />
+        <levelfader_load cue="Austin" levelfader="austin" />
+      </init>
+      <step name="blackout" >
+        <crossfader_load cue="blackout" crossfader="x1" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <crossfader_load cue="followspot black" crossfader="x1" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="preshow" >
+        <crossfader_load cue="preshow" crossfader="x1" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 1 [donna]" >
+        <crossfader_load crossfader="x1" cue="donna" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 2 [preshow]" >
+        <crossfader_load crossfader="x1" cue="preshow" />
+        <crossfader_run downtime="1" crossfader="x1" uptime="1" />
+      </step>
+      <step name="Cue 3 [blackout]" >
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 4 [hebrews at firepits]" >
+        <crossfader_load crossfader="x1" cue="hebrews at firepits" />
+        <crossfader_run downtime="5" crossfader="x1" uptime="5" />
+      </step>
+      <step name="Cue 5 [mordecai]" >
+        <crossfader_load crossfader="x1" cue="mordecai" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 6 [kings enter]" >
+        <crossfader_load crossfader="x1" cue="kings enter" />
+        <crossfader_run downtime="2" crossfader="x1" uptime="2" />
+      </step>
+      <step name="Cue 7 [queens enter]" >
+        <crossfader_load crossfader="x1" cue="queens enter" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 8 [vashti and xerces meet]" >
+        <crossfader_load crossfader="x1" cue="vashti and xerces meet" />
+        <crossfader_run downtime="5" crossfader="x1" uptime="5" />
+      </step>
+      <step name="Cue 9 [pickup haman]" >
+        <crossfader_load crossfader="x1" cue="pickup haman" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 11 [mordecai's dream start]" >
+        <crossfader_load cue="mordecai's dream start" crossfader="x1" />
+        <crossfader_run downtime="4" crossfader="x1" uptime="4" />
+      </step>
+      <step name="Cue 12 [mordecai's dream]" >
+        <crossfader_load cue="mordecai's dream" crossfader="x1" />
+        <crossfader_run downtime="20" crossfader="x1" uptime="20" />
+      </step>
+      <step name="Cue 13 [mordecai's dream with beau]" >
+        <crossfader_load crossfader="x1" cue="mordecai's dream with beau" />
+        <crossfader_run downtime="2" crossfader="x1" uptime="2" />
+      </step>
+      <step name="Cue 14 [mordecai's dream without gaby]" >
+        <crossfader_load cue="mordecai's dream without gaby" crossfader="x1" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 15 [mordecai's dream end]" >
+        <crossfader_load cue="mordecai's dream end" crossfader="x1" />
+        <crossfader_run downtime="5" crossfader="x1" uptime="5" />
+      </step>
+      <step name="Cue 16 [queens in arch]" >
+        <crossfader_load crossfader="x1" cue="queens in arch" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+      </step>
+      <step name="Cue 17 [180 days]" >
+        <crossfader_load crossfader="x1" cue="180 days" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="90" levelfader="gaby" />
+      </step>
+      <step name="Cue 18 [180 days dream]" >
+        <crossfader_load crossfader="x1" cue="180 days dream" />
+        <crossfader_run downtime="4" crossfader="x1" uptime="4" />
+      </step>
+      <step name="Cue 19 [180 days]" >
+        <crossfader_load crossfader="x1" cue="180 days" />
+        <crossfader_run downtime="5" crossfader="x1" uptime="5" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+      </step>
+      <step name="Cue 20 [shafts of light]" >
+        <crossfader_load crossfader="x1" cue="shafts of light" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 21 [shafts with austin]" >
+        <crossfader_load crossfader="x1" cue="shafts with austin" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="55" levelfader="austin" />
+      </step>
+      <step name="Cue 22 [vashti xerces faceoff]" >
+        <crossfader_load crossfader="x1" cue="vashti xerces faceoff" />
+        <crossfader_run downtime="5" crossfader="x1" uptime="5" />
+      </step>
+      <step name="Cue 22.5 [haman steps away]" >
+        <levelfader_run time="3" level="85" levelfader="hannah" />
+      </step>
+      <step name="Cue 23 [vashti xerces ending]" >
+        <crossfader_load crossfader="x1" cue="vashti xerces ending" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 23.5 [austin and hannah out]" >
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+      </step>
+      <step name="Cue 24 [mordechai before new queen]" >
+        <crossfader_load crossfader="x1" cue="mordechai before new queen" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="70" levelfader="beau" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+      </step>
+      <step name="Cue 25 [gaby spot up]" >
+        <levelfader_run time="3" level="65" levelfader="gaby" />
+      </step>
+      <step name="Cue 26 [new queen opening]" >
+        <crossfader_load crossfader="x1" cue="new queen opening" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="beau" />
+      </step>
+      <step name="Cue 27 [crazy follow spots]" >
+        <levelfader_run time="1" level="100" levelfader="beau" />
+        <levelfader_run time="1" level="100" levelfader="gaby" />
+        <levelfader_run time="1" level="100" levelfader="austin" />
+        <levelfader_run time="1" level="100" levelfader="hannah" />
+        <crossfader_load crossfader="x1" cue="new queen in arch" />
+      </step>
+      <step name="Cue 28 [new queen in arch]" >
+        <crossfader_run downtime="0.001" crossfader="x1" uptime="0.001" />
+        <levelfader_run time="0" level="60" levelfader="gaby" />
+        <levelfader_run time="0" level="0" levelfader="austin" />
+        <levelfader_run time="0" level="0" levelfader="hannah" />
+        <levelfader_run time="0" level="65" levelfader="beau" />
+      </step>
+      <step name="Cue 30 [bringing esther down]" >
+        <crossfader_load crossfader="x1" cue="bringing esther down" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 31 [spots]" >
+        <levelfader_run time="3" level="70" levelfader="austin" />
+        <levelfader_run time="3" level="70" levelfader="hannah" />
+        <levelfader_run time="3" level="60" levelfader="gaby" />
+        <levelfader_run time="3" level="65" levelfader="beau" />
+      </step>
+      <step name="Cue 32 [beauty pagent]" >
+        <crossfader_load crossfader="x1" cue="beauty pagent" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+      </step>
+      <step name="Cue 33 [unix enter]" >
+        <crossfader_load crossfader="x1" cue="unix enter" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 34 [changing clothes]" >
+        <crossfader_load crossfader="x1" cue="changing clothes" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="100" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="beau" />
+      </step>
+      <step name="Cue 35 [esther behind arch]" >
+        <crossfader_load crossfader="x1" cue="esther behind arch" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+      </step>
+      <step name="Cue 36 [changing clothes]" >
+        <crossfader_load crossfader="x1" cue="changing clothes" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="100" levelfader="gaby" />
+      </step>
+      <step name="Cue 37 [esther's cross]" >
+        <crossfader_load crossfader="x1" cue="esther's cross" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="79" levelfader="gaby" />
+      </step>
+      <step name="Cue 37.5 [queens in arch]" >
+        <levelfader_run time="13" level="32.7" levelfader="austin" />
+        <levelfader_run time="13" level="32.7" levelfader="hannah" />
+      </step>
+      <step name="Cue 38 [queens walk forward]" >
+        <crossfader_load crossfader="x1" cue="queens walk forward" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 39 [mordecai watches]" >
+        <crossfader_load crossfader="x1" cue="mordecai watches" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="35" levelfader="austin" />
+      </step>
+      <step name="Cue 39.5 [unix through arch]" >
+        <crossfader_load crossfader="x1" cue="unix through arch" />
+        <crossfader_run downtime="1" crossfader="x1" uptime="1" />
+      </step>
+      <step name="Cue 40 [esther crowned]" >
+        <crossfader_load crossfader="x1" cue="esther crowned" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="70" levelfader="beau" />
+      </step>
+      <step name="Cue 41 [blackout]" >
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="1" crossfader="x1" uptime="1" />
+        <levelfader_run time="1" level="0" levelfader="gaby" />
+        <levelfader_run time="1" level="0" levelfader="austin" />
+        <levelfader_run time="1" level="0" levelfader="hannah" />
+        <levelfader_run time="1" level="0" levelfader="beau" />
+      </step>
+      <step name="Cue 42 [hearts of queens]" >
+        <crossfader_load crossfader="x1" cue="hearts of queens" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="70" levelfader="beau" />
+      </step>
+      <step name="Cue 43 [gaby]" >
+        <levelfader_run time="3" level="80" levelfader="gaby" />
+      </step>
+      <step name="Cue 44 [mordecai haman]" >
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="beau" />
+        <crossfader_load crossfader="x1" cue="mordecai haman" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 45 [bowing down]" >
+        <crossfader_load crossfader="x1" cue="bowing down" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 46 [mordecai did not bow]" >
+        <crossfader_load crossfader="x1" cue="mordecai did not bow" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="45" levelfader="austin" />
+        <levelfader_run time="3" level="45" levelfader="hannah" />
+      </step>
+      <step name="Cue 47 [austin beau]" >
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="60" levelfader="beau" />
+      </step>
+      <step name="Cue 48 [blackout]" >
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+      </step>
+      <step name="Cue 49 [hannah gaby austin]" >
+        <levelfader_run time="3" level="53" levelfader="hannah" />
+        <levelfader_run time="3" level="72" levelfader="gaby" />
+        <levelfader_run time="3" level="83" levelfader="austin" />
+      </step>
+      <step name="Cue 50 [red]" >
+        <crossfader_load crossfader="x1" cue="red" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 51 [campy dance]" >
+        <crossfader_load crossfader="x1" cue="campy dance" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="80" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+        <levelfader_run time="3" level="80" levelfader="beau" />
+      </step>
+      <step name="Cue 52 [three hebrews]" >
+        <crossfader_load crossfader="x1" cue="three hebrews" />
+        <levelfader_run time="0" level="0" levelfader="gaby" />
+        <levelfader_run time="0" level="0" levelfader="beau" />
+        <crossfader_run downtime="0" crossfader="x1" uptime="0" />
+      </step>
+      <step name="Cue 53 [green face]" >
+        <crossfader_load crossfader="x1" cue="green face" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="50" levelfader="beau" />
+      </step>
+      <step name="Cue 54 [the edict]" >
+        <crossfader_load crossfader="x1" cue="the edict" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="50" levelfader="beau" />
+      </step>
+      <step name="Cue 54.5 [king in arch]" >
+        <crossfader_load crossfader="x1" cue="king in arch" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 54.8 [kory goes down]" >
+        <crossfader_load crossfader="x1" cue="kory goes down" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 55 [oh god no]" >
+        <crossfader_load crossfader="x1" cue="oh god no" />
+        <crossfader_run downtime="0.1" crossfader="x1" uptime="0.1" />
+        <levelfader_run time="4" level="0" levelfader="beau" />
+        <levelfader_run time="6" level="42.4" levelfader="austin" />
+      </step>
+      <step name="Cue 56 [beau gaby]" >
+        <levelfader_run time="3" level="50" levelfader="beau" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="80" levelfader="gaby" />
+      </step>
+      <step name="Cue 57 [fstat]" >
+        <crossfader_load crossfader="x1" cue="fstat" />
+        <crossfader_run downtime="20" crossfader="x1" uptime="20" />
+      </step>
+      <step name="Cue 58 [decapitation]" >
+        <crossfader_load crossfader="x1" cue="decapitation" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 59 [the walk]" >
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="the walk" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 60 [guards before throne]" >
+        <crossfader_load crossfader="x1" cue="guards before throne" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 61 [at the throne]" >
+        <crossfader_load crossfader="x1" cue="at the throne" />
+        <crossfader_run downtime="6" crossfader="x1" uptime="6" />
+        <levelfader_run time="6" level="100" levelfader="gaby" />
+      </step>
+      <step name="Cue 62 [what is your request]" >
+        <crossfader_load crossfader="x1" cue="what is your request" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 63 [blackout]" >
+        <levelfader_run time="3" level="0" levelfader="beau" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 64 [Valley of Bones]" >
+        <levelfader_run time="3" level="50" levelfader="austin" />
+        <levelfader_run time="3" level="52" levelfader="hannah" />
+        <crossfader_load crossfader="x1" cue="Valley of Bones" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 65 [the scream]" >
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+        <crossfader_load crossfader="x1" cue="the scream" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 66 [canopy]" >
+        <crossfader_load crossfader="x1" cue="canopy" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 67 [afterbones]" >
+        <crossfader_load crossfader="x1" cue="afterbones" />
+        <crossfader_run downtime="9" crossfader="x1" uptime="9" />
+      </step>
+      <step name="Cue 68 [blackout]" >
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 69 [abduction]" >
+        <crossfader_load crossfader="x1" cue="abduction" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="100" levelfader="austin" />
+        <levelfader_run time="3" level="100" levelfader="hannah" />
+        <levelfader_run time="3" level="50" levelfader="beau" />
+      </step>
+      <step name="Cue 70 [dungeon]" >
+        <crossfader_load crossfader="x1" cue="dungeon" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 71 [gaby]" >
+        <levelfader_run time="3" level="80" levelfader="gaby" />
+      </step>
+      <step name="Cue 72 [blackout]" >
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+        <levelfader_run time="3" level="0" levelfader="beau" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 73 [preshow]" >
+        <crossfader_load crossfader="x1" cue="preshow" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 74 [blackout]" >
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 75 [begin act 2]" >
+        <crossfader_load crossfader="x1" cue="begin act 2" />
+        <crossfader_run downtime="5" crossfader="x1" uptime="5" />
+      </step>
+      <step name="Cue 76 [gaby]" >
+        <levelfader_run time="3" level="80" levelfader="gaby" />
+      </step>
+      <step name="Cue 77 [unix with esther]" >
+        <crossfader_load crossfader="x1" cue="unix with esther" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 78 [esther unix queen]" >
+        <crossfader_load crossfader="x1" cue="esther unix queen" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 79 [xerces comes in]" >
+        <crossfader_load crossfader="x1" cue="xerces comes in" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="60" levelfader="beau" />
+      </step>
+      <step name="Cue 80 [haman and sons]" >
+        <crossfader_load crossfader="x1" cue="haman and sons" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 81 [mordecai enters]" >
+        <levelfader_run time="3" level="27" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="mordecai enters" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 82 [four principals]" >
+        <crossfader_load crossfader="x1" cue="four principals" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 83 [more plans]" >
+        <crossfader_load crossfader="x1" cue="more plans" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+      </step>
+      <step name="Cue 84 [campy dance]" >
+        <levelfader_run time="3" level="0" levelfader="beau" />
+        <crossfader_load crossfader="x1" cue="campy dance" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 85 [abbys dungeon]" >
+        <crossfader_load crossfader="x1" cue="abbys dungeon" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="15" levelfader="austin" />
+      </step>
+      <step name="Cue 86 [beau]" >
+        <levelfader_run time="3" level="16" levelfader="beau" />
+      </step>
+      <step name="Cue 87 [insomnia]" >
+        <levelfader_run time="3" level="0" levelfader="beau" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="insomnia" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 88 [bigthan and taresh]" >
+        <crossfader_load crossfader="x1" cue="bigthan and taresh" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 89 [help]" >
+        <crossfader_load crossfader="x1" cue="help" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="25" levelfader="beau" />
+      </step>
+      <step name="Cue 90 [gaby]" >
+        <levelfader_run time="3" level="47" levelfader="gaby" />
+      </step>
+      <step name="Cue 91 [insomnia]" >
+        <levelfader_run time="3" level="0" levelfader="beau" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="insomnia" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 92 [xerces balcony]" >
+        <crossfader_load crossfader="x1" cue="xerces balcony" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="58" levelfader="gaby" />
+      </step>
+      <step name="Cue 93 [austin]" >
+        <levelfader_run time="3" level="49" levelfader="austin" />
+      </step>
+      <step name="Cue 94 [insomnia]" >
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="insomnia" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 95 [glad you've got insomnia]" >
+        <crossfader_load crossfader="x1" cue="glad you've got insomnia" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 96 [insomnia]" >
+        <crossfader_load crossfader="x1" cue="insomnia" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 97 [blue cyc]" >
+        <levelfader_run time="3" level="59" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="blue cyc" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 98 [beau]" >
+        <levelfader_run time="3" level="33" levelfader="beau" />
+      </step>
+      <step name="Cue 99 [zaresh in pit]" >
+        <levelfader_run time="3" level="38" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="zaresh in pit" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 100 [standing proud]" >
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="standing proud" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 101 [glad you've got insomnia]" >
+        <crossfader_load crossfader="x1" cue="glad you've got insomnia" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="beau" />
+      </step>
+      <step name="Cue 102 [spinning head]" >
+        <crossfader_load crossfader="x1" cue="spinning head" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="39" levelfader="gaby" />
+      </step>
+      <step name="Cue 103 [top of the harem]" >
+        <crossfader_load crossfader="x1" cue="top of the harem" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+      </step>
+      <step name="Cue 104 [the ocean]" >
+        <crossfader_load crossfader="x1" cue="the ocean" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 105 [the dance]" >
+        <levelfader_run time="3" level="30" levelfader="beau" />
+        <levelfader_run time="3" level="40" levelfader="gaby" />
+        <crossfader_load crossfader="x1" cue="the dance" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 106 [swirling colors]" />
+      <step name="Cue 107 [the dance]" >
+        <crossfader_load crossfader="x1" cue="the dance" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 108 [beau gaby]" >
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="beau" />
+      </step>
+      <step name="Cue 109 [banquet area]" >
+        <crossfader_load crossfader="x1" cue="banquet area" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 110 [the attack]" >
+        <crossfader_load crossfader="x1" cue="the attack" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 111 [sexy broad]" >
+        <levelfader_run time="3" level="55" levelfader="gaby" />
+        <levelfader_run time="3" level="25" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="sexy broad" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 112 [haman in jail]" >
+        <levelfader_run time="3" level="29" levelfader="hannah" />
+        <crossfader_load crossfader="x1" cue="haman in jail" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 113 [sexy broad]" >
+        <levelfader_run time="3" level="0" levelfader="hannah" />
+        <crossfader_load crossfader="x1" cue="sexy broad" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 114 [blackout]" >
+        <levelfader_run time="3" level="0" levelfader="gaby" />
+        <levelfader_run time="3" level="0" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 115 [finale opening]" >
+        <crossfader_load crossfader="x1" cue="finale opening" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 116 [hebrew finale]" >
+        <crossfader_load crossfader="x1" cue="hebrew finale" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 117 [pit out]" >
+        <crossfader_load crossfader="x1" cue="pit out" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 118 [forever queen]" >
+        <levelfader_run time="3" level="53" levelfader="hannah" />
+        <levelfader_run time="3" level="50" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="forever queen" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 119 [blackout]" >
+        <levelfader_run time="3" level="53" levelfader="hannah" />
+        <levelfader_run time="3" level="50" levelfader="austin" />
+        <crossfader_load crossfader="x1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+    </program>
+    <program name="testprog1" >
+      <init />
+      <step name="Cue 1 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="x1" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+      <step name="Cue 5 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="x1" />
+        <crossfader_run downtime="3" crossfader="x1" uptime="3" />
+      </step>
+    </program>
+  </programs>
+  <instruments >
+    <instrument name="green_sr" driver="instrument" core="LB1" dimmer="8" />
+    <instrument name="Archway back blue" driver="instrument" core="LB1" dimmer="41" />
+    <instrument name="Firepit breakup sl" driver="instrument" core="LB1" dimmer="22" />
+    <meta_instrument name="Archway blue" >
+      <instrument core="LB1" name="Archway blue sr" driver="instrument" attributes="level" dimmer="42" />
+      <instrument core="LB1" name="Archway blue sl" driver="instrument" attributes="level" dimmer="19" />
+    </meta_instrument>
+    <instrument name="Scoops lavender" driver="instrument" core="LB1" dimmer="29" />
+    <instrument name="blue_us" driver="instrument" core="LB1" dimmer="40" />
+    <instrument name="house right gobos" driver="instrument" core="LB1" dimmer="2" />
+    <instrument name="Firepit breakup sr" driver="instrument" core="LB1" dimmer="21" />
+    <instrument name="Ramp sr" driver="instrument" core="LB1" dimmer="17" />
+    <instrument name="Scoops sangria" driver="instrument" core="LB1" dimmer="28" />
+    <instrument name="green_sl" driver="instrument" core="LB1" dimmer="5" />
+    <instrument name="McCand ds" driver="instrument" core="LB1" dimmer="3" />
+    <instrument name="Follow Spot HR front" driver="instrument" core="LB1" dimmer="36" />
+    <instrument name="Firepit Fire SL" driver="instrument" core="LB1" dimmer="48" />
+    <instrument name="green_ds" driver="instrument" core="LB1" dimmer="11" />
+    <instrument name="Firepit sl" driver="instrument" core="LB1" dimmer="26" />
+    <instrument name="Archway" driver="instrument" core="LB1" dimmer="20" />
+    <instrument name="Face rear amber" driver="instrument" core="LB1" dimmer="18" />
+    <instrument name="red_sr" driver="instrument" core="LB1" dimmer="7" />
+    <instrument name="Firepit Fire SR" driver="instrument" core="LB1" dimmer="47" />
+    <instrument name="Follow Spot HR rear" driver="instrument" core="LB1" dimmer="33" />
+    <instrument name="blue_sr" driver="instrument" core="LB1" dimmer="9" />
+    <instrument name="High side green SL" driver="instrument" core="LB1" dimmer="45" />
+    <meta_instrument name="Cyc Blue" >
+      <instrument core="LB1" name="Cyc Blue 1" driver="instrument" attributes="level" dimmer="55" />
+      <instrument core="LB1" name="Cyc Blue 3" driver="instrument" attributes="level" dimmer="57" />
+      <instrument core="LB1" name="Cyc Blue 2" driver="instrument" attributes="level" dimmer="56" />
+    </meta_instrument>
+    <instrument name="Archway back amber" driver="instrument" core="LB1" dimmer="43" />
+    <instrument name="Valley of Bones" driver="instrument" core="LB1" dimmer="46" />
+    <instrument name="McCand ul" driver="instrument" core="LB1" dimmer="15" />
+    <instrument name="McCand uc" driver="instrument" core="LB1" dimmer="24" />
+    <color_mixer_instrument red="red_sl" name="color_sl" green="green_sl" blue="blue_sl" />
+    <instrument name="High side red SL" driver="instrument" core="LB1" dimmer="44" />
+    <instrument name="McCand sr" driver="instrument" core="LB1" dimmer="14" />
+    <instrument name="High side red SR" driver="instrument" core="LB1" dimmer="50" />
+    <instrument name="McCand sl" driver="instrument" core="LB1" dimmer="16" />
+    <color_mixer_instrument red="red_us" name="color_us" green="green_us" blue="blue_us" />
+    <color_mixer_instrument red="red_sr" name="color_sr" green="green_sr" blue="blue_sr" />
+    <instrument name="McCand ur" driver="instrument" core="LB1" dimmer="23" />
+    <color_mixer_instrument red="red_ds" name="color_ds" green="green_ds" blue="blue_ds" />
+    <instrument name="red_ds" driver="instrument" core="LB1" dimmer="10" />
+    <instrument name="Archway red" driver="instrument" core="LB1" dimmer="13" />
+    <instrument name="High side green SR" driver="instrument" core="LB1" dimmer="51" />
+    <instrument name="Firepit sr" driver="instrument" core="LB1" dimmer="25" />
+    <instrument name="Scoops amber" driver="instrument" core="LB1" dimmer="27" />
+    <instrument name="blue_sl" driver="instrument" core="LB1" dimmer="6" />
+    <meta_instrument name="Cyc Lavender" >
+      <instrument core="LB1" name="Cyc Lavender 3" driver="instrument" attributes="level" dimmer="60" />
+      <instrument core="LB1" name="Cyc Lavender 2" driver="instrument" attributes="level" dimmer="59" />
+      <instrument core="LB1" name="Cyc Lavender 1" driver="instrument" attributes="level" dimmer="58" />
+    </meta_instrument>
+    <instrument name="red_us" driver="instrument" core="LB1" dimmer="39" />
+    <instrument name="Firepit blue sl" driver="instrument" core="LB1" dimmer="30" />
+    <instrument name="Follow Spot HL rear" driver="instrument" core="LB1" dimmer="34" />
+    <instrument name="Firepit blue sr" driver="instrument" core="LB1" dimmer="32" />
+    <instrument name="red_sl" driver="instrument" core="LB1" dimmer="4" />
+    <instrument name="Follow Spot HL front" driver="instrument" core="LB1" dimmer="35" />
+    <instrument name="green_us" driver="instrument" core="LB1" dimmer="38" />
+    <instrument name="house left gobos" driver="instrument" core="LB1" dimmer="1" />
+    <instrument name="Under trap special" driver="instrument" core="LB1" dimmer="37" />
+    <instrument name="blue_ds" driver="instrument" core="LB1" dimmer="12" />
+    <instrument name="Face special" driver="instrument" core="LB1" dimmer="31" />
+  </instruments>
+  <cues >
+    <cue name="canopy" >
+      <parent level="100.0%" >
+the scream
+      </parent>
+      <instrument level="60.0%" name="red_us" />
+      <instrument level="50.0%" name="Valley of Bones" />
+    </cue>
+    <cue name="unix with esther" >
+      <parent level="100.0%" >
+begin act 2
+      </parent>
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="firepit sl" >
+      <instrument level="17.0%" name="Firepit sl" />
+      <instrument level="100.0%" name="Firepit Fire SL" />
+      <instrument level="71.0%" name="Firepit breakup sl" />
+    </cue>
+    <cue name="mordecai's dream with beau" >
+      <parent level="100.0%" >
+mordecai&apos;s dream
+      </parent>
+      <instrument level="60.0%" name="Follow Spot HR rear" />
+      <instrument level="100.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="new queen in arch" >
+      <parent level="100.0%" >
+new queen opening
+      </parent>
+      <instrument level="100.0%" name="Archway back blue" />
+    </cue>
+    <cue name="xerces comes in" >
+      <parent level="100.0%" >
+esther unix queen
+      </parent>
+      <instrument level="33.0%" name="Ramp sr" />
+      <instrument level="100.0%" name="Under trap special" />
+    </cue>
+    <cue name="begin act 2" >
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="55.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="filler" />
+    <cue name="Beau madness" >
+      <parent level="35.0%" >
+Beau
+      </parent>
+    </cue>
+    <cue name="firepit sr" >
+      <instrument level="100.0%" name="Firepit Fire SR" />
+      <instrument level="71.0%" name="Firepit breakup sr" />
+      <instrument level="17.0%" name="Firepit sr" />
+    </cue>
+    <cue name="queens enter" >
+      <parent level="100.0%" >
+kings enter
+      </parent>
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="30.0%" name="Face special" />
+      <instrument level="50.0%" name="Follow Spot HR rear" />
+    </cue>
+    <cue name="hebrews at firepits" >
+      <parent level="100.0%" >
+firepit sr
+      </parent>
+      <parent level="100.0%" >
+firepit sl
+      </parent>
+    </cue>
+    <cue name="haman and sons" >
+      <parent level="100.0%" >
+xerces comes in
+      </parent>
+      <instrument level="100.0%" name="house left gobos" />
+      <instrument level="19.0%" name="Firepit sr" />
+    </cue>
+    <cue name="mordecai's dream end" >
+      <instrument level="50.0%" name="Follow Spot HR rear" />
+      <instrument level="40.0%" name="color_us" color="#624bff" />
+    </cue>
+    <cue name="esther crowned" >
+      <parent level="100.0%" >
+mordecai watches
+      </parent>
+      <instrument level="29.0%" name="Archway red" />
+      <instrument level="0.0%" name="house right gobos" />
+      <instrument level="58.0%" name="High side red SR" />
+      <instrument level="71.0%" name="Under trap special" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="58.0%" name="High side red SL" />
+      <instrument level="0.0%" name="house left gobos" />
+    </cue>
+    <cue name="hearts of queens" >
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="50.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="mordecai enters" >
+      <parent level="100.0%" >
+dungeon plus spot
+      </parent>
+      <parent level="100.0%" >
+xerces comes in
+      </parent>
+      <instrument level="0.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+      <instrument level="100.0%" name="house right gobos" />
+      <instrument level="19.0%" name="Firepit sr" />
+    </cue>
+    <cue name="mordecai" >
+      <parent level="100.0%" >
+hebrews at firepits
+      </parent>
+      <instrument level="90.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="house left gobos" />
+      <instrument level="100.0%" name="house right gobos" />
+      <instrument level="100.0%" name="Firepit Fire SL" />
+      <instrument level="100.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="Hannah madness" >
+      <parent level="43.0%" >
+Hannah
+      </parent>
+    </cue>
+    <cue name="preshow" >
+      <instrument level="40.0%" name="High side red SR" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="20.0%" name="Face rear amber" />
+      <instrument level="91.0%" name="High side green SL" />
+    </cue>
+    <cue name="top of the harem" >
+      <parent level="60.0%" >
+spinning head
+      </parent>
+      <instrument level="65.0%" name="Archway back blue" />
+      <instrument level="67.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="glad you've got insomnia" >
+      <parent level="100.0%" >
+insomnia
+      </parent>
+      <instrument level="100.0%" name="color_ds" color="#ffd179" />
+      <instrument level="21.0%" name="McCand sl" />
+      <instrument level="21.0%" name="McCand ds" />
+      <instrument level="100.0%" name="color_sr" color="#ffd179" />
+      <instrument level="21.0%" name="McCand ul" />
+      <instrument level="21.0%" name="McCand uc" />
+      <instrument level="21.0%" name="McCand ur" />
+      <instrument level="100.0%" name="color_sl" color="#ffd179" />
+      <instrument level="100.0%" name="High side green SL" />
+      <instrument level="21.0%" name="McCand sr" />
+    </cue>
+    <cue name="forever queen" >
+      <instrument level="39.0%" name="Scoops sangria" />
+      <instrument level="100.0%" name="High side green SR" />
+      <instrument level="100.0%" name="color_us" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="21.0%" name="Archway" />
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="kings enter" >
+      <parent level="100.0%" >
+mordecai
+      </parent>
+      <instrument level="100.0%" name="color_sl" color="#0000ff" />
+      <instrument level="60.0%" name="Follow Spot HR front" />
+      <instrument level="100.0%" name="color_sr" color="#0000ff" />
+      <instrument level="80.0%" name="color_us" color="#0000ff" />
+      <instrument level="30.0%" name="Face special" />
+    </cue>
+    <cue name="help" >
+      <parent level="50.0%" >
+insomnia
+      </parent>
+      <instrument level="32.0%" name="blue_ds" />
+    </cue>
+    <cue name="red" >
+      <instrument level="54.0%" name="Archway red" />
+      <instrument level="71.0%" name="Archway blue" />
+    </cue>
+    <cue name="changing clothes" >
+      <parent level="100.0%" >
+unix enter
+      </parent>
+      <instrument level="43.0%" name="Archway red" />
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="xerces balcony" >
+      <parent level="64.0%" >
+insomnia
+      </parent>
+      <instrument level="60.2399978638%" name="Cyc Blue" />
+    </cue>
+    <cue name="afterbones" >
+      <parent level="100.0%" >
+fstat
+      </parent>
+      <instrument level="19.0%" name="Firepit sl" />
+      <instrument level="100.0%" name="Cyc Blue" />
+      <instrument level="0.0%" name="Archway back blue" />
+      <instrument level="40.0%" name="Firepit blue sl" />
+    </cue>
+    <cue name="hebrew finale" >
+      <parent level="100.0%" >
+finale opening
+      </parent>
+      <instrument level="50.0%" name="McCand sr" />
+      <instrument level="33.0%" name="Firepit sr" />
+    </cue>
+    <cue name="more plans" >
+      <instrument level="53.0%" name="High side red SR" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+      <instrument level="15.0%" name="Face special" />
+    </cue>
+    <cue name="pit out" >
+      <parent level="100.0%" >
+finale opening
+      </parent>
+      <instrument level="50.0%" name="McCand sl" />
+      <instrument level="100.0%" name="color_us" color="#ffd179" />
+      <instrument level="50.0%" name="McCand sr" />
+      <instrument level="51.0%" name="Face rear amber" />
+      <instrument level="100.0%" name="color_sl" color="#ffd179" />
+      <instrument level="50.0%" name="McCand ds" />
+    </cue>
+    <cue name="Beau" >
+      <instrument level="100.0%" name="Follow Spot HR rear" />
+    </cue>
+    <cue name="Hannah" >
+      <instrument level="100.0%" name="Follow Spot HL front" />
+    </cue>
+    <cue name="bringing esther down" >
+      <parent level="100.0%" >
+new queen in arch
+      </parent>
+      <instrument level="100.0%" name="color_ds" color="#5f6bff" />
+      <instrument level="100.0%" name="color_us" color="#5fb6ff" />
+      <instrument level="100.0%" name="color_sr" color="#5f6bff" />
+      <instrument level="100.0%" name="house right gobos" />
+      <instrument level="100.0%" name="color_sl" color="#5f6bff" />
+      <instrument level="100.0%" name="house left gobos" />
+    </cue>
+    <cue name="four principals" >
+      <instrument level="100.0%" name="color_ds" color="#ff51b7" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+    </cue>
+    <cue name="dungeon" >
+      <parent level="100.0%" >
+abduction
+      </parent>
+      <instrument level="45.0%" name="Firepit Fire SR" />
+      <instrument level="45.0%" name="Firepit Fire SL" />
+      <instrument level="75.0%" name="house left gobos" />
+      <instrument level="75.0%" name="house right gobos" />
+    </cue>
+    <cue name="180 days dream" >
+      <parent level="100.0%" >
+180 days
+      </parent>
+      <instrument level="0.0%" name="Archway red" />
+      <instrument level="64.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="color_us" color="#ff00d3" />
+      <instrument level="34.0%" name="Archway back blue" />
+      <instrument level="0.0%" name="Archway" />
+      <instrument level="100.0%" name="color_sl" color="#ffa9c0" />
+      <instrument level="0.0%" name="Ramp sr" />
+      <instrument level="90.0%" name="Archway blue" />
+      <instrument level="100.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="mordecai's dream without gaby" >
+      <parent level="100.0%" >
+mordecai&apos;s dream with beau
+      </parent>
+      <instrument level="0.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="bigthan and taresh" >
+      <parent level="50.0%" >
+insomnia
+      </parent>
+      <instrument level="64.0%" name="High side green SL" />
+      <instrument level="30.0%" name="Face special" />
+    </cue>
+    <cue name="banquet area" >
+      <instrument level="24.0%" name="McCand sl" />
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="24.0%" name="McCand ul" />
+      <instrument level="25.6000003815%" name="Firepit sl" />
+      <instrument level="100.0%" name="color_sl" color="#0000ff" />
+      <instrument level="56.2000007629%" name="Firepit blue sl" />
+    </cue>
+    <cue name="Gaby Spot" >
+      <instrument level="0.0%" name="Follow Spot HR front" />
+      <instrument level="32.0%" name="color_us" color="#8150ff" />
+      <instrument level="50.0%" name="Follow Spot HR rear" />
+      <instrument level="0.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="180 days" >
+      <parent level="100.0%" >
+queens in arch
+      </parent>
+      <instrument level="47.0%" name="Archway red" />
+      <instrument level="63.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="33.0%" name="Archway" />
+      <instrument level="35.0%" name="Ramp sr" />
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="valley of bones" >
+      <instrument level="25.0%" name="red_us" />
+      <instrument level="53.0%" name="Archway back amber" />
+    </cue>
+    <cue name="at the throne" >
+      <parent level="100.0%" >
+guards before throne
+      </parent>
+      <instrument level="100.0%" name="Archway red" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="100.0%" name="Archway back amber" />
+      <instrument level="100.0%" name="Archway back blue" />
+    </cue>
+    <cue name="followspot black" >
+      <instrument level="0.0%" name="Follow Spot HL front" />
+      <instrument level="0.0%" name="Follow Spot HR front" />
+      <instrument level="0.0%" name="Follow Spot HR rear" />
+      <instrument level="0.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="mordecai watches" >
+      <parent level="100.0%" >
+queens walk forward
+      </parent>
+      <instrument level="0.0%" name="house right gobos" />
+      <instrument level="13.0%" name="Firepit sr" />
+      <instrument level="100.0%" name="Firepit Fire SR" />
+      <instrument level="13.0%" name="Firepit sl" />
+      <instrument level="0.0%" name="house left gobos" />
+      <instrument level="100.0%" name="Firepit Fire SL" />
+    </cue>
+    <cue name="haman out" >
+      <parent level="100.0%" >
+pickup haman
+      </parent>
+      <instrument level="30.0%" name="Follow Spot HL front" />
+    </cue>
+    <cue name="unix enter" >
+      <parent level="100.0%" >
+blue cyc
+      </parent>
+      <instrument level="76.0%" name="High side green SR" />
+      <instrument level="83.0%" name="High side green SL" />
+      <instrument level="20.0%" name="Face rear amber" />
+    </cue>
+    <cue name="mordecai's dream start" >
+      <parent level="100.0%" >
+mordecai&apos;s dream
+      </parent>
+      <instrument level="0.0%" name="house left gobos" />
+      <instrument level="0.0%" name="Follow Spot HR rear" />
+      <instrument level="0.0%" name="house right gobos" />
+    </cue>
+    <cue name="pickup haman" >
+      <parent level="100.0%" >
+vashti and xerces meet
+      </parent>
+      <instrument level="30.0%" name="Follow Spot HL front" />
+      <instrument level="27.0%" name="Follow Spot HR rear" />
+    </cue>
+    <cue name="queens in archway" >
+      <parent level="100.0%" >
+esther&apos;s cross
+      </parent>
+      <instrument level="0.0%" name="Archway red" />
+      <instrument level="76.0%" name="High side green SR" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="46.0%" name="Archway back blue" />
+    </cue>
+    <cue name="oh god no" >
+      <instrument level="100.0%" name="High side green SR" />
+      <instrument level="64.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="50.0%" name="High side green SL" />
+    </cue>
+    <cue name="three hebrews" >
+      <instrument level="37.0%" name="Firepit blue sr" />
+      <instrument level="50.0%" name="Firepit breakup sr" />
+    </cue>
+    <cue name="new queen opening" >
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="77.0%" name="house right gobos" />
+      <instrument level="77.0%" name="house left gobos" />
+    </cue>
+    <cue name="Valley of Bones" >
+      <parent level="100.0%" >
+valley of bones
+      </parent>
+      <instrument level="15.0%" name="Firepit blue sl" />
+    </cue>
+    <cue name="mordecai's dream" >
+      <instrument level="100.0%" name="color_us" color="#540bbe" />
+      <instrument level="50.0%" name="house right gobos" />
+      <instrument level="45.0%" name="Firepit breakup sl" />
+      <instrument level="45.0%" name="Firepit breakup sr" />
+      <instrument level="50.0%" name="house left gobos" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+      <instrument level="100.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="bowing down" >
+      <parent level="100.0%" >
+mordecai haman
+      </parent>
+      <instrument level="0.0%" name="Cyc Blue" />
+      <instrument level="0.0%" name="Archway back blue" />
+      <instrument level="30.0%" name="McCand sr" />
+      <instrument level="30.0%" name="McCand ul" />
+      <instrument level="30.0%" name="McCand uc" />
+      <instrument level="26.0%" name="Firepit sl" />
+      <instrument level="50.0%" name="Scoops lavender" />
+      <instrument level="50.0%" name="Scoops amber" />
+      <instrument level="30.0%" name="McCand ds" />
+      <instrument level="30.0%" name="McCand sl" />
+      <instrument level="26.0%" name="Firepit sr" />
+      <instrument level="30.0%" name="McCand ur" />
+      <instrument level="100.0%" name="Archway back amber" />
+    </cue>
+    <cue name="vashti xerces faceoff" >
+      <parent level="100.0%" >
+shafts with austin
+      </parent>
+      <instrument level="100.0%" name="High side red SR" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+      <instrument level="0.0%" name="Cyc Blue" />
+      <instrument level="0.0%" name="Archway" />
+      <instrument level="36.0%" name="Scoops amber" />
+      <instrument level="0.0%" name="Ramp sr" />
+      <instrument level="100.0%" name="High side red SL" />
+    </cue>
+    <cue name="donna" >
+      <parent level="100.0%" >
+preshow
+      </parent>
+      <instrument level="70.0%" name="Follow Spot HR rear" />
+      <instrument level="70.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="mordechai before new queen" >
+      <parent level="100.0%" >
+blue cyc
+      </parent>
+      <instrument level="35.0%" name="Firepit blue sr" />
+      <instrument level="40.0%" name="Firepit breakup sr" />
+    </cue>
+    <cue name="campy dance" >
+      <instrument level="100.0%" name="color_ds" color="#6fecff" />
+      <instrument level="100.0%" name="Scoops sangria" />
+      <instrument level="100.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="color_us" color="#6fecff" />
+      <instrument level="100.0%" name="color_sr" color="#6fecff" />
+      <instrument level="50.0%" name="McCand uc" />
+      <instrument level="100.0%" name="color_sl" color="#6fecff" />
+      <instrument level="50.0%" name="McCand ds" />
+    </cue>
+    <cue name="blue cyc" >
+      <instrument level="67.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="the walk" >
+      <instrument level="40.0%" name="Firepit breakup sr" />
+      <instrument level="100.0%" name="High side green SR" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="100.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="guards before throne" >
+      <parent level="100.0%" >
+the walk
+      </parent>
+      <instrument level="100.0%" name="High side red SL" />
+    </cue>
+    <cue name="shafts of light" >
+      <parent level="100.0%" >
+180 days
+      </parent>
+      <instrument level="65.0%" name="Face rear amber" />
+      <instrument level="64.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="what is your request" >
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="100.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="Gaby madness" >
+      <parent level="65.0%" >
+Gaby
+      </parent>
+    </cue>
+    <cue name="haman in jail" >
+      <parent level="100.0%" >
+sexy broad
+      </parent>
+      <instrument level="62.0%" name="Firepit Fire SR" />
+      <instrument level="67.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="Austin madness" >
+      <parent level="43.0%" >
+Austin
+      </parent>
+    </cue>
+    <cue name="esther unix queen" >
+      <parent level="100.0%" >
+begin act 2
+      </parent>
+      <instrument level="100.0%" name="blue_sl" />
+      <instrument level="100.0%" name="blue_ds" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="100.0%" name="blue_sr" />
+      <instrument level="75.0%" name="blue_us" />
+    </cue>
+    <cue name="Austin" >
+      <instrument level="100.0%" name="Follow Spot HR front" />
+    </cue>
+    <cue name="the attack" >
+      <parent level="100.0%" >
+banquet area
+      </parent>
+      <instrument level="26.0%" name="Ramp sr" />
+      <instrument level="76.0%" name="Archway blue" />
+      <instrument level="21.0%" name="Archway" />
+      <instrument level="100.0%" name="High side red SL" />
+    </cue>
+    <cue name="zaresh in pit" >
+      <parent level="100.0%" >
+blue cyc
+      </parent>
+      <instrument level="75.0%" name="house left gobos" />
+    </cue>
+    <cue name="stage_works" >
+      <instrument level="100.0%" name="Scoops lavender" />
+    </cue>
+    <cue name="standing proud" >
+      <parent level="100.0%" >
+blue cyc
+      </parent>
+      <instrument level="100.0%" name="Archway back blue" />
+    </cue>
+    <cue name="the scream" >
+      <instrument level="100.0%" name="Firepit Fire SR" />
+      <instrument level="100.0%" name="Valley of Bones" />
+    </cue>
+    <cue name="eagle pose" >
+      <parent level="100.0%" >
+the dance
+      </parent>
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="color_us" color="#0000ff" />
+      <instrument level="100.0%" name="house right gobos" />
+      <instrument level="100.0%" name="house left gobos" />
+    </cue>
+    <cue name="queens in arch" >
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="35.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="Gaby" >
+      <instrument level="100.0%" name="Follow Spot HL rear" />
+    </cue>
+    <cue name="queens walk forward" >
+      <parent level="100.0%" >
+blue cyc
+      </parent>
+      <instrument level="44.0%" name="color_ds" color="#0000ff" />
+      <instrument level="46.0%" name="Archway back blue" />
+      <instrument level="27.0%" name="Face rear amber" />
+      <instrument level="0.0%" name="house right gobos" />
+      <instrument level="52.0%" name="color_sl" color="#0000ff" />
+      <instrument level="0.0%" name="house left gobos" />
+    </cue>
+    <cue name="abbys dungeon" >
+      <instrument level="18.0%" name="Firepit sl" />
+      <instrument level="80.0%" name="house right gobos" />
+      <instrument level="45.0%" name="Firepit Fire SL" />
+    </cue>
+    <cue name="the dance" >
+      <parent level="100.0%" >
+the ocean
+      </parent>
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="92.0%" name="house right gobos" />
+      <instrument level="92.0%" name="house left gobos" />
+    </cue>
+    <cue name="vashti and xerces meet" >
+      <parent level="100.0%" >
+queens enter
+      </parent>
+      <instrument level="45.0%" name="Scoops sangria" />
+    </cue>
+    <cue name="king in arch" >
+      <parent level="100.0%" >
+the edict
+      </parent>
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="27.0%" name="Archway" />
+    </cue>
+    <cue name="fstat" >
+      <parent level="100.0%" >
+oh god no
+      </parent>
+      <instrument level="100.0%" name="color_ds" color="#ae40a4" />
+      <instrument level="100.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="color_sr" color="#ae40a4" />
+      <instrument level="100.0%" name="color_sl" color="#ae40a4" />
+      <instrument level="100.0%" name="Archway back blue" />
+    </cue>
+    <cue name="vashti xerces ending" >
+      <parent level="100.0%" >
+vashti xerces faceoff
+      </parent>
+      <instrument level="100.0%" name="color_ds" color="#ff0040" />
+      <instrument level="100.0%" name="color_us" color="#ff0040" />
+      <instrument level="100.0%" name="color_sr" color="#ff0040" />
+      <instrument level="0.0%" name="Archway" />
+      <instrument level="33.0%" name="Face rear amber" />
+      <instrument level="100.0%" name="color_sl" color="#ff0040" />
+      <instrument level="0.0%" name="Ramp sr" />
+    </cue>
+    <cue name="kory goes down" >
+      <parent level="100.0%" >
+king in arch
+      </parent>
+      <instrument level="0.0%" name="Firepit blue sr" />
+      <instrument level="0.0%" name="Firepit breakup sr" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="27.0%" name="Archway" />
+      <instrument level="28.0%" name="McCand ul" />
+    </cue>
+    <cue name="mordecai did not bow" >
+      <instrument level="100.0%" name="color_ds" color="#ff0007" />
+      <instrument level="100.0%" name="High side green SR" />
+      <instrument level="75.0%" name="Cyc Lavender" />
+      <instrument level="100.0%" name="High side red SL" />
+    </cue>
+    <cue name="lavender cyc" >
+      <instrument level="53.0%" name="High side red SR" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+      <instrument level="15.0%" name="Face special" />
+    </cue>
+    <cue name="finale opening" >
+      <instrument level="29.0%" name="Archway red" />
+      <instrument level="100.0%" name="High side green SR" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="21.0%" name="McCand sr" />
+      <instrument level="21.0%" name="McCand ul" />
+      <instrument level="21.0%" name="McCand uc" />
+      <instrument level="100.0%" name="color_sl" color="#ffce76" />
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="21.0%" name="McCand ds" />
+      <instrument level="21.0%" name="McCand sl" />
+      <instrument level="100.0%" name="color_sr" />
+      <instrument level="21.0%" name="Archway" />
+      <instrument level="21.0%" name="McCand ur" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="100.0%" name="color_ds" />
+      <instrument level="100.0%" name="High side green SL" />
+    </cue>
+    <cue name="decapitation" >
+      <parent level="100.0%" >
+fstat
+      </parent>
+      <instrument level="0.0%" name="color_ds" />
+      <instrument level="0.0%" name="High side green SR" />
+      <instrument level="100.0%" name="color_sr" color="#af41a5" />
+      <instrument level="0.0%" name="color_sl" />
+      <instrument level="100.0%" name="Cyc Blue" />
+      <instrument level="0.0%" name="High side green SL" />
+    </cue>
+    <cue name="mordecai haman" >
+      <parent level="100.0%" >
+hearts of queens
+      </parent>
+      <instrument level="47.0%" name="Ramp sr" />
+      <instrument level="0.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Cyc Lavender" />
+    </cue>
+    <cue name="dungeon plus spot" >
+      <instrument level="0.0%" name="Firepit Fire SL" />
+      <instrument level="0.0%" name="house right gobos" />
+    </cue>
+    <cue name="the ocean" >
+      <parent level="100.0%" >
+top of the harem
+      </parent>
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="color_us" color="#0000ff" />
+    </cue>
+    <cue name="esther behind arch" >
+      <parent level="100.0%" >
+changing clothes
+      </parent>
+      <instrument level="0.0%" name="Archway red" />
+      <instrument level="25.0%" name="McCand uc" />
+      <instrument level="43.0%" name="McCand ur" />
+      <instrument level="0.0%" name="Archway back blue" />
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="insomnia" >
+      <instrument level="29.0%" name="Archway red" />
+      <instrument level="41.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Archway blue" />
+      <instrument level="25.0%" name="Archway" />
+      <instrument level="54.0%" name="Archway back blue" />
+    </cue>
+    <cue name="sexy broad" >
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="23.0%" name="color_us" color="#ff0000" />
+      <instrument level="100.0%" name="High side red SL" />
+    </cue>
+    <cue name="beauty pagent" >
+      <parent level="100.0%" >
+bringing esther down
+      </parent>
+      <instrument level="66.0%" name="Scoops sangria" />
+      <instrument level="40.0%" name="McCand ds" />
+      <instrument level="100.0%" name="house right gobos" />
+      <instrument level="40.0%" name="McCand ul" />
+      <instrument level="40.0%" name="McCand uc" />
+      <instrument level="40.0%" name="McCand ur" />
+      <instrument level="100.0%" name="house left gobos" />
+      <instrument level="40.0%" name="McCand sl" />
+      <instrument level="40.0%" name="McCand sr" />
+    </cue>
+    <cue name="mord dream hebrews gone" >
+      <parent level="100.0%" >
+mordecai&apos;s dream
+      </parent>
+      <instrument level="0.0%" name="Firepit breakup sr" />
+      <instrument level="50.0%" name="house right gobos" />
+      <instrument level="0.0%" name="Firepit breakup sl" />
+    </cue>
+    <cue name="esther's cross" >
+      <instrument level="0.0%" name="Archway red" />
+      <instrument level="30.0%" name="High side green SR" />
+      <instrument level="46.0%" name="Archway back blue" />
+      <instrument level="0.0%" name="Face rear amber" />
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="0.0%" name="Archway blue" />
+      <instrument level="0.0%" name="High side green SL" />
+    </cue>
+    <cue name="spinning head" >
+      <parent level="100.0%" >
+blue cyc
+      </parent>
+      <instrument level="21.0%" name="Firepit sl" />
+      <instrument level="52.0%" name="Firepit blue sl" />
+    </cue>
+    <cue name="blackout" >
+      <instrument level="0%" name="green_sr" />
+      <instrument level="0%" name="Archway blue sr" />
+      <instrument level="0%" name="red_sr" />
+      <instrument level="0%" name="Archway back blue" />
+      <instrument level="0%" name="Firepit breakup sl" />
+      <instrument level="0%" name="Scoops lavender" />
+      <instrument level="0%" name="blue_us" />
+      <instrument level="0%" name="Firepit breakup sr" />
+      <instrument level="0%" name="Ramp sr" />
+      <instrument level="0%" name="Archway blue" />
+      <instrument level="0%" name="green_sl" />
+      <instrument level="0%" name="Cyc Lavender 3" />
+      <instrument level="0%" name="Firepit Fire SL" />
+      <instrument level="0%" name="green_ds" />
+      <instrument level="0%" name="Firepit sl" />
+      <instrument level="0%" name="Under trap special" />
+      <instrument level="0%" name="Face rear amber" />
+      <instrument level="0%" name="Archway" />
+      <instrument level="0%" name="house right gobos" />
+      <instrument level="0%" name="Firepit sr" />
+      <instrument level="0%" name="Firepit Fire SR" />
+      <instrument level="0%" name="High side red SR" />
+      <instrument level="0%" name="blue_sr" />
+      <instrument level="0%" name="High side green SL" />
+      <instrument level="0%" name="Cyc Blue" />
+      <instrument level="0%" name="Archway back amber" />
+      <instrument level="0%" name="Valley of Bones" />
+      <instrument level="0%" name="McCand ul" />
+      <instrument level="0%" name="McCand uc" />
+      <instrument level="0%" name="color_sl" />
+      <instrument level="0%" name="High side red SL" />
+      <instrument level="0%" name="McCand sr" />
+      <instrument level="0%" name="Archway blue sl" />
+      <instrument level="0%" name="McCand sl" />
+      <instrument level="0%" name="color_us" />
+      <instrument level="0%" name="color_sr" />
+      <instrument level="0%" name="McCand ur" />
+      <instrument level="0%" name="red_ds" />
+      <instrument level="0%" name="Cyc Blue 3" />
+      <instrument level="0%" name="color_ds" />
+      <instrument level="0%" name="High side green SR" />
+      <instrument level="0%" name="Scoops sangria" />
+      <instrument level="0%" name="Scoops amber" />
+      <instrument level="0%" name="blue_sl" />
+      <instrument level="0%" name="Cyc Lavender" />
+      <instrument level="0%" name="Archway red" />
+      <instrument level="0%" name="red_us" />
+      <instrument level="0%" name="Firepit blue sl" />
+      <instrument level="0%" name="McCand ds" />
+      <instrument level="0%" name="Firepit blue sr" />
+      <instrument level="0%" name="red_sl" />
+      <instrument level="0%" name="green_us" />
+      <instrument level="0%" name="Cyc Lavender 1" />
+      <instrument level="0%" name="Cyc Blue 1" />
+      <instrument level="0%" name="Cyc Blue 2" />
+      <instrument level="0%" name="Cyc Lavender 2" />
+      <instrument level="0%" name="blue_ds" />
+      <instrument level="0%" name="Face special" />
+      <instrument level="0%" name="house left gobos" />
+    </cue>
+    <cue name="All Spots" >
+      <parent level="100.0%" >
+Austin madness
+      </parent>
+      <parent level="100.0%" >
+Beau madness
+      </parent>
+      <parent level="100.0%" >
+Gaby madness
+      </parent>
+      <parent level="100.0%" >
+Hannah madness
+      </parent>
+    </cue>
+    <cue name="the edict" >
+      <parent level="100.0%" >
+green face
+      </parent>
+      <instrument level="0.0%" name="Firepit blue sr" />
+      <instrument level="64.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="Archway back blue" />
+      <instrument level="0.0%" name="Archway" />
+      <instrument level="0.0%" name="McCand ul" />
+      <instrument level="0.0%" name="Firepit breakup sr" />
+      <instrument level="0.0%" name="Ramp sr" />
+      <instrument level="0.0%" name="Archway red" />
+      <instrument level="50.0%" name="High side green SL" />
+    </cue>
+    <cue name="divine" >
+      <parent level="100.0%" >
+eagle pose
+      </parent>
+      <instrument level="25.6000003815%" name="Firepit sl" />
+      <instrument level="67.0%" name="Cyc Blue" />
+      <instrument level="100.0%" name="color_us" color="#0000ff" />
+      <instrument level="65.0%" name="Archway back blue" />
+      <instrument level="58.2000007629%" name="Firepit blue sl" />
+    </cue>
+    <cue name="green face" >
+      <parent level="100.0%" >
+three hebrews
+      </parent>
+      <instrument level="50.0%" name="High side green SL" />
+      <instrument level="100.0%" name="High side green SR" />
+    </cue>
+    <cue name="abduction" >
+      <instrument level="50.0%" name="Archway red" />
+      <instrument level="50.0%" name="Cyc Lavender" />
+      <instrument level="29.0%" name="Face rear amber" />
+    </cue>
+    <cue name="shafts with austin" >
+      <parent level="100.0%" >
+shafts of light
+      </parent>
+      <instrument level="64.0%" name="Cyc Blue" />
+    </cue>
+    <cue name="unix through arch" >
+      <parent level="100.0%" >
+mordecai watches
+      </parent>
+      <instrument level="100.0%" name="Archway blue" />
+    </cue>
+    <cue name="" />
+  </cues>
+  <crossfaders >
+    <crossfader name="x1" core="LB1" />
+    <crossfader name="x2" core="LB1" />
+  </crossfaders>
+  <levelfaders >
+    <levelfader name="austin" core="LB1" />
+    <levelfader name="beau" core="LB1" />
+    <levelfader name="hannah" core="LB1" />
+    <levelfader name="l1" core="LB1" />
+    <levelfader name="l4" core="LB1" />
+    <levelfader name="l3" core="LB1" />
+    <levelfader name="l2" core="LB1" />
+    <levelfader name="gaby" core="LB1" />
+  </levelfaders>
+  <procedures />
+  <processes />
+</show>
