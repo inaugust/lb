@@ -383,6 +383,9 @@ class levelfader(LB__POA.EventListener):
         except:
             pass
 
+    def destroyed (self, widget, data=None):
+        self.levelfader_open_menu_item.set_sensitive(1)        
+
     def open_cb(self, widget, data):
         """ Called from lightboard->fader->levelfader"""
 

@@ -97,6 +97,8 @@ class LevelWidget(AttributeWidget):
         AttributeWidget.__init__(self)
         self.changed_callback=changed_callback
         self.widget = GtkSpinButton()
+        self.widget.set_digits(2)
+        self.widget.set_usize(70,-1)
         adj = self.widget.get_adjustment()
 	adj.set_all(0.0, 0.0, 100.0, 1.0, 10.0, 10.0)
         adj.connect('value_changed', self.changed)

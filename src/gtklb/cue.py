@@ -113,6 +113,8 @@ class parser(ExpatXMLParser):
 
     def end_cues (self):
         self.in_cues = 0
+        for c in lb.cue.values():
+            c.validate()
     
     def start_instrument (self, attrs):
         if (not self.in_cues): return
@@ -127,7 +129,6 @@ class parser(ExpatXMLParser):
 
     def end_cue (self):
         if (not self.in_cues): return        
-        self.cue.validate()
 
     def start_parent (self, attrs):
         if (not self.in_cues): return        
@@ -261,7 +262,7 @@ class cue(completion):
                     self.apparent[name]={}
                 for attr, value in idict.items():
                     self.apparent[name][attr]=value
-            self.to_core()
+            self.core_cue = self.to_core()
             self.valid=1
             self.build_time=time.time()
         
@@ -535,6 +536,7 @@ class cue(completion):
 
     def edit_ok_clicked(self, widget, data=None):
         win = self.editTree.get_widget("cueEdit")
+        self.invalidate()
         threads_leave()
         self.update_refs()
         self.send_update()

@@ -109,6 +109,7 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
   this->level_dimmer = LB::Dimmer::_narrow(obj);
 
   pthread_mutex_init (&this->listener_lock, NULL);
+  pthread_mutex_init (&this->source_lock, NULL);
 
   this->level_listeners=NULL;
   this->target_listeners=NULL;
@@ -148,48 +149,78 @@ void LB_Instrument_i::setLevelFromSource(CORBA::Double level,
 					 const char* source)
 {
   double *v;
+  char *p;
 
-  //  printf ("%s @ %f\n", source, level);
+  pthread_mutex_lock(&this->source_lock);
+
+  //printf ("%s @ %f\n", source, level);
       
   if (level)
     {
-      //      printf ("must insert\n");
+      //printf ("must insert\n");
       v=(double *)g_hash_table_lookup(this->sources, source);
       if (v)
 	{
-	  //	  printf ("found\n");
+	  //printf ("found\n");
 	  if (*v==level)
-	    return;
+	    {
+	      pthread_mutex_unlock(&this->source_lock);
+	      return;
+	    }
 	  *v=level;
 	}
       else
 	{
-	  //	  printf ("not found\n");
-	  double *v = new double;
+	  //printf ("not found\n");
+	  double *v = (double *) malloc(sizeof(double));
       
 	  *v=level;
-	  g_hash_table_insert (this->sources, strdup(source), v);
+	  p = strdup (source);
+	  //printf ("inserting source %p, orig %p\n", p, source);
+	  g_hash_table_insert (this->sources, p, v);
 	}
     }
   else
     {
-      //      printf ("must remove\n");
+      //printf ("must remove\n");
+      //printf ("%s @ %f\n", source, level);
       v=(double *)g_hash_table_lookup(this->sources, source);
+      //printf ("%s @ %f\n", source, level);
       if (v)
 	{
 	  char **okey;
 	  double **oval;
 	  
+	  //printf ("%s @ %f\n", source, level);
 	  g_hash_table_lookup_extended(this->sources, source, (void **)okey, 
 				       (void **)oval);
-	  
-	  delete *oval;
+	  //printf ("%s @ %f\n", source, level);
+
+	  //printf ("key pointer %p\n", okey);
+	  //printf ("key value %s\n", *okey);
+
+	  //printf ("val pointer %p\n", oval);
+	  //printf ("val value %f\n", *oval);
+
+	  //printf ("orig %p\n", source);
+
+	  g_hash_table_remove(this->sources, source);
+
+
+	  free (*oval);
+	  //printf ("deleted\n");
+	  //printf ("%s @ %f\n", source, level);
 	  free (*okey);
+	  //printf ("freed\n");
+	  //printf ("%s @ %f\n", source, level);
+	  //printf ("%s @ %f\n", source, level);
 	}
     }
-  //  printf (">update\n");
+  //printf ("%s @ %f\n", source, level);
+  //printf (">update\n");
   this->updateLevelFromSources();
-  //  printf ("<update\n");
+  //printf ("<update\n");
+  pthread_mutex_unlock(&this->source_lock);
 }
 
 static void find_max(gpointer key, double *value, double *max)
@@ -203,6 +234,7 @@ void LB_Instrument_i::updateLevelFromSources()
   double max=0;
 
   g_hash_table_foreach(this->sources, find_max, &max);
+  //printf ("found max %f\n", max);
   this->setLevel(max);
 }
 

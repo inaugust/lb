@@ -188,7 +188,7 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
 	numattr1 = incue1.ins[pos1].attrs.length();
       else
 	numattr1 = 0;
-      
+
       outcue1.ins[i].attrs.length(numattr2);
       outcue2.ins[i].attrs.length(numattr2);
 
@@ -240,6 +240,37 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
 		}		  
 	    }
 	}   // loop over attributes in cue2
+
+      /* 
+	 But, if there are no attrs in the second cue, add level = 0
+	 to second cue, and current level from the first cue in it. 
+      */
+      if (numattr2 == 0)
+	{
+	  numattr2=1;
+
+	  outcue1.ins[i].attrs.length(numattr2);
+	  outcue2.ins[i].attrs.length(numattr2);
+
+	  for (int a2=0; a2<numattr2; a2++)
+	    {
+	      outcue2.ins[i].attrs[a2].attr = LB::attr_level;
+	      outcue2.ins[i].attrs[a2].value.length(1);
+	      outcue2.ins[i].attrs[a2].value[0]=0.0;
+
+	      for (int a1=0; a1<numattr1; a1++)
+		{
+		  if (incue1.ins[pos1].attrs[a1].attr == LB::attr_level)
+		    {
+		      outcue1.ins[i].attrs[a2].attr = LB::attr_level;
+		      outcue1.ins[i].attrs[a2].value =        // deep copy
+			incue1.ins[pos1].attrs[a1].value;     // or so i'm told
+
+		      break;
+		    }
+		}
+	    }  //loop over attributes, for insts going to 0
+	} // If inst not in second cue, going to 0
     }  // loop over all instruments
 
   time4=my_time();

@@ -304,12 +304,12 @@ void LB_Lightboard_i::addEvent(const LB::Event& evt)
   myevent->source=evt.source->_duplicate(evt.source);
   myevent->value=evt.value;
 
-  //  printf ("-> addEvent\n");
-  //  printf ("add: lock\n");
+  //printf ("-> addEvent\n");
+  //printf ("add: lock\n");
   pthread_mutex_lock(&this->queue_lock);
-  //  printf ("add: locked\n");
+  //printf ("add: locked\n");
 
-  //  print_queue();
+  //print_queue();
 
   p = g_slist_append(this->event_queue_tail, myevent);
 
@@ -321,12 +321,12 @@ void LB_Lightboard_i::addEvent(const LB::Event& evt)
   else
     this->event_queue_tail = p->next;
 
-  //  print_queue();
+  //print_queue();
 
-  //  printf ("add: unlock\n");
+  //printf ("add: unlock\n");
   pthread_mutex_unlock(&this->queue_lock);
-  //  printf ("add: unlocked\n");
-  //  printf ("<- addEvent\n");
+  //printf ("add: unlocked\n");
+  //printf ("<- addEvent\n");
 }
 
 
@@ -339,27 +339,40 @@ void LB_Lightboard_i::do_run_events(void)
       p = NULL;
 
       pthread_mutex_lock(&this->queue_lock);
-
+      //      printf ("Mutex locked run\n");
       if (this->event_queue_head)
 	{
+	  //printf ("there's a head\n");
 	  p=this->event_queue_head;
+	  //printf ("moving head\n");
 	  this->event_queue_head=p->next;
+	  //printf ("head moved\n");
 	  if (this->event_queue_head==NULL)
-	    this->event_queue_tail=NULL;
+	    {
+	      //printf ("no head anymore\n");
+	      this->event_queue_tail=NULL;
+	    }
 	}
-      
       pthread_mutex_unlock(&this->queue_lock);
+      //printf ("Mutex unlocked run\n");      
 
       if (p)
 	{
+	  //printf ("there's an event\n");      
+		
 	  LB::Event *d = (LB::Event *)p->data;
+
+	  //printf ("got it's data\n");
 
 	  LB::EventSender_ptr src;
 	  src = LB::EventSender::_narrow(d->source);
+	  //printf ("narrowed\n");
 	  src->sendEvent(*d);
-	  
+	  //printf ("sent\n");	  
 	  delete d;
+	  //printf ("deleted\n");	  
 	  g_slist_free_1(p);
+	  //printf ("freed node\n");	  
 	}
       else
 	{
@@ -367,3 +380,7 @@ void LB_Lightboard_i::do_run_events(void)
 	}
     }
 }
+
+
+
+

@@ -27,6 +27,8 @@ protected:
 
   pthread_mutex_t listener_lock;
 
+  pthread_mutex_t source_lock;
+
   GHashTable *sources;
   virtual void updateLevelFromSources();
 

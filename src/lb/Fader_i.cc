@@ -298,6 +298,7 @@ void LB_Fader_i::setLevel_withTime(double level, double time_left)
 
 void LB_Fader_i::setLevel(double level)
 {
+  printf ("Fader level %f\n", level);
   pthread_mutex_lock(&this->level_lock);
 
   this->level=level;

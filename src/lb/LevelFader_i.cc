@@ -20,6 +20,24 @@ LB_LevelFader_i::~LB_LevelFader_i()
 {
 }
 
+static void print_cue(const LB::Cue& cue)
+{
+  printf ("  Name: %s\n", (char *)cue.name);
+  for (int i=0; i<cue.ins.length(); i++)
+    {
+      printf ("  Instrument: %s %s\n", (char *)cue.ins[i].name,
+	      (char *)cue.ins[i].inst->name());
+      for (int a=0; a<cue.ins[i].attrs.length(); a++) 
+	{
+	  printf ("    Attribute: %d Value: %f\n", 
+		  cue.ins[i].attrs[a].attr,
+		  cue.ins[i].attrs[a].value[0]);
+	}
+    }
+  printf ("  End\n");
+}
+
+
 void LB_LevelFader_i::setCue(const LB::Cue& incue)
 {
   this->cue=incue;  // Deep copy, I suspect.
@@ -55,19 +73,24 @@ void LB_LevelFader_i::act_on_set_ratio (double ratio)
   int a;
   int numins;
 
-  CORBA::String_var name=this->name();
+  CORBA::String_var myname=this->name();
+
+  //printf ("Levelfader %s myname @ %f\n", (const char *)myname, ratio);
 
   numins = cue.ins.length();
   for (i=0; i<numins; i++)
     {
+      //printf ("Levelfader ins %i\n", i);
       int numattr=cue.ins[i].attrs.length();
       for (a=0; a<numattr; a++)
 	{
 	  if (cue.ins[i].attrs[a].attr==LB::attr_level)
 	    {
 	      p1 = cue.ins[i].attrs[a].value[0] * ratio;
-	      
-	      cue.ins[i].inst->setLevelFromSource(p1, name);
+	      //printf ("Levelfader ins @ %f\n", p1);
+
+	      cue.ins[i].inst->setLevelFromSource(p1, myname);
+	      //printf ("Done Levelfader ins @ %f\n", p1);	      
 	    }
 	}
     }

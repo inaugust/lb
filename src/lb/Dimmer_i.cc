@@ -145,12 +145,14 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
     }
   this->my_handle=dev;
   this->testfd=0;
+  /*
   if (!strcmp(name, "1"))
     this->testfd=open("/tmp/dimmer1", O_RDWR | O_TRUNC |O_CREAT, 
 		      S_IREAD | S_IWRITE);
   if (!strcmp(name, "2"))
     this->testfd=open("/tmp/dimmer2", O_RDWR | O_TRUNC |O_CREAT,
 		      S_IREAD | S_IWRITE);
+  */
 }
 
 LB_Dimmer_i::~LB_Dimmer_i()
@@ -207,15 +209,18 @@ void LB_Dimmer_i::setValue(CORBA::Long value)
 {
   this->my_value=value;
   char buf[256];
-  if (this->testfd)
+  unsigned char val = (unsigned char)value;
+  /*
+if (this->testfd)
     {
       double t = my_time2();
       sprintf (buf, "%f %li\n", t, value);
       write (this->testfd, buf, strlen(buf));
     }
+  */
   pthread_mutex_lock(&write_lock);
-  // lseek(this->my_handle, this->my_number, SEEK_SET);
-  // write(this->my_handle, &level, 1);
+  lseek(this->my_handle, this->my_number, SEEK_SET);
+  write(this->my_handle, &val, 1);
   // flush?
   pthread_mutex_unlock(&write_lock);
 }

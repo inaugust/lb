@@ -118,8 +118,9 @@ class color_mixer_instrument(instrument):
         than one actual instrument. """
 
         try:
-            (rl,gl,bl) = self.calculate_core_levels(attr_dict['level'],
-                                                    attr_dict['color'])
+            (rl,gl,bl) = self.calculate_core_levels(
+                lb.value_to_core('level', attr_dict['level']),
+                lb.value_to_core('color', attr_dict['color']))
         except:
             return []
         

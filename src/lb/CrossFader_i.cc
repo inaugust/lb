@@ -49,21 +49,18 @@ static void print_cue(const LB::Cue& cue)
 
 void LB_CrossFader_i::setCues(const LB::Cue& downcue, const LB::Cue& upcue)
 {
-  /*
   printf ("Cue1\n");
   print_cue (downcue);
   printf ("Cue2\n");
   print_cue (upcue);
-  */
 
   normalize_cues (downcue, upcue, this->down_cue, this->up_cue);
 
-  /*
   printf ("Cue1\n");
   print_cue (down_cue);
   printf ("Cue2\n");
   print_cue (up_cue);
-  */
+
   if (this->source_listeners)
     {
       LB::Event evt;
@@ -166,6 +163,12 @@ void LB_CrossFader_i::act_on_set_ratio (double ratio)
 	    {
 	      p1 = down_cue.ins[i].attrs[a].value[0] * dtr;
 	      p2 = up_cue.ins[i].attrs[a].value[0] * utr;
+	      /*
+	      printf ("CF: (%f*%f)=%f + (%f*%f)=%f  == %f\n",   
+		      down_cue.ins[i].attrs[a].value[0], dtr, p1,
+		      up_cue.ins[i].attrs[a].value[0], utr,p2,
+		      p1+p2);
+	      */
 	      up_cue.ins[i].inst->setLevelFromSource(p1+p2, name);
 	    }
 	}

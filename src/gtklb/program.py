@@ -687,7 +687,7 @@ class program:
         tree.node_set_row_data(stepNode, istep)
         for act in istep.actions:
             str = format_step (act.kind, act.args)
-            n=tree.insert_node(StepNode, None, [str], is_leaf=TRUE)
+            n=tree.insert_node(stepNode, None, [str], is_leaf=TRUE)
             tree.node_set_row_data(n, act)
 
         for step in self.actions:
