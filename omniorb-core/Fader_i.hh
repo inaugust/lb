@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include <math.h>
 #include <unistd.h>
+#include <glib.h>
 
 #include "Lightboard.hh"
 
@@ -38,6 +39,13 @@ protected:
   double tolevel;
   double intime;
 
+  GSList *level_listeners;
+  GSList *run_listeners;  
+  GSList *stop_listeners;  
+  GSList *complete_listeners;  
+
+  pthread_mutex_t listener_lock;
+
 public:
   // standard constructor
   LB_Fader_i(const char *name);
@@ -49,8 +57,23 @@ public:
   void stop();
   void setLevel(double level);
   CORBA::Boolean isRunning();
+  void addRunListener(const LB::FaderRunListener_ptr l);
+  void removeRunListener(const LB::FaderRunListener_ptr l);
+  void addStopListener(const LB::FaderStopListener_ptr l);
+  void removeStopListener(const LB::FaderStopListener_ptr l);
+  void addLevelListener(const LB::FaderLevelListener_ptr l);
+  void removeLevelListener(const LB::FaderLevelListener_ptr l);
+  void addCompleteListener(const LB::FaderCompleteListener_ptr l);
+  void removeCompleteListener(const LB::FaderCompleteListener_ptr l);
+  
 
   /* This function is not public.  I mean it.  Don't call it! */
   void do_run ();
+
+  void doFireLevelEvent(const LB::Event& evt);
+  void doFireRunEvent(const LB::Event& evt);
+  void doFireStopEvent(const LB::Event& evt);
+  void doFireCompleteEvent(const LB::Event& evt);
+
 };
 #endif __FADER_I_HH__

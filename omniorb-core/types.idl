@@ -35,7 +35,12 @@ module LB
   enum EventType
     {
       event_instrument_level,
-      event_instrument_target
+      event_instrument_target,
+
+      event_fader_level,
+      event_fader_run,
+      event_fader_stop,
+      event_fader_complete
     };
  
   struct Event
@@ -43,11 +48,6 @@ module LB
     EventType type;
     Object source;
     sequence<double> value;
-  };
-
-  interface InstrumentLevelListener
-  {
-    void levelChanged(in Event evt);
   };
 
 };

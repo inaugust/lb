@@ -30,11 +30,10 @@ protected:
   GSList *level_listeners;
   GSList *target_listeners;
 
-  GHashTable *sources;
-
-  virtual void updateLevelFromSources();
-
   pthread_mutex_t listener_lock;
+
+  GHashTable *sources;
+  virtual void updateLevelFromSources();
 
 public:
 

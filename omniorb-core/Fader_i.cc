@@ -69,6 +69,17 @@ void LB_Fader_i::run(double level, double time)
 		     this);
     }
   pthread_mutex_unlock(&this->thread_lock);
+
+  if (this->run_listeners)
+    {
+      LB::Event evt;
+
+      evt.source=this->_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_run;
+
+      lb->addEvent(evt);
+    }
 }
 
 
@@ -167,6 +178,18 @@ void LB_Fader_i::do_run(void)
 
   free (times);
   free (levels);
+
+  if (this->complete_listeners)
+    {
+      LB::Event evt;
+
+      evt.source=this->_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_complete;
+
+      lb->addEvent(evt);
+    }
+
   /*
     if (self.callback):
     self.callback(self.callback_arg, self.name, None)
@@ -181,6 +204,17 @@ void LB_Fader_i::act_on_set_ratio (double ratio)
 
 void LB_Fader_i::stop()
 {
+  if (this->stop_listeners)
+    {
+      LB::Event evt;
+
+      evt.source=this->_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_stop;
+
+      lb->addEvent(evt);
+    }
+
   /*
         self.threadlock.acquire()
         if (self.mythread):
@@ -197,6 +231,17 @@ void LB_Fader_i::setLevel(double level)
   pthread_mutex_lock(&this->level_lock);
 
   this->act_on_set_ratio (level/100.0);
+
+  if (this->level_listeners)
+    {
+      LB::Event evt;
+
+      evt.source=this->_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_level;
+
+      lb->addEvent(evt);
+    }
                 
   /*
     if (self.callback):
@@ -217,4 +262,124 @@ CORBA::Boolean LB_Fader_i::isRunning()
         self.threadlock.release()
         return ret
   */
+}
+
+
+
+void LB_Fader_i::doFireLevelEvent(const LB::Event &evt)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  GSList *list = this->level_listeners;
+  while (list)
+    {
+      ((LB::FaderLevelListener_ptr) list->data)->levelChanged(evt);
+      list=list->next;
+    }
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::addLevelListener(const LB::FaderLevelListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+
+  LB::FaderLevelListener_ptr p = LB::FaderLevelListener::_duplicate(l);
+
+  this->level_listeners=g_slist_append(this->level_listeners, p);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::removeLevelListener(const LB::FaderLevelListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+/////////
+
+void LB_Fader_i::doFireRunEvent(const LB::Event &evt)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  GSList *list = this->run_listeners;
+  while (list)
+    {
+      ((LB::FaderRunListener_ptr) list->data)->runStarted(evt);
+      list=list->next;
+    }
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::addRunListener(const LB::FaderRunListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+
+  LB::FaderRunListener_ptr p = LB::FaderRunListener::_duplicate(l);
+
+  this->run_listeners=g_slist_append(this->run_listeners, p);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::removeRunListener(const LB::FaderRunListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+/////////
+
+void LB_Fader_i::doFireStopEvent(const LB::Event &evt)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  GSList *list = this->stop_listeners;
+  while (list)
+    {
+      ((LB::FaderStopListener_ptr) list->data)->runStopped(evt);
+      list=list->next;
+    }
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::addStopListener(const LB::FaderStopListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+
+  LB::FaderStopListener_ptr p = LB::FaderStopListener::_duplicate(l);
+
+  this->stop_listeners=g_slist_append(this->stop_listeners, p);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::removeStopListener(const LB::FaderStopListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+/////////
+
+void LB_Fader_i::doFireCompleteEvent(const LB::Event &evt)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  GSList *list = this->complete_listeners;
+  while (list)
+    {
+      ((LB::FaderCompleteListener_ptr) list->data)->runCompleted(evt);
+      list=list->next;
+    }
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::addCompleteListener(const LB::FaderCompleteListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+
+  LB::FaderCompleteListener_ptr p = LB::FaderCompleteListener::_duplicate(l);
+
+  this->complete_listeners=g_slist_append(this->complete_listeners, p);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Fader_i::removeCompleteListener(const LB::FaderCompleteListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
 }

@@ -120,25 +120,18 @@ void LB_Lightboard_i::do_run_events(void)
     {
       p = NULL;
 
-      //      printf ("do run: lock\n");
       pthread_mutex_lock(&this->queue_lock);
-      //      printf ("do run: locked\n");
-
-      //      print_queue();
 
       if (this->event_queue_head)
 	{
-	  //  printf ("do run: event!\n");
 	  p=this->event_queue_head;
 	  this->event_queue_head=p->next;
 	  if (this->event_queue_head==NULL)
 	    this->event_queue_tail=NULL;
 	}
       
-      //      print_queue();
-      //      printf ("do run: unlock\n");
       pthread_mutex_unlock(&this->queue_lock);
-      //      printf ("do run: unlocked\n");
+
       if (p)
 	{
 	  LB::Event *d = (LB::Event *)p->data;
@@ -146,21 +139,48 @@ void LB_Lightboard_i::do_run_events(void)
 	  switch (d->type)
 	    {
 	    case LB::event_instrument_level:
-	      //	      printf ("do run: level event!\n");
-	      LB::Instrument_ptr src;
-	      src = LB::Instrument::_narrow(d->source);
-	      src->doFireLevelEvent(*d);
+	      {
+		LB::Instrument_ptr src;
+		src = LB::Instrument::_narrow(d->source);
+		src->doFireLevelEvent(*d);
+	      }
 	      break;
+	    case LB::event_fader_level:
+	      {
+		LB::Fader_ptr src;
+		src = LB::Fader::_narrow(d->source);
+		src->doFireLevelEvent(*d);
+	      }
+	      break;
+	    case LB::event_fader_run:
+	      {
+		LB::Fader_ptr src;
+		src = LB::Fader::_narrow(d->source);
+		src->doFireRunEvent(*d);
+	      }
+	      break;
+	    case LB::event_fader_stop:
+	      {
+		LB::Fader_ptr src;
+		src = LB::Fader::_narrow(d->source);
+		src->doFireStopEvent(*d);
+	      }
+	      break;
+	    case LB::event_fader_complete:
+	      {
+		LB::Fader_ptr src;
+		src = LB::Fader::_narrow(d->source);
+		src->doFireCompleteEvent(*d);
+	      }
+	      break;
+
 	    }
-	  //	  printf ("do run: free\n");
 	  delete d;
 	  g_slist_free_1(p);
 	}
       else
 	{
-	  //	  printf ("do run: sleep\n");
 	  usleep(10);
-	  //	  printf ("do run: wake\n");
 	}
     }
 }
