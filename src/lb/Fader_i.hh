@@ -31,6 +31,9 @@ private:
   pthread_mutex_t thread_lock;
   pthread_mutex_t level_lock;
 
+  void stopped();  // emit stopped event
+  void completed();  // emit completed event
+
 protected:
   char *my_name;
   virtual void act_on_set_ratio (double ratio);

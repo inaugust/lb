@@ -106,6 +106,16 @@ char *LB_CrossFader_i::getDownCueName()
   return ret._retn();
 }
 
+CORBA::Double LB_CrossFader_i::getUpCueTime()
+{
+  return up_time;
+}
+
+CORBA::Double LB_CrossFader_i::getDownCueTime()
+{
+  return down_time;
+}
+
 void LB_CrossFader_i::act_on_set_ratio (double ratio)
 {
   double utr, dtr, r;

@@ -13,6 +13,9 @@ module LB
     string getUpCueName ();
     string getDownCueName ();
 
+    double getUpCueTime ();
+    double getDownCueTime ();
+
     void clear ();
   };
 

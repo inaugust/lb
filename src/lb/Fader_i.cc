@@ -64,9 +64,8 @@ void LB_Fader_i::run(double level, double time)
 
   if (this->thread_exists)
     {
-      this->running=0;
       pthread_mutex_unlock(&this->thread_lock);
-      pthread_join (this->my_thread, NULL);
+      this->stop();
       pthread_mutex_lock(&this->thread_lock);
     }
   else
@@ -84,7 +83,9 @@ void LB_Fader_i::run(double level, double time)
       LB::Event evt;
 
       evt.source=this->_this();
-      evt.value.length(0);
+      evt.value.length(2);
+      evt.value[0]=level;
+      evt.value[1]=time;
       evt.type=LB::event_fader_run;
 
       lb->addEvent(evt);
@@ -118,10 +119,9 @@ void LB_Fader_i::do_run(void)
       pthread_mutex_lock(&this->thread_lock);
       this->thread_exists=0;
       pthread_mutex_unlock(&this->thread_lock);
-      /*
-      if (self.callback):
-	self.callback(self.callback_arg, self.name, None)
-      */
+      this->running=0;
+      this->completed();
+
       return;
     }
   double delta;
@@ -140,16 +140,18 @@ void LB_Fader_i::do_run(void)
       pthread_mutex_lock(&this->thread_lock);
       this->thread_exists=0;
       pthread_mutex_unlock(&this->thread_lock);
-      /*
-      if (self.callback):
-	self.callback(self.callback_arg, self.name, None)
-      */
+      this->running=0;
+      this->completed();
+
       return;
     }
   double adelta=fabs(delta);
   long steps=(long)(fabs(tolevel-fromlevel)/adelta);
 
-  while ((double(steps) * adelta) < tolevel) steps++;
+  if ((tolevel-fromlevel)>0)
+    while ((double(steps) * delta) < (tolevel-fromlevel)) steps++;
+  else
+    while ((double(steps) * delta) < (tolevel-fromlevel)) steps++;
 
   /*
   printf ("steps: ((%f - %f)=%f)/%f = %f =? %li\n", tolevel, fromlevel,
@@ -200,17 +202,10 @@ void LB_Fader_i::do_run(void)
   free (times);
   free (levels);
 
-  this->running=0;
-
-  if (this->complete_listeners)
+  if (running)
     {
-      LB::Event evt;
-
-      evt.source=this->_this();
-      evt.value.length(0);
-      evt.type=LB::event_fader_complete;
-
-      lb->addEvent(evt);
+      this->running=0;
+      this->completed();
     }
   
   /*
@@ -225,19 +220,38 @@ void LB_Fader_i::act_on_set_ratio (double ratio)
   printf ("Fader ratio %li\n", ratio);
 }
 
-void LB_Fader_i::stop()
+void LB_Fader_i::stopped()
 {
   if (this->stop_listeners)
     {
       LB::Event evt;
-
+      
       evt.source=this->_this();
       evt.value.length(0);
       evt.type=LB::event_fader_stop;
-
+      
       lb->addEvent(evt);
     }
 
+  pthread_mutex_unlock(&this->thread_lock);
+}
+
+void LB_Fader_i::completed()
+{
+  if (this->complete_listeners)
+    {
+      LB::Event evt;
+      
+      evt.source=this->_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_complete;
+      
+      lb->addEvent(evt);
+    }
+}
+
+void LB_Fader_i::stop()
+{
   pthread_mutex_lock(&this->thread_lock);
 
   if (this->thread_exists)
@@ -245,6 +259,9 @@ void LB_Fader_i::stop()
       this->running=0;
       pthread_mutex_unlock(&this->thread_lock);
       pthread_join (this->my_thread, NULL);
+
+      this->stopped();
+
       return;
     }
 

@@ -1817,8 +1817,8 @@
     <widget>
       <class>GtkTable</class>
       <name>table4</name>
-      <rows>6</rows>
-      <columns>2</columns>
+      <rows>8</rows>
+      <columns>3</columns>
       <homogeneous>False</homogeneous>
       <row_spacing>0</row_spacing>
       <column_spacing>8</column_spacing>
@@ -1829,19 +1829,68 @@
       </child>
 
       <widget>
+	<class>GtkLabel</class>
+	<name>topCueLabel</name>
+	<label>Top</label>
+	<justify>GTK_JUSTIFY_LEFT</justify>
+	<wrap>False</wrap>
+	<xalign>1</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkOptionMenu</class>
+	<name>topCueMenu</name>
+	<width>115</width>
+	<can_focus>True</can_focus>
+	<items></items>
+	<initial_choice>0</initial_choice>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
 	<class>GtkHButtonBox</class>
 	<name>hbuttonbox21</name>
 	<layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-	<spacing>30</spacing>
+	<spacing>0</spacing>
 	<child_min_width>85</child_min_width>
 	<child_min_height>27</child_min_height>
 	<child_ipad_x>7</child_ipad_x>
 	<child_ipad_y>0</child_ipad_y>
 	<child>
 	  <left_attach>0</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>5</top_attach>
-	  <bottom_attach>6</bottom_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>7</top_attach>
+	  <bottom_attach>8</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>False</xexpand>
@@ -1889,36 +1938,13 @@
 	<initial_choice>0</initial_choice>
 	<child>
 	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>2</top_attach>
+	  <bottom_attach>3</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>True</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkOptionMenu</class>
-	<name>topCueMenu</name>
-	<width>115</width>
-	<can_focus>True</can_focus>
-	<items></items>
-	<initial_choice>0</initial_choice>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>True</yexpand>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
@@ -1928,11 +1954,11 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label15</name>
-	<label>From</label>
+	<name>bottomCueLabel</name>
+	<label>Bottom</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
-	<xalign>0</xalign>
+	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
@@ -1954,63 +1980,11 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>bottomCueLabel</name>
-	<label>Bottom</label>
+	<name>label15</name>
+	<label>From</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>True</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>topCueLabel</name>
-	<label>Top</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>True</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label16</name>
-	<label>To</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
+	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
@@ -2032,11 +2006,11 @@
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label17</name>
-	<label>Time</label>
+	<name>label16</name>
+	<label>To</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
-	<xalign>0</xalign>
+	<xalign>1</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
@@ -2045,6 +2019,124 @@
 	  <right_attach>1</right_attach>
 	  <top_attach>4</top_attach>
 	  <bottom_attach>5</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>topTimeLabel</name>
+	<label>Top</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>1</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>5</top_attach>
+	  <bottom_attach>6</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>bottomTimeLabel</name>
+	<label>Bottom</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>1</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>6</top_attach>
+	  <bottom_attach>7</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkSpinButton</class>
+	<name>bottomTimeSpin</name>
+	<width>60</width>
+	<can_focus>True</can_focus>
+	<climb_rate>1</climb_rate>
+	<digits>2</digits>
+	<numeric>False</numeric>
+	<update_policy>GTK_UPDATE_ALWAYS</update_policy>
+	<snap>False</snap>
+	<wrap>False</wrap>
+	<value>5</value>
+	<lower>0</lower>
+	<upper>inf</upper>
+	<step>1</step>
+	<page>10</page>
+	<page_size>10</page_size>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>2</right_attach>
+	  <top_attach>6</top_attach>
+	  <bottom_attach>7</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkSpinButton</class>
+	<name>topTimeSpin</name>
+	<width>60</width>
+	<can_focus>True</can_focus>
+	<climb_rate>1</climb_rate>
+	<digits>2</digits>
+	<numeric>False</numeric>
+	<update_policy>GTK_UPDATE_ALWAYS</update_policy>
+	<snap>False</snap>
+	<wrap>False</wrap>
+	<value>5</value>
+	<lower>0</lower>
+	<upper>inf</upper>
+	<step>1</step>
+	<page>10</page>
+	<page_size>10</page_size>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>2</right_attach>
+	  <top_attach>5</top_attach>
+	  <bottom_attach>6</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>True</xexpand>
@@ -2076,15 +2168,15 @@
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
-	  <top_attach>3</top_attach>
-	  <bottom_attach>4</bottom_attach>
+	  <top_attach>4</top_attach>
+	  <bottom_attach>5</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
-	  <xfill>False</xfill>
+	  <xfill>True</xfill>
 	  <yfill>False</yfill>
 	</child>
       </widget>
@@ -2109,50 +2201,56 @@
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
-	  <top_attach>2</top_attach>
-	  <bottom_attach>3</bottom_attach>
+	  <top_attach>3</top_attach>
+	  <bottom_attach>4</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
+	  <xexpand>True</xexpand>
+	  <yexpand>True</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
-	  <xfill>False</xfill>
+	  <xfill>True</xfill>
 	  <yfill>False</yfill>
 	</child>
       </widget>
 
       <widget>
-	<class>GtkSpinButton</class>
-	<name>timeSpin</name>
-	<width>60</width>
-	<can_focus>True</can_focus>
-	<climb_rate>1</climb_rate>
-	<digits>2</digits>
-	<numeric>False</numeric>
-	<update_policy>GTK_UPDATE_ALWAYS</update_policy>
-	<snap>False</snap>
-	<wrap>False</wrap>
-	<value>0</value>
-	<lower>0</lower>
-	<upper>inf</upper>
-	<step>1</step>
-	<page>10</page>
-	<page_size>10</page_size>
+	<class>GtkHButtonBox</class>
+	<name>hbuttonbox22</name>
+	<layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	<spacing>30</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
 	<child>
 	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>4</top_attach>
-	  <bottom_attach>5</bottom_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
+	  <xexpand>True</xexpand>
 	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
-	  <xfill>False</xfill>
-	  <yfill>False</yfill>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
 	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>load</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <signal>
+	    <name>clicked</name>
+	    <handler>on_load_clicked</handler>
+	    <last_modification_time>Fri, 24 Aug 2001 17:20:01 GMT</last_modification_time>
+	  </signal>
+	  <label>Load</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
       </widget>
     </widget>
   </widget>

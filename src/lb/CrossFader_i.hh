@@ -41,6 +41,9 @@ public:
   char* getUpCueName();
   char* getDownCueName();
 
+  CORBA::Double getUpCueTime();
+  CORBA::Double getDownCueTime();
+
   void clear();
   /*
   char* name();

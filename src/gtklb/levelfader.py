@@ -135,7 +135,10 @@ class levelfader(LB__POA.EventListener):
     
     def __init__(self, name, corename):
         self.event_mapping = {LB.event_fader_level: self.levelChanged,
-                              LB.event_fader_source: self.sourceChanged}
+                              LB.event_fader_source: self.sourceChanged,
+                              LB.event_fader_run: self.runStarted,
+                              LB.event_fader_stop: self.runStopped,
+                              LB.event_fader_complete: self.runCompleted}
         self.name=name
         self.corename=corename
         self.corefader=lb.get_fader(name)
@@ -150,10 +153,6 @@ class levelfader(LB__POA.EventListener):
             c = lb.get_core(corename)
             c.createLevelFader (lb.show, name)
         self.corefader=lb.get_fader(name)
-
-        listener=self._this()
-        self.corefader.addLevelListener(listener)
-        self.corefader.addSourceListener(listener)
 
         if (lb.levelfader.has_key(self.name)):
             oldf = lb.levelfader[self.name]
@@ -204,7 +203,7 @@ class levelfader(LB__POA.EventListener):
             return self.corefader.setCue(cue.core_cue)
 
     def setTime(self, time):
-        time=lb.value_to_core('time', time)[0]
+        time=lb.value_to_core('time', time)
         return self.corefader.setTime(time)
 
     def getCueName(self):
@@ -224,7 +223,7 @@ class levelfader(LB__POA.EventListener):
         if self.isRunning(): return
         start = self.tree.get_widget("fromSpin")
         end = self.tree.get_widget("toSpin")
-        intime = self.tree.get_widget("timeSpin")
+        intime = self.tree.get_widget("topTimeSpin")
 
         start = start.get_value_as_float()
         end = end.get_value_as_float()
@@ -239,7 +238,7 @@ class levelfader(LB__POA.EventListener):
         if not self.isRunning(): return
         self.stop()
 
-    def cue_menu_changed(self, widget, data=None):
+    def load_clicked(self, widget, data=None):
         if self.isRunning(): return
         menu = self.tree.get_widget("topCueMenu")
         name = menu.children()[0].get()
@@ -248,13 +247,20 @@ class levelfader(LB__POA.EventListener):
         print 'changed', name
         
     def create_window (self):
+        listener=self._this()
+        self.corefader.addLevelListener(listener)
+        self.corefader.addSourceListener(listener)
+        self.corefader.addRunListener(listener)
+        self.corefader.addStopListener(listener)
+        self.corefader.addCompleteListener(listener)
         threads_enter()
         try:
             wTree = GladeXML ("gtklb.glade",
                               "fader")
             
             dic = {"on_run_clicked": self.run_clicked,
-                   "on_stop_clicked": self.stop_clicked}
+                   "on_stop_clicked": self.stop_clicked,
+                   "on_load_clicked": self.load_clicked}
             
             wTree.signal_autoconnect (dic)
             
@@ -272,16 +278,32 @@ class levelfader(LB__POA.EventListener):
             t.set_text("Cue")
             b.set_text("")
 
-            t=wTree.get_widget ("topCueMenu")
-            b=wTree.get_widget ("bottomCueMenu")
+            t=wTree.get_widget ("topTimeLabel")
+            b=wTree.get_widget ("bottomTimeLabel")
+            t.set_text("Time")
+            b.set_text("")
+
+            b=wTree.get_widget ("bottomTimeSpin")
             b.hide()
 
             self.fromSpin=wTree.get_widget ("fromSpin")
             self.toSpin=wTree.get_widget ("toSpin")
-            self.timeSpin=wTree.get_widget ("timeSpin")
-            
+            self.timeSpin=wTree.get_widget ("topTimeSpin")
+
+            r = wTree.get_widget("run")
+            s = wTree.get_widget("stop")
+            if (self.isRunning()):
+                r.set_sensitive(0)
+                s.set_sensitive(1)
+            else:
+                r.set_sensitive(1)
+                s.set_sensitive(0)
+
+            t=wTree.get_widget ("topCueMenu")
+            b=wTree.get_widget ("bottomCueMenu")
+            b.hide()
+
             menu=GtkMenu()
-            menu.connect ("selection-done", self.cue_menu_changed, None)
             t.set_menu(menu)
             for n in lb.cue.keys():
                 i=GtkMenuItem(n)
@@ -313,18 +335,48 @@ class levelfader(LB__POA.EventListener):
             threads_leave()
 
     def sourceChanged(self, evt):
-        print self.getCueName()
         threads_enter()
         try:
             self.label.set_text("Cue: %s" % self.getCueName())
         finally:
             threads_leave()
 
+    def runStarted(self, evt):
+        threads_enter()
+        try:
+            w = self.tree.get_widget("run")
+            w.set_sensitive(0)
+            w = self.tree.get_widget("stop")
+            w.set_sensitive(1)
+        finally:
+            threads_leave()
+
+    def runStopped(self, evt):
+        threads_enter()
+        try:
+            w = self.tree.get_widget("run")
+            w.set_sensitive(1)
+            w = self.tree.get_widget("stop")
+            w.set_sensitive(0)
+        finally:
+            threads_leave()
+
+    def runCompleted(self, evt):
+        threads_enter()
+        try:
+            w = self.tree.get_widget("run")
+            w.set_sensitive(1)
+            w = self.tree.get_widget("stop")
+            w.set_sensitive(0)
+        finally:
+            threads_leave()
+        
     def receiveEvent(self, evt):
         try:
             m = self.event_mapping[evt.type]
             m(evt)
         except:
+            print evt.type
             print 'exception'
 
     def open_cb(self, widget, data):

@@ -128,6 +128,12 @@ class crossfader(LB__POA.EventListener):
     """ Python wrapper for core Crossfader class"""
 
     def __init__(self, name, corename):
+        self.event_mapping = {LB.event_fader_level: self.levelChanged,
+                              LB.event_fader_source: self.sourceChanged,
+                              LB.event_fader_run: self.runStarted,
+                              LB.event_fader_stop: self.runStopped,
+                              LB.event_fader_complete: self.runCompleted}
+        
         self.name=name
         self.corename=corename
         self.corefader=lb.get_fader(name)
@@ -143,14 +149,10 @@ class crossfader(LB__POA.EventListener):
             c.createCrossFader (lb.show, name)
         self.corefader=lb.get_fader(name)
 
-        listener=self._this()
-        print listener
-        print self.corefader
-        self.corefader.addLevelListener(listener)
-
         if (lb.crossfader.has_key(self.name)):
             oldxf = lb.crossfader[self.name]
             crossfader_open_menu.remove(oldxf.crossfader_open_menu_item)
+
         lb.crossfader[self.name]=self
 
         threads_enter()
@@ -163,7 +165,6 @@ class crossfader(LB__POA.EventListener):
         finally:
             threads_leave()
 
-        #FIXME
 
     def to_xml(self, indent=0):
         s = ''
@@ -173,25 +174,32 @@ class crossfader(LB__POA.EventListener):
         return s
 
     def run(self, level, time):
-        time=lb.time_to_seconds(time)
-        level=lb.level_to_percent(level)
+        time=lb.value_to_core('time', time)
+        level=lb.value_to_core('level', level)[0]
         return self.corefader.run(level, time)
 
     def stop(self):
         return self.corefader.stop()
 
     def setLevel(self, level):
-        return self.corefader.setLevel(float(level))
+        return self.corefader.setLevel(lb.value_to_core('level', level)[0])
+
+    def getLevel(self):
+        return self.corefader.getLevel()
 
     def isRunning(self):
         return self.corefader.isRunning()
 
     def setCues(self, downcue, upcue):
+        if (type(upcue) == type('')):
+            upcue=lb.cue[upcue]
+        if (type(downcue) == type('')):
+            downcue=lb.cue[downcue]
         return self.corefader.setCues(downcue.core_cue, upcue.core_cue)
 
     def setTimes(self, downtime, uptime):
-        downtime=lb.time_to_seconds(downtime)
-        uptime=lb.time_to_seconds(uptime)
+        uptime=lb.value_to_core('time', uptime)
+        downtime=lb.value_to_core('time', downtime)
         return self.corefader.setTimes(downtime, uptime)
 
     def getUpCueName(self):
@@ -210,36 +218,120 @@ class crossfader(LB__POA.EventListener):
             #print 'updating fader'
             self.corefader.setLevel(100.0-widget.value)
 
+    def run_clicked(self, widget, data=None):
+        if self.isRunning(): return
+        start = self.tree.get_widget("fromSpin")
+        end = self.tree.get_widget("toSpin")
+        uptime = self.tree.get_widget("topTimeSpin")
+        downtime = self.tree.get_widget("bottomTimeSpin")
+
+        start = start.get_value_as_float()
+        end = end.get_value_as_float()
+        uptime = uptime.get_value_as_float()
+        downtime = downtime.get_value_as_float()
+
+        if (self.getLevel()!=start):
+            self.setLevel(start)
+
+        print 'setting times', downtime, uptime
+        self.setTimes(downtime, uptime)
+        if (downtime>uptime): intime=downtime
+        else: intime=uptime
+
+        self.run(end, intime)
+
+    def stop_clicked(self, widget, data=None):
+        if not self.isRunning(): return
+        self.stop()
+
+    def load_clicked(self, widget, data=None):
+        if self.isRunning(): return
+        menu = self.tree.get_widget("topCueMenu")
+        upname = menu.children()[0].get()
+        menu = self.tree.get_widget("bottomCueMenu")
+        downname = menu.children()[0].get()
+        self.setCues(downname, upname)
+        self.setLevel(self.getLevel())
+
     def create_window (self):
+        listener=self._this()
+        self.corefader.addLevelListener(listener)
+        self.corefader.addSourceListener(listener)
+        self.corefader.addRunListener(listener)
+        self.corefader.addStopListener(listener)
+        self.corefader.addCompleteListener(listener)
         threads_enter()
         try:
-            window=GtkWindow(WINDOW_TOPLEVEL)
-            self.window=window
-            window.set_title("Crossfader")
-            window.set_default_size(150, 300)
-            window.set_policy(FALSE, TRUE, FALSE)
-            window.set_position(WIN_POS_NONE)
+            wTree = GladeXML ("gtklb.glade",
+                              "fader")
             
-            vbox=GtkVBox()
-            window.add(vbox)
-            vbox.set_homogeneous(FALSE)
-            vbox.set_spacing(0)
+            dic = {"on_run_clicked": self.run_clicked,
+                   "on_stop_clicked": self.stop_clicked,
+                   "on_load_clicked": self.load_clicked}
             
-            self.label_up=GtkLabel("Up: ---")
-            self.label_down=GtkLabel("Dn: ---")
+            wTree.signal_autoconnect (dic)
             
-            vbox.pack_start(self.label_up, FALSE, FALSE, 0)
-            vbox.pack_start(self.label_down, FALSE, FALSE, 0)
+            w=wTree.get_widget ("fader")
+            w.set_title("Crossfader %s" % self.name)
+
+            t=wTree.get_widget ("topLabel")
+            b=wTree.get_widget ("bottomLabel")
+            t.set_text("Up Cue: ---")
+            b.set_text("Down Cue: ---")
+            self.up_label=t
+            self.down_label=b
+
+            t=wTree.get_widget ("topCueLabel")
+            b=wTree.get_widget ("bottomCueLabel")
+            t.set_text("Up Cue")
+            b.set_text("Down Cue")
+
+            t=wTree.get_widget ("topTimeLabel")
+            b=wTree.get_widget ("bottomTimeLabel")
+            t.set_text("Up Time")
+            b.set_text("Down Time")
+
+            self.fromSpin=wTree.get_widget ("fromSpin")
+            self.toSpin=wTree.get_widget ("toSpin")
+            self.upTimeSpin=wTree.get_widget ("topTimeSpin")
+            self.downTimeSpin=wTree.get_widget ("bottomTimeSpin")
+
+            r = wTree.get_widget("run")
+            s = wTree.get_widget("stop")
+            if (self.isRunning()):
+                r.set_sensitive(0)
+                s.set_sensitive(1)
+            else:
+                r.set_sensitive(1)
+                s.set_sensitive(0)
+
+            t=wTree.get_widget ("topCueMenu")
+            b=wTree.get_widget ("bottomCueMenu")
+
+            menu=GtkMenu()
+            t.set_menu(menu)
+            for n in lb.cue.keys():
+                i=GtkMenuItem(n)
+                i.show()
+                menu.append(i)
+            t.set_history(0)
+            menu.show()
+
+            menu=GtkMenu()
+            b.set_menu(menu)
+            for n in lb.cue.keys():
+                i=GtkMenuItem(n)
+                i.show()
+                menu.append(i)
+            b.set_history(0)
+            menu.show()
             
+            scale = wTree.get_widget("vscale")
             self.adjustment=GtkAdjustment(100.0, 0.0, 110.0, 1.0, 10.0, 10.0)
             self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
-            scale = GtkVScale (self.adjustment)
-            scale.set_draw_value(0);
-            #scrollbar=GtkVScrollbar(self.adjustment)
-            scale.set_usize(0, 200)
-            
-            vbox.pack_start(scale, FALSE, FALSE, 0)
-            window.show_all()
+            scale.set_adjustment(self.adjustment)
+
+            self.tree=wTree
         finally:
             threads_leave()
 
@@ -249,9 +341,77 @@ class crossfader(LB__POA.EventListener):
             self.adjustment.disconnect(self.adjustment_handler_id)
             self.adjustment.set_value(100.0-evt.value[0])
             self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
+            self.fromSpin.set_value(evt.value[0])
+            if (len(evt.value)>1):
+                utr = self.core_intime / self.core_uptime
+                dtr = self.core_intime / self.core_downtime
+                ratio = (self.core_intime-evt.value[1]) / self.core_intime
+                if (utr<1.0 or dtr<1.0):
+                    if(utr<dtr):
+                        r=1.0/utr
+                        dtr=r*dtr
+                    else:
+                        r=1.0/dtr
+                        utr=r*utr
+                utr = self.core_uptime-(self.core_uptime * ratio * utr)
+                dtr = self.core_downtime-(self.core_downtime * ratio * dtr)
+                self.upTimeSpin.set_value(utr)
+                self.downTimeSpin.set_value(dtr)
             gdk_flush()
         finally:
             threads_leave()
+
+    def sourceChanged(self, evt):
+        threads_enter()
+        try:
+            self.up_label.set_text("Up Cue: %s" % self.getUpCueName())
+            self.down_label.set_text("Down Cue: %s" % self.getDownCueName())
+        finally:
+            threads_leave()
+
+    def runStarted(self, evt):
+        self.core_intime = evt.value[1]
+        self.core_uptime = self.corefader.getUpCueTime()
+        self.core_downtime = self.corefader.getDownCueTime()
+        print 'start:', self.core_intime, self.core_downtime, self.core_uptime
+        threads_enter()
+        try:
+            w = self.tree.get_widget("run")
+            w.set_sensitive(0)
+            w = self.tree.get_widget("stop")
+            w.set_sensitive(1)
+        finally:
+            threads_leave()
+
+    def runStopped(self, evt):
+        threads_enter()
+        try:
+            w = self.tree.get_widget("run")
+            w.set_sensitive(1)
+            w = self.tree.get_widget("stop")
+            w.set_sensitive(0)
+        finally:
+            threads_leave()
+
+    def runCompleted(self, evt):
+        threads_enter()
+        try:
+            w = self.tree.get_widget("run")
+            w.set_sensitive(1)
+            w = self.tree.get_widget("stop")
+            w.set_sensitive(0)
+        finally:
+            threads_leave()
+        
+    def receiveEvent(self, evt):
+#         try:
+#             m = self.event_mapping[evt.type]
+#             m(evt)
+#         except:
+#             print evt.type
+#             print 'exception'
+          m = self.event_mapping[evt.type]
+          m(evt)
 
     def open_cb(self, widget, data):
         """ Called from lightboard->fader->crossfader"""
