@@ -121,7 +121,7 @@ int initialize_dimmers (CosNaming::NamingContext_ptr context)
 {
   fprintf(stderr, "Initializing dimmers\n");
   pthread_mutex_init (&write_lock, NULL);
-  parse("dimmers.xml", context);
+  parse("/etc/lb/config.xml", context);
   fprintf(stderr, "Done initializing dimmers\n");
 }
 

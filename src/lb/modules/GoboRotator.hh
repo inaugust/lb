@@ -1,9 +1,9 @@
 #ifndef __GOBOROTATOR_HH__
 #define __GOBOROTATOR_HH___
 
-#include "Instrument.hh"
-#include "Instrument_i.hh"
-#include "Lightboard.hh"
+#include <Instrument.hh>
+#include <Instrument_i.hh>
+#include <Lightboard.hh>
 
 #include <glib.h>
 

@@ -16,35 +16,31 @@ module LB
     readonly attribute unsigned long dimmerRange;
     readonly attribute string name;
 
-    Instrument getInstrument (in string name);
-    void putInstrument (in Instrument ins);
-
-    long createInstrument (in string show, in string name, 
-			   in long dimmer_start);
-
-    /*
-      createMovingInstrument (in string name, in long dimmer_start,
-			    in double x, in double y, in double z,
-			    in double theta, in double phi);
-    */
-
-    Fader getFader (in string name);
-    void putFader (in Fader fadr);
-
+    long createInstrument (in string show, 
+			   in string name, 
+			   in string driver,
+			   in ArgList arguments);
     long createLevelFader (in string show, in string name);
     long createCueFader (in string show, in string name);
     long createCrossFader (in string show, in string name);
 
+    /* Deprecated ... */
+    Instrument getInstrument (in string name);
+    void putInstrument (in Instrument ins);
+    Fader getFader (in string name);
+    void putFader (in Fader fadr);
     Dimmer getDimmer (in string name);
     void putDimmer (in Dimmer dimr);
-
+    /* ... Deprecated */
 
 
     /*** Intra-core use only ***/
 
-    /* Don't call these from clients, only other cores */
+    /* Don't call these from clients, only cores */
 
     void addEvent(in Event evt);
+    void addDriver(in string name, 
+		   in InstrumentFactory fact);    
   };
 };
 

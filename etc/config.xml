@@ -1,0 +1,8 @@
+<lb name="LB1">
+  <modules>
+    <module name="GoboRotator"/>
+  </modules>
+  <dimmers>
+    <dimmerbank dev="/dev/dmx" dimmers="512"/>
+  </dimmers>
+</lb_config>

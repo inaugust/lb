@@ -53,3 +53,24 @@ class ExpatXMLParser:
     def close(self):
         # pesky circular refs:
         self.Parse = self.parser = None
+
+class DOMNode:
+    def __init__(self, tag=None, attrs={}):
+        self.tag=tag
+        self.attrs = attrs
+        self.data = ''
+        self.children=[]
+        
+    def append(self, child):
+        if (child is not None):
+            self.children.append(child)
+
+    def add_data(self, data):
+        self.data = self.data + data
+
+    def find(self, tag):
+        r = []
+        for n in self.children:
+            if n.tag == tag:
+                r.append(n)
+        return r

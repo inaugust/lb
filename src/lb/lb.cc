@@ -1,22 +1,104 @@
 #include <iostream.h>
-#include "Lightboard_i.hh"
-#include "Dimmer_i.hh"
-#include "Instrument_i.hh"
-#include "MovingInstrument_i.hh"
-#include "GoboRotator.hh"
-#include "Fader_i.hh"
-#include "CueFader_i.hh"
-#include "CrossFader_i.hh"
-#include "LevelFader_i.hh"
+#include <Lightboard_i.hh>
+#include <Dimmer_i.hh>
+#include <Instrument_i.hh>
+#include <MovingInstrument_i.hh>
+#include <Fader_i.hh>
+#include <CueFader_i.hh>
+#include <CrossFader_i.hh>
+#include <LevelFader_i.hh>
 
+#include <dlfcn.h>
+#include <expat.h>
 
 //#include <CosEventChannelAdmin.hh>
 //#include <EventChannelAdmin.hh>
 
+/**** Globals... ****/
 LB::Lightboard_ptr lb;
 CORBA::ORB_ptr orb;
 CosNaming::NamingContext_ptr rootNaming;
 CosNaming::NamingContext_ptr dimmerContext;
+/**** ...Globals ****/
+
+static GSList *modules;
+static char *lb_name;
+
+static void start(void *data, const char *el, const char **attr) 
+{
+  int i;
+  const char *name;
+
+  if (strcmp(el, "lb")==0)
+    {
+      for (i = 0; attr[i]; i += 2) 
+        {
+	  if (strcmp(attr[i],"name")==0)
+            lb_name=strdup(attr[i+1]);
+        }
+    }
+  if (strcmp(el, "module")==0)
+    {
+      name=NULL;
+      for (i = 0; attr[i]; i += 2) 
+        {
+	  if (strcmp(attr[i],"name")==0)
+            name=attr[i+1];
+        }
+      if (name)
+	modules = g_slist_append(modules, strdup(name));
+    }
+}
+
+static void end(void *data, const char *el) 
+{
+}
+
+static void parse (const char *fn, void *userdata)
+{
+  char buf[8096];
+
+  XML_Parser p = XML_ParserCreate(NULL);
+  if (!p) 
+    {
+      fprintf(stderr, "Couldn't allocate memory for parser\n");
+      exit(-1);
+    }
+
+  XML_SetUserData(p, userdata);
+
+  XML_SetElementHandler(p, start, end);
+  FILE *f = fopen(fn, "r");
+  if (!f)
+    {
+      perror("Config");
+      exit(-1);
+    }
+
+  for (;;) {
+    int done;
+    int len;
+
+    len = fread(buf, 1, 8096, f);
+    if (ferror(f)) {
+      fprintf(stderr, "Read error\n");
+      exit(-1);
+    }
+    done = feof(f);
+
+    if (! XML_Parse(p, buf, len, done)) {
+      fprintf(stderr, "Parse error at line %d:\n%s\n",
+              XML_GetCurrentLineNumber(p),
+              XML_ErrorString(XML_GetErrorCode(p)));
+      exit(-1);
+    }
+
+    if (done)
+      break;
+  }
+  fclose(f);
+}
+
 
 int make_level(long int level)
 {
@@ -334,10 +416,44 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref,
   return 1;
 }
 
+static void load_modules(void)
+{
+  void (*func)(void);
+  char *error, *name;
+  GSList *l=modules;
+
+  while (l)
+    {
+      int len;
+      void *handle;
+
+      len = strlen((char *)l->data) + 4;
+      name = (char *)malloc (len);
+      snprintf(name, len, "%s.so", (char *)l->data);
+
+      handle = dlopen(name, RTLD_NOW | RTLD_GLOBAL);
+
+      if (handle == NULL)
+	{
+	  fprintf (stderr, "Module error: %s: %s\n", name, dlerror());
+	}
+      else
+	{
+	  func = (void (*)(void)) dlsym(handle, "lb_module_init");
+	  if ((error = dlerror()) != NULL)  
+	    fprintf (stderr, "Module error: %s: %s\n", name, error);
+	  else
+	    func();
+	}
+      l = g_slist_next(l);
+      free(name);
+    }
+}
 
 int main(int argc, char** argv)
 {
-  char lb_name[]="LB1";
+  modules = NULL;
+  parse("/etc/lb/config.xml", NULL);
 
   try {
     // Initialise the ORB.
@@ -450,11 +566,13 @@ int main(int argc, char** argv)
     
     initialize_instruments(lb);
     initialize_moving_instruments(lb);
-    initialize_gobo_rotators(lb);
     initialize_faders(lb);
     initialize_cuefaders(lb);
     initialize_crossfaders(lb);
     initialize_levelfaders(lb);
+
+ 
+    load_modules();
 
     //    CORBA::Object_var obj = rootContext->resolve(name);
 

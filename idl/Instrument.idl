@@ -23,6 +23,10 @@ module LB
     void addTargetListener (in EventListener l);
     void removeTargetListener (in EventListener l);
 
+    void setGoboRPM(in double rpm);
+    void getGoboRPM(out double rpm);
+    void addGoboRPMListener (in EventListener l);
+    void removeGoboRPMListener (in EventListener l);
 
 
     /*** Intra-core use only ***/
@@ -30,6 +34,11 @@ module LB
     /* Don't call these from clients, only other cores */
   };
 
+  interface InstrumentFactory
+  {
+    Instrument createInstrument (in string name, 
+				 in ArgList arguments);
+  };
 };
 
 

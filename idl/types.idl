@@ -7,11 +7,12 @@ module LB
 
   enum AttrType
     {
-      attr_level,     // .01 percent
-      attr_target,    // millimeter, millimeter, millimeter
-      attr_focus,     // ?
-      attr_color,     // .01 percent r, g, b
-      attr_gobo       // ?
+      attr_level,     // percent
+      attr_target,    // 
+      attr_focus,     // 
+      attr_color,     // r, g, b percent
+      attr_gobo,      // 
+      attr_gobo_rpm   // rpm +,-,0
     };
 
   struct AttrValue
@@ -35,10 +36,19 @@ module LB
 
   typedef sequence<AttrType> AttrList;
 
+  struct Argument
+  {
+    string name;
+    string value;
+  };
+
+  typedef sequence<Argument> ArgList;
+
   enum EventType
     {
       event_instrument_level,
       event_instrument_target,
+      event_instrument_gobo_rpm,
 
       event_fader_level,
       event_fader_run,

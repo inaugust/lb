@@ -1,10 +1,10 @@
 #include <string>
 
-#include "lb.hh"
+#include <lb.hh>
 #include "GoboRotator.hh"
 
 
-int initialize_gobo_rotators (LB::Lightboard_ptr lb)
+extern "C" void lb_module_init(void)
 {
   fprintf(stderr, "Initializing gobo rotators\n");
 

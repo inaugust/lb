@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <expat.h>
 #include <glib.h>
-#include "Lightboard.hh"
-#include "attributes.hh"
+#include <Lightboard.hh>
+#include <attributes.hh>
 
 #include <map.h>
 struct ltstr

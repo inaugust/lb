@@ -71,13 +71,19 @@ class MetaInstrument(Instrument):
         self.subinstrument['level'].set_level(level)
         
     def get_level (self):
-        return self.subinstrument['level'].get_level(level)        
+        return self.subinstrument['level'].get_level()        
 
     def set_color (self, color):
         self.subinstrument['color'].set_level(level)
         
     def get_color (self):
-        return self.subinstrument['color'].get_level(level)        
+        return self.subinstrument['color'].get_level()        
+
+    def set_gobo_rpm (self, level):
+        self.subinstrument['gobo_rpm'].set_gobo_rpm(level)
+        
+    def get_gobo_rpm (self):
+        return self.subinstrument['gobo_rpm'].get_gobo_rpm()
 
     def to_core_InstAttrs (self, attr_dict):
         """ Used by Cues to create a core cue. """

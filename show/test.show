@@ -72,22 +72,27 @@
 <instruments>
 
   <color_mixer_instrument name="cyc" red="cyc_red" green="cyc_green" blue="cyc_blue"/>
-  <instrument name="8" core="LB1" dimmer="8"/>
-  <instrument name="9" core="LB1" dimmer="9"/>
-  <instrument name="6" core="LB1" dimmer="6"/>
-  <instrument name="7" core="LB1" dimmer="7"/>
-  <instrument name="4" core="LB1" dimmer="4"/>
-  <instrument name="5" core="LB1" dimmer="5"/>
-  <instrument name="2" core="LB1" dimmer="2"/>
-  <instrument name="3" core="LB1" dimmer="3"/>
-  <instrument name="house3" core="LB1" dimmer="67"/>
-  <instrument name="house2" core="LB1" dimmer="66"/>
-  <instrument name="house1" core="LB1" dimmer="65"/>
-  <instrument name="cyc_green" core="LB1" dimmer="21"/>
-  <instrument name="cyc_red" core="LB1" dimmer="20"/>
-  <instrument name="1" core="LB1" dimmer="1"/>
-  <instrument name="cyc_blue" core="LB1" dimmer="22"/>
-  <instrument name="10" core="LB1" dimmer="10"/>
+  <instrument driver="instrument" name="8" core="LB1" dimmer="8"/>
+  <instrument driver="instrument" name="9" core="LB1" dimmer="9"/>
+  <instrument driver="instrument" name="6" core="LB1" dimmer="6"/>
+  <instrument driver="instrument" name="7" core="LB1" dimmer="7"/>
+  <instrument driver="instrument" name="4" core="LB1" dimmer="4"/>
+  <instrument driver="instrument" name="5" core="LB1" dimmer="5"/>
+  <instrument driver="instrument" name="2" core="LB1" dimmer="2"/>
+  <instrument driver="instrument" name="3" core="LB1" dimmer="3"/>
+  <instrument driver="instrument" name="house3" core="LB1" dimmer="67"/>
+  <instrument driver="instrument" name="house2" core="LB1" dimmer="66"/>
+  <instrument driver="instrument" name="house1" core="LB1" dimmer="65"/>
+  <instrument driver="instrument" name="cyc_green" core="LB1" dimmer="21"/>
+  <instrument driver="instrument" name="cyc_red" core="LB1" dimmer="20"/>
+  <instrument driver="instrument" name="1" core="LB1" dimmer="1"/>
+  <instrument driver="instrument" name="cyc_blue" core="LB1" dimmer="22"/>
+  <instrument driver="instrument" name="10" core="LB1" dimmer="10"/>
+  <meta_instrument name = "foo">
+    <instrument attributes="level" driver="instrument" name="mtest1" core="LB1" dimmer="100"/>
+    <instrument attributes="gobo_rpm" driver="gobo_rotator" name="mtest2" core="LB1" dimmer="101"/>
+  </meta_instrument>
+
 </instruments>
 <cues>
 

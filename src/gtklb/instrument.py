@@ -78,13 +78,13 @@ class Instrument:
         return instrument
 
     def get_attribute (self, name):
-        if name == 'level':
-            return self.get_level()
+        if name == 'level': return self.get_level()
+        if name == 'gobo_rpm': return self.get_gobo_rpm()            
         raise AttributeError, name
     
     def set_attribute (self, name, arg):
-        if name == 'level':
-            return self.set_level(arg)
+        if name == 'level': return self.set_level(arg)
+        if name == 'gobo_rpm': return self.set_gobo_rpm(arg)
         raise AttributeError, name
         
     def set_level (self, level):
@@ -92,7 +92,13 @@ class Instrument:
 
     def get_level (self):
         return lb.value_to_string('level', [self.coreinstrument.getLevel ()])
-        
+
+    def set_gobo_rpm (self, rpm):
+        self.coreinstrument.setGoboRPM (lb.value_to_core('gobo_rpm', rpm)[0])
+
+    def get_gobo_rpm (self):
+        return lb.value_to_string('gobo_rpm', [self.coreinstrument.getGoboRPM ()])
+
     def to_core_InstAttrs (self, attr_dict):
         """ Used by Cues to create a core cue.  But note how easily it
         can be overridden to return a list of several InstAttrs,
