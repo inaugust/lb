@@ -43,7 +43,7 @@ module LB
 
   interface EventListener
   {
-    void sendEvent(in Event evt);
+    oneway void sendEvent(in Event evt);
   };
 
 };
