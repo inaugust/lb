@@ -879,7 +879,7 @@ class programDruid:
                         pass
 
                 p=Program(name)
-                if (isinstance (f, crossfader.Crossfader)):
+                if (isinstance (f, crossfader.CrossFader)):
                     load_action = Action(p)
                     load_action.kind='crossfader_load'
                     load_action.args={'crossfader': fader_name}
