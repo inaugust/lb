@@ -1,0 +1,5 @@
+<dimmers>
+  <dimmerbank dev="/dev/dmx0" dimmers="512">
+  </dimmerbank>
+</dimmers>
+

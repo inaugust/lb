@@ -1,0 +1,46 @@
+<programs>
+  <program name="prog1">
+    <init>
+      <fader_load fader="house_fader" instrument="house" />
+    </init>
+
+    <step>
+      <fader_level fader="house_fader" level="100%" />
+    </step>
+
+    <step>
+      <fader_run fader="house_fader" level="50%" time="5s" />
+    </step>
+
+    <step>
+      <fader_run fader="house_fader" level="0%" time="5s" />
+    </step>
+
+    <step>
+      <xf_load xf="AB" cue="1"/>
+      <xf_run xf="AB" uptime="4s" downtime="4s" />
+    </step>
+
+    <step>
+      <xf_load xf="AB" cue="2"/>
+      <xf_run xf="AB" uptime="3s" downtime="3s" />
+    </step>
+
+    <step>
+      <xf_load xf="AB" cue="1"/>
+      <xf_run xf="AB" uptime="2s" downtime="2s" />
+    </step>
+
+    <step>
+      <xf_load xf="AB" cue="2"/>
+      <xf_run xf="AB" uptime="1s" downtime="1s" />
+    </step>
+
+    <step>
+      <xf_load xf="AB" cue="1"/>
+      <xf_run xf="AB" uptime="0.5s" downtime="0.5s" />
+    </step>
+
+  </program>
+</programs>
+

@@ -1,0 +1,29 @@
+ways to resolve dimmer control conflicts:
+
+- dimmer stores level spec'd by each control, decides what to do
+  internally
+  - con:
+    - effects can not be based on actual level of dimmer
+    - get_actual_level()
+
+  - when dimmer set:
+    - specify source:
+      'module'+'.'+'control'
+    - specify type:
+      min
+      max
+      add
+      sub
+      capture
+      blackout
+    - dynamically add more types for more controls
+
+- dimmer must be reserved by a control
+  - con:
+    - control must be notified that it can not have the dimmer
+    - how should decision to allow controls to have dimmer be made
+
+- absolute hierarchy
+  - con:
+    - packages must know about each other, or user must specify
+      hierarchy.

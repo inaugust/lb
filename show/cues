@@ -1,0 +1,14 @@
+<cues>
+  <cue name="preshow">
+    <instrument name="1" level="50%"/>
+    <instrument name="2" level="50%"/>
+  </cue>
+  <cue name="black">
+  </cue>
+  <cue name="1">
+    <instrument name="1" level="100%"/>
+  </cue>
+  <cue name="2">
+    <instrument name="1" level="100%"/>
+  </cue>
+</cues>

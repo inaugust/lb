@@ -1,0 +1,28 @@
+<procedures>
+  <procedure name="circle">
+# arguments:  instrument, center, radius
+
+import math, time, string
+
+instrument=args['instrument']
+if type(args['center'])==type('string'):
+    center_x, center_y = string.split(args['center'], ',')
+    center_x=int(center_x)
+    center_y=int(center_y)
+else:
+    center_x, center_y = args['center']
+radius=int(args['radius'])
+t=0
+
+while(self.running):
+  print 't='+str(t)
+  print 'instrument='+str(instrument)
+  print center_x+(radius*math.cos(t))
+  print center_y+(radius*math.sin(t))
+  #instrument.set_x(math.cos(t))
+  #instrument.set_y(math.sin(t))
+  t=t+.1
+  time.sleep(0.5)
+
+  </procedure>
+</procedures>

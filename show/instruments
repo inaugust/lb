@@ -1,0 +1,8 @@
+<instruments>
+  <instrument name="house" bank="0" dimmer="99"/>
+  <instrument name="1" bank="0" dimmer="0"/>
+  <instrument name="2" bank="0" dimmer="1"/>
+  <instrument name="3" bank="0" dimmer="2"/>
+  <instrument name="4" bank="0" dimmer="3"/>
+  <instrument name="5" bank="0" dimmer="4"/>
+</instruments>
