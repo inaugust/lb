@@ -7,8 +7,8 @@
 #include "CueFader_i.hh"
 
 
-#include <CosEventChannelAdmin.hh>
-#include <EventChannelAdmin.hh>
+//#include <CosEventChannelAdmin.hh>
+//#include <EventChannelAdmin.hh>
 
 LB::Lightboard_ptr lb;
 CORBA::ORB_var orb;
