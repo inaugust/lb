@@ -8,8 +8,8 @@ import CORBA
 import sys,string
 import LB, LB__POA
 
-class pci(LB__POA.EventListener):
-  def sendEvent (self, evt):
+class pci(LB__POA.InstrumentLevelListener):
+  def levelChanged (self, evt):
     print "push!"
     #pass
 
@@ -137,5 +137,8 @@ def test_mov_ins():
 
 
 test_ins()
+#print 'sleep'
+#time.sleep(20)
+#print 'wake'
 poa._get_the_POAManager().activate()
 orb.run()
