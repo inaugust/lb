@@ -1,0 +1,14 @@
+Instruments are not sorted alphabetically once they're added to a cue.
+
+Inheritance issues:
+  Cue 1 has Ins a @50 
+  Cue 2(Cue 1) has Ins @60
+  Cue 3(Cue 2) sees Ins @50
+
+Cue Edit Cue selection box should be a combo box, not an option menu -- 
+  The option menu don't scroll too well.
+
+There should be a button that says, "Make a new cue with me as the parent"
+
+Maybe we should make a bug tracking system. :)
+
