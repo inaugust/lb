@@ -1,23 +1,6 @@
-//
-// Example code for implementing IDL interfaces in file Dimmer.idl
-//
-
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <errno.h>
-#include <expat.h>
-#include <sys/time.h>
-
-#include <string>
-
 #include "Dimmer_i.hh"
-#include "lb.hh"
 
-static map<const char *, int, ltstr> dimmer_devices;
+static GHashTable *dimmer_devices;
 
 static pthread_mutex_t write_lock;
 
@@ -120,6 +103,7 @@ static void parse (const char *fn, void *userdata)
 int initialize_dimmers (CosNaming::NamingContext_ptr context)
 {
   fprintf(stderr, "Initializing dimmers\n");
+  dimmer_devices=g_hash_table_new (g_str_hash, g_str_equal);
   pthread_mutex_init (&write_lock, NULL);
   parse("/etc/lb/config.xml", context);
   fprintf(stderr, "Done initializing dimmers\n");
@@ -133,28 +117,20 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
   this->my_number=number;
   this->my_value=0;
   this->my_level=0.0;
-  int dev=dimmer_devices[device];
+
+  int dev=(int)g_hash_table_lookup(dimmer_devices, device);
+
   if (dev==0)
     {
-      /*
       dev=open(device, O_RDWR | O_SYNC);
       if (dev==-1)
         {
           perror ("Dimmer");
         }
-      dimmer_devices[device]=dev;
-      */
+      g_hash_table_insert (dimmer_devices, strdup(device), (gpointer)dev);
     }
   this->my_handle=dev;
   this->testfd=0;
-  /*
-  if (!strcmp(name, "1"))
-    this->testfd=open("/tmp/dimmer1", O_RDWR | O_TRUNC |O_CREAT, 
-		      S_IREAD | S_IWRITE);
-  if (!strcmp(name, "2"))
-    this->testfd=open("/tmp/dimmer2", O_RDWR | O_TRUNC |O_CREAT,
-		      S_IREAD | S_IWRITE);
-  */
 }
 
 LB_Dimmer_i::~LB_Dimmer_i()
@@ -212,18 +188,10 @@ void LB_Dimmer_i::setValue(CORBA::Long value)
   this->my_value=value;
   char buf[256];
   unsigned char val = (unsigned char)value;
-  /*
-if (this->testfd)
-    {
-      double t = my_time2();
-      sprintf (buf, "%f %li\n", t, value);
-      write (this->testfd, buf, strlen(buf));
-    }
-  */
+
   pthread_mutex_lock(&write_lock);
-  //lseek(this->my_handle, this->my_number, SEEK_SET);
-  //write(this->my_handle, &val, 1);
-  // flush?
+  lseek(this->my_handle, this->my_number, SEEK_SET);
+  write(this->my_handle, &val, 1);
   pthread_mutex_unlock(&write_lock);
 }
 

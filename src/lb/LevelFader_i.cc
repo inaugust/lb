@@ -3,12 +3,6 @@
 int initialize_levelfaders (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing levelfaders\n");
-
-  LB_Fader_i* i_i = new LB_LevelFader_i("L1");
-  /* This pointer won't ever be freed */
-  LB::Fader_ptr i_ref = i_i->_this();
-  lb->putFader(i_ref);
-
   fprintf(stderr, "Done initializing levelfaders\n");
 }
 

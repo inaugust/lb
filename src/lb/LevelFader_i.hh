@@ -1,12 +1,7 @@
 #ifndef __LEVELFADER_I_HH__
 #define __LEVELFADER_I_HH__
 
-#include <iostream.h>
-#include "LevelFader.hh"
 #include "Fader_i.hh"
-
-#include "Lightboard.hh"
-#include "lb.hh"
 
 int initialize_levelfaders (LB::Lightboard_ptr lb);
 

@@ -1,12 +1,7 @@
 #ifndef __CROSSFADER_I_HH__
 #define __CROSSFADER_I_HH__
 
-#include <iostream.h>
-#include "CrossFader.hh"
 #include "Fader_i.hh"
-
-#include "Lightboard.hh"
-#include "lb.hh"
 
 int initialize_crossfaders (LB::Lightboard_ptr lb);
 

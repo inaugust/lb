@@ -1,7 +1,8 @@
 #ifndef __FADER_I_HH__
 #define __FADER_I_HH__
-#include <iostream.h>
-#include "Fader.hh"
+
+#include "lb.hh"
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +11,6 @@
 #include <unistd.h>
 #include <glib.h>
 
-#include "Lightboard.hh"
 
 int initialize_faders (LB::Lightboard_ptr lb);
 

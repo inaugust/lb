@@ -1,8 +1,18 @@
 #ifndef _DIMMER_I_HH_
 #define _DIMMER_I_HH_
 
-#include "Dimmer.hh"
-#include "Lightboard.hh"
+#include "lb.hh"
+
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <errno.h>
+#include <expat.h>
+#include <glib.h>
 
 int initialize_dimmers (CosNaming::NamingContext_ptr context);
 

@@ -1,12 +1,4 @@
-//
-// Example code for implementing IDL interfaces in file Instrument.idl
-//
-
-#include <string>
-
-#include "lb.hh"
 #include "Instrument_i.hh"
-
 
 int initialize_instruments (LB::Lightboard_ptr lb)
 {

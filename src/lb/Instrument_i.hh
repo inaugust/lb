@@ -1,10 +1,11 @@
 #ifndef __INSTRUMENT_I_HH__
 #define __INSTRUMENT_I_HH__
 
-#include "Instrument.hh"
-#include "Lightboard.hh"
+#include "lb.hh"
 
 #include <glib.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int initialize_instruments (LB::Lightboard_ptr lb);
 

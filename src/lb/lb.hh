@@ -1,20 +1,16 @@
 #ifndef __LB_HH__
 #define __LB_HH__
 
-#include <stdio.h>
-#include <expat.h>
-#include <glib.h>
+/*
+  Files in the core should include this.  It defines the global variables,
+  and includes all the generated idl stuff by way of Lightboard.hh.
+  attributes.hh is also included, since in provides similar global functions.
+  
+  The cleanest way to do it is let the _i.hh file include this.
+*/
+
 #include <Lightboard.hh>
 #include <attributes.hh>
-
-#include <map.h>
-struct ltstr
-{
-  bool operator()(const char* s1, const char* s2) const
-  {
-    return strcmp(s1, s2) < 0;
-  }
-};
 
 extern LB::Lightboard_ptr lb;
 extern CORBA::ORB_ptr orb;

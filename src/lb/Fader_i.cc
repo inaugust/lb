@@ -1,20 +1,10 @@
 #include "Fader_i.hh"
-#include "lb.hh"
-
 
 int initialize_faders (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing faders\n");
-
-  LB_Fader_i* i_i = new LB_Fader_i("1");
-  /* This pointer won't ever be freed */
-  LB::Fader_ptr i_ref = i_i->_this();
-  lb->putFader(i_ref);
-
   fprintf(stderr, "Done initializing faders\n");
-
 }
-
 
 LB_Fader_i::LB_Fader_i(const char *name)
 {

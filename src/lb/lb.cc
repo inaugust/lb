@@ -1,18 +1,14 @@
-#include <iostream.h>
 #include <Lightboard_i.hh>
 #include <Dimmer_i.hh>
 #include <Instrument_i.hh>
-#include <MovingInstrument_i.hh>
 #include <Fader_i.hh>
 #include <CueFader_i.hh>
 #include <CrossFader_i.hh>
 #include <LevelFader_i.hh>
 
+#include <stdio.h>
 #include <dlfcn.h>
 #include <expat.h>
-
-//#include <CosEventChannelAdmin.hh>
-//#include <EventChannelAdmin.hh>
 
 /**** Globals... ****/
 LB::Lightboard_ptr lb;
@@ -358,27 +354,25 @@ getRootNamingContext(CORBA::ORB_ptr orb)
      rootContext = CosNaming::NamingContext::_narrow(initServ);
      if (CORBA::is_nil(rootContext))
      {
-        cerr << "Failed to narrow naming context." << endl;
-        exit(1);
+       fprintf (stderr, "Failed to narrow naming context.\n");
+       exit(1);
      }
   }
   catch(CORBA::ORB::InvalidName& ex) {
-     cerr << "Service required is invalid [does not exist]." << endl;
-     exit(1);
+    fprintf (stderr, "Service required is invalid [does not exist].\n");
+    exit(1);
   }
   catch (CORBA::COMM_FAILURE& ex) {
-     cerr << "Caught system exception COMM_FAILURE."
-          << endl;
-     exit(1);
+    fprintf (stderr, "Caught system exception COMM_FAILURE.\n");
+    exit(1);
   }
   catch (omniORB::fatalException& ex) {
-     cerr << "Caught Fatal Exception" << endl;
-     throw;
+    fprintf (stderr, "Caught Fatal Exception\n");
+    throw;
   }
   catch (...) {
-     cerr << "Caught a system exception while resolving the naming service."
-          << endl;
-     exit(1);
+    fprintf (stderr, "Caught a system exception while resolving the naming service.\n");
+    exit(1);
   }
   return rootContext;
 }
@@ -404,13 +398,11 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref,
     }
   }
   catch(CORBA::COMM_FAILURE& ex) {
-    cerr << "Caught system exception COMM_FAILURE -- unable to "
-         << "contact the naming service." << endl;
+    fprintf (stderr, "Caught system exception COMM_FAILURE -- unable to contact the naming service.\n");
     return 0;
   }
   catch(CORBA::SystemException&) {
-    cerr << "Caught a CORBA::SystemException while using the "
-         << "naming service." << endl;
+    fprintf (stderr, "Caught a CORBA::SystemException while using the naming service.\n");
     return 0;
   }
   return 1;
@@ -545,19 +537,13 @@ int main(int argc, char** argv)
     }
 
     /*
-    // Register the object with the naming service.
-    if( !bindObjectToName(orb, lb, "lb", "Lightboard") )
-      return 1;
-    */
-    
-    {
       CORBA::String_var sior(orb->object_to_string(lb));
       cout << "IDL object LB::Lightboard IOR = '" << (char*)sior << "'" << endl;
       FILE *f = fopen ("/tmp/lb.ior", "w");
       fputs ((char *)sior, f);
       fputs ("\n", f);
       fclose (f);
-    }
+    */
 
     // Obtain a POAManager, and tell the POA to start accepting
     // requests on its objects.
@@ -565,12 +551,10 @@ int main(int argc, char** argv)
     pman->activate();
     
     initialize_instruments(lb);
-    initialize_moving_instruments(lb);
     initialize_faders(lb);
     initialize_cuefaders(lb);
     initialize_crossfaders(lb);
     initialize_levelfaders(lb);
-
  
     load_modules();
 
@@ -580,19 +564,19 @@ int main(int argc, char** argv)
     orb->destroy();
   }
   catch(CORBA::SystemException&) {
-    cerr << "Caught CORBA::SystemException." << endl;
+    fprintf (stderr, "Caught CORBA::SystemException.\n");
   }
   catch(CORBA::Exception&) {
-    cerr << "Caught CORBA::Exception." << endl;
+    fprintf (stderr, "Caught CORBA::Exception.\n");
   }
   catch(omniORB::fatalException& fe) {
-    cerr << "Caught omniORB::fatalException:" << endl;
-    cerr << "  file: " << fe.file() << endl;
-    cerr << "  line: " << fe.line() << endl;
-    cerr << "  mesg: " << fe.errmsg() << endl;
+    fprintf (stderr, "Caught omniORB::fatalException:\n");
+    fprintf (stderr, "  file: %s\n", fe.file());
+    fprintf (stderr, "  line: %s\n", fe.line());
+    fprintf (stderr, "  mesg: %s\n", fe.errmsg());
   }
   catch(...) {
-    cerr << "Caught unknown exception." << endl;
+    fprintf (stderr, "Caught unknown exception.\n");
   }
 
   return 0;

@@ -1,11 +1,7 @@
 #ifndef __CUEFADER_I_HH__
 #define __CUEFADER_I_HH__
 
-#include <iostream.h>
-#include "CueFader.hh"
 #include "Fader_i.hh"
-
-#include "Lightboard.hh"
 
 int initialize_cuefaders (LB::Lightboard_ptr lb);
 

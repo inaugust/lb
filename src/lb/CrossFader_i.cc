@@ -3,12 +3,6 @@
 int initialize_crossfaders (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing crossfaders\n");
-
-  LB_Fader_i* i_i = new LB_CrossFader_i("X1");
-  /* This pointer won't ever be freed */
-  LB::Fader_ptr i_ref = i_i->_this();
-  lb->putFader(i_ref);
-
   fprintf(stderr, "Done initializing crossfaders\n");
 }
 

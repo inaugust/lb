@@ -1,10 +1,4 @@
-//
-// Example code for implementing IDL interfaces in file Lightboard.idl
-//
-
 #include "Lightboard_i.hh"
-#include <unistd.h>
-#include <stdio.h>
 
 extern "C"
 {
@@ -45,35 +39,6 @@ char* LB_Lightboard_i::name()
   return ret._retn();
 }
 
-LB::Instrument_ptr LB_Lightboard_i::getInstrument(const char* name)
-{
-  return LB::Instrument::_duplicate (this->instruments[name]);
-}
-
-void LB_Lightboard_i::putInstrument(LB::Instrument_ptr ins)
-{
-  this->instruments[ins->name()] = ins;
-}
-
-LB::Fader_ptr LB_Lightboard_i::getFader(const char* name)
-{
-  return LB::Fader::_duplicate (this->faders[name]);
-}
-
-void LB_Lightboard_i::putFader(LB::Fader_ptr fadr)
-{
-  this->faders[fadr->name()] = fadr;
-}
-
-LB::Dimmer_ptr LB_Lightboard_i::getDimmer(const char* name)
-{
-  return LB::Dimmer::_duplicate (this->dimmers[name]);
-}
-
-void LB_Lightboard_i::putDimmer(LB::Dimmer_ptr dimr)
-{
-  this->dimmers[dimr->name()] = dimr;
-}
 
 CORBA::Long LB_Lightboard_i::createInstrument(const char* show, 
 					      const char* name, 

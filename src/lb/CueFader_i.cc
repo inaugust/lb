@@ -1,17 +1,9 @@
 #include "CueFader_i.hh"
-#include "lb.hh"
 
 int initialize_cuefaders (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing cuefaders\n");
-
-  LB_Fader_i* i_i = new LB_CueFader_i("C1");
-  /* This pointer won't ever be freed */
-  LB::Fader_ptr i_ref = i_i->_this();
-  lb->putFader(i_ref);
-
   fprintf(stderr, "Done initializing cuefaders\n");
-
 }
 
 
