@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT('lb', '0.3.0', 'bugs-lb@inaugust.com')
-AM_INIT_AUTOMAKE('lb','0.3.0')
+AM_INIT_AUTOMAKE($PACKAGE_NAME,$PACKAGE_VERSION)
 AC_CONFIG_AUX_DIR(config)
 AC_CONFIG_SRCDIR([src/lb/CrossFader_i.cc])
 AM_CONFIG_HEADER(config.h)
