@@ -29,8 +29,7 @@ IMPL_IDL_FILES = Lightboard Instrument Fader CueFader MovingInstrument\
 #
 # IDL Files that don't have Implementation files
 #
-IDL_FILES =
-IDL_DYN_FILES = types
+IDL_FILES = types
 
 #######################################
 #
@@ -38,17 +37,14 @@ IDL_DYN_FILES = types
 #
 
 OBJECTS := $(foreach file,$(IMPL_FILES),$(file).o) \
-	$(foreach file,$(IMPL_IDL_FILES),$(file)_i.o $(file)SK.o) \
-	$(foreach file,$(IDL_FILES),$(file)SK.o) \
-	$(foreach file,$(IDL_DYN_FILES),$(file)SK.o $(file)DynSK.o) \
+	$(foreach file,$(IMPL_IDL_FILES),$(file)_i.o $(file)SK.o $(file)DynSK.o) \
+	$(foreach file,$(IDL_FILES),$(file)SK.o $(file)DynSK.o) \
 
 IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
-	$(foreach file,$(IDL_FILES),$(file).hh) \
-	$(foreach file,$(IDL_DYN_FILES),$(file).hh) 
+	$(foreach file,$(IDL_FILES),$(file).hh) 
 
-IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc) \
-	$(foreach file,$(IDL_FILES),$(file)SK.cc) \
-	$(foreach file,$(IDL_DYN_FILES),$(file)SK.cc $(file)DynSK.cc) 
+IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc $(file)DynSK.cc) \
+	$(foreach file,$(IDL_FILES),$(file)SK.cc $(file)DynSK.cc)
 
 all : idl lb
 
