@@ -20,6 +20,11 @@ private:
   map <const char *, LB::Instrument_ptr, ltstr> instruments;
   map <const char *, LB::Fader_ptr, ltstr> faders;
 
+  pthread_t event_thread;
+  pthread_mutex_t queue_lock;
+  GSList *event_queue_head;
+  GSList *event_queue_tail;
+
 public:
   // standard constructor
   LB_Lightboard_i();
@@ -35,6 +40,12 @@ public:
 
   LB::Dimmer_ptr getDimmer(const char* name);
   void putDimmer(LB::Dimmer_ptr dimr);
+
+  void addEvent(LB::Event& evt);
+ 
+  /* This function is not public.  I mean it.  Don't call it! */
+  void do_run_events();
+  void print_queue();
 };
 
 #endif _LIGHTBOARD_I_HH_

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <expat.h>
+#include <glib.h>
 #include "Lightboard.hh"
 
 #include <map.h>

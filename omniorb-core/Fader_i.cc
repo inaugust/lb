@@ -37,11 +37,12 @@ char* LB_Fader_i::name()
 }
 
 extern "C"
-void *bootstrap(void *object)
 {
-  ((LB_Fader_i *)object)->do_run();
+  static void *bootstrap(void *object)
+  {
+    ((LB_Fader_i *)object)->do_run();
+  }
 }
-
 
 void LB_Fader_i::run(double level, double time)
 {
@@ -192,7 +193,7 @@ void LB_Fader_i::setLevel(double level)
 {
   pthread_mutex_lock(&this->level_lock);
 
-  this->act_on_set_ratio (level);
+  this->act_on_set_ratio (level/100.0);
                 
   /*
     if (self.callback):

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <expat.h>
+#include <sys/time.h>
 
 #include <string>
 
@@ -136,10 +137,17 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
       // we need a mutex here
     }
   this->my_handle=dev;
+  this->testfd=0;
+  if (!strcmp(name, "1"))
+    this->testfd=open("/tmp/dimmer1", O_RDWR | O_TRUNC |O_CREAT);
+  if (!strcmp(name, "2"))
+    this->testfd=open("/tmp/dimmer2", O_RDWR | O_TRUNC |O_CREAT);
 }
 
 LB_Dimmer_i::~LB_Dimmer_i(){
   // add extra destructor code here
+  if (this->testfd)
+    close(this->testfd);
 }
 //   Methods corresponding to IDL attributes and operations
 char* LB_Dimmer_i::name()
@@ -167,9 +175,28 @@ CORBA::Double LB_Dimmer_i::getLevel()
 {
 }
 
+
+double my_time2(void)
+{
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  
+  double r = tv.tv_sec + tv.tv_usec/1000000.0;
+  return r;
+}
+
+
 void LB_Dimmer_i::setValue(CORBA::Long value)
 {
   this->my_value=value;
+  char buf[256];
+
+  if (this->testfd)
+    {
+      double t = my_time2();
+      sprintf (buf, "%f %li\n", t, value);
+      write (this->testfd, buf, strlen(buf));
+    }
 
   // lock
   // lseek(this->my_handle, this->my_number, SEEK_SET);

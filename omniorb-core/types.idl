@@ -31,19 +31,23 @@ module LB
   };
 
   typedef sequence<AttrType> AttrList;
+
+  enum EventType
+    {
+      event_instrument_level,
+      event_instrument_target
+    };
  
   struct Event
   {
-    long something;
-    /*
+    EventType type;
     Object source;
     sequence<double> value;
-    */
   };
 
-  interface EventListener
+  interface InstrumentLevelListener
   {
-    oneway void sendEvent(in Event evt);
+    void levelChanged(in Event evt);
   };
 
 };

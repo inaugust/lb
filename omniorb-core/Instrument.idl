@@ -20,6 +20,15 @@ module LB
     void getTarget(out double x, out double y, out double z);
     void addTargetListener (in string l);
     void removeTargetListener (in string l);
+
+
+
+    /*** Intra-core use only ***/
+
+    /* Don't call these from clients, only other cores */
+
+    void doFireLevelEvent(in Event evt);
+    void doFireTargetEvent(in Event evt);
   };
   
 };

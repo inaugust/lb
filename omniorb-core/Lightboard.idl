@@ -22,6 +22,14 @@ module LB
 
     Dimmer getDimmer (in string name);
     void putDimmer (in Dimmer dimr);
+
+
+
+    /*** Intra-core use only ***/
+
+    /* Don't call these from clients, only other cores */
+
+    void addEvent(inout Event evt);
   };
 };
 

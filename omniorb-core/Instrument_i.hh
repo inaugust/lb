@@ -22,15 +22,18 @@ protected:
 
   LB::Dimmer_ptr level_dimmer;
   
+  /* handle to listeners */
+
+  GSList **level_listeners_h;  
+  GSList **target_listeners_h;
+
   GSList *level_listeners;
   GSList *target_listeners;
 
   pthread_mutex_t listener_lock;
 
-  virtual void fireLevelEvent(const LB::Event &evt);
-  virtual void fireTargetEvent(const LB::Event &evt);
-
 public:
+
   // standard constructor
   LB_Instrument_i(const char *name, int dimmer_start);
   virtual ~LB_Instrument_i();
@@ -50,6 +53,9 @@ public:
 
   void addTargetListener(const char *l);
   void removeTargetListener(const char *l);
+
+  virtual void doFireLevelEvent(const LB::Event& evt);
+  virtual void doFireTargetEvent(const LB::Event& evt);
 };
 
 #endif __INSTRUMENT_I_HH__

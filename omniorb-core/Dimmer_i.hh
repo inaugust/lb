@@ -20,6 +20,8 @@ private:
   double my_level;
   long my_value;
 
+  int testfd;
+
 public:
   // standard constructor
   LB_Dimmer_i(const char *name, const char *dev, int num);

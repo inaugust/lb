@@ -129,14 +129,17 @@ LB::AttrList* LB_Instrument_i::getAttributes()
 void LB_Instrument_i::setLevel(CORBA::Double level)
 {
   this->my_level=level;
-  this->level_dimmer->setValue(level);
+  this->level_dimmer->setValue((long)((level/100.0)*255.0));
   if (this->level_listeners)
     {
-      LB::Event evt;
-      //evt.source=this->_this();
-      //evt.value=level;
-      evt.something=1;
-      this->fireLevelEvent(evt);
+      LB::Event *evt = new LB::Event();
+
+      evt->source=this->_this();
+      evt->value.length(1);
+      evt->value[0]=level;
+      evt->type=LB::event_instrument_level;
+
+      lb->addEvent(*evt);
     }
 }
 
@@ -145,13 +148,13 @@ CORBA::Double LB_Instrument_i::getLevel()
   return this->my_level;
 }
 
-void LB_Instrument_i::fireLevelEvent(const LB::Event &evt)
+void LB_Instrument_i::doFireLevelEvent(const LB::Event &evt)
 {
   pthread_mutex_lock(&this->listener_lock);
   GSList *list = this->level_listeners;
   while (list)
     {
-      ((LB::EventListener_ptr) list->data)->sendEvent(evt);
+      ((LB::InstrumentLevelListener_ptr) list->data)->levelChanged(evt);
       list=list->next;
     }
   pthread_mutex_unlock(&this->listener_lock);
@@ -163,8 +166,8 @@ void LB_Instrument_i::addLevelListener(const char *l)
 
   printf ("l = %s\n", l);
   CORBA::Object_var obj = orb->string_to_object(l);
-  printf ("obj = %p\n", obj);
-  LB::EventListener_ptr p = LB::EventListener::_narrow(obj);
+  //  printf ("obj = %p\n", obj);
+  LB::InstrumentLevelListener_ptr p = LB::InstrumentLevelListener::_narrow(obj);
   printf ("p = %p\n", p);
 
   this->level_listeners=g_slist_append(this->level_listeners, p);
@@ -185,7 +188,7 @@ void LB_Instrument_i::getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Doubl
 {
 }
 
-void LB_Instrument_i::fireTargetEvent(const LB::Event &evt)
+void LB_Instrument_i::doFireTargetEvent(const LB::Event &evt)
 {
 }
 

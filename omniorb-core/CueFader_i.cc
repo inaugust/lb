@@ -3,7 +3,8 @@
 
 double interpolate_levels(double start, double end, double ratio)
 {
-  double r=start+((start-end)*ratio);
+  double r=start+((end-start)*ratio);
+  //  printf ("%f, %f: %f+%f=%f\n", end, ratio, start, (end-start)*ratio, r);
   return r;
 }
 
