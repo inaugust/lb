@@ -7,9 +7,11 @@ import Lightboard
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 ior = sys.argv[1]
 o = orb.string_to_object(ior)
+
+print o, o.__repo_id
+
 l=o.getInstrument('foo')
 
-print o, o.__repo_id,l
-
+print l
 for x in range(1,1000):
   l.setAttribute('a','x')
