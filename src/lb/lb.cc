@@ -3,6 +3,7 @@
 #include "Dimmer_i.hh"
 #include "Instrument_i.hh"
 #include "MovingInstrument_i.hh"
+#include "GoboRotator.hh"
 #include "Fader_i.hh"
 #include "CueFader_i.hh"
 #include "CrossFader_i.hh"
@@ -449,6 +450,7 @@ int main(int argc, char** argv)
     
     initialize_instruments(lb);
     initialize_moving_instruments(lb);
+    initialize_gobo_rotators(lb);
     initialize_faders(lb);
     initialize_cuefaders(lb);
     initialize_crossfaders(lb);

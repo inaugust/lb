@@ -18,6 +18,8 @@ LB_Lightboard_i::LB_Lightboard_i(const char *name)
 {
   this->my_name=strdup(name);
 
+  this->drivers=g_hash_table_new (g_str_hash, g_str_equal);
+
   pthread_mutex_init (&this->queue_lock, NULL);
 
   pthread_create(&this->event_thread, (pthread_attr_t *)NULL,
@@ -75,20 +77,23 @@ void LB_Lightboard_i::putDimmer(LB::Dimmer_ptr dimr)
 
 CORBA::Long LB_Lightboard_i::createInstrument(const char* show, 
 					      const char* name, 
-					      CORBA::Long dimmer_start)
+					      const char* driver, 
+					      const LB::ArgList& arguments)
 {
   CosNaming::Name cname;
   cname.length(1);
   
   CosNaming::NamingContext_var context;
   CORBA::Object_var obj;
+  
+  LB::InstrumentFactory_ptr fact;
 
   //  printf ("Creating instrument for show: %s named: %s dimmer %li\n",
   //	  show, name, dimmer_start);
 
-  LB_Instrument_i* i_i = new LB_Instrument_i(name, dimmer_start);
-  LB::Instrument_var i_ref = i_i->_this();
+  fact=(LB::InstrumentFactory_ptr)g_hash_table_lookup(this->drivers, driver);
 
+  LB::Instrument_var i_ref = fact->createInstrument(name, arguments);
 
   try
     {
@@ -278,7 +283,11 @@ CORBA::Long LB_Lightboard_i::createCrossFader(const char* show,
   return 0;
 }
 
-
+void LB_Lightboard_i::addDriver(const char* name, 
+				LB::InstrumentFactory_ptr fact)
+{
+  g_hash_table_insert (this->drivers, strdup(name), fact);
+}
 
 
 void LB_Lightboard_i::print_queue(void)

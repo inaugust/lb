@@ -15,7 +15,7 @@ IDL_EXAMPLE_ARGS=-Wbexample
 #
 # Implementation files that don't have anything to do with IDL
 #
-IMPL_FILES = lb attributes
+IMPL_FILES = lb attributes GoboRotator
 
 #
 # Implementation files that are also IDL files

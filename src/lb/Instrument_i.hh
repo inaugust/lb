@@ -24,6 +24,7 @@ protected:
   
   GSList *level_listeners;
   GSList *target_listeners;
+  GSList *gobo_rpm_listeners;
 
   pthread_mutex_t listener_lock;
 
@@ -46,17 +47,38 @@ public:
 
   virtual void setLevel(CORBA::Double level);
   virtual CORBA::Double getLevel();
-  
   void addLevelListener(const LB::EventListener_ptr l);
   void removeLevelListener(const LB::EventListener_ptr l);
 
   virtual void setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z);
   virtual void getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z);
-
   void addTargetListener(const LB::EventListener_ptr l);
   void removeTargetListener(const LB::EventListener_ptr l);
 
+  virtual void setGoboRPM(CORBA::Double rpm);
+  virtual void getGoboRPM(CORBA::Double& rpm);
+  void addGoboRPMListener(const LB::EventListener_ptr l);
+  void removeGoboRPMListener(const LB::EventListener_ptr l);
+
   void sendEvent(const LB::Event& evt);
+};
+
+
+class LB_InstrumentFactory_i: public POA_LB::InstrumentFactory,
+			      public PortableServer::RefCountServantBase {
+protected:
+  // Make sure all instances are built on the heap by making the
+  // destructor non-public
+  //virtual ~LB_InstrumentFactory_i();
+
+public:
+
+  // standard constructor
+  LB_InstrumentFactory_i();
+  virtual ~LB_InstrumentFactory_i();
+
+  LB::Instrument_ptr createInstrument(const char* name, 
+				      const LB::ArgList& arguments);
 };
 
 #endif __INSTRUMENT_I_HH__

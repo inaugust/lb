@@ -7,85 +7,16 @@
 #include "lb.hh"
 #include "Instrument_i.hh"
 
-static void start(void *data, const char *el, const char **attr) 
-{
-  int i;
-  const char *name, *dimmer;
-
-  if (strcmp(el, "instrument")==0)
-    {
-      name=dimmer=NULL;
-      for (i = 0; attr[i]; i += 2) 
-        {
-	  if (strcmp(attr[i],"name")==0)
-            name=attr[i+1];
-          if (strcmp(attr[i],"dimmer")==0)
-            dimmer=attr[i+1];
-        }
-      if (name && dimmer)
-        {
-	  int dnum = atoi(dimmer);
-	  LB_Instrument_i* i_i = new LB_Instrument_i(name, dnum);
-	  /* This pointer won't ever be freed */
-	  LB::Instrument_ptr i_ref = i_i->_this();
-	  ((LB::Lightboard_ptr) data)->putInstrument(i_ref);
-        }
-    }
-}
-
-static void end(void *data, const char *el) 
-{
-}
-
-static void parse (const char *fn, void *userdata)
-{
-  char buf[8096];
-
-  XML_Parser p = XML_ParserCreate(NULL);
-  if (!p) 
-    {
-      fprintf(stderr, "Couldn't allocate memory for parser\n");
-      exit(-1);
-    }
-
-  XML_SetUserData(p, userdata);
-
-  XML_SetElementHandler(p, start, end);
-  FILE *f = fopen(fn, "r");
-  if (!f)
-    {
-      perror("Instruments");
-      exit(-1);
-    }
-
-  for (;;) {
-    int done;
-    int len;
-
-    len = fread(buf, 1, 8096, f);
-    if (ferror(f)) {
-      fprintf(stderr, "Read error\n");
-      exit(-1);
-    }
-    done = feof(f);
-
-    if (! XML_Parse(p, buf, len, done)) {
-      fprintf(stderr, "Parse error at line %d:\n%s\n",
-              XML_GetCurrentLineNumber(p),
-              XML_ErrorString(XML_GetErrorCode(p)));
-      exit(-1);
-    }
-
-    if (done)
-      break;
-  }
-  fclose(f);
-}
 
 int initialize_instruments (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing instruments\n");
-  //  parse("instruments.xml", lb);
+
+  LB_InstrumentFactory_i* i_i = new LB_InstrumentFactory_i();
+  /* This pointer won't ever be freed */
+  LB::InstrumentFactory_ptr i_ref = i_i->_this();
+  lb->addDriver("instrument", i_ref);
+  
   fprintf(stderr, "Done initializing instruments\n");
 }
 
@@ -113,6 +44,7 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
 
   this->level_listeners=NULL;
   this->target_listeners=NULL;
+  this->gobo_rpm_listeners=NULL;
   this->sources=g_hash_table_new (g_str_hash, g_str_equal);
   
   /*
@@ -268,6 +200,7 @@ void LB_Instrument_i::sendEvent(const LB::Event &evt)
     {
     case LB::event_instrument_level:  handle = &this->level_listeners;   break;
     case LB::event_instrument_target: handle = &this->target_listeners;  break;
+    case LB::event_instrument_gobo_rpm: handle = &this->gobo_rpm_listeners;  break;
     }
   list = *handle;
   GSList *to_remove = NULL;
@@ -330,4 +263,56 @@ void LB_Instrument_i::removeTargetListener(const LB::EventListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
   pthread_mutex_unlock(&this->listener_lock);
+}
+
+
+void LB_Instrument_i::setGoboRPM(CORBA::Double rpm)
+{
+}
+
+void LB_Instrument_i::getGoboRPM(CORBA::Double& rpm)
+{
+}
+
+void LB_Instrument_i::addGoboRPMListener(const LB::EventListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  LB::EventListener_ptr p = LB::EventListener::_duplicate(l);
+  this->gobo_rpm_listeners=g_slist_append(this->gobo_rpm_listeners, p);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Instrument_i::removeGoboRPMListener(const LB::EventListener_ptr l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+
+/********** Factory stuff **********/
+
+LB_InstrumentFactory_i::LB_InstrumentFactory_i()
+{
+}
+
+LB_InstrumentFactory_i::~LB_InstrumentFactory_i()
+{
+}
+
+LB::Instrument_ptr LB_InstrumentFactory_i::createInstrument(const char* name, 
+							    const LB::ArgList& arguments)
+{
+  int dnum=0;
+
+  for (int a=0; a<arguments.length(); a++)
+    {
+      if (strcmp(arguments[a].name, "dimmer") == 0)
+	dnum = atoi(arguments[a].value);
+    }
+
+  LB_Instrument_i* i_i = new LB_Instrument_i(name, dnum);
+
+  /* This pointer won't ever be freed */
+  LB::Instrument_ptr i_ref = i_i->_this();
+  return i_ref;
 }

@@ -29,6 +29,8 @@ private:
   GSList *event_queue_head;
   GSList *event_queue_tail;
 
+  GHashTable *drivers;
+
   char *my_name;
 
 public:
@@ -50,6 +52,11 @@ public:
 
   CORBA::Long createInstrument(const char* show, const char* name, 
 			       CORBA::Long dimmer_start);
+  
+  CORBA::Long createInstrument(const char* show, const char* name, 
+			       const char* driver, 
+			       const LB::ArgList& arguments);
+
   CORBA::Long createLevelFader(const char* show, const char* name);
   CORBA::Long createCueFader(const char* show, const char* name);
   CORBA::Long createCrossFader(const char* show, const char* name);
@@ -57,6 +64,8 @@ public:
  
   /* This function is not public.  I mean it.  Don't call it! */
   void addEvent(const LB::Event& evt);
+  void addDriver(const char* name, LB::InstrumentFactory_ptr fact);
+
   void do_run_events();
   void print_queue();
 };
