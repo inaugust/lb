@@ -16,10 +16,14 @@ extern "C" void lb_module_init(void)
 {
   fprintf(stderr, "Initializing gobo rotators\n");
 
+  LB::StringList sl;
+  sl.length(1);
+  sl[0]=CORBA::string_dup("dimmer");
+
   GoboRotatorFactory* i_i = new GoboRotatorFactory();
   /* This pointer won't ever be freed */
   LB::InstrumentFactory_ptr i_ref = i_i->_this();
-  lb->addDriver("gobo_rotator", i_ref);
+  lb->addDriver("gobo_rotator", sl, i_ref);
   
   fprintf(stderr, "Done initializing gobo rotators\n");
 }

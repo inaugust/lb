@@ -44,6 +44,8 @@ module LB
 
   typedef sequence<Argument> ArgList;
 
+  typedef sequence<string> StringList;
+
   enum EventType
     {
       event_instrument_level,

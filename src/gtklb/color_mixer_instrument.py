@@ -7,14 +7,14 @@ from os import path
 import lightboard
 import time
 import attribute_widgets
-from instrument import Instrument
+import instrument
 
 from xml.parsers import expat
 from ExpatXMLParser import ExpatXMLParser, DOMNode
 from idl import LB
 
 def initialize():
-    pass
+    lb.instrument_module_info['Color Mixer Instrument'] = instrument_info
 
 def reset():
     pass
@@ -34,12 +34,14 @@ def save():
     pass
 
         
-class ColorMixerInstrument(Instrument):
+class ColorMixerInstrument(instrument.Instrument):
 
     attributes=('level','color',)
     module='color_mixer_instrument'
 
     def __init__(self, name, red, green, blue):
+        self.parent = None
+        self.hidden = 0
         self.name=name
         self.red_name = red
         self.green_name = green
@@ -115,3 +117,22 @@ class ColorMixerInstrument(Instrument):
 
         return ri + gi + bi
     
+class InstrumentInfo:
+    container = 1
+    module = 'color_mixer_instrument'
+    clazz = ColorMixerInstrument
+
+    def load(self, tree):
+        load(tree)
+    
+    def get_arguments(self, ins):
+        dict = {'name': ['', '']}
+        for name, value in dict.items():
+            if ins.attrs.has_key(name):
+                dict[name][0]=ins.attrs[name]
+        return dict
+
+    def get_arguments_for_children(self, ins):
+        return {}
+
+instrument_info = InstrumentInfo()

@@ -13,6 +13,7 @@ LB_Lightboard_i::LB_Lightboard_i(const char *name)
   this->my_name=strdup(name);
 
   this->drivers=g_hash_table_new (g_str_hash, g_str_equal);
+  this->driver_args=g_hash_table_new (g_str_hash, g_str_equal);
 
   pthread_mutex_init (&this->queue_lock, NULL);
 
@@ -249,9 +250,66 @@ CORBA::Long LB_Lightboard_i::createCrossFader(const char* show,
 }
 
 void LB_Lightboard_i::addDriver(const char* name, 
+				const LB::StringList& arguments,
 				LB::InstrumentFactory_ptr fact)
 {
+  GSList *list = NULL;
+
+  for (int i=0; i<arguments.length(); i++)
+    list = g_slist_append(list, strdup((char *)arguments[0]));
+
   g_hash_table_insert (this->drivers, strdup(name), fact);
+  g_hash_table_insert (this->driver_args, strdup(name), list);
+}
+
+static void add_driver_name(gpointer key, gpointer data, gpointer handle_in)
+{
+  GSList **list = (GSList **)handle_in;
+
+  *list = g_slist_append (*list, strdup((char *)key));
+}
+
+LB::StringList* LB_Lightboard_i::enumerateDrivers()
+{
+  LB::StringList_var sl = new LB::StringList;
+  GSList **list, *n;
+
+  *list = NULL;
+
+  g_hash_table_foreach(this->drivers, add_driver_name, list);
+
+  int len = g_slist_length(*list);
+  sl->length (len);
+  n = *list;
+  int count = 0;
+  while (n)
+    {
+      sl[count++] = CORBA::string_dup((char *)n->data);
+      free(n->data);
+      n = n->next;
+    }
+  g_slist_free(*list);
+  return sl._retn();
+}
+
+LB::StringList* LB_Lightboard_i::enumerateDriverArguments(const char* driver)
+{
+  LB::StringList_var sl = new LB::StringList;
+  GSList *list=NULL, *n;
+
+  list = (GSList *)g_hash_table_lookup(this->driver_args, driver);
+
+  int len = g_slist_length(list);
+  sl->length (len);
+  n = list;
+  int count = 0;
+  while (n)
+    {
+      sl[count++] = CORBA::string_dup((char *)n->data);
+      n = n->next;
+    }
+
+  return sl._retn();
 }
 
 

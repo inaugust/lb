@@ -25,11 +25,15 @@ module LB
     long createCrossFader (in string show, in string name);
 
 
+    StringList enumerateDrivers ();
+    StringList enumerateDriverArguments (in string driver);
+
     /*** Intra-core use only ***/
     /* Don't call these from clients, only cores */
 
     void addEvent(in Event evt);
     void addDriver(in string name, 
+		   in StringList arguments,
 		   in InstrumentFactory fact);    
   };
 };

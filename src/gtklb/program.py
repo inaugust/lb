@@ -190,9 +190,9 @@ class Action:
                     i=GtkMenuItem(v)
                     menu.append(i)
                     count = count +1
-                entry.set_history(current)
                 menu.show_all()
                 entry.set_menu(menu)
+                entry.set_history(current)
             if type(value)==type(''):
                 entry = GtkEntry()
                 current = ''

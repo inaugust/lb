@@ -7,12 +7,12 @@ import lightboard
 import time
 import string
 import attribute_widgets
-from instrument import Instrument
+import instrument
 from ExpatXMLParser import ExpatXMLParser, DOMNode
 from idl import LB
 
 def initialize():
-    pass
+    lb.instrument_module_info['Meta Instrument'] = instrument_info
 
 def reset():
     pass
@@ -26,26 +26,31 @@ def load(tree):
             subs={}
             attr_list = []
             for subins in ins.find("instrument"):
-                sub = Instrument(subins.attrs)
-                attr_list = attr_list + map(string.strip,string.split(subins.attrs['attributes'], ','))
-                for attr in attr_list:
+                sub = instrument.Instrument(subins.attrs)
+                small_attr_list = map(string.strip,string.split(subins.attrs['attributes'], ','))
+                attr_list = attr_list + small_attr_list
+                for attr in small_attr_list:
                     subs[attr]=sub
             i=MetaInstrument(ins.attrs, attr_list, subs)
                          
 def save():
     # instrument's routine is sufficient
     pass
-
         
-class MetaInstrument(Instrument):
+class MetaInstrument(instrument.Instrument):
 
     attributes=('level',)
     module='meta_instrument'
 
     def __init__(self, args, attr_list, subs):
+        self.parent = None
+        self.hidden = 0
         self.name = args['name']
         self.attributes = tuple(attr_list)
         self.subinstrument = subs
+        for sub in subs.values():
+            sub.parent = self
+            sub.hidden = 1
         
         if (lb.instrument.has_key(self.name)):
             pass
@@ -95,3 +100,29 @@ class MetaInstrument(Instrument):
 
         return ret
     
+
+class InstrumentInfo:
+    container = 1
+    module = 'meta_instrument'
+    clazz = MetaInstrument
+    allowable_children = ['instrument']
+
+    def load(self, tree):
+        load(tree)
+
+    def get_arguments(self, ins):
+        dict = {'name': ['', '']}
+        for name, value in dict.items():
+            if ins.attrs.has_key(name):
+                dict[name][0]=ins.attrs[name]
+        return dict
+
+    def get_arguments_for_children(self, ins):
+        dict = {'attributes': ['', '']}
+        for name, value in dict.items():
+            if ins.attrs.has_key(name):
+                dict[name][0]=ins.attrs[name]
+        return dict
+
+
+instrument_info = InstrumentInfo()

@@ -29,6 +29,7 @@ private:
   GSList *event_queue_tail;
 
   GHashTable *drivers;
+  GHashTable *driver_args;
 
   char *my_name;
 
@@ -49,10 +50,12 @@ public:
   CORBA::Long createCueFader(const char* show, const char* name);
   CORBA::Long createCrossFader(const char* show, const char* name);
 
+  LB::StringList* enumerateDrivers();
+  LB::StringList* enumerateDriverArguments(const char* driver);
  
   /* This function is not public.  I mean it.  Don't call it! */
   void addEvent(const LB::Event& evt);
-  void addDriver(const char* name, LB::InstrumentFactory_ptr fact);
+  void addDriver(const char* name, const LB::StringList& arguments, LB::InstrumentFactory_ptr fact);
 
   void do_run_events();
   void print_queue();

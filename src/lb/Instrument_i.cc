@@ -4,10 +4,14 @@ int initialize_instruments (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing instruments\n");
 
+  LB::StringList sl;
+  sl.length(1);
+  sl[0]=CORBA::string_dup("dimmer");
+
   LB_InstrumentFactory_i* i_i = new LB_InstrumentFactory_i();
   /* This pointer won't ever be freed */
   LB::InstrumentFactory_ptr i_ref = i_i->_this();
-  lb->addDriver("instrument", i_ref);
+  lb->addDriver("instrument", sl, i_ref);
   
   fprintf(stderr, "Done initializing instruments\n");
 }
