@@ -1,0 +1,15 @@
+#ifndef _CLIENT_IDL_
+#define _CLIENT_IDL_
+
+#include "types.idl"
+
+module LB
+{
+  interface Client
+  {
+    void receiveData(in string data);
+    //void receiveEvent(in Event evt);
+  };
+};
+
+#endif /* _CLIENT_IDL_ */
