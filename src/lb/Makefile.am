@@ -37,7 +37,7 @@ IDL_FILES = types
 
 OBJECTS := $(foreach file,$(IMPL_FILES),$(file).o) \
 	$(foreach file,$(IMPL_IDL_FILES),$(file)_i.o $(file)SK.o $(file)DynSK.o) \
-	$(foreach file,$(IDL_FILES),$(file)SK.o $(file)DynSK.o) \
+	$(foreach file,$(IDL_FILES),$(file)SK.o $(file)DynSK.o) 
 
 IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
 	$(foreach file,$(IDL_FILES),$(file).hh) 

@@ -18,7 +18,7 @@ libraries=(
 
 from lightboard import lightboard
 
-show='show'
+show='../../show'
 
 def gtk_main():
   gtk.threads_enter()
