@@ -5,7 +5,7 @@ libraries=(
     'instrument',
     'moving_instrument',
     'cue',
-    'fader',
+    'levelfader',
     'crossfader',
     'program',
     'procedure',

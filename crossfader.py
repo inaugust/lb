@@ -1,7 +1,7 @@
 from threading import *
 from xmllib import XMLParser
 from os import path
-from fader import fader
+from levelfader import levelfader
 import instrument
 
 def initialize(lb):
@@ -31,9 +31,9 @@ class parser(XMLParser):
     def start_fader (self, attrs):
         name=self.crossfader.name+'.'+attrs['name']
 
-        f=fader(name, callback=crossfader.fader_return_levels,
+        f=levelfader(name, callback=crossfader.fader_return_levels,
                 callback_arg=self.crossfader)
-        lb.fader[name]=f
+        lb.levelfader[name]=f
 
         self.crossfader.levels[name]={}
 
@@ -51,7 +51,7 @@ class crossfader:
         self.type=type
         self.up={}
         self.down={}
-        self.levels={}
+        self.levels={} #1 entry per fader which is a dict of (ins, level) 
         self.mythread=None
         self.running=0
         self.update_count=Semaphore (0)
@@ -107,17 +107,13 @@ class crossfader:
     def update_levels_from_faders(self):
         instrument={}
         for dict in self.levels.values():
-            for (name, dict2) in dict.items():
-                if not instrument.has_key(name): instrument[name]={}
-                for (attr, val) in dict2.items():
-                    if not instrument[name].has_key(attr):
-                        instrument[name][attr]=0
-                    instrument[name][attr]=instrument[name][attr]+val
+            for (name, level) in dict.items():
+                if not instrument.has_key(name): instrument[name]=0
+                instrument[name]=instrument[name]+level
 
-        for (name, dict) in instrument.items():
-            for (attr, val) in dict.items():
-                instrument=lb.instrument[name]
-                instrument.set_attribute(attribute=attr, value=val, source=self.sourcename, type=self.type)
+        for (name, level) in instrument.items():
+            instrument=lb.instrument[name]
+            instrument.set_attribute(attribute='level', value=level, source=self.sourcename, type=self.type)
 
     def set_level_real(self, args):
         self.threadlock.acquire()

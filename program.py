@@ -172,16 +172,16 @@ class program:
                 self.run_action (action[0], action[1])
 
     def run_action (self, action, args):
-        if (action=='fader_load'):
+        if (action=='levelfader_load'):
             if (args.has_key('cue')):
-                lb.fader[args['fader']].set_cue(args['cue'])
+                lb.levelfader[args['levelfader']].set_cue(args['cue'])
             if (args.has_key('instrument')):
-                lb.fader[args['fader']].set_instrument(args['instrument'])
-        if (action=='fader_level'):
-            lb.fader[args['fader']].set_level(args['level'])
-        if (action=='fader_run'):
+                lb.levelfader[args['levelfader']].set_instrument(args['instrument'])
+        if (action=='levelfader_level'):
+            lb.levelfader[args['levelfader']].set_level(args['level'])
+        if (action=='levelfader_run'):
             time=args.get('time',0)
-            lb.fader[args['fader']].run(args['level'], time)
+            lb.levelfader[args['levelfader']].run(args['level'], time)
         if (action=='xf_load'):
             u=lb.crossfader[args['xf']].get_up_faders()
             u[0].set_cue(args['cue'])

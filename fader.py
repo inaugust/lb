@@ -1,3 +1,7 @@
+# Base class for things that fade - that is, they have a start point,
+# and end point, points in between, and a time in which to move through
+# all of those points.
+
 from threading import *
 from xmllib import XMLParser
 from os import path
@@ -6,45 +10,11 @@ import lightboard
 import time
 import math
 
-def initialize(lb):
-    lb.fader={}
-    try:
-        f=open(path.join(lb.datapath, 'faders'))
-    except:
-        f=None
-    if (f):
-        p=parser()
-        p.feed(f.read())
-    lb.add_signal ('Fader Set Cue', fader.set_cue_real)
-    lb.add_signal ('Fader Set Instrument', fader.set_instrument_real)
-    lb.add_signal ('Fader Set Type', fader.set_type_real)
-    lb.add_signal ('Fader Set Level', fader.set_level_real)
-    lb.add_signal ('Fader Run', fader.run_real)
-    lb.add_signal ('Fader Stop', fader.stop_real)
-    lb.add_signal ('Fader Clear', fader.clear_real)
-    
-def shutdown():
-    pass
-
-class dummy:
-    pass
-
-class parser(XMLParser):
-
-    def start_fader (self, attrs):
-        name=attrs['name']
-        type=attrs['type']
-        lb.fader[name]=fader (name, type)
-
 class fader:
-
-    def __init__(self, name, type='min', callback=None, callback_arg=None):
+    def __init__(self, name, callback=None, callback_arg=None):
         self.name=name
         self.sourcename='fader.'+name
         self.level=0
-        self.type=type
-        self.cue=None
-        self.instrument={}
         self.mythread=None
         self.callback=callback
         self.callback_arg=callback_arg
@@ -52,26 +22,16 @@ class fader:
         self.levellock=Lock()
 
     def set_level(self, level):
-        lb.send_signal('Fader Set Level', itself=self, level=level)
-
-    def set_cue(self, cue):
-        lb.send_signal('Fader Set Cue', itself=self, cue=cue)
-
-    def set_instrument(self, instrument):
-        lb.send_signal('Fader Set Instrument', itself=self,
-                       instrument=instrument)
-
-    def set_type(self, cue):
-        lb.send_signal('Fader Set Type', itself=self, type=type)
+        # send signal to set_level_real
+        pass
 
     def run(self, level, time=0):
-        lb.send_signal('Fader Run', itself=self, level=level, time=time)
+        # send signal to run_real
+        pass
 
     def stop(self):
-        lb.send_signal('Fader Stop', itself=self)
-
-    def clear(self):
-        lb.send_signal('Fader Clear', itself=self)
+        # send signal to stop_real        
+        pass
 
     def wait_for (self):
         self.threadlock.acquire()
@@ -90,83 +50,24 @@ class fader:
         self.threadlock.release()
         return ret
         
-        
     #private
     
-    def set_cue_real (self, args):
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        self.threadlock.release()
-        self.levellock.acquire()
-
-        self.cue=lb.cue[args['cue']]
-        self.instrument={}
-        for (name, ins) in self.cue.instrument.items():
-            d={}
-            for (attrname, attrval) in ins.items():
-                d[attrname] = attrval
-            self.instrument[name]=d
-            
-        self.levellock.release()
-
-    def set_instrument_real (self, args):
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        self.threadlock.release()
-        self.levellock.acquire()
-
-        self.cue=None
-        self.instrument={}
-        d={}
-        d['level'] = 0
-        self.instrument[args['instrument']]=d
-            
-        self.levellock.release()
-        
-    def set_type_real(self, args):
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        self.threadlock.release()
-        self.levellock.acquire()
-
-        self.type=args['type']
-
-        self.levellock.release()
-        
     def set_level_real(self, args):
         self.levellock.acquire()
         level=lb.make_level(args['level'])
         self.level=level
         ratio=float(level)/float(lb.dimmer_range)
 
-        #print self.name+' '+str(level)
-
-        if (self.cue): 
-            for (name, ins) in self.cue.instrument.items():
-                for (attrname, attrval) in ins.items():
-                    setlevel=int(float(attrval)*ratio)
-                    self.instrument[name][attrname]=setlevel
-                    if (not self.callback):
-                        instrument=lb.instrument[name]
-                        instrument.set_attribute(attribute=attrname, value=setlevel, source=self.sourcename, type=self.type)
-        else:
-            for (name, dict) in self.instrument.items():
-                ins = lb.instrument[name]
-                dict['level']=level
+        self.act_on_set_ratio (ratio)
                 
         if (self.callback):
             self.callback(self.callback_arg, self.name, self.instrument)
 
         self.levellock.release()
+
+    def act_on_set_ratio(self, ratio):
+        # talk to instruments here...
+        pass
         
     def run_real(self, args):
         self.threadlock.acquire()
@@ -253,8 +154,3 @@ class fader:
             return
         self.threadlock.release()
 
-    def clear_real (self, args):
-        self.wait_for()
-        self.set_level_real({'level':0})
-        self.cue=None
-        self.instrument={}

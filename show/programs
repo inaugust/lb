@@ -1,19 +1,19 @@
 <programs>
   <program name="prog1">
     <init>
-      <fader_load fader="house_fader" instrument="house" />
+      <levelfader_load levelfader="house_fader" instrument="house" />
     </init>
 
     <step>
-      <fader_level fader="house_fader" level="100%" />
+      <levelfader_level levelfader="house_fader" level="100%" />
     </step>
 
     <step>
-      <fader_run fader="house_fader" level="50%" time="5s" />
+      <levelfader_run levelfader="house_fader" level="50%" time="5s" />
     </step>
 
     <step>
-      <fader_run fader="house_fader" level="0%" time="5s" />
+      <levelfader_run levelfader="house_fader" level="0%" time="5s" />
     </step>
 
     <step>
