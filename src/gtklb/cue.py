@@ -208,13 +208,14 @@ class cue(completion):
             self.update_refs()
 
     def update_refs(self):
-        if (lb.cue.has_key(self.name)):
-            old = lb.cue[self.name]
-            edit_menu.remove(old.edit_menu_item)
-        lb.cue[self.name]=self
-            
         threads_enter()
         try:
+            if (lb.cue.has_key(self.name)):
+                old = lb.cue[self.name]
+                edit_menu.remove(old.edit_menu_item)
+
+            lb.cue[self.name]=self
+            
             i=GtkMenuItem(self.name)
             self.edit_menu_item=i
             edit_menu.append(i)

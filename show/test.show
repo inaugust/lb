@@ -2,17 +2,17 @@
 <instruments>
 
   <color_mixer_instrument name="cyc" red="cyc_red" green="cyc_green" blue="cyc_blue"/>
+  <instrument name="2" core="LB1" dimmer="2"/>
   <instrument name="8" core="LB1" dimmer="8"/>
   <instrument name="9" core="LB1" dimmer="9"/>
   <instrument name="6" core="LB1" dimmer="6"/>
   <instrument name="7" core="LB1" dimmer="7"/>
   <instrument name="4" core="LB1" dimmer="4"/>
   <instrument name="5" core="LB1" dimmer="5"/>
-  <instrument name="2" core="LB1" dimmer="2"/>
+  <instrument name="house1" core="LB1" dimmer="65"/>
   <instrument name="3" core="LB1" dimmer="3"/>
   <instrument name="house3" core="LB1" dimmer="67"/>
   <instrument name="house2" core="LB1" dimmer="66"/>
-  <instrument name="house1" core="LB1" dimmer="65"/>
   <instrument name="cyc_green" core="LB1" dimmer="21"/>
   <instrument name="cyc_red" core="LB1" dimmer="20"/>
   <instrument name="1" core="LB1" dimmer="1"/>
@@ -79,7 +79,7 @@
       <levelfader_load instrument="house1" levelfader="house_fader"/>
     </init>
     <step name="Cue 1">
-      <proc_run id="foo" instruments="moving1, 2, 3" proc="chase"/>
+      <proc_run instruments="moving1, 2, 3" id="foo" proc="chase"/>
     </step>
   </program>
 
@@ -87,23 +87,23 @@
     <init>
     </init>
     <step name="Cue 1">
-      <crossfader_load cue="1" crossfader="X1"/>
+      <crossfader_load crossfader="X1" cue="1"/>
       <crossfader_run downtime="4s" crossfader="X1" uptime="4s"/>
     </step>
     <step name="Cue 2">
-      <crossfader_load cue="2" crossfader="X1"/>
+      <crossfader_load crossfader="X1" cue="2"/>
       <crossfader_run downtime="3s" crossfader="X1" uptime="3s"/>
     </step>
     <step name="Cue 1">
-      <crossfader_load cue="1" crossfader="X1"/>
+      <crossfader_load crossfader="X1" cue="1"/>
       <crossfader_run downtime="2s" crossfader="X1" uptime="2s"/>
     </step>
     <step name="Cue 2">
-      <crossfader_load cue="2" crossfader="X1"/>
+      <crossfader_load crossfader="X1" cue="2"/>
       <crossfader_run downtime="1s" crossfader="X1" uptime="1s"/>
     </step>
     <step name="Cue 1">
-      <crossfader_load cue="1" crossfader="X1"/>
+      <crossfader_load crossfader="X1" cue="1"/>
       <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s"/>
     </step>
   </program>
@@ -127,6 +127,7 @@
 <procedures>
 
   <procedure name="chase" args="instruments">
+
 # arguments:  instruments (list)
 
 import math, time, string
@@ -137,10 +138,10 @@ count=0
 prev=None
 while(self.running):
   ins = lb.instrument[instruments[count]]
-  ins.set_attribute(attribute='level', value='100%', source=self.name)
+  ins.set_attribute('level', '100%')
   print ins
   if (prev):
-    prev.set_attribute(attribute='level', value='0%', source=self.name)
+    prev.set_attribute('level', '0%')
     print prev
   prev=ins 
   count=count+1
@@ -149,10 +150,11 @@ while(self.running):
   time.sleep(0.5)
 
 if (prev):
-    prev.set_attribute(attribute='level', value='0%', source=self.name)
+    prev.set_attribute('level', '0%')
+  
   </procedure>
-
   <procedure name="circle" args="instrument, center, radius">
+
 # arguments:  instrument, center, radius
 
 import math, time, string
@@ -178,9 +180,10 @@ while(self.running):
   t=t+.1
   time.sleep(0.5)
 
+  
   </procedure>
-
   <procedure name="benchmark" args="">
+
 import math, time, string
 
 ins=[]
@@ -193,6 +196,11 @@ for y in range(1,4*80):
     x.set_attribute(attribute='target', value='(10ft, 10ft, 10ft)')
 e=time.time()
 print 'set', 4*80*50 ,'instruments in ', e-s
+  
   </procedure>
 </procedures>
+<processes>
+
+  <process name="foo" procedure="chase" instruments= "1,2" />
+</processes>
 </show>
