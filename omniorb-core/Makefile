@@ -45,6 +45,8 @@ IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
 IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc $(file)DynSK.cc) \
 	$(foreach file,$(IDL_FILES),$(file)SK.cc $(file)DynSK.cc)
 
+all: lb
+
 lb : idl $(OBJECTS)
 	$(CXX) -o lb $(LDFLAGS) $(OBJECTS) 
 
