@@ -95,6 +95,39 @@ getRootNamingContext(CORBA::ORB_ptr orb)
   return rootContext;
 }
 
+static CORBA::Boolean
+bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref, 
+                 const char* id, const char* kind)
+{
+  
+  try { 
+    CosNaming::NamingContext_ptr rootContext = getRootNamingContext(orb);
+    
+    // Bind objref with name Echo to the testContext:
+    CosNaming::Name objectName;
+    objectName.length(1);
+    objectName[0].id   = id;   // string copied
+    objectName[0].kind = kind; // string copied
+    
+    try {
+      rootContext->bind(objectName, objref);
+    }
+    catch(CosNaming::NamingContext::AlreadyBound& ex) {
+      rootContext->rebind(objectName, objref);
+    }
+  }
+  catch(CORBA::COMM_FAILURE& ex) {
+    cerr << "Caught system exception COMM_FAILURE -- unable to "
+         << "contact the naming service." << endl;
+    return 0;
+  }
+  catch(CORBA::SystemException&) {
+    cerr << "Caught a CORBA::SystemException while using the "
+         << "naming service." << endl;
+    return 0;
+  }
+  return 1;
+}
 
 int main(int argc, char** argv)
 {
@@ -106,6 +139,10 @@ int main(int argc, char** argv)
     CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
     PortableServer::POA_var poa = PortableServer::POA::_narrow(obj);
 
+    // Obtain the Naming Service
+    CosNaming::NamingContext_ptr namectx = getRootNamingContext(orb);
+
+
     // We allocate the objects on the heap.  Since these are reference
     // counted objects, they will be deleted by the POA when they are no
     // longer needed.
@@ -115,6 +152,7 @@ int main(int argc, char** argv)
     // ready to accept requests.
     PortableServer::ObjectId_var myLB_Lightboard_iid = poa->activate_object(myLB_Lightboard_i);
     
+
     // Obtain a reference to each object and output the stringified
     // IOR to stdout
 
@@ -122,6 +160,11 @@ int main(int argc, char** argv)
     /*    {  */
       // IDL interface: LB::Lightboard
       lb = myLB_Lightboard_i->_this();
+
+      // Register the object with the naming service.
+      if( !bindObjectToName(orb, lb, "lb", "Lightboard") )
+            return 1;
+
       {
       CORBA::String_var sior(orb->object_to_string(lb));
       cout << "IDL object LB::Lightboard IOR = '" << (char*)sior << "'" << endl;
