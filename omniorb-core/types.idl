@@ -1,0 +1,28 @@
+#ifndef _TYPES_IDL_
+#define _TYPES_IDL_
+
+module LB
+{
+  struct AttrValue
+  {
+    string attr;
+    string value;
+  };
+
+  struct InstAttrs
+  {
+    string name;
+    sequence<AttrValue> attrs;
+  };
+
+  struct Cue
+  {
+    string name;
+    sequence<InstAttrs> ins;
+  };
+
+  typedef sequence<string> AttrList;
+    
+};
+
+#endif /* _TYPES_IDL_ */

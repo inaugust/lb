@@ -1,0 +1,12 @@
+#include "Instrument.idl"
+ 
+module LB
+{
+  
+  interface MovingInstrument : Instrument
+  {
+    void setTarget(in string target);
+    string getTarget();
+  };
+
+};

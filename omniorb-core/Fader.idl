@@ -1,0 +1,21 @@
+#ifndef _FADER_IDL_
+#define _FADER_IDL_
+
+#include "types.idl"
+
+module LB
+{
+  interface Fader
+  {
+    readonly attribute string name;
+
+    void run (in string level, in string time);
+    void stop ();
+    void setLevel (in string level);
+    boolean isRunning ();
+    // wait for
+  };
+
+};
+
+#endif /* _FADER_IDL_ */

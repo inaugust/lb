@@ -1,0 +1,22 @@
+#ifndef _INSTRUMENT_IDL_
+#define _INSTRUMENT_IDL_
+
+#include "types.idl"
+
+module LB
+{
+  interface Instrument
+  {
+    readonly attribute string name;
+
+    void setAttribute(in string attr, in string value);
+    AttrList getAttributes();
+
+    void setLevel (in string level);
+    string getLevel ();
+  };
+  
+};
+
+
+#endif /* _INSTRUMENT_IDL_ */

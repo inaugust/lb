@@ -1,0 +1,23 @@
+#ifndef _LIGHTBOARD_IDL_
+#define _LIGHTBOARD_IDL_
+
+#include "types.idl"
+#include "Instrument.idl"
+#include "MovingInstrument.idl"
+#include "Fader.idl"
+#include "CueFader.idl"
+#include "Dimmer.idl"
+
+module LB
+{
+  interface Lightboard
+  {
+    readonly attribute unsigned long dimmerRange;
+
+    Instrument getInstrument (in string name);
+    Fader getFader (in string name);
+    Dimmer getDimmer (in string name);
+  };
+};
+
+#endif /* _LIGHTBOARD_IDL_ */

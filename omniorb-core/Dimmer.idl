@@ -1,0 +1,21 @@
+#ifndef _DIMMER_IDL_
+#define _DIMMER_IDL_
+
+#include "types.idl"
+
+module LB
+{
+  interface Dimmer
+  {
+    readonly attribute string name;
+    readonly attribute string device;
+    readonly attribute unsigned short number;
+
+    void setValue (in string value);
+    string getValue ();
+  };
+  
+};
+
+
+#endif /* _DIMMER_IDL_ */
