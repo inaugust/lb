@@ -84,8 +84,9 @@ class CueEditor(completion):
         self.cue = None
         self.initialized = 0
         self.child_windows=[]
+        self.cue_menu_handler_id = None
 
-    def set_cue (self, cue, reinit = 0):
+    def set_cue (self, cue, reinit = 0, update_menu = 1):
         if (not reinit):
             self.cue = cue
 
@@ -111,7 +112,8 @@ class CueEditor(completion):
 
         w=self.editTree.get_widget("cueEdit")
         w.set_title ('Edit Cue %s' % self.cue.name)
-        self.update_cue_menu()
+        if (update_menu):
+            self.update_cue_menu()
             
     def update_display2(self, name):
         """just update it"""
@@ -559,30 +561,25 @@ class CueEditor(completion):
 
     def cue_changed(self, widget, data=None):
         menu = self.editTree.get_widget("cueMenu")
-        name = menu.children()[0].get()
+        name = menu.entry.get_text()
         newcue = lb.cue[name].copy()
         self.cue.set_editing(0)
         newcue.editor=self
-        self.set_cue(newcue)
+        self.set_cue(newcue, update_menu=0)
         threads_leave()
         self.update_display()
         threads_enter()
 
     def update_cue_menu(self):
-        entry = self.editTree.get_widget("cueMenu")
-        menu=GtkMenu()
-        menu.connect ("selection-done", self.cue_changed, None)
-        count = 0
-        current = 0
-        for c in lb.cue.keys():
-            if c == self.cue.name:
-                current = count
-            menu.append(GtkMenuItem(c))
-            count = count + 1
-        menu.show_all()
-        entry.set_menu(menu)
-        entry.set_history(current)
-
+        combo = self.editTree.get_widget("cueMenu")
+        if self.cue_menu_handler_id is not None:
+            combo.entry.disconnect (self.cue_menu_handler_id)
+        entries = lb.cue.keys()[:]
+        if entries:
+            combo.set_popdown_strings(entries)
+        combo.entry.set_text(self.cue.name)
+        self.cue_menu_handler_id = combo.entry.connect ("changed", self.cue_changed, None)
+        
     def edit(self):        
         if (self.initialized):
             return
