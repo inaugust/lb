@@ -3,15 +3,14 @@
 # When you set this instrument's color and level, it will set the
 # appropriate levels of the other instruments.
 
-from xmllib import XMLParser
 from os import path
 import lightboard
 import time
 import attribute_widgets
-from instrument import instrument
+from instrument import Instrument
 
 from xml.parsers import expat
-from ExpatXMLParser import ExpatXMLParser
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 from idl import LB
 
 def initialize():
@@ -23,41 +22,22 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
-    
+def load(tree):
+    for section in tree.find("instruments"):
+        for ins in section.find("color_mixer_instrument"):
+            i=ColorMixerInstrument(ins.attrs['name'], ins.attrs['red'],
+                                   ins.attrs['green'], ins.attrs['blue'])
+
+                         
 def save():
     # instrument's routine is sufficient
     pass
 
-class parser(ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.__init__(self)
-        self.in_instruments=0
-
-    def start_instruments (self, attrs):
-        self.in_instruments=1
-
-    def end_instruments (self):
-        self.in_instruments=0
         
-    def start_color_mixer_instrument (self, attrs):
-        if (not self.in_instruments):
-            return
-        name = attrs['name']
-        red =  attrs['red']
-        green = attrs['green']
-        blue = attrs['blue']
-        lb.instrument[attrs['name']]=color_mixer_instrument(name,
-                                                            red, green, blue)
-        
-        
-class color_mixer_instrument(instrument):
+class ColorMixerInstrument(Instrument):
 
     attributes=('level','color',)
-    driver='color_mixer_instrument'
+    module='color_mixer_instrument'
 
     def __init__(self, name, red, green, blue):
         self.name=name
@@ -66,14 +46,19 @@ class color_mixer_instrument(instrument):
         self.blue_name = blue
         self.level = [0.0]
         self.color = [0.0, 0.0, 0.0]
-        
+
+        if (lb.instrument.has_key(self.name)):
+            pass
+        lb.instrument[self.name]=self
+
     #public
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        s=s+sp+'<%s name="%s" red="%s" green="%s" blue="%s"/>\n' % (self.driver, self.name, self.red_name, self.green_name, self.blue_name)
-        return s
+    def to_tree(self):
+        instrument = DOMNode(self.module, {'name':self.name,
+                                           'red':self.red_name,
+                                           'green':self.green_name,
+                                           'blue':self.blue_name})
+        return instrument
 
     def set_level (self, level):
         self.level = lb.value_to_core('level', level)

@@ -11,8 +11,8 @@ from rexec import RExec
 import __builtin__
 import __main__
 from completion import completion
-from ExpatXMLParser import ExpatXMLParser
-import instrument
+from ExpatXMLParser import ExpatXMLParser, DOMNode
+import attribute_widgets
 
 import os
 os.environ['IDLPATH']=os.environ.get('IDLPATH','')+'/usr/share/idl:/usr/local/share/idl:omniorb-core'
@@ -36,6 +36,55 @@ class parser(ExpatXMLParser):
 
     def get_name (self):
         return self.name
+
+
+class TreeParser (ExpatXMLParser):
+    def __init__(self):
+        ExpatXMLParser.__init__(self)
+        self.tree = None
+        self.stack = []
+
+    def unknown_starttag (self, name, attrs):
+        n = DOMNode(name, attrs)
+        if len(self.stack) == 0:
+            self.tree = n
+        else:
+            self.stack[-1].append(n)
+        self.stack.append(n)
+
+    def unknown_endtag (self, name):        
+        self.stack.pop()
+
+    def handle_data (self, data):
+        self.stack[-1].add_data(data)
+
+class TreeWriter:
+    def __init__ (self, level=0):
+        self.s = ''
+        self.ilevel=level
+
+    def get_string (self):
+        return self.s
+    
+    def indent(self):
+        return ' '*self.ilevel
+        
+    def write(self, tree):
+        self.s=self.s+self.indent()+'<'+tree.tag+' '
+        for a,v in tree.attrs.items():
+            self.s = self.s + a + '="' + str(v) + '" '
+        if len(tree.children) == 0 and len(tree.data) == 0:
+            self.s = self.s + '/>\n'
+        else:
+            self.s = self.s + '>\n'
+            self.ilevel = self.ilevel + 2
+            for n in tree.children:
+                self.write(n)
+            if (len (tree.data)):
+                self.s = self.s + self.indent() + tree.data + "\n"
+            self.ilevel = self.ilevel - 2
+            self.s=self.s+self.indent()+'</'+tree.tag+'>\n'
+    
 
 class lightboard(completion, LB__POA.Client):
 
@@ -158,17 +207,24 @@ class lightboard(completion, LB__POA.Client):
     def load_show(self, datafile):
         self.write("Loading show " + datafile + "\n")
         self.datafile = datafile
+
         f=open(datafile)
-        p=parser()
         data = f.read()
+
+        p=parser()
         p.Parse(data)
         p.close()
         self.undo_bindings()        
         self.show = p.get_name()
         self.do_bindings()
+
+        p=TreeParser()
+        p.Parse(data)
+        p.close()
+        tree = p.tree
         
         for lib in self._libraries:
-            lib.load(data)
+            lib.load(tree)
         self.write("Now working in show " + self.show +"\n")
 
     def save_show(self, datafile=None):
@@ -177,14 +233,14 @@ class lightboard(completion, LB__POA.Client):
         else:
             datafile = self.datafile
 
-        s = '<show name="%s">\n' % self.show
+        tree = DOMNode('show', {'name':self.show})
 
         for lib in self._libraries:
-            r = lib.save()
-            if (r is not None):
-                s=s+r
-
-        s=s+ '</show>\n'
+            tree.append (lib.save())
+            
+        writer = TreeWriter()
+        writer.write(tree)
+        s = writer.get_string()
         f=open(datafile, "w")
         f.write(s)
 
@@ -197,15 +253,11 @@ class lightboard(completion, LB__POA.Client):
             for lib in self._libraries:
                 lib.reset()
         else:
-            s = '<show name="%s">\n' % self.show
+            tree = DOMNode('show', {'name':self.show})            
             for lib in self._libraries:
-                r = lib.save()
-                if (r is not None):
-                    s=s+r
-            s=s+ '</show>\n'
-            print s
+                tree.append (lib.save())
             for lib in self._libraries:                    
-                lib.load(s)
+                lib.load(tree)
         self.write("Now working in show " + self.show +"\n")
         
     def exit (self):
@@ -245,16 +297,16 @@ class lightboard(completion, LB__POA.Client):
         return map(operator.getitem, intermed, (-1,) * len(intermed))
 
     def core_attr_id (self, name):
-        return instrument.attribute_mapping[name][0]
+        return attribute_widgets.attribute_mapping[name][0]
 
     def attr_widget (self, name):
-        return instrument.attribute_mapping[name][1]
+        return attribute_widgets.attribute_mapping[name][1]
             
     def value_to_string(self, name, value):
-        return instrument.attribute_mapping[name][3](value)
+        return attribute_widgets.attribute_mapping[name][3](value)
 
     def value_to_core(self, name, value):
-        return instrument.attribute_mapping[name][2](value)
+        return attribute_widgets.attribute_mapping[name][2](value)
 
     def create_window(self):
         threads_enter()
@@ -374,14 +426,20 @@ class lightboard(completion, LB__POA.Client):
 
     def receiveData(self, data):
         print 'got data', data
+        p=TreeParser()
+        p.Parse(data)
+        p.close()
+        tree = p.tree
         for lib in self._libraries:                    
-            lib.load(data)
+            lib.load(tree)
 
-    def sendData(self, data):
-        s = '<show name="%s">\n' % self.show
-        s = s + data
-        s = s + '</show>\n'
-        data = s
+    def sendData(self, subtree):
+        tree = DOMNode('show', {'name':self.show})
+        tree.append(subtree)
+
+        writer = TreeWriter()
+        writer.write(tree)
+        data = writer.get_string()
         (foo,iterator) = self.client_context.list(0)
         while 1:
             (c,b)=iterator.next_one()

@@ -7,9 +7,11 @@ import sys
 import gtk
 
 libraries=(
+  'attribute_widgets',
   'program',
   'instrument',
   'color_mixer_instrument',
+  'meta_instrument',
   'cue',
   'fader',
   'crossfader',

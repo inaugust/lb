@@ -1,7 +1,7 @@
 from threading import *
-from xmllib import XMLParser
 from os import path
 import string, cStringIO
+from ExpatXMLParser import DOMNode
 import ExpatXMLParser
 from gtk import *
 from libglade import *
@@ -41,18 +41,17 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
+def load(tree):
+    for section in tree.find("procedures"):
+        for proc in section.find("procedure"):
+            p = Procedure (proc.attrs['name'], proc.attrs['args'])
+            p.set_proc (proc.data)
 
 def save():
-    s="<procedures>\n\n"
-    for c in lb.procedure.values():
-        s=s+c.to_xml(1)
-    s=s+"</procedures>\n"
-    return s
-
+    tree = DOMNode('procedures')
+    for i in lb.procedure.values():
+        tree.append(i.to_tree())
+    return tree
 
 class procedureFactory:
     def ok_clicked(self, widget, data=None):
@@ -66,7 +65,7 @@ class procedureFactory:
         if (string.strip(name) != ''):
             if not lb.procedure.has_key(name):
                 threads_leave()
-                p=procedure(name, args)
+                p=Procedure(name, args)
                 p.set_proc(source)
                 p.send_update()
                 threads_enter()
@@ -98,36 +97,8 @@ def newProcedure_cb(widget, data=None):
     f = procedureFactory()
     threads_enter()
     # that's it.
-
-
-class parser(ExpatXMLParser.ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.ExpatXMLParser.__init__(self)
-        self.in_procedures=0
-        self.proc = ''
         
-    def start_procedures (self, attrs):
-        self.in_procedures=1
-
-    def end_procedures (self):
-        self.in_procedures=0
-
-    def start_procedure (self, attrs):
-        if (not self.in_procedures): return
-        self.procedure=procedure (attrs['name'], attrs['args'])
-        self.proc = ''
-
-    def end_procedure (self):
-        if (not self.in_procedures): return
-        self.procedure.set_proc (self.proc)
-        self.procedure=None
-
-    def handle_data (self, data):
-        if (not self.in_procedures): return
-        if (hasattr(self,'procedure') and self.procedure):
-            self.proc=self.proc+data
-        
-class procedure:
+class Procedure:
 
     def __init__(self, name, args, update_refs=1):
         self.name = name
@@ -155,28 +126,25 @@ class procedure:
             threads_leave()
 
     def copy(self):
-        p = procedure(self.name, self.argstr, update_refs = 0)
+        p = Procedure(self.name, self.argstr, update_refs = 0)
         p.set_proc(self.proc)
         p.edit_menu_item = self.edit_menu_item
         return p
         
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
+    def to_tree(self):
         args = ''
         for a in self.args:
             args=args+a+', '
         args=args[:-2]
-        s = s + sp + '<procedure name="%s" args="%s">\n' % (self.name, args)
-        s = s + ExpatXMLParser.reverse_translate_references(self.proc) + "\n"
-        s = s + sp + '</procedure>\n'
-        return s
+        p = DOMNode('procedure', {'name':self.name, 'args':args})
+        data = ExpatXMLParser.reverse_translate_references(self.proc) + "\n"
+        p.add_data(data)
+        return p
 
     def send_update(self):
-        s="<procedures>\n\n"
-        s=s+self.to_xml(1)+"\n"
-        s=s+"</procedures>\n"
-        lb.sendData(s)
+        tree = DOMNode('procedures')
+        tree.append(self.to_tree())
+        lb.sendData(tree)
 
     def set_args (self, args):
         self.argstr = args

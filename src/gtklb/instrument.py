@@ -1,35 +1,11 @@
-from xmllib import XMLParser
 from os import path
 import lightboard
 import time
-import attribute_widgets
 
-from xml.parsers import expat
-from ExpatXMLParser import ExpatXMLParser
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 from idl import LB
 
-instrument_attributes = (
-    'level',
-    )
-
-attribute_mapping = {
-    'level': (LB.attr_level,
-              attribute_widgets.LevelWidget,
-              attribute_widgets.level_string_to_core,
-              attribute_widgets.level_core_to_string),
-    'color': (LB.attr_color,
-              attribute_widgets.ColorWidget,
-              attribute_widgets.color_string_to_core,
-              attribute_widgets.color_core_to_string),
-    'time': (None, 
-             None,
-             attribute_widgets.time_string_to_core,
-             attribute_widgets.time_core_to_string)
-    }
-
-
 def initialize():
-    attribute_widgets.initialize()
     reset()
     
 def reset():
@@ -38,46 +14,34 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
-    
+def load(tree):
+    for section in tree.find("instruments"):
+        for ins in section.find("instrument"):
+            i=Instrument(ins.attrs)
+            
 def save():
-    s="<instruments>\n\n"
-    for c in lb.instrument.values():
-        s=s+c.to_xml(1)
-    s=s+"</instruments>\n"
-    return s
+    tree = DOMNode('instruments')
+    for i in lb.instrument.values():
+        tree.append(i.to_tree())
+    return tree
 
-class parser(ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.__init__(self)
-        self.in_instruments=0
-
-    def start_instruments (self, attrs):
-        self.in_instruments=1
-
-    def end_instruments (self):
-        self.in_instruments=0
-        
-    def start_instrument (self, attrs):
-        if (not self.in_instruments):
-            return
-        lb.instrument[attrs['name']]=instrument(attrs['name'],
-                                                attrs['core'],
-                                                int(attrs['dimmer']))
-        
-class instrument:
+class Instrument:
 
     attributes=('level',)
-    driver='instrument'
+    module='instrument'
 
-    def __init__(self, name, corename, dimmer_number):
-        self.name=name
-        self.corename=corename
-        self.dimmer_number=dimmer_number
-        self.coreinstrument=lb.get_instrument(name)
+    def __init__(self, args):
+        self.name = args['name']
+        self.driver = args['driver']
+        self.corename = args['core']
+
+        self.arglist = []
+        for n,v in args.items():
+            if n in ('name', 'driver', 'core'):
+                continue
+            self.arglist.append(LB.Argument(n,v))
+
+        self.coreinstrument=lb.get_instrument(self.name)
         if (self.coreinstrument is not None):
             e=0
             try:
@@ -86,20 +50,32 @@ class instrument:
                 self.coreinstrument=None
             if (e): self.coreinstrument=None
         if (self.coreinstrument is None):
-            c = lb.get_core(corename)
-            c.createInstrument (lb.show, name, dimmer_number)
-        self.coreinstrument=lb.get_instrument(name)
+            c = lb.get_core(self.corename)
+            c.createInstrument (lb.show, self.name, self.driver, self.arglist)
+            self.coreinstrument=lb.get_instrument(self.name)
+
+        attrlist = []
+        for attr in self.coreinstrument.getAttributes():
+            for (name, t) in attribute_widgets.attribute_mapping.items():
+                if t[0] == attr:
+                    attrlist.append(name)
+        self.attributes = tuple(attrlist)
+        
+        if (lb.instrument.has_key(self.name)):
+            pass
+        lb.instrument[self.name]=self
+
         
     #public
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        s=s+sp+'<%s name="%s" core="%s" dimmer="%s"/>\n' % (self.driver,
-                                                           self.name,
-                                                           self.corename,
-                                                           self.dimmer_number)
-        return s
+    def to_tree(self):
+        dict = self.arglist.copy()
+        dict['name']=self.name
+        dict['driver']=self.driver
+        dict['core']=self.corename
+
+        instrument = DOMNode(self.module, dict)
+        return instrument
 
     def get_attribute (self, name):
         if name == 'level':

@@ -3,8 +3,7 @@ from xmllib import XMLParser
 from os import path
 import string
 import process
-from ExpatXMLParser import ExpatXMLParser
-from cue import cue
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 import time
 from gtk import *
 import GDK
@@ -69,17 +68,36 @@ def shutdown():
     for p in lb.program.values():
         p.stop()
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
+def load(tree):
+    for section in tree.find("programs"):
+        for pgam in section.find("program"):
+            p=Program (pgam.attrs['name'])
+            for init in pgam.find("init"):
+                s=Step(p)
+                s.name='<init>'
+                p.init_step=s
+                for action in init.children:
+                    kind=string.lower(action.tag)
+                    a = Action(p)
+                    a.kind = kind
+                    a.args = action.attrs
+                    s.actions.append (a)
+            for step in pgam.find("step"):
+                s = Step (p)
+                s.name=step.attrs['name']
+                p.actions.append(s)
+                for action in step.children:
+                    kind=string.lower(action.tag)
+                    a = Action(p)
+                    a.kind = kind
+                    a.args = action.attrs
+                    s.actions.append (a)
 
 def save():
-    s="<programs>\n\n"
+    tree = DOMNode('programs')
     for p in lb.program.values():
-        s=s+p.to_xml(1)+"\n"
-    s=s+"</programs>\n"
-    return s
+        tree.append(p.to_tree())
+    return tree
 
 class programFactory:
     def __init__(self):
@@ -104,7 +122,7 @@ class programFactory:
         if (string.strip(name) != ''):
             if not lb.program.has_key(name):
                 threads_leave()
-                p=program(name)
+                p=Program(name)
                 p.send_update()
                 threads_enter()
         w.destroy()
@@ -128,14 +146,14 @@ def newDruid_cb(widget, data=None):
     threads_enter()
     # that's it.
 
-class action:
+class Action:
     def __init__(self, my_prog):
         self.program = my_prog
         self.kind = 'no-op'
         self.args = {}
 
     def copy(self):
-        s = action(self.program)
+        s = Action(self.program)
         s.kind = self.kind
         s.args = self.args.copy()
         return s
@@ -246,14 +264,14 @@ class action:
         self.window_change(data = self.args)
         return win
 
-class step:
+class Step:
     def __init__(self, my_prog):
         self.program = my_prog
         self.name=''
         self.actions=[]
 
     def copy(self):
-        s = step(self.program)
+        s = Step(self.program)
         s.name = self.name
         s.actions = map(lambda(x): x.copy(), self.actions)
         return s
@@ -278,101 +296,12 @@ class step:
         ok.connect ("clicked", self.ok_clicked, None)
         cancel.connect ("clicked", win.destroy)
         return win
-    
-class loop(step):
-    def __init__(self):
-        self.name=''
-        self.start=-1
-        self.stop=-1
-        self.actions=[]
 
-class parser(ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.__init__(self)
-        self.in_programs=0
-        
-    def start_programs (self, attrs):
-        self.in_programs=1
-
-    def end_programs (self):
-        self.in_programs=0
-    
-    def start_program (self, attrs):
-        if (not self.in_programs): return
-        self.program=program (attrs['name'])
-        self.pstack=[self.program]
-        self.init=0
-
-    def end_program (self):
-        if (not self.in_programs): return
-        pass
-    
-    def start_step (self, attrs):
-        if (not self.in_programs): return
-        s = step (self.program)
-        self.pstack.append (s)
-        if (attrs.has_key('name')):
-            s.name=attrs['name']
-        else:
-            s.name="None"
-            
-    def end_step (self):
-        if (not self.in_programs): return
-        s = self.pstack.pop ()
-        top = self.pstack[-1]
-        top.actions.append(s)
-
-    def start_loop (self, attrs):
-        if (not self.in_programs): return
-        print "loops not supported!"
-        return
-        l=loop()
-        self.pstack.append (l)
-        if (attrs.has_key('name')):
-            l.name=attrs['name']
-        l.start=int(attrs['start'])
-        l.stop=int(attrs['stop'])
-        if l.start<0 or l.stop<0:
-            print "error"
-
-    def end_loop (self):
-        if (not self.in_programs): return
-        return
-        l=self.pstack.pop()
-        top = self.pstack[-1]
-        top.actions.append(l)
-        
-    def start_init (self, attrs):
-        if (not self.in_programs): return
-        s=step(self.program)
-        self.pstack.append (s)
-        s.name='<init>'
-        self.init=self.init+1
-
-    def end_init (self):
-        if (not self.in_programs): return
-        self.init=self.init-1
-        if (self.init==0):
-            s=self.pstack.pop()
-            self.program.init_step=s
-        else:
-            print "nested inits"
-            
-    def unknown_starttag (self, tag, attrs):
-        if (not self.in_programs): return
-        tag=string.lower(tag)
-        top=self.pstack[-1]
-        act = action(self.program)
-        act.kind = tag
-        act.args = attrs
-        top.actions.append (act)
-        
-
-class program:
+class Program:
 
     def __init__(self, name):
         self.name=name
-        self.init_step=step(self)
+        self.init_step=Step(self)
         self.init_step.name='<init>'
         self.actions=[]
         self.current_step=None
@@ -429,7 +358,7 @@ class program:
         self.current_step=None
         self.set_next_step(0)
         self.run_actions(self.init_step.actions)
-        self.mythread=Thread (target=program.do_run, args=(self,
+        self.mythread=Thread (target=Program.do_run, args=(self,
                                                            self.actions))
         self.mythread.start()
         self.threadlock.release()
@@ -453,35 +382,25 @@ class program:
         self.ui_set_next_step()
         self.stepnumlock.release()
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        s=s+sp+'<program name="%s">\n' % self.name
-        s=s+sp+'  <init>\n'
+    def to_tree(self):
+        program = DOMNode('program', {'name':self.name})
+        init = DOMNode('init')
+        program.append(init)
         for act in self.init_step.actions:
-            l='    <%s' % act.kind
-            for a,v in act.args.items():
-                l=l+' %s="%s"' % (a,v)
-            l=l+'/>\n'
-            s=s+sp+l
-        s=s+sp+'  </init>\n'
+            action = DOMNode(act.kind, act.args)
+            init.append(action)
         for stp in self.actions:
-            s=s+sp+'  <step name="%s">\n' % stp.name
+            step = DOMNode('step', {'name':stp.name})
+            program.append(step)
             for act in stp.actions:
-                l='    <%s' % act.kind
-                for a,v in act.args.items():
-                    l=l+' %s="%s"' % (a,v)
-                l=l+'/>\n'
-                s=s+sp+l
-            s=s+sp+'  </step>\n'
-        s=s+sp+'</program>\n'
-        return s
+                action = DOMNode(act.kind, act.args)
+                step.append(action)
+        return program
 
     def send_update(self):
-        s="<programs>\n\n"
-        s=s+self.to_xml(1)+"\n"
-        s=s+"</programs>\n"
-        lb.sendData(s)
+        tree = DOMNode('programs')
+        tree.append(self.to_tree())
+        lb.sendData(tree)
 
     # private
 
@@ -536,7 +455,7 @@ class program:
     def edit_add_action_clicked(self, widget, data=None):
         tree=self.editTree.get_widget("programTree")
         current = tree.selection[0]
-        act = action(self)
+        act = Action(self)
         if (current.level == 1):
             parent = current
             sibling = None
@@ -954,21 +873,21 @@ class programDruid:
                     except:
                         pass
 
-                p=program(name)
+                p=Program(name)
                 if (isinstance (f, crossfader.crossfader)):
-                    load_action = action(p)
+                    load_action = Action(p)
                     load_action.kind='crossfader_load'
                     load_action.args={'crossfader': fader_name}
-                    run_action = action(p)
+                    run_action = Action(p)
                     run_action.kind='crossfader_run'
                     run_action.args={'crossfader': fader_name,
                                       'uptime': fade_time,
                                       'downtime': fade_time}
                 if (isinstance (f, levelfader.levelfader)):
-                    load_action = action(p)
+                    load_action = Action(p)
                     load_action.kind='levelfader_load'
                     load_action.args={'levelfader': fader_name}
-                    run_action = action(p)
+                    run_action = Action(p)
                     run_action.kind='levelfader_run'
                     run_action.args={'levelfader': fader_name,
                                       'time': fade_time}

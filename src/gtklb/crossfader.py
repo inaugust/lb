@@ -1,11 +1,11 @@
 from threading import *
 from xmllib import XMLParser
-from ExpatXMLParser import ExpatXMLParser
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 from os import path
 from gtk import *
 from libglade import *
-from cue import cue
 import string
+from cue import Cue
 
 from omniORB import CORBA
 import CosNaming
@@ -24,7 +24,7 @@ def action_crossfader_load(args):
         if (old_cue and lb.cue.has_key(old_cue)):
             cue1=lb.cue[old_cue]
         else:
-            cue1=cue("")
+            cue1=Cue("")
     cue2=lb.cue[args['cue']]
     xf.setCues (cue1, cue2)
     xf.setLevel(0.0)
@@ -93,17 +93,16 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
+def load(tree):
+    for section in tree.find("crossfaders"):
+        for xf in section.find("crossfader"):
+            c = CrossFader (xf.attrs['name'], xf.attrs['core'])
 
 def save():
-    s="<crossfaders>\n\n"
-    for c in lb.crossfader.values():
-        s=s+c.to_xml(1)
-    s=s+"</crossfaders>\n"
-    return s
+    tree = DOMNode('crossfaders')
+    for i in lb.crossfader.values():
+        tree.append(i.to_tree())
+    return tree
 
 class crossFaderFactory:
     def __init__(self):
@@ -143,7 +142,7 @@ class crossFaderFactory:
             corename = o.children()[0].get()
             if not lb.crossfader.has_key(name):
                 threads_leave()
-                c = crossfader(name, corename)
+                c = CrossFader(name, corename)
                 c.send_update()
                 threads_enter()
         w.destroy()
@@ -159,23 +158,8 @@ def newCrossFader_cb(widget, data=None):
     threads_enter()
     # that's it.
 
-class parser(ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.__init__(self)
-        self.in_crossfaders=0
 
-    def start_crossfaders (self, attrs):
-        self.in_crossfaders=1
-
-    def end_crossfaders (self):
-        self.in_crossfaders=0
-        
-    def start_crossfader (self, attrs):
-        if (not self.in_crossfaders): return
-        self.crossfader=crossfader (attrs['name'], attrs['core'])
-
-
-class crossfader(LB__POA.EventListener):
+class CrossFader(LB__POA.EventListener):
     """ Python wrapper for core Crossfader class"""
 
     def __init__(self, name, corename):
@@ -217,18 +201,15 @@ class crossfader(LB__POA.EventListener):
             threads_leave()
 
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        s=s+sp+'<crossfader name="%s" core="%s"/>\n' % (self.name,
-                                                        self.corename)
-        return s
+    def to_tree(self):
+        xf = DOMNode('crossfader', {'name':self.name,
+                                    'core':self.corename})
+        return xf
 
     def send_update(self):
-        s="<crossfaders>\n\n"
-        s=s+self.to_xml(1)+"\n"
-        s=s+"</crossfaders>\n"
-        lb.sendData(s)
+        tree = DOMNode('crossfaders')
+        tree.append(self.to_tree())
+        lb.sendData(tree)
 
     def run(self, level, time):
         time=lb.value_to_core('time', time)

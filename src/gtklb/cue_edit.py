@@ -14,7 +14,7 @@ import cue
 from omniORB import CORBA
 from idl import LB, LB__POA
 
-tree_columns=['level', 'color']
+tree_columns=['level', 'color', 'gobo_rpm']
 
 class instrument_cue_proxy:
     def __init__ (self, name, editor):
@@ -191,13 +191,13 @@ class cue_editor(completion):
     def update_parents_display_help(self, cue, tree, parent_node, level, in_cue):
         level = lb.value_to_string('level', [level])
         if (len(in_cue)):
-            if (len (cue.parents)): leaf = FALSE
+            if (len (cue.parent)): leaf = FALSE
             else: leaf=TRUE
             parent_node=tree.insert_node(parent_node, None, [cue.name,
                                                              level],
                                          is_leaf=leaf)
         in_cue.append(cue.name)
-        for (name, level) in cue.parents:
+        for (name, level) in cue.parent:
             in_cue = in_cue + self.update_parents_display_help(lb.cue[name], tree, parent_node, level, in_cue)
         return in_cue
     
@@ -225,7 +225,7 @@ class cue_editor(completion):
         for x in sel:
             # this works whether it's text or pixtext
             name = out_tree.get_node_info(x)[0]
-            self.cue.parents.append([name, 0.0])
+            self.cue.parent.append([name, 0.0])
         threads_leave()
         self.update_parents_display()
         threads_enter()
@@ -237,13 +237,13 @@ class cue_editor(completion):
         for x in sel:
             name = in_tree.get_node_info(x)[0]
             count = 0
-            for p, l in self.cue.parents:
+            for p, l in self.cue.parent:
                 if p == name:
                     to_remove.append(count)
                     break
                 count=count+1
         for i in to_remove:
-            del self.cue.parents[i]
+            del self.cue.parent[i]
         threads_leave()
         self.update_parents_display()
         threads_enter()
@@ -252,7 +252,7 @@ class cue_editor(completion):
         win = self.parentTree.get_widget("cueParent")
         self.child_windows.remove(win)
         if (self.cues_old_parents is not None):
-            self.cue.parents = self.cues_old_parents
+            self.cue.parent = self.cues_old_parents
         del self.cues_old_parents
 
     def parent_cancel_clicked(self, widget, data=None):
@@ -276,9 +276,9 @@ class cue_editor(completion):
         in_tree.node_set_text(node, 1, level)
         level = lb.value_to_core('level', level)[0]
         count=0
-        for p, l in self.cue.parents:
+        for p, l in self.cue.parent:
             if p == name:
-                self.cue.parents[count][1]=level
+                self.cue.parent[count][1]=level
                 break
             count=count+1
         
@@ -305,7 +305,7 @@ class cue_editor(completion):
         return 1
         
     def edit_parents(self):
-        self.cues_old_parents = self.cue.parents[:]
+        self.cues_old_parents = self.cue.parent[:]
         threads_enter()
         try:
             wTree = GladeXML ("gtklb.glade",

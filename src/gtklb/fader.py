@@ -28,7 +28,7 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
+def load(tree):
     pass
 
 def save():

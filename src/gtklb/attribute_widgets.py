@@ -3,6 +3,7 @@ import string
 from gtk import *
 from types import *
 import re
+from idl import LB
 
 hex_table = {'0':0, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8,
              '9':9, 'a':10, 'b':11, 'c':12, 'd':13, 'e':14, 'f':15,
@@ -22,6 +23,18 @@ def initialize():
         r,g,b,n = m.group(1), m.group(2), m.group(3), m.group(4)
         rgb_table[n]=(float(r)/255.0*100.0, float(g)/255.0*100.0, float(b)/255.0*100.0)
     f.close()
+
+def reset():
+    pass
+
+def shutdown():
+    pass
+
+def load(tree):
+    pass
+            
+def save():
+    pass
 
 class AttributeWidget:
 
@@ -242,3 +255,80 @@ class ColorWidget(AttributeWidget):
         c = (value[0]/100.0, value[1]/100.0, value[2]/100.0)
         self.color_widget.set_color(c)
         self.entry_widget.set_text (color_core_to_string(self.core_value))
+
+#################
+#
+# RPM - Gobo Rotator
+#
+##################
+
+def rpm_string_to_core(rpm):
+    if (type(rpm) is not StringType):
+        if (type(rpm) is not ListType):
+            return [rpm]
+        else:
+            return rpm
+    rpm=str(rpm)
+    if not len(rpm):
+        rpm='0'
+    pos = string.rfind(rpm, 'rpm')
+    if (pos>0):
+        rpm = rpm[:pos]
+    return [float(rpm)]
+
+def rpm_core_to_string(rpm):
+    if (type(rpm) is not ListType):
+        if (type(rpm) is StringType):
+            return rpm
+        else:
+            rpm=[rpm]
+    rpm=str(rpm[0])+'rpm'
+    return rpm
+    
+class GoboRPMWidget(AttributeWidget):
+    attribute='gobo_rpm'
+    def __init__(self, value, changed_callback):
+        AttributeWidget.__init__(self)
+        self.changed_callback=changed_callback
+        self.widget = GtkSpinButton()
+        self.widget.set_digits(2)
+        self.widget.set_usize(70,-1)
+        adj = self.widget.get_adjustment()
+	adj.set_all(0.0, -100.0, 100.0, 1.0, 10.0, 10.0)
+        adj.connect('value_changed', self.changed)
+        self.set_string_value(value)
+        self.widget.show()
+
+    def get_string_value(self):
+        v = self.widget.get_value_as_float()
+        return rpm_core_to_string([v])
+
+    def set_string_value(self, value):
+        v = rpm_string_to_core(value)
+        self.widget.set_value(v[0])
+
+    def get_core_value(self):
+        v = self.widget.get_value_as_float()
+        return [v]
+
+    def set_core_value(self, value):
+        self.widget.set_value(v[0])
+
+attribute_mapping = {
+    'level': (LB.attr_level,
+              LevelWidget,
+              level_string_to_core,
+              level_core_to_string),
+    'color': (LB.attr_color,
+              ColorWidget,
+              color_string_to_core,
+              color_core_to_string),
+    'gobo_rpm': (LB.attr_gobo_rpm,
+                 GoboRPMWidget,
+                 rpm_string_to_core,
+                 rpm_core_to_string),
+    'time': (None, 
+             None,
+             time_string_to_core,
+             time_core_to_string)
+    }

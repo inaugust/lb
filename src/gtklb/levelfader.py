@@ -1,6 +1,6 @@
 from threading import *
 from xmllib import XMLParser
-from ExpatXMLParser import ExpatXMLParser
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 from os import path
 import lightboard
 import time
@@ -72,17 +72,16 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
+def load(tree):
+    for section in tree.find("levelfaders"):
+        for lf in section.find("levelfader"):
+            f = LevelFader (lf.attrs['name'], lf.attrs['core'])
 
 def save():
-    s="<levelfaders>\n\n"
-    for c in lb.levelfader.values():
-        s=s+c.to_xml(1)
-    s=s+"</levelfaders>\n"
-    return s
+    tree = DOMNode('levelfaders')
+    for i in lb.levelfader.values():
+        tree.append(i.to_tree())
+    return tree
 
 class levelFaderFactory:
     def __init__(self):
@@ -122,7 +121,7 @@ class levelFaderFactory:
             corename = o.children()[0].get()
             if not lb.levelfader.has_key(name):
                 threads_leave()
-                c = levelfader(name, corename)
+                c = LevelFader (name, corename)
                 c.send_update()
                 threads_enter()
         w.destroy()
@@ -142,24 +141,7 @@ def newLevelFader_cb(widget, data=None):
 class dummy:
     pass
 
-class parser(ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.__init__(self)
-        self.in_levelfaders=0
-
-    def start_levelfaders (self, attrs):
-        self.in_levelfaders=1
-
-    def end_levelfaders (self):
-        self.in_levelfaders=0
-
-    def start_levelfader (self, attrs):
-        if (not self.in_levelfaders): return
-        name=attrs['name']
-        core=attrs['core']
-        self.levelfader = levelfader (name, core)
-
-class levelfader(LB__POA.EventListener):
+class LevelFader (LB__POA.EventListener):
     """ Python wrapper for core Levelfader class"""
     
     def __init__(self, name, corename):
@@ -199,18 +181,15 @@ class levelfader(LB__POA.EventListener):
             threads_leave()
 
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        s=s+sp+'<levelfader name="%s" core="%s"/>\n' % (self.name,
-                                                        self.corename)
-        return s
+    def to_tree(self):
+        xf = DOMNode('levelfader', {'name':self.name,
+                                    'core':self.corename})
+        return xf
 
     def send_update(self):
-        s="<levelfaders>\n\n"
-        s=s+self.to_xml(1)+"\n"
-        s=s+"</levelfaders>\n"
-        lb.sendData(s)
+        tree = DOMNode('levelfaders')
+        tree.append(self.to_tree())
+        lb.sendData(tree)
 
     def run(self, level, time):
         time=lb.value_to_core('time', time)

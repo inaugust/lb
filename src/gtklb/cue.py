@@ -2,7 +2,7 @@ from xmllib import XMLParser
 from os import path
 import string
 import lightboard
-from ExpatXMLParser import ExpatXMLParser
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 from gtk import *
 from libglade import *
 from completion import completion
@@ -49,22 +49,35 @@ def reset():
 def shutdown():
     pass
 
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
+def load(tree):
+    for section in tree.find("cues"):
+        for cue in section.find("cue"):
+            c=Cue(cue.attrs['name'])
+            for parent in cue.find("parent"):
+                l = parent.attrs['level']
+                if l[-1]=='%':
+                    l=l[:-1]
+                l=float(l)
+                c.parent.append([string.strip(parent.data), l])
+            for instrument in cue.find("instrument"):
+                for key, value in instrument.attrs.items():
+                    if key == "name": continue
+                    c.instrument[instrument.attrs['name']]={}
+                    c.instrument[instrument.attrs['name']][key]=value
 
-def save():
-    s="<cues>\n\n"
     for c in lb.cue.values():
-        s=s+c.to_xml(1)+"\n"
-    s=s+"</cues>\n"
-    return s
+        c.validate()
+    
+def save():
+    tree = DOMNode('cues')
+    for i in lb.cue.values():
+        tree.append(i.to_tree())
+    return tree
 
 def newCue_cb(widget, data=None):
     # called from menu
     threads_leave()
-    c = cue('', update_refs=0)
+    c = Cue('', update_refs=0)
     editor = cue_edit.cue_editor()
     c.editor = editor
     c.set_editing(1)
@@ -72,60 +85,14 @@ def newCue_cb(widget, data=None):
     editor.edit()
     threads_enter()
     
-class parser(ExpatXMLParser):
-    def __init__(self):
-        ExpatXMLParser.__init__(self)
-        self.in_cues=0
-        self.parent=None
-        
-    def start_cues (self, attrs):
-        self.in_cues = 1
 
-    def end_cues (self):
-        self.in_cues = 0
-        for c in lb.cue.values():
-            c.validate()
-    
-    def start_instrument (self, attrs):
-        if (not self.in_cues): return
-        for key, value in attrs.items():
-            if key == "name": continue
-            self.cue.instrument[attrs['name']]={}
-            self.cue.instrument[attrs['name']][key]=value
-
-    def start_cue (self, attrs):
-        if (not self.in_cues): return        
-        self.cue=cue(attrs['name'])
-
-    def end_cue (self):
-        if (not self.in_cues): return        
-
-    def start_parent (self, attrs):
-        if (not self.in_cues): return        
-        l = attrs['level']
-        if l[-1]=='%':
-            l=l[:-1]
-        l=float(l)
-        self.parent=['', l]
-
-    def handle_data (self, data):
-        if (not self.in_cues): return        
-        if self.parent is not None:
-            self.parent[0]=data
-
-    def end_parent (self):
-        if (not self.in_cues): return        
-        self.cue.parents.append(self.parent)
-        self.parent=None
-
-class cue:
-
+class Cue:
     def __init__(self, name, update_refs=1):
         self.instrument={}
         self.apparent={}
         self.valid=0
         self.build_time=0
-        self.parents=[]
+        self.parent=[]
         self.name=name
         self.core_cue = LB.Cue(name, [])
         self.editor=None
@@ -154,16 +121,15 @@ class cue:
     def has_parent(self, name):
         if (self.name == name):
             return 1
-        for (pname, level) in self.parents:
+        for (pname, level) in self.parent:
             if (lb.cue[pname].has_parent(name)):
                 return 1
         return 0
 
     def send_update(self):
-        s="<cues>\n\n"
-        s=s+self.to_xml(1)+"\n"
-        s=s+"</cues>\n"
-        lb.sendData(s)
+        tree = DOMNode('cues')
+        tree.append(self.to_tree())
+        lb.sendData(tree)
 
     def invalidate(self):
         self.valid = 0
@@ -172,7 +138,7 @@ class cue:
         self.validate()
         
     def validate(self):
-        for name, lvl in self.parents:
+        for name, lvl in self.parent:
             lb.cue[name].validate()
             if (lb.cue[name].build_time <= self.build_time):
                 continue
@@ -180,7 +146,7 @@ class cue:
                 self.apparent={}
                 self.valid=0
                 self.build_time=0
-        for name, lvl in self.parents:
+        for name, lvl in self.parent:
             for name, idict in lb.cue[name].apparent.items():
                 if (not self.apparent.has_key(name)):
                     self.apparent[name]={}
@@ -199,8 +165,8 @@ class cue:
             self.build_time=time.time()
         
     def copy(self):
-        c = cue(self.name, update_refs=0)
-        c.parents=self.parents[:]
+        c = Cue(self.name, update_refs=0)
+        c.parent=self.parent[:]
         c.instrument=self.instrument.copy()
         c.edit_menu_item = self.edit_menu_item
         c.invalidate()
@@ -216,21 +182,19 @@ class cue:
         cue.ins=lb.sort_by_attr(cue.ins, 'name')            
         return cue
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        s=s+sp+'<cue name="%s">\n' % self.name
-        for name, lvl in self.parents:
+    def to_tree(self):
+        cue = DOMNode('cue', {'name':self.name})
+        for name, lvl in self.parent:
             lvl = lb.value_to_string('level', [lvl])
-            s=s+sp+'  '+'<parent level="%s">%s</parent>\n' % (lvl, name)
+            parent = DOMNode('parent', {'level':lvl})
+            parent.add_data(name)
+            cue.append(parent)
         for name, idict in self.instrument.items():
-            l=sp+'  '+'<instrument name="%s"' % name
-            for attr, value in idict.items():
-                l=l+' %s="%s"' % (attr, value)
-            l=l+'/>\n'
-            s=s+l
-        s=s+sp+'</cue>\n'
-        return s
+            dict = idict.copy()
+            dict['name']=name
+            instrument = DOMNode('instrument', dict)
+            cue.append(instrument)
+        return cue
 
     def edit(self):
         cue = self.copy()

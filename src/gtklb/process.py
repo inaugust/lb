@@ -1,7 +1,7 @@
 from threading import *
 from xmllib import XMLParser
 from xml.parsers import expat
-from ExpatXMLParser import ExpatXMLParser
+from ExpatXMLParser import ExpatXMLParser, DOMNode
 from os import path
 import string
 import procedure
@@ -83,18 +83,25 @@ def shutdown():
     for p in lb.process.values():
         p.stop()
         
-def load(data):
-    p=parser()
-    p.Parse(data)
-    p.close()
-    
-def save():
-    s="<processes>\n\n"
-    for c in lb.process.values():
-        s=s+c.to_xml(1)
-    s=s+"</processes>\n"
-    return s
+def load(tree):
+    for section in tree.find("processes"):
+        for proc in section.find("process"):
+            name = procedure = None
+            args = {}
+            for k,v in proc.attrs.items():
+                if k == 'name': name = v
+                elif k == 'procedure': procedure = v
+                else:
+                    args[k]=v
+            if (name is None or procedure is None):
+                return
+            p = Process(name, procedure, args)
 
+def save():
+    tree = DOMNode('processes')
+    for i in lb.process.values():
+        tree.append(i.to_tree())
+    return tree
 
 class processFactory:
     def ok_clicked(self, widget, data=None):
@@ -108,7 +115,7 @@ class processFactory:
         if (string.strip(name) != ''):
             if not lb.process.has_key(name):
                 threads_leave()
-                p=process(name, pname, args)
+                p=Process(name, pname, args)
                 p.send_update()
                 threads_enter()
         win.destroy()
@@ -185,9 +192,9 @@ class parser(ExpatXMLParser):
                 args[k]=v
         if (name is None or procedure is None):
             return
-        process(name, procedure, args)
+        Process(name, procedure, args)
 
-class process:
+class Process:
 
     def __init__(self, name = None, procedure = None, args = None,
                  update_refs=1):
@@ -236,7 +243,7 @@ class process:
             threads_leave()
 
     def copy(self):
-        p = process(self.name, self.procedure, self.args, update_refs=0)
+        p = Process(self.name, self.procedure, self.args, update_refs=0)
         p.start_menu_item = self.start_menu_item
         p.stop_menu_item = self.stop_menu_item
         p.edit_menu_item = self.edit_menu_item
@@ -266,22 +273,17 @@ class process:
             self.threadlock.acquire()
         self.threadlock.release()
 
-    def to_xml(self, indent=0):
-        s = ''
-        sp = '  '*indent
-        args = ''
-        for k,v in self.args.items():
-            args = args + k + '= "' + v + '" '
-        s=s+sp+'<process name="%s" procedure="%s" %s/>\n' % (self.name,
-                                                           self.procedure,
-                                                           args)
-        return s
+    def to_tree(self):
+        dict = self.args.copy()
+        dict['name'] = self.name
+        dict['procedure'] = self.procedure
+        p = DOMNode('process', dict)
+        return p
 
     def send_update(self):
-        s="<processes>\n\n"
-        s=s+self.to_xml(1)+"\n"
-        s=s+"</processes>\n"
-        lb.sendData(s)
+        tree = DOMNode('processes')
+        tree.append(self.to_tree())
+        lb.sendData(tree)
 
     # private
 
