@@ -1,0 +1,142 @@
+diff -u pygtk-0.6.8-orig/gtk.py pygtk-0.6.8/gtk.py
+--- pygtk-0.6.8-orig/gtk.py	Mon Apr 23 00:53:51 2001
++++ pygtk-0.6.8/gtk.py	Tue Aug 14 12:00:45 2001
+@@ -1345,6 +1345,8 @@
+ 	def base_nodes(self):
+ 		# this returns a list of the base nodes.  Useful for recursion
+ 		return _gtk.gtk_ctree_base_nodes(self._o)
++	def set_drag_compare_func(self, func):
++		return _gtk.gtk_ctree_set_drag_compare_func(self._o, func)
+ 	def insert_node(self, parent, sibling, text, spacing=5,
+ 			pixmap_closed=None, mask_closed=None,
+ 			pixmap_opened=None, mask_opened=None, is_leaf=TRUE,
+diff -u pygtk-0.6.8-orig/gtkmodule.c pygtk-0.6.8/gtkmodule.c
+--- pygtk-0.6.8-orig/gtkmodule.c	Mon Apr 23 00:18:21 2001
++++ pygtk-0.6.8/gtkmodule.c	Tue Aug 14 17:52:44 2001
+@@ -6530,6 +6530,118 @@
+   return ret;
+ }
+ 
++static gboolean PyGtk_CTreeCompareDragFunc(GtkCTree *ctree, 
++				       GtkCTreeNode *source_node,
++				       GtkCTreeNode *new_parent,
++				       GtkCTreeNode *new_sibling)
++{
++  PyObject *py_source_node, *py_new_parent, *py_new_sibling;
++  PyObject *func, *data, *ret;
++  gboolean gtk_ret;
++
++  PyGTK_BLOCK_THREADS
++
++  if (source_node == NULL)
++    {
++      Py_INCREF(Py_None);
++      py_source_node = Py_None;
++    }
++  else
++    if ((py_source_node = PyGtkCTreeNode_New(source_node)) == NULL) {
++      PyGTK_UNBLOCK_THREADS
++      return FALSE;
++    }
++  
++  if (new_parent == NULL)
++    {
++      Py_INCREF(Py_None);
++      py_new_parent = Py_None;
++    }
++  else
++    if ((py_new_parent = PyGtkCTreeNode_New(new_parent)) == NULL) {
++      Py_DECREF(py_source_node);
++      PyGTK_UNBLOCK_THREADS
++      return FALSE;
++    }
++
++  if (new_sibling == NULL)
++    {
++      Py_INCREF(Py_None);
++      py_new_sibling = Py_None;
++    }
++  else
++    if ((py_new_sibling = PyGtkCTreeNode_New(new_sibling)) == NULL) {
++      Py_DECREF(py_source_node);
++      Py_DECREF(py_new_parent);
++      PyGTK_UNBLOCK_THREADS
++      return FALSE;
++    }
++
++  func = gtk_object_get_data(GTK_OBJECT(ctree), 
++			     "ctree-compare-drag-func-python-callback");
++
++  data = Py_BuildValue("(OOO)", py_source_node, py_new_parent, py_new_sibling);
++
++  ret = PyObject_CallObject(func, data);
++
++  if (ret == NULL) {
++    if (PyGtk_FatalExceptions)
++      gtk_main_quit();
++    else {
++      PyErr_Print();
++      PyErr_Clear();
++    }
++    Py_DECREF(data);
++    Py_DECREF(py_source_node);
++    Py_DECREF(py_new_parent);
++    Py_DECREF(py_new_sibling);
++    PyGTK_UNBLOCK_THREADS
++    return FALSE;
++  }
++
++  if (ret == Py_None || (PyInt_Check(ret) && PyInt_AsLong(ret) == 0))
++    gtk_ret = FALSE;
++  else
++    gtk_ret = TRUE;
++    
++  Py_DECREF(ret);
++  Py_DECREF(data);
++  Py_DECREF(py_source_node);
++  Py_DECREF(py_new_parent);
++  Py_DECREF(py_new_sibling);
++
++  PyGTK_UNBLOCK_THREADS
++  return gtk_ret;
++}
++
++static PyObject *_wrap_gtk_ctree_set_drag_compare_func(PyObject *self, PyObject *args) {
++    PyGtk_Object *obj;
++    PyObject *func, *old_func;
++    int signum;
++
++    if (!PyArg_ParseTuple(args, "O!O:gtk_ctree_set_drag_compare_func", 
++			  &PyGtk_Type,
++			  &obj, &func))
++        return NULL;
++    if (!PyCallable_Check(func)) {
++        PyErr_SetString(PyExc_TypeError, "second argument must be callable");
++        return NULL;
++    }
++    Py_INCREF(func);
++
++    gtk_object_set_data_full(PyGtk_Get(obj), 
++			     "ctree-compare-drag-func-python-callback", 
++			     func, (GtkDestroyNotify)PyGtk_DestroyNotify);
++
++    gtk_ctree_set_drag_compare_func (GTK_CTREE(PyGtk_Get(obj)),
++				     (GtkCTreeCompareDragFunc)PyGtk_CTreeCompareDragFunc);
++				     
++    Py_INCREF(Py_None);
++    return Py_None;
++}
++
++
++
+ static PyObject *_wrap_gdk_threads_enter(PyObject *self, PyObject *args) {
+   if (!PyArg_ParseTuple(args, ":gdk_threads_enter"))
+     return NULL;
+@@ -6947,6 +7059,7 @@
+     { "gtk_ctree_node_set_row_data", _wrap_gtk_ctree_node_set_row_data, 1 },
+     { "gtk_ctree_node_get_row_data", _wrap_gtk_ctree_node_get_row_data, 1 },
+     { "gtk_ctree_base_nodes", _wrap_gtk_ctree_base_nodes, 1 },
++    { "gtk_ctree_set_drag_compare_func", _wrap_gtk_ctree_set_drag_compare_func, 1 },
+ #include "gtkmodule_defs.c"
+     { "gdk_char_width", _wrap_gdk_char_width, 1 },
+     { "gdk_flush", _wrap_gdk_flush, 1 },

@@ -4,7 +4,7 @@
 #include "Dimmer.hh"
 #include "Lightboard.hh"
 
-int initialize_dimmers (LB::Lightboard_ptr lb);
+int initialize_dimmers (CosNaming::NamingContext_ptr context);
 
 class LB_Dimmer_i: public POA_LB::Dimmer,
                 public PortableServer::RefCountServantBase {

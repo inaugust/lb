@@ -22,11 +22,6 @@ protected:
 
   LB::Dimmer_ptr level_dimmer;
   
-  /* handle to listeners */
-
-  GSList **level_listeners_h;  
-  GSList **target_listeners_h;
-
   GSList *level_listeners;
   GSList *target_listeners;
 

@@ -24,6 +24,11 @@ LB_Fader_i::LB_Fader_i(const char *name)
   pthread_mutex_init (&this->level_lock, NULL);
   this->thread_exists=0;
   this->running=0;
+
+  level_listeners = NULL;
+  run_listeners = NULL;
+  stop_listeners = NULL;
+  complete_listeners = NULL;
 }
 
 LB_Fader_i::~LB_Fader_i()
@@ -236,7 +241,6 @@ void LB_Fader_i::setLevel(double level)
   pthread_mutex_lock(&this->level_lock);
 
   this->act_on_set_ratio (level/100.0);
-
   if (this->level_listeners)
     {
       LB::Event evt;
@@ -288,9 +292,7 @@ void LB_Fader_i::doFireLevelEvent(const LB::Event &evt)
 void LB_Fader_i::addLevelListener(const LB::FaderLevelListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
-
   LB::FaderLevelListener_ptr p = LB::FaderLevelListener::_duplicate(l);
-
   this->level_listeners=g_slist_append(this->level_listeners, p);
   pthread_mutex_unlock(&this->listener_lock);
 }

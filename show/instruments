@@ -1,1132 +1,1134 @@
 <instruments>
-  <instrument name="house1" bank="0" dimmer="65"/>
-  <instrument name="house2" bank="0" dimmer="66"/>
-  <instrument name="house3" bank="0" dimmer="67"/>
-  <instrument name="1" bank="0" dimmer="0"/>
-  <instrument name="2" bank="0" dimmer="1"/>
-  <instrument name="3" bank="0" dimmer="2"/>
-  <instrument name="4" bank="0" dimmer="3"/>
-  <instrument name="5" bank="0" dimmer="4"/>
-  <instrument name="6" bank="0" dimmer="5"/>
-  <instrument name="7" bank="0" dimmer="6"/>
-  <instrument name="8" bank="0" dimmer="7"/>
-  <instrument name="9" bank="0" dimmer="8"/>
-  <instrument name="10" bank="0" dimmer="9"/>
-  <instrument name="11" bank="0" dimmer="10"/>
-  <instrument name="12" bank="0" dimmer="11"/>
-  <instrument name="13" bank="0" dimmer="12"/>
-  <instrument name="14" bank="0" dimmer="13"/>
-  <instrument name="15" bank="0" dimmer="14"/>
-  <instrument name="16" bank="0" dimmer="15"/>
-  <instrument name="17" bank="0" dimmer="16"/>
-  <instrument name="18" bank="0" dimmer="17"/>
-  <instrument name="19" bank="0" dimmer="18"/>
-  <instrument name="20" bank="0" dimmer="19"/>
-  <instrument name="21" bank="0" dimmer="20"/>
-  <instrument name="22" bank="0" dimmer="21"/>
-  <instrument name="23" bank="0" dimmer="22"/>
-  <instrument name="24" bank="0" dimmer="23"/>
-  <instrument name="25" bank="0" dimmer="24"/>
-  <instrument name="26" bank="0" dimmer="25"/>
-  <instrument name="27" bank="0" dimmer="26"/>
-  <instrument name="28" bank="0" dimmer="27"/>
-  <instrument name="29" bank="0" dimmer="28"/>
-  <instrument name="30" bank="0" dimmer="29"/>
-  <instrument name="31" bank="0" dimmer="30"/>
-  <instrument name="32" bank="0" dimmer="31"/>
-  <instrument name="33" bank="0" dimmer="32"/>
-  <instrument name="34" bank="0" dimmer="33"/>
-  <instrument name="35" bank="0" dimmer="34"/>
-  <instrument name="36" bank="0" dimmer="35"/>
-  <instrument name="37" bank="0" dimmer="36"/>
-  <instrument name="38" bank="0" dimmer="37"/>
-  <instrument name="39" bank="0" dimmer="38"/>
-  <instrument name="40" bank="0" dimmer="39"/>
-  <instrument name="41" bank="0" dimmer="40"/>
-  <instrument name="42" bank="0" dimmer="41"/>
-  <instrument name="43" bank="0" dimmer="42"/>
-  <instrument name="44" bank="0" dimmer="43"/>
-  <instrument name="45" bank="0" dimmer="44"/>
-  <instrument name="46" bank="0" dimmer="45"/>
-  <instrument name="47" bank="0" dimmer="46"/>
-  <instrument name="48" bank="0" dimmer="47"/>
-  <instrument name="49" bank="0" dimmer="48"/>
-  <instrument name="50" bank="0" dimmer="49"/>
-  <instrument name="51" bank ="0" dimmer="50"/>
-  <instrument name="52" bank ="0" dimmer="51"/>
-  <instrument name="53" bank ="0" dimmer="52"/>
-  <instrument name="54" bank ="0" dimmer="53"/>
-  <instrument name="55" bank ="0" dimmer="54"/>
-  <instrument name="56" bank ="0" dimmer="55"/>
-  <instrument name="57" bank ="0" dimmer="56"/>
-  <instrument name="58" bank ="0" dimmer="57"/>
-  <instrument name="59" bank ="0" dimmer="58"/>
-  <instrument name="60" bank ="0" dimmer="59"/>
-  <instrument name="61" bank ="0" dimmer="60"/>
-  <instrument name="62" bank ="0" dimmer="61"/>
-  <instrument name="63" bank ="0" dimmer="62"/>
-  <instrument name="64" bank ="0" dimmer="63"/>
-  <instrument name="65" bank ="0" dimmer="64"/>
-  <instrument name="66" bank ="0" dimmer="65"/>
-  <instrument name="67" bank ="0" dimmer="66"/>
-  <instrument name="68" bank ="0" dimmer="67"/>
-  <instrument name="69" bank ="0" dimmer="68"/>
-  <instrument name="70" bank ="0" dimmer="69"/>
-  <instrument name="71" bank ="0" dimmer="70"/>
-  <instrument name="72" bank ="0" dimmer="71"/>
-  <instrument name="73" bank ="0" dimmer="72"/>
-  <instrument name="74" bank ="0" dimmer="73"/>
-  <instrument name="75" bank ="0" dimmer="74"/>
-  <instrument name="76" bank ="0" dimmer="75"/>
-  <instrument name="77" bank ="0" dimmer="76"/>
-  <instrument name="78" bank ="0" dimmer="77"/>
-  <instrument name="79" bank ="0" dimmer="78"/>
-  <instrument name="80" bank ="0" dimmer="79"/>
-  <instrument name="81" bank ="0" dimmer="80"/>
-  <instrument name="82" bank ="0" dimmer="81"/>
-  <instrument name="83" bank ="0" dimmer="82"/>
-  <instrument name="84" bank ="0" dimmer="83"/>
-  <instrument name="85" bank ="0" dimmer="84"/>
-  <instrument name="86" bank ="0" dimmer="85"/>
-  <instrument name="87" bank ="0" dimmer="86"/>
-  <instrument name="88" bank ="0" dimmer="87"/>
-  <instrument name="89" bank ="0" dimmer="88"/>
-  <instrument name="90" bank ="0" dimmer="89"/>
-  <instrument name="91" bank ="0" dimmer="90"/>
-  <instrument name="92" bank ="0" dimmer="91"/>
-  <instrument name="93" bank ="0" dimmer="92"/>
-  <instrument name="94" bank ="0" dimmer="93"/>
-  <instrument name="95" bank ="0" dimmer="94"/>
-  <instrument name="96" bank ="0" dimmer="95"/>
-  <instrument name="97" bank ="0" dimmer="96"/>
-  <instrument name="98" bank ="0" dimmer="97"/>
-  <instrument name="99" bank ="0" dimmer="98"/>
-  <instrument name="100" bank ="0" dimmer="99"/>
-  <instrument name="101" bank ="0" dimmer="100"/>
-  <instrument name="102" bank ="0" dimmer="101"/>
-  <instrument name="103" bank ="0" dimmer="102"/>
-  <instrument name="104" bank ="0" dimmer="103"/>
-  <instrument name="105" bank ="0" dimmer="104"/>
-  <instrument name="106" bank ="0" dimmer="105"/>
-  <instrument name="107" bank ="0" dimmer="106"/>
-  <instrument name="108" bank ="0" dimmer="107"/>
-  <instrument name="109" bank ="0" dimmer="108"/>
-  <instrument name="110" bank ="0" dimmer="109"/>
-  <instrument name="111" bank ="0" dimmer="110"/>
-  <instrument name="112" bank ="0" dimmer="111"/>
-  <instrument name="113" bank ="0" dimmer="112"/>
-  <instrument name="114" bank ="0" dimmer="113"/>
-  <instrument name="115" bank ="0" dimmer="114"/>
-  <instrument name="116" bank ="0" dimmer="115"/>
-  <instrument name="117" bank ="0" dimmer="116"/>
-  <instrument name="118" bank ="0" dimmer="117"/>
-  <instrument name="119" bank ="0" dimmer="118"/>
-  <instrument name="120" bank ="0" dimmer="119"/>
-  <instrument name="121" bank ="0" dimmer="120"/>
-  <instrument name="122" bank ="0" dimmer="121"/>
-  <instrument name="123" bank ="0" dimmer="122"/>
-  <instrument name="124" bank ="0" dimmer="123"/>
-  <instrument name="125" bank ="0" dimmer="124"/>
-  <instrument name="126" bank ="0" dimmer="125"/>
-  <instrument name="127" bank ="0" dimmer="126"/>
-  <instrument name="128" bank ="0" dimmer="127"/>
-  <instrument name="129" bank ="0" dimmer="128"/>
-  <instrument name="130" bank ="0" dimmer="129"/>
-  <instrument name="131" bank ="0" dimmer="130"/>
-  <instrument name="132" bank ="0" dimmer="131"/>
-  <instrument name="133" bank ="0" dimmer="132"/>
-  <instrument name="134" bank ="0" dimmer="133"/>
-  <instrument name="135" bank ="0" dimmer="134"/>
-  <instrument name="136" bank ="0" dimmer="135"/>
-  <instrument name="137" bank ="0" dimmer="136"/>
-  <instrument name="138" bank ="0" dimmer="137"/>
-  <instrument name="139" bank ="0" dimmer="138"/>
-  <instrument name="140" bank ="0" dimmer="139"/>
-  <instrument name="141" bank ="0" dimmer="140"/>
-  <instrument name="142" bank ="0" dimmer="141"/>
-  <instrument name="143" bank ="0" dimmer="142"/>
-  <instrument name="144" bank ="0" dimmer="143"/>
-  <instrument name="145" bank ="0" dimmer="144"/>
-  <instrument name="146" bank ="0" dimmer="145"/>
-  <instrument name="147" bank ="0" dimmer="146"/>
-  <instrument name="148" bank ="0" dimmer="147"/>
-  <instrument name="149" bank ="0" dimmer="148"/>
-  <instrument name="150" bank ="0" dimmer="149"/>
-  <instrument name="151" bank ="0" dimmer="150"/>
-  <instrument name="152" bank ="0" dimmer="151"/>
-  <instrument name="153" bank ="0" dimmer="152"/>
-  <instrument name="154" bank ="0" dimmer="153"/>
-  <instrument name="155" bank ="0" dimmer="154"/>
-  <instrument name="156" bank ="0" dimmer="155"/>
-  <instrument name="157" bank ="0" dimmer="156"/>
-  <instrument name="158" bank ="0" dimmer="157"/>
-  <instrument name="159" bank ="0" dimmer="158"/>
-  <instrument name="160" bank ="0" dimmer="159"/>
-  <instrument name="161" bank ="0" dimmer="160"/>
-  <instrument name="162" bank ="0" dimmer="161"/>
-  <instrument name="163" bank ="0" dimmer="162"/>
-  <instrument name="164" bank ="0" dimmer="163"/>
-  <instrument name="165" bank ="0" dimmer="164"/>
-  <instrument name="166" bank ="0" dimmer="165"/>
-  <instrument name="167" bank ="0" dimmer="166"/>
-  <instrument name="168" bank ="0" dimmer="167"/>
-  <instrument name="169" bank ="0" dimmer="168"/>
-  <instrument name="170" bank ="0" dimmer="169"/>
-  <instrument name="171" bank ="0" dimmer="170"/>
-  <instrument name="172" bank ="0" dimmer="171"/>
-  <instrument name="173" bank ="0" dimmer="172"/>
-  <instrument name="174" bank ="0" dimmer="173"/>
-  <instrument name="175" bank ="0" dimmer="174"/>
-  <instrument name="176" bank ="0" dimmer="175"/>
-  <instrument name="177" bank ="0" dimmer="176"/>
-  <instrument name="178" bank ="0" dimmer="177"/>
-  <instrument name="179" bank ="0" dimmer="178"/>
-  <instrument name="180" bank ="0" dimmer="179"/>
-  <instrument name="181" bank ="0" dimmer="180"/>
-  <instrument name="182" bank ="0" dimmer="181"/>
-  <instrument name="183" bank ="0" dimmer="182"/>
-  <instrument name="184" bank ="0" dimmer="183"/>
-  <instrument name="185" bank ="0" dimmer="184"/>
-  <instrument name="186" bank ="0" dimmer="185"/>
-  <instrument name="187" bank ="0" dimmer="186"/>
-  <instrument name="188" bank ="0" dimmer="187"/>
-  <instrument name="189" bank ="0" dimmer="188"/>
-  <instrument name="190" bank ="0" dimmer="189"/>
-  <instrument name="191" bank ="0" dimmer="190"/>
-  <instrument name="192" bank ="0" dimmer="191"/>
-  <instrument name="193" bank ="0" dimmer="192"/>
-  <instrument name="194" bank ="0" dimmer="193"/>
-  <instrument name="195" bank ="0" dimmer="194"/>
-  <instrument name="196" bank ="0" dimmer="195"/>
-  <instrument name="197" bank ="0" dimmer="196"/>
-  <instrument name="198" bank ="0" dimmer="197"/>
-  <instrument name="199" bank ="0" dimmer="198"/>
-  <instrument name="200" bank ="0" dimmer="199"/>
-  <instrument name="201" bank ="0" dimmer="200"/>
-  <instrument name="202" bank ="0" dimmer="201"/>
-  <instrument name="203" bank ="0" dimmer="202"/>
-  <instrument name="204" bank ="0" dimmer="203"/>
-  <instrument name="205" bank ="0" dimmer="204"/>
-  <instrument name="206" bank ="0" dimmer="205"/>
-  <instrument name="207" bank ="0" dimmer="206"/>
-  <instrument name="208" bank ="0" dimmer="207"/>
-  <instrument name="209" bank ="0" dimmer="208"/>
-  <instrument name="210" bank ="0" dimmer="209"/>
-  <instrument name="211" bank ="0" dimmer="210"/>
-  <instrument name="212" bank ="0" dimmer="211"/>
-  <instrument name="213" bank ="0" dimmer="212"/>
-  <instrument name="214" bank ="0" dimmer="213"/>
-  <instrument name="215" bank ="0" dimmer="214"/>
-  <instrument name="216" bank ="0" dimmer="215"/>
-  <instrument name="217" bank ="0" dimmer="216"/>
-  <instrument name="218" bank ="0" dimmer="217"/>
-  <instrument name="219" bank ="0" dimmer="218"/>
-  <instrument name="220" bank ="0" dimmer="219"/>
-  <instrument name="221" bank ="0" dimmer="220"/>
-  <instrument name="222" bank ="0" dimmer="221"/>
-  <instrument name="223" bank ="0" dimmer="222"/>
-  <instrument name="224" bank ="0" dimmer="223"/>
-  <instrument name="225" bank ="0" dimmer="224"/>
-  <instrument name="226" bank ="0" dimmer="225"/>
-  <instrument name="227" bank ="0" dimmer="226"/>
-  <instrument name="228" bank ="0" dimmer="227"/>
-  <instrument name="229" bank ="0" dimmer="228"/>
-  <instrument name="230" bank ="0" dimmer="229"/>
-  <instrument name="231" bank ="0" dimmer="230"/>
-  <instrument name="232" bank ="0" dimmer="231"/>
-  <instrument name="233" bank ="0" dimmer="232"/>
-  <instrument name="234" bank ="0" dimmer="233"/>
-  <instrument name="235" bank ="0" dimmer="234"/>
-  <instrument name="236" bank ="0" dimmer="235"/>
-  <instrument name="237" bank ="0" dimmer="236"/>
-  <instrument name="238" bank ="0" dimmer="237"/>
-  <instrument name="239" bank ="0" dimmer="238"/>
-  <instrument name="240" bank ="0" dimmer="239"/>
-  <instrument name="241" bank ="0" dimmer="240"/>
-  <instrument name="242" bank ="0" dimmer="241"/>
-  <instrument name="243" bank ="0" dimmer="242"/>
-  <instrument name="244" bank ="0" dimmer="243"/>
-  <instrument name="245" bank ="0" dimmer="244"/>
-  <instrument name="246" bank ="0" dimmer="245"/>
-  <instrument name="247" bank ="0" dimmer="246"/>
-  <instrument name="248" bank ="0" dimmer="247"/>
-  <instrument name="249" bank ="0" dimmer="248"/>
-  <instrument name="250" bank ="0" dimmer="249"/>
-  <instrument name="251" bank ="0" dimmer="250"/>
-  <instrument name="252" bank ="0" dimmer="251"/>
-  <instrument name="253" bank ="0" dimmer="252"/>
-  <instrument name="254" bank ="0" dimmer="253"/>
-  <instrument name="255" bank ="0" dimmer="254"/>
-  <instrument name="256" bank ="0" dimmer="255"/>
-  <instrument name="257" bank ="0" dimmer="256"/>
-  <instrument name="258" bank ="0" dimmer="257"/>
-  <instrument name="259" bank ="0" dimmer="258"/>
-  <instrument name="260" bank ="0" dimmer="259"/>
-  <instrument name="261" bank ="0" dimmer="260"/>
-  <instrument name="262" bank ="0" dimmer="261"/>
-  <instrument name="263" bank ="0" dimmer="262"/>
-  <instrument name="264" bank ="0" dimmer="263"/>
-  <instrument name="265" bank ="0" dimmer="264"/>
-  <instrument name="266" bank ="0" dimmer="265"/>
-  <instrument name="267" bank ="0" dimmer="266"/>
-  <instrument name="268" bank ="0" dimmer="267"/>
-  <instrument name="269" bank ="0" dimmer="268"/>
-  <instrument name="270" bank ="0" dimmer="269"/>
-  <instrument name="271" bank ="0" dimmer="270"/>
-  <instrument name="272" bank ="0" dimmer="271"/>
-  <instrument name="273" bank ="0" dimmer="272"/>
-  <instrument name="274" bank ="0" dimmer="273"/>
-  <instrument name="275" bank ="0" dimmer="274"/>
-  <instrument name="276" bank ="0" dimmer="275"/>
-  <instrument name="277" bank ="0" dimmer="276"/>
-  <instrument name="278" bank ="0" dimmer="277"/>
-  <instrument name="279" bank ="0" dimmer="278"/>
-  <instrument name="280" bank ="0" dimmer="279"/>
-  <instrument name="281" bank ="0" dimmer="280"/>
-  <instrument name="282" bank ="0" dimmer="281"/>
-  <instrument name="283" bank ="0" dimmer="282"/>
-  <instrument name="284" bank ="0" dimmer="283"/>
-  <instrument name="285" bank ="0" dimmer="284"/>
-  <instrument name="286" bank ="0" dimmer="285"/>
-  <instrument name="287" bank ="0" dimmer="286"/>
-  <instrument name="288" bank ="0" dimmer="287"/>
-  <instrument name="289" bank ="0" dimmer="288"/>
-  <instrument name="290" bank ="0" dimmer="289"/>
-  <instrument name="291" bank ="0" dimmer="290"/>
-  <instrument name="292" bank ="0" dimmer="291"/>
-  <instrument name="293" bank ="0" dimmer="292"/>
-  <instrument name="294" bank ="0" dimmer="293"/>
-  <instrument name="295" bank ="0" dimmer="294"/>
-  <instrument name="296" bank ="0" dimmer="295"/>
-  <instrument name="297" bank ="0" dimmer="296"/>
-  <instrument name="298" bank ="0" dimmer="297"/>
-  <instrument name="299" bank ="0" dimmer="298"/>
-  <instrument name="300" bank ="0" dimmer="299"/>
-  <instrument name="301" bank ="0" dimmer="300"/>
-  <instrument name="302" bank ="0" dimmer="301"/>
-  <instrument name="303" bank ="0" dimmer="302"/>
-  <instrument name="304" bank ="0" dimmer="303"/>
-  <instrument name="305" bank ="0" dimmer="304"/>
-  <instrument name="306" bank ="0" dimmer="305"/>
-  <instrument name="307" bank ="0" dimmer="306"/>
-  <instrument name="308" bank ="0" dimmer="307"/>
-  <instrument name="309" bank ="0" dimmer="308"/>
-  <instrument name="310" bank ="0" dimmer="309"/>
-  <instrument name="311" bank ="0" dimmer="310"/>
-  <instrument name="312" bank ="0" dimmer="311"/>
-  <instrument name="313" bank ="0" dimmer="312"/>
-  <instrument name="314" bank ="0" dimmer="313"/>
-  <instrument name="315" bank ="0" dimmer="314"/>
-  <instrument name="316" bank ="0" dimmer="315"/>
-  <instrument name="317" bank ="0" dimmer="316"/>
-  <instrument name="318" bank ="0" dimmer="317"/>
-  <instrument name="319" bank ="0" dimmer="318"/>
-  <instrument name="320" bank ="0" dimmer="319"/>
-  <instrument name="321" bank ="0" dimmer="320"/>
-  <instrument name="322" bank ="0" dimmer="321"/>
-  <instrument name="323" bank ="0" dimmer="322"/>
-  <instrument name="324" bank ="0" dimmer="323"/>
-  <instrument name="325" bank ="0" dimmer="324"/>
-  <instrument name="326" bank ="0" dimmer="325"/>
-  <instrument name="327" bank ="0" dimmer="326"/>
-  <instrument name="328" bank ="0" dimmer="327"/>
-  <instrument name="329" bank ="0" dimmer="328"/>
-  <instrument name="330" bank ="0" dimmer="329"/>
-  <instrument name="331" bank ="0" dimmer="330"/>
-  <instrument name="332" bank ="0" dimmer="331"/>
-  <instrument name="333" bank ="0" dimmer="332"/>
-  <instrument name="334" bank ="0" dimmer="333"/>
-  <instrument name="335" bank ="0" dimmer="334"/>
-  <instrument name="336" bank ="0" dimmer="335"/>
-  <instrument name="337" bank ="0" dimmer="336"/>
-  <instrument name="338" bank ="0" dimmer="337"/>
-  <instrument name="339" bank ="0" dimmer="338"/>
-  <instrument name="340" bank ="0" dimmer="339"/>
-  <instrument name="341" bank ="0" dimmer="340"/>
-  <instrument name="342" bank ="0" dimmer="341"/>
-  <instrument name="343" bank ="0" dimmer="342"/>
-  <instrument name="344" bank ="0" dimmer="343"/>
-  <instrument name="345" bank ="0" dimmer="344"/>
-  <instrument name="346" bank ="0" dimmer="345"/>
-  <instrument name="347" bank ="0" dimmer="346"/>
-  <instrument name="348" bank ="0" dimmer="347"/>
-  <instrument name="349" bank ="0" dimmer="348"/>
-  <instrument name="350" bank ="0" dimmer="349"/>
-  <instrument name="351" bank ="0" dimmer="350"/>
-  <instrument name="352" bank ="0" dimmer="351"/>
-  <instrument name="353" bank ="0" dimmer="352"/>
-  <instrument name="354" bank ="0" dimmer="353"/>
-  <instrument name="355" bank ="0" dimmer="354"/>
-  <instrument name="356" bank ="0" dimmer="355"/>
-  <instrument name="357" bank ="0" dimmer="356"/>
-  <instrument name="358" bank ="0" dimmer="357"/>
-  <instrument name="359" bank ="0" dimmer="358"/>
-  <instrument name="360" bank ="0" dimmer="359"/>
-  <instrument name="361" bank ="0" dimmer="360"/>
-  <instrument name="362" bank ="0" dimmer="361"/>
-  <instrument name="363" bank ="0" dimmer="362"/>
-  <instrument name="364" bank ="0" dimmer="363"/>
-  <instrument name="365" bank ="0" dimmer="364"/>
-  <instrument name="366" bank ="0" dimmer="365"/>
-  <instrument name="367" bank ="0" dimmer="366"/>
-  <instrument name="368" bank ="0" dimmer="367"/>
-  <instrument name="369" bank ="0" dimmer="368"/>
-  <instrument name="370" bank ="0" dimmer="369"/>
-  <instrument name="371" bank ="0" dimmer="370"/>
-  <instrument name="372" bank ="0" dimmer="371"/>
-  <instrument name="373" bank ="0" dimmer="372"/>
-  <instrument name="374" bank ="0" dimmer="373"/>
-  <instrument name="375" bank ="0" dimmer="374"/>
-  <instrument name="376" bank ="0" dimmer="375"/>
-  <instrument name="377" bank ="0" dimmer="376"/>
-  <instrument name="378" bank ="0" dimmer="377"/>
-  <instrument name="379" bank ="0" dimmer="378"/>
-  <instrument name="380" bank ="0" dimmer="379"/>
-  <instrument name="381" bank ="0" dimmer="380"/>
-  <instrument name="382" bank ="0" dimmer="381"/>
-  <instrument name="383" bank ="0" dimmer="382"/>
-  <instrument name="384" bank ="0" dimmer="383"/>
-  <instrument name="385" bank ="0" dimmer="384"/>
-  <instrument name="386" bank ="0" dimmer="385"/>
-  <instrument name="387" bank ="0" dimmer="386"/>
-  <instrument name="388" bank ="0" dimmer="387"/>
-  <instrument name="389" bank ="0" dimmer="388"/>
-  <instrument name="390" bank ="0" dimmer="389"/>
-  <instrument name="391" bank ="0" dimmer="390"/>
-  <instrument name="392" bank ="0" dimmer="391"/>
-  <instrument name="393" bank ="0" dimmer="392"/>
-  <instrument name="394" bank ="0" dimmer="393"/>
-  <instrument name="395" bank ="0" dimmer="394"/>
-  <instrument name="396" bank ="0" dimmer="395"/>
-  <instrument name="397" bank ="0" dimmer="396"/>
-  <instrument name="398" bank ="0" dimmer="397"/>
-  <instrument name="399" bank ="0" dimmer="398"/>
-  <instrument name="400" bank ="0" dimmer="399"/>
-  <instrument name="401" bank ="0" dimmer="400"/>
-  <instrument name="402" bank ="0" dimmer="401"/>
-  <instrument name="403" bank ="0" dimmer="402"/>
-  <instrument name="404" bank ="0" dimmer="403"/>
-  <instrument name="405" bank ="0" dimmer="404"/>
-  <instrument name="406" bank ="0" dimmer="405"/>
-  <instrument name="407" bank ="0" dimmer="406"/>
-  <instrument name="408" bank ="0" dimmer="407"/>
-  <instrument name="409" bank ="0" dimmer="408"/>
-  <instrument name="410" bank ="0" dimmer="409"/>
-  <instrument name="411" bank ="0" dimmer="410"/>
-  <instrument name="412" bank ="0" dimmer="411"/>
-  <instrument name="413" bank ="0" dimmer="412"/>
-  <instrument name="414" bank ="0" dimmer="413"/>
-  <instrument name="415" bank ="0" dimmer="414"/>
-  <instrument name="416" bank ="0" dimmer="415"/>
-  <instrument name="417" bank ="0" dimmer="416"/>
-  <instrument name="418" bank ="0" dimmer="417"/>
-  <instrument name="419" bank ="0" dimmer="418"/>
-  <instrument name="420" bank ="0" dimmer="419"/>
-  <instrument name="421" bank ="0" dimmer="420"/>
-  <instrument name="422" bank ="0" dimmer="421"/>
-  <instrument name="423" bank ="0" dimmer="422"/>
-  <instrument name="424" bank ="0" dimmer="423"/>
-  <instrument name="425" bank ="0" dimmer="424"/>
-  <instrument name="426" bank ="0" dimmer="425"/>
-  <instrument name="427" bank ="0" dimmer="426"/>
-  <instrument name="428" bank ="0" dimmer="427"/>
-  <instrument name="429" bank ="0" dimmer="428"/>
-  <instrument name="430" bank ="0" dimmer="429"/>
-  <instrument name="431" bank ="0" dimmer="430"/>
-  <instrument name="432" bank ="0" dimmer="431"/>
-  <instrument name="433" bank ="0" dimmer="432"/>
-  <instrument name="434" bank ="0" dimmer="433"/>
-  <instrument name="435" bank ="0" dimmer="434"/>
-  <instrument name="436" bank ="0" dimmer="435"/>
-  <instrument name="437" bank ="0" dimmer="436"/>
-  <instrument name="438" bank ="0" dimmer="437"/>
-  <instrument name="439" bank ="0" dimmer="438"/>
-  <instrument name="440" bank ="0" dimmer="439"/>
-  <instrument name="441" bank ="0" dimmer="440"/>
-  <instrument name="442" bank ="0" dimmer="441"/>
-  <instrument name="443" bank ="0" dimmer="442"/>
-  <instrument name="444" bank ="0" dimmer="443"/>
-  <instrument name="445" bank ="0" dimmer="444"/>
-  <instrument name="446" bank ="0" dimmer="445"/>
-  <instrument name="447" bank ="0" dimmer="446"/>
-  <instrument name="448" bank ="0" dimmer="447"/>
-  <instrument name="449" bank ="0" dimmer="448"/>
-  <instrument name="450" bank ="0" dimmer="449"/>
-  <instrument name="451" bank ="0" dimmer="450"/>
-  <instrument name="452" bank ="0" dimmer="451"/>
-  <instrument name="453" bank ="0" dimmer="452"/>
-  <instrument name="454" bank ="0" dimmer="453"/>
-  <instrument name="455" bank ="0" dimmer="454"/>
-  <instrument name="456" bank ="0" dimmer="455"/>
-  <instrument name="457" bank ="0" dimmer="456"/>
-  <instrument name="458" bank ="0" dimmer="457"/>
-  <instrument name="459" bank ="0" dimmer="458"/>
-  <instrument name="460" bank ="0" dimmer="459"/>
-  <instrument name="461" bank ="0" dimmer="460"/>
-  <instrument name="462" bank ="0" dimmer="461"/>
-  <instrument name="463" bank ="0" dimmer="462"/>
-  <instrument name="464" bank ="0" dimmer="463"/>
-  <instrument name="465" bank ="0" dimmer="464"/>
-  <instrument name="466" bank ="0" dimmer="465"/>
-  <instrument name="467" bank ="0" dimmer="466"/>
-  <instrument name="468" bank ="0" dimmer="467"/>
-  <instrument name="469" bank ="0" dimmer="468"/>
-  <instrument name="470" bank ="0" dimmer="469"/>
-  <instrument name="471" bank ="0" dimmer="470"/>
-  <instrument name="472" bank ="0" dimmer="471"/>
-  <instrument name="473" bank ="0" dimmer="472"/>
-  <instrument name="474" bank ="0" dimmer="473"/>
-  <instrument name="475" bank ="0" dimmer="474"/>
-  <instrument name="476" bank ="0" dimmer="475"/>
-  <instrument name="477" bank ="0" dimmer="476"/>
-  <instrument name="478" bank ="0" dimmer="477"/>
-  <instrument name="479" bank ="0" dimmer="478"/>
-  <instrument name="480" bank ="0" dimmer="479"/>
-  <instrument name="481" bank ="0" dimmer="480"/>
-  <instrument name="482" bank ="0" dimmer="481"/>
-  <instrument name="483" bank ="0" dimmer="482"/>
-  <instrument name="484" bank ="0" dimmer="483"/>
-  <instrument name="485" bank ="0" dimmer="484"/>
-  <instrument name="486" bank ="0" dimmer="485"/>
-  <instrument name="487" bank ="0" dimmer="486"/>
-  <instrument name="488" bank ="0" dimmer="487"/>
-  <instrument name="489" bank ="0" dimmer="488"/>
-  <instrument name="490" bank ="0" dimmer="489"/>
-  <instrument name="491" bank ="0" dimmer="490"/>
-  <instrument name="492" bank ="0" dimmer="491"/>
-  <instrument name="493" bank ="0" dimmer="492"/>
-  <instrument name="494" bank ="0" dimmer="493"/>
-  <instrument name="495" bank ="0" dimmer="494"/>
-  <instrument name="496" bank ="0" dimmer="495"/>
-  <instrument name="497" bank ="0" dimmer="496"/>
-  <instrument name="498" bank ="0" dimmer="497"/>
-  <instrument name="499" bank ="0" dimmer="498"/>
-  <instrument name="500" bank ="0" dimmer="499"/>
-  <instrument name="501" bank ="0" dimmer="500"/>
-  <instrument name="502" bank ="0" dimmer="501"/>
-  <instrument name="503" bank ="0" dimmer="502"/>
-  <instrument name="504" bank ="0" dimmer="503"/>
-  <instrument name="505" bank ="0" dimmer="504"/>
-  <instrument name="506" bank ="0" dimmer="505"/>
-  <instrument name="507" bank ="0" dimmer="506"/>
-  <instrument name="508" bank ="0" dimmer="507"/>
-  <instrument name="509" bank ="0" dimmer="508"/>
-  <instrument name="510" bank ="0" dimmer="509"/>
-  <instrument name="511" bank ="0" dimmer="510"/>
-  <instrument name="512" bank ="0" dimmer="511"/>
-  <instrument name="513" bank ="0" dimmer="512"/>
-  <instrument name="514" bank ="0" dimmer="513"/>
-  <instrument name="515" bank ="0" dimmer="514"/>
-  <instrument name="516" bank ="0" dimmer="515"/>
-  <instrument name="517" bank ="0" dimmer="516"/>
-  <instrument name="518" bank ="0" dimmer="517"/>
-  <instrument name="519" bank ="0" dimmer="518"/>
-  <instrument name="520" bank ="0" dimmer="519"/>
-  <instrument name="521" bank ="0" dimmer="520"/>
-  <instrument name="522" bank ="0" dimmer="521"/>
-  <instrument name="523" bank ="0" dimmer="522"/>
-  <instrument name="524" bank ="0" dimmer="523"/>
-  <instrument name="525" bank ="0" dimmer="524"/>
-  <instrument name="526" bank ="0" dimmer="525"/>
-  <instrument name="527" bank ="0" dimmer="526"/>
-  <instrument name="528" bank ="0" dimmer="527"/>
-  <instrument name="529" bank ="0" dimmer="528"/>
-  <instrument name="530" bank ="0" dimmer="529"/>
-  <instrument name="531" bank ="0" dimmer="530"/>
-  <instrument name="532" bank ="0" dimmer="531"/>
-  <instrument name="533" bank ="0" dimmer="532"/>
-  <instrument name="534" bank ="0" dimmer="533"/>
-  <instrument name="535" bank ="0" dimmer="534"/>
-  <instrument name="536" bank ="0" dimmer="535"/>
-  <instrument name="537" bank ="0" dimmer="536"/>
-  <instrument name="538" bank ="0" dimmer="537"/>
-  <instrument name="539" bank ="0" dimmer="538"/>
-  <instrument name="540" bank ="0" dimmer="539"/>
-  <instrument name="541" bank ="0" dimmer="540"/>
-  <instrument name="542" bank ="0" dimmer="541"/>
-  <instrument name="543" bank ="0" dimmer="542"/>
-  <instrument name="544" bank ="0" dimmer="543"/>
-  <instrument name="545" bank ="0" dimmer="544"/>
-  <instrument name="546" bank ="0" dimmer="545"/>
-  <instrument name="547" bank ="0" dimmer="546"/>
-  <instrument name="548" bank ="0" dimmer="547"/>
-  <instrument name="549" bank ="0" dimmer="548"/>
-  <instrument name="550" bank ="0" dimmer="549"/>
-  <instrument name="551" bank ="0" dimmer="550"/>
-  <instrument name="552" bank ="0" dimmer="551"/>
-  <instrument name="553" bank ="0" dimmer="552"/>
-  <instrument name="554" bank ="0" dimmer="553"/>
-  <instrument name="555" bank ="0" dimmer="554"/>
-  <instrument name="556" bank ="0" dimmer="555"/>
-  <instrument name="557" bank ="0" dimmer="556"/>
-  <instrument name="558" bank ="0" dimmer="557"/>
-  <instrument name="559" bank ="0" dimmer="558"/>
-  <instrument name="560" bank ="0" dimmer="559"/>
-  <instrument name="561" bank ="0" dimmer="560"/>
-  <instrument name="562" bank ="0" dimmer="561"/>
-  <instrument name="563" bank ="0" dimmer="562"/>
-  <instrument name="564" bank ="0" dimmer="563"/>
-  <instrument name="565" bank ="0" dimmer="564"/>
-  <instrument name="566" bank ="0" dimmer="565"/>
-  <instrument name="567" bank ="0" dimmer="566"/>
-  <instrument name="568" bank ="0" dimmer="567"/>
-  <instrument name="569" bank ="0" dimmer="568"/>
-  <instrument name="570" bank ="0" dimmer="569"/>
-  <instrument name="571" bank ="0" dimmer="570"/>
-  <instrument name="572" bank ="0" dimmer="571"/>
-  <instrument name="573" bank ="0" dimmer="572"/>
-  <instrument name="574" bank ="0" dimmer="573"/>
-  <instrument name="575" bank ="0" dimmer="574"/>
-  <instrument name="576" bank ="0" dimmer="575"/>
-  <instrument name="577" bank ="0" dimmer="576"/>
-  <instrument name="578" bank ="0" dimmer="577"/>
-  <instrument name="579" bank ="0" dimmer="578"/>
-  <instrument name="580" bank ="0" dimmer="579"/>
-  <instrument name="581" bank ="0" dimmer="580"/>
-  <instrument name="582" bank ="0" dimmer="581"/>
-  <instrument name="583" bank ="0" dimmer="582"/>
-  <instrument name="584" bank ="0" dimmer="583"/>
-  <instrument name="585" bank ="0" dimmer="584"/>
-  <instrument name="586" bank ="0" dimmer="585"/>
-  <instrument name="587" bank ="0" dimmer="586"/>
-  <instrument name="588" bank ="0" dimmer="587"/>
-  <instrument name="589" bank ="0" dimmer="588"/>
-  <instrument name="590" bank ="0" dimmer="589"/>
-  <instrument name="591" bank ="0" dimmer="590"/>
-  <instrument name="592" bank ="0" dimmer="591"/>
-  <instrument name="593" bank ="0" dimmer="592"/>
-  <instrument name="594" bank ="0" dimmer="593"/>
-  <instrument name="595" bank ="0" dimmer="594"/>
-  <instrument name="596" bank ="0" dimmer="595"/>
-  <instrument name="597" bank ="0" dimmer="596"/>
-  <instrument name="598" bank ="0" dimmer="597"/>
-  <instrument name="599" bank ="0" dimmer="598"/>
-  <instrument name="600" bank ="0" dimmer="599"/>
-  <instrument name="601" bank ="0" dimmer="600"/>
-  <instrument name="602" bank ="0" dimmer="601"/>
-  <instrument name="603" bank ="0" dimmer="602"/>
-  <instrument name="604" bank ="0" dimmer="603"/>
-  <instrument name="605" bank ="0" dimmer="604"/>
-  <instrument name="606" bank ="0" dimmer="605"/>
-  <instrument name="607" bank ="0" dimmer="606"/>
-  <instrument name="608" bank ="0" dimmer="607"/>
-  <instrument name="609" bank ="0" dimmer="608"/>
-  <instrument name="610" bank ="0" dimmer="609"/>
-  <instrument name="611" bank ="0" dimmer="610"/>
-  <instrument name="612" bank ="0" dimmer="611"/>
-  <instrument name="613" bank ="0" dimmer="612"/>
-  <instrument name="614" bank ="0" dimmer="613"/>
-  <instrument name="615" bank ="0" dimmer="614"/>
-  <instrument name="616" bank ="0" dimmer="615"/>
-  <instrument name="617" bank ="0" dimmer="616"/>
-  <instrument name="618" bank ="0" dimmer="617"/>
-  <instrument name="619" bank ="0" dimmer="618"/>
-  <instrument name="620" bank ="0" dimmer="619"/>
-  <instrument name="621" bank ="0" dimmer="620"/>
-  <instrument name="622" bank ="0" dimmer="621"/>
-  <instrument name="623" bank ="0" dimmer="622"/>
-  <instrument name="624" bank ="0" dimmer="623"/>
-  <instrument name="625" bank ="0" dimmer="624"/>
-  <instrument name="626" bank ="0" dimmer="625"/>
-  <instrument name="627" bank ="0" dimmer="626"/>
-  <instrument name="628" bank ="0" dimmer="627"/>
-  <instrument name="629" bank ="0" dimmer="628"/>
-  <instrument name="630" bank ="0" dimmer="629"/>
-  <instrument name="631" bank ="0" dimmer="630"/>
-  <instrument name="632" bank ="0" dimmer="631"/>
-  <instrument name="633" bank ="0" dimmer="632"/>
-  <instrument name="634" bank ="0" dimmer="633"/>
-  <instrument name="635" bank ="0" dimmer="634"/>
-  <instrument name="636" bank ="0" dimmer="635"/>
-  <instrument name="637" bank ="0" dimmer="636"/>
-  <instrument name="638" bank ="0" dimmer="637"/>
-  <instrument name="639" bank ="0" dimmer="638"/>
-  <instrument name="640" bank ="0" dimmer="639"/>
-  <instrument name="641" bank ="0" dimmer="640"/>
-  <instrument name="642" bank ="0" dimmer="641"/>
-  <instrument name="643" bank ="0" dimmer="642"/>
-  <instrument name="644" bank ="0" dimmer="643"/>
-  <instrument name="645" bank ="0" dimmer="644"/>
-  <instrument name="646" bank ="0" dimmer="645"/>
-  <instrument name="647" bank ="0" dimmer="646"/>
-  <instrument name="648" bank ="0" dimmer="647"/>
-  <instrument name="649" bank ="0" dimmer="648"/>
-  <instrument name="650" bank ="0" dimmer="649"/>
-  <instrument name="651" bank ="0" dimmer="650"/>
-  <instrument name="652" bank ="0" dimmer="651"/>
-  <instrument name="653" bank ="0" dimmer="652"/>
-  <instrument name="654" bank ="0" dimmer="653"/>
-  <instrument name="655" bank ="0" dimmer="654"/>
-  <instrument name="656" bank ="0" dimmer="655"/>
-  <instrument name="657" bank ="0" dimmer="656"/>
-  <instrument name="658" bank ="0" dimmer="657"/>
-  <instrument name="659" bank ="0" dimmer="658"/>
-  <instrument name="660" bank ="0" dimmer="659"/>
-  <instrument name="661" bank ="0" dimmer="660"/>
-  <instrument name="662" bank ="0" dimmer="661"/>
-  <instrument name="663" bank ="0" dimmer="662"/>
-  <instrument name="664" bank ="0" dimmer="663"/>
-  <instrument name="665" bank ="0" dimmer="664"/>
-  <instrument name="666" bank ="0" dimmer="665"/>
-  <instrument name="667" bank ="0" dimmer="666"/>
-  <instrument name="668" bank ="0" dimmer="667"/>
-  <instrument name="669" bank ="0" dimmer="668"/>
-  <instrument name="670" bank ="0" dimmer="669"/>
-  <instrument name="671" bank ="0" dimmer="670"/>
-  <instrument name="672" bank ="0" dimmer="671"/>
-  <instrument name="673" bank ="0" dimmer="672"/>
-  <instrument name="674" bank ="0" dimmer="673"/>
-  <instrument name="675" bank ="0" dimmer="674"/>
-  <instrument name="676" bank ="0" dimmer="675"/>
-  <instrument name="677" bank ="0" dimmer="676"/>
-  <instrument name="678" bank ="0" dimmer="677"/>
-  <instrument name="679" bank ="0" dimmer="678"/>
-  <instrument name="680" bank ="0" dimmer="679"/>
-  <instrument name="681" bank ="0" dimmer="680"/>
-  <instrument name="682" bank ="0" dimmer="681"/>
-  <instrument name="683" bank ="0" dimmer="682"/>
-  <instrument name="684" bank ="0" dimmer="683"/>
-  <instrument name="685" bank ="0" dimmer="684"/>
-  <instrument name="686" bank ="0" dimmer="685"/>
-  <instrument name="687" bank ="0" dimmer="686"/>
-  <instrument name="688" bank ="0" dimmer="687"/>
-  <instrument name="689" bank ="0" dimmer="688"/>
-  <instrument name="690" bank ="0" dimmer="689"/>
-  <instrument name="691" bank ="0" dimmer="690"/>
-  <instrument name="692" bank ="0" dimmer="691"/>
-  <instrument name="693" bank ="0" dimmer="692"/>
-  <instrument name="694" bank ="0" dimmer="693"/>
-  <instrument name="695" bank ="0" dimmer="694"/>
-  <instrument name="696" bank ="0" dimmer="695"/>
-  <instrument name="697" bank ="0" dimmer="696"/>
-  <instrument name="698" bank ="0" dimmer="697"/>
-  <instrument name="699" bank ="0" dimmer="698"/>
-  <instrument name="700" bank ="0" dimmer="699"/>
-  <instrument name="701" bank ="0" dimmer="700"/>
-  <instrument name="702" bank ="0" dimmer="701"/>
-  <instrument name="703" bank ="0" dimmer="702"/>
-  <instrument name="704" bank ="0" dimmer="703"/>
-  <instrument name="705" bank ="0" dimmer="704"/>
-  <instrument name="706" bank ="0" dimmer="705"/>
-  <instrument name="707" bank ="0" dimmer="706"/>
-  <instrument name="708" bank ="0" dimmer="707"/>
-  <instrument name="709" bank ="0" dimmer="708"/>
-  <instrument name="710" bank ="0" dimmer="709"/>
-  <instrument name="711" bank ="0" dimmer="710"/>
-  <instrument name="712" bank ="0" dimmer="711"/>
-  <instrument name="713" bank ="0" dimmer="712"/>
-  <instrument name="714" bank ="0" dimmer="713"/>
-  <instrument name="715" bank ="0" dimmer="714"/>
-  <instrument name="716" bank ="0" dimmer="715"/>
-  <instrument name="717" bank ="0" dimmer="716"/>
-  <instrument name="718" bank ="0" dimmer="717"/>
-  <instrument name="719" bank ="0" dimmer="718"/>
-  <instrument name="720" bank ="0" dimmer="719"/>
-  <instrument name="721" bank ="0" dimmer="720"/>
-  <instrument name="722" bank ="0" dimmer="721"/>
-  <instrument name="723" bank ="0" dimmer="722"/>
-  <instrument name="724" bank ="0" dimmer="723"/>
-  <instrument name="725" bank ="0" dimmer="724"/>
-  <instrument name="726" bank ="0" dimmer="725"/>
-  <instrument name="727" bank ="0" dimmer="726"/>
-  <instrument name="728" bank ="0" dimmer="727"/>
-  <instrument name="729" bank ="0" dimmer="728"/>
-  <instrument name="730" bank ="0" dimmer="729"/>
-  <instrument name="731" bank ="0" dimmer="730"/>
-  <instrument name="732" bank ="0" dimmer="731"/>
-  <instrument name="733" bank ="0" dimmer="732"/>
-  <instrument name="734" bank ="0" dimmer="733"/>
-  <instrument name="735" bank ="0" dimmer="734"/>
-  <instrument name="736" bank ="0" dimmer="735"/>
-  <instrument name="737" bank ="0" dimmer="736"/>
-  <instrument name="738" bank ="0" dimmer="737"/>
-  <instrument name="739" bank ="0" dimmer="738"/>
-  <instrument name="740" bank ="0" dimmer="739"/>
-  <instrument name="741" bank ="0" dimmer="740"/>
-  <instrument name="742" bank ="0" dimmer="741"/>
-  <instrument name="743" bank ="0" dimmer="742"/>
-  <instrument name="744" bank ="0" dimmer="743"/>
-  <instrument name="745" bank ="0" dimmer="744"/>
-  <instrument name="746" bank ="0" dimmer="745"/>
-  <instrument name="747" bank ="0" dimmer="746"/>
-  <instrument name="748" bank ="0" dimmer="747"/>
-  <instrument name="749" bank ="0" dimmer="748"/>
-  <instrument name="750" bank ="0" dimmer="749"/>
-  <instrument name="751" bank ="0" dimmer="750"/>
-  <instrument name="752" bank ="0" dimmer="751"/>
-  <instrument name="753" bank ="0" dimmer="752"/>
-  <instrument name="754" bank ="0" dimmer="753"/>
-  <instrument name="755" bank ="0" dimmer="754"/>
-  <instrument name="756" bank ="0" dimmer="755"/>
-  <instrument name="757" bank ="0" dimmer="756"/>
-  <instrument name="758" bank ="0" dimmer="757"/>
-  <instrument name="759" bank ="0" dimmer="758"/>
-  <instrument name="760" bank ="0" dimmer="759"/>
-  <instrument name="761" bank ="0" dimmer="760"/>
-  <instrument name="762" bank ="0" dimmer="761"/>
-  <instrument name="763" bank ="0" dimmer="762"/>
-  <instrument name="764" bank ="0" dimmer="763"/>
-  <instrument name="765" bank ="0" dimmer="764"/>
-  <instrument name="766" bank ="0" dimmer="765"/>
-  <instrument name="767" bank ="0" dimmer="766"/>
-  <instrument name="768" bank ="0" dimmer="767"/>
-  <instrument name="769" bank ="0" dimmer="768"/>
-  <instrument name="770" bank ="0" dimmer="769"/>
-  <instrument name="771" bank ="0" dimmer="770"/>
-  <instrument name="772" bank ="0" dimmer="771"/>
-  <instrument name="773" bank ="0" dimmer="772"/>
-  <instrument name="774" bank ="0" dimmer="773"/>
-  <instrument name="775" bank ="0" dimmer="774"/>
-  <instrument name="776" bank ="0" dimmer="775"/>
-  <instrument name="777" bank ="0" dimmer="776"/>
-  <instrument name="778" bank ="0" dimmer="777"/>
-  <instrument name="779" bank ="0" dimmer="778"/>
-  <instrument name="780" bank ="0" dimmer="779"/>
-  <instrument name="781" bank ="0" dimmer="780"/>
-  <instrument name="782" bank ="0" dimmer="781"/>
-  <instrument name="783" bank ="0" dimmer="782"/>
-  <instrument name="784" bank ="0" dimmer="783"/>
-  <instrument name="785" bank ="0" dimmer="784"/>
-  <instrument name="786" bank ="0" dimmer="785"/>
-  <instrument name="787" bank ="0" dimmer="786"/>
-  <instrument name="788" bank ="0" dimmer="787"/>
-  <instrument name="789" bank ="0" dimmer="788"/>
-  <instrument name="790" bank ="0" dimmer="789"/>
-  <instrument name="791" bank ="0" dimmer="790"/>
-  <instrument name="792" bank ="0" dimmer="791"/>
-  <instrument name="793" bank ="0" dimmer="792"/>
-  <instrument name="794" bank ="0" dimmer="793"/>
-  <instrument name="795" bank ="0" dimmer="794"/>
-  <instrument name="796" bank ="0" dimmer="795"/>
-  <instrument name="797" bank ="0" dimmer="796"/>
-  <instrument name="798" bank ="0" dimmer="797"/>
-  <instrument name="799" bank ="0" dimmer="798"/>
-  <instrument name="800" bank ="0" dimmer="799"/>
-  <instrument name="801" bank ="0" dimmer="800"/>
-  <instrument name="802" bank ="0" dimmer="801"/>
-  <instrument name="803" bank ="0" dimmer="802"/>
-  <instrument name="804" bank ="0" dimmer="803"/>
-  <instrument name="805" bank ="0" dimmer="804"/>
-  <instrument name="806" bank ="0" dimmer="805"/>
-  <instrument name="807" bank ="0" dimmer="806"/>
-  <instrument name="808" bank ="0" dimmer="807"/>
-  <instrument name="809" bank ="0" dimmer="808"/>
-  <instrument name="810" bank ="0" dimmer="809"/>
-  <instrument name="811" bank ="0" dimmer="810"/>
-  <instrument name="812" bank ="0" dimmer="811"/>
-  <instrument name="813" bank ="0" dimmer="812"/>
-  <instrument name="814" bank ="0" dimmer="813"/>
-  <instrument name="815" bank ="0" dimmer="814"/>
-  <instrument name="816" bank ="0" dimmer="815"/>
-  <instrument name="817" bank ="0" dimmer="816"/>
-  <instrument name="818" bank ="0" dimmer="817"/>
-  <instrument name="819" bank ="0" dimmer="818"/>
-  <instrument name="820" bank ="0" dimmer="819"/>
-  <instrument name="821" bank ="0" dimmer="820"/>
-  <instrument name="822" bank ="0" dimmer="821"/>
-  <instrument name="823" bank ="0" dimmer="822"/>
-  <instrument name="824" bank ="0" dimmer="823"/>
-  <instrument name="825" bank ="0" dimmer="824"/>
-  <instrument name="826" bank ="0" dimmer="825"/>
-  <instrument name="827" bank ="0" dimmer="826"/>
-  <instrument name="828" bank ="0" dimmer="827"/>
-  <instrument name="829" bank ="0" dimmer="828"/>
-  <instrument name="830" bank ="0" dimmer="829"/>
-  <instrument name="831" bank ="0" dimmer="830"/>
-  <instrument name="832" bank ="0" dimmer="831"/>
-  <instrument name="833" bank ="0" dimmer="832"/>
-  <instrument name="834" bank ="0" dimmer="833"/>
-  <instrument name="835" bank ="0" dimmer="834"/>
-  <instrument name="836" bank ="0" dimmer="835"/>
-  <instrument name="837" bank ="0" dimmer="836"/>
-  <instrument name="838" bank ="0" dimmer="837"/>
-  <instrument name="839" bank ="0" dimmer="838"/>
-  <instrument name="840" bank ="0" dimmer="839"/>
-  <instrument name="841" bank ="0" dimmer="840"/>
-  <instrument name="842" bank ="0" dimmer="841"/>
-  <instrument name="843" bank ="0" dimmer="842"/>
-  <instrument name="844" bank ="0" dimmer="843"/>
-  <instrument name="845" bank ="0" dimmer="844"/>
-  <instrument name="846" bank ="0" dimmer="845"/>
-  <instrument name="847" bank ="0" dimmer="846"/>
-  <instrument name="848" bank ="0" dimmer="847"/>
-  <instrument name="849" bank ="0" dimmer="848"/>
-  <instrument name="850" bank ="0" dimmer="849"/>
-  <instrument name="851" bank ="0" dimmer="850"/>
-  <instrument name="852" bank ="0" dimmer="851"/>
-  <instrument name="853" bank ="0" dimmer="852"/>
-  <instrument name="854" bank ="0" dimmer="853"/>
-  <instrument name="855" bank ="0" dimmer="854"/>
-  <instrument name="856" bank ="0" dimmer="855"/>
-  <instrument name="857" bank ="0" dimmer="856"/>
-  <instrument name="858" bank ="0" dimmer="857"/>
-  <instrument name="859" bank ="0" dimmer="858"/>
-  <instrument name="860" bank ="0" dimmer="859"/>
-  <instrument name="861" bank ="0" dimmer="860"/>
-  <instrument name="862" bank ="0" dimmer="861"/>
-  <instrument name="863" bank ="0" dimmer="862"/>
-  <instrument name="864" bank ="0" dimmer="863"/>
-  <instrument name="865" bank ="0" dimmer="864"/>
-  <instrument name="866" bank ="0" dimmer="865"/>
-  <instrument name="867" bank ="0" dimmer="866"/>
-  <instrument name="868" bank ="0" dimmer="867"/>
-  <instrument name="869" bank ="0" dimmer="868"/>
-  <instrument name="870" bank ="0" dimmer="869"/>
-  <instrument name="871" bank ="0" dimmer="870"/>
-  <instrument name="872" bank ="0" dimmer="871"/>
-  <instrument name="873" bank ="0" dimmer="872"/>
-  <instrument name="874" bank ="0" dimmer="873"/>
-  <instrument name="875" bank ="0" dimmer="874"/>
-  <instrument name="876" bank ="0" dimmer="875"/>
-  <instrument name="877" bank ="0" dimmer="876"/>
-  <instrument name="878" bank ="0" dimmer="877"/>
-  <instrument name="879" bank ="0" dimmer="878"/>
-  <instrument name="880" bank ="0" dimmer="879"/>
-  <instrument name="881" bank ="0" dimmer="880"/>
-  <instrument name="882" bank ="0" dimmer="881"/>
-  <instrument name="883" bank ="0" dimmer="882"/>
-  <instrument name="884" bank ="0" dimmer="883"/>
-  <instrument name="885" bank ="0" dimmer="884"/>
-  <instrument name="886" bank ="0" dimmer="885"/>
-  <instrument name="887" bank ="0" dimmer="886"/>
-  <instrument name="888" bank ="0" dimmer="887"/>
-  <instrument name="889" bank ="0" dimmer="888"/>
-  <instrument name="890" bank ="0" dimmer="889"/>
-  <instrument name="891" bank ="0" dimmer="890"/>
-  <instrument name="892" bank ="0" dimmer="891"/>
-  <instrument name="893" bank ="0" dimmer="892"/>
-  <instrument name="894" bank ="0" dimmer="893"/>
-  <instrument name="895" bank ="0" dimmer="894"/>
-  <instrument name="896" bank ="0" dimmer="895"/>
-  <instrument name="897" bank ="0" dimmer="896"/>
-  <instrument name="898" bank ="0" dimmer="897"/>
-  <instrument name="899" bank ="0" dimmer="898"/>
-  <instrument name="900" bank ="0" dimmer="899"/>
-  <instrument name="901" bank ="0" dimmer="900"/>
-  <instrument name="902" bank ="0" dimmer="901"/>
-  <instrument name="903" bank ="0" dimmer="902"/>
-  <instrument name="904" bank ="0" dimmer="903"/>
-  <instrument name="905" bank ="0" dimmer="904"/>
-  <instrument name="906" bank ="0" dimmer="905"/>
-  <instrument name="907" bank ="0" dimmer="906"/>
-  <instrument name="908" bank ="0" dimmer="907"/>
-  <instrument name="909" bank ="0" dimmer="908"/>
-  <instrument name="910" bank ="0" dimmer="909"/>
-  <instrument name="911" bank ="0" dimmer="910"/>
-  <instrument name="912" bank ="0" dimmer="911"/>
-  <instrument name="913" bank ="0" dimmer="912"/>
-  <instrument name="914" bank ="0" dimmer="913"/>
-  <instrument name="915" bank ="0" dimmer="914"/>
-  <instrument name="916" bank ="0" dimmer="915"/>
-  <instrument name="917" bank ="0" dimmer="916"/>
-  <instrument name="918" bank ="0" dimmer="917"/>
-  <instrument name="919" bank ="0" dimmer="918"/>
-  <instrument name="920" bank ="0" dimmer="919"/>
-  <instrument name="921" bank ="0" dimmer="920"/>
-  <instrument name="922" bank ="0" dimmer="921"/>
-  <instrument name="923" bank ="0" dimmer="922"/>
-  <instrument name="924" bank ="0" dimmer="923"/>
-  <instrument name="925" bank ="0" dimmer="924"/>
-  <instrument name="926" bank ="0" dimmer="925"/>
-  <instrument name="927" bank ="0" dimmer="926"/>
-  <instrument name="928" bank ="0" dimmer="927"/>
-  <instrument name="929" bank ="0" dimmer="928"/>
-  <instrument name="930" bank ="0" dimmer="929"/>
-  <instrument name="931" bank ="0" dimmer="930"/>
-  <instrument name="932" bank ="0" dimmer="931"/>
-  <instrument name="933" bank ="0" dimmer="932"/>
-  <instrument name="934" bank ="0" dimmer="933"/>
-  <instrument name="935" bank ="0" dimmer="934"/>
-  <instrument name="936" bank ="0" dimmer="935"/>
-  <instrument name="937" bank ="0" dimmer="936"/>
-  <instrument name="938" bank ="0" dimmer="937"/>
-  <instrument name="939" bank ="0" dimmer="938"/>
-  <instrument name="940" bank ="0" dimmer="939"/>
-  <instrument name="941" bank ="0" dimmer="940"/>
-  <instrument name="942" bank ="0" dimmer="941"/>
-  <instrument name="943" bank ="0" dimmer="942"/>
-  <instrument name="944" bank ="0" dimmer="943"/>
-  <instrument name="945" bank ="0" dimmer="944"/>
-  <instrument name="946" bank ="0" dimmer="945"/>
-  <instrument name="947" bank ="0" dimmer="946"/>
-  <instrument name="948" bank ="0" dimmer="947"/>
-  <instrument name="949" bank ="0" dimmer="948"/>
-  <instrument name="950" bank ="0" dimmer="949"/>
-  <instrument name="951" bank ="0" dimmer="950"/>
-  <instrument name="952" bank ="0" dimmer="951"/>
-  <instrument name="953" bank ="0" dimmer="952"/>
-  <instrument name="954" bank ="0" dimmer="953"/>
-  <instrument name="955" bank ="0" dimmer="954"/>
-  <instrument name="956" bank ="0" dimmer="955"/>
-  <instrument name="957" bank ="0" dimmer="956"/>
-  <instrument name="958" bank ="0" dimmer="957"/>
-  <instrument name="959" bank ="0" dimmer="958"/>
-  <instrument name="960" bank ="0" dimmer="959"/>
-  <instrument name="961" bank ="0" dimmer="960"/>
-  <instrument name="962" bank ="0" dimmer="961"/>
-  <instrument name="963" bank ="0" dimmer="962"/>
-  <instrument name="964" bank ="0" dimmer="963"/>
-  <instrument name="965" bank ="0" dimmer="964"/>
-  <instrument name="966" bank ="0" dimmer="965"/>
-  <instrument name="967" bank ="0" dimmer="966"/>
-  <instrument name="968" bank ="0" dimmer="967"/>
-  <instrument name="969" bank ="0" dimmer="968"/>
-  <instrument name="970" bank ="0" dimmer="969"/>
-  <instrument name="971" bank ="0" dimmer="970"/>
-  <instrument name="972" bank ="0" dimmer="971"/>
-  <instrument name="973" bank ="0" dimmer="972"/>
-  <instrument name="974" bank ="0" dimmer="973"/>
-  <instrument name="975" bank ="0" dimmer="974"/>
-  <instrument name="976" bank ="0" dimmer="975"/>
-  <instrument name="977" bank ="0" dimmer="976"/>
-  <instrument name="978" bank ="0" dimmer="977"/>
-  <instrument name="979" bank ="0" dimmer="978"/>
-  <instrument name="980" bank ="0" dimmer="979"/>
-  <instrument name="981" bank ="0" dimmer="980"/>
-  <instrument name="982" bank ="0" dimmer="981"/>
-  <instrument name="983" bank ="0" dimmer="982"/>
-  <instrument name="984" bank ="0" dimmer="983"/>
-  <instrument name="985" bank ="0" dimmer="984"/>
-  <instrument name="986" bank ="0" dimmer="985"/>
-  <instrument name="987" bank ="0" dimmer="986"/>
-  <instrument name="988" bank ="0" dimmer="987"/>
-  <instrument name="989" bank ="0" dimmer="988"/>
-  <instrument name="990" bank ="0" dimmer="989"/>
-  <instrument name="991" bank ="0" dimmer="990"/>
-  <instrument name="992" bank ="0" dimmer="991"/>
-  <instrument name="993" bank ="0" dimmer="992"/>
-  <instrument name="994" bank ="0" dimmer="993"/>
-  <instrument name="995" bank ="0" dimmer="994"/>
-  <instrument name="996" bank ="0" dimmer="995"/>
-  <instrument name="997" bank ="0" dimmer="996"/>
-  <instrument name="998" bank ="0" dimmer="997"/>
-  <instrument name="999" bank ="0" dimmer="998"/>
-  <instrument name="1000" bank ="0" dimmer="999"/>
-  <instrument name="1001" bank ="0" dimmer="1000"/>
-  <instrument name="1002" bank ="0" dimmer="1001"/>
-  <instrument name="1003" bank ="0" dimmer="1002"/>
-  <instrument name="1004" bank ="0" dimmer="1003"/>
-  <instrument name="1005" bank ="0" dimmer="1004"/>
-  <instrument name="1006" bank ="0" dimmer="1005"/>
-  <instrument name="1007" bank ="0" dimmer="1006"/>
-  <instrument name="1008" bank ="0" dimmer="1007"/>
-  <instrument name="1009" bank ="0" dimmer="1008"/>
-  <instrument name="1010" bank ="0" dimmer="1009"/>
-  <instrument name="1011" bank ="0" dimmer="1010"/>
-  <instrument name="1012" bank ="0" dimmer="1011"/>
-  <instrument name="1013" bank ="0" dimmer="1012"/>
-  <instrument name="1014" bank ="0" dimmer="1013"/>
-  <instrument name="1015" bank ="0" dimmer="1014"/>
-  <instrument name="1016" bank ="0" dimmer="1015"/>
-  <instrument name="1017" bank ="0" dimmer="1016"/>
-  <instrument name="1018" bank ="0" dimmer="1017"/>
-  <instrument name="1019" bank ="0" dimmer="1018"/>
-  <instrument name="1020" bank ="0" dimmer="1019"/>
-  <instrument name="1021" bank ="0" dimmer="1020"/>
-  <instrument name="1022" bank ="0" dimmer="1021"/>
-  <instrument name="1023" bank ="0" dimmer="1022"/>
-  <instrument name="1024" bank ="0" dimmer="1023"/>
+  <instrument name="house1" core="LB1" dimmer="65"/>
+  <instrument name="house2" core="LB1" dimmer="66"/>
+  <instrument name="house3" core="LB1" dimmer="67"/>
+  <instrument name="1" core="LB1" dimmer="1"/>
+  <instrument name="2" core="LB1" dimmer="2"/>
+  <instrument name="3" core="LB1" dimmer="3"/>
+  <instrument name="4" core="LB1" dimmer="4"/>
+  <instrument name="5" core="LB1" dimmer="5"/>
+  <instrument name="6" core="LB1" dimmer="6"/>
+  <instrument name="7" core="LB1" dimmer="7"/>
+  <instrument name="8" core="LB1" dimmer="8"/>
+  <instrument name="9" core="LB1" dimmer="9"/>
+  <instrument name="10" core="LB1" dimmer="10"/>
+<!--
+  <instrument name="11" core="LB1" dimmer="10"/>
+  <instrument name="12" core="LB1" dimmer="11"/>
+  <instrument name="13" core="LB1" dimmer="12"/>
+  <instrument name="14" core="LB1" dimmer="13"/>
+  <instrument name="15" core="LB1" dimmer="14"/>
+  <instrument name="16" core="LB1" dimmer="15"/>
+  <instrument name="17" core="LB1" dimmer="16"/>
+  <instrument name="18" core="LB1" dimmer="17"/>
+  <instrument name="19" core="LB1" dimmer="18"/>
+  <instrument name="20" core="LB1" dimmer="19"/>
+  <instrument name="21" core="LB1" dimmer="20"/>
+  <instrument name="22" core="LB1" dimmer="21"/>
+  <instrument name="23" core="LB1" dimmer="22"/>
+  <instrument name="24" core="LB1" dimmer="23"/>
+  <instrument name="25" core="LB1" dimmer="24"/>
+  <instrument name="26" core="LB1" dimmer="25"/>
+  <instrument name="27" core="LB1" dimmer="26"/>
+  <instrument name="28" core="LB1" dimmer="27"/>
+  <instrument name="29" core="LB1" dimmer="28"/>
+  <instrument name="30" core="LB1" dimmer="29"/>
+  <instrument name="31" core="LB1" dimmer="30"/>
+  <instrument name="32" core="LB1" dimmer="31"/>
+  <instrument name="33" core="LB1" dimmer="32"/>
+  <instrument name="34" core="LB1" dimmer="33"/>
+  <instrument name="35" core="LB1" dimmer="34"/>
+  <instrument name="36" core="LB1" dimmer="35"/>
+  <instrument name="37" core="LB1" dimmer="36"/>
+  <instrument name="38" core="LB1" dimmer="37"/>
+  <instrument name="39" core="LB1" dimmer="38"/>
+  <instrument name="40" core="LB1" dimmer="39"/>
+  <instrument name="41" core="LB1" dimmer="40"/>
+  <instrument name="42" core="LB1" dimmer="41"/>
+  <instrument name="43" core="LB1" dimmer="42"/>
+  <instrument name="44" core="LB1" dimmer="43"/>
+  <instrument name="45" core="LB1" dimmer="44"/>
+  <instrument name="46" core="LB1" dimmer="45"/>
+  <instrument name="47" core="LB1" dimmer="46"/>
+  <instrument name="48" core="LB1" dimmer="47"/>
+  <instrument name="49" core="LB1" dimmer="48"/>
+  <instrument name="50" core="LB1" dimmer="49"/>
+  <instrument name="51" core="LB1" dimmer="50"/>
+  <instrument name="52" core="LB1" dimmer="51"/>
+  <instrument name="53" core="LB1" dimmer="52"/>
+  <instrument name="54" core="LB1" dimmer="53"/>
+  <instrument name="55" core="LB1" dimmer="54"/>
+  <instrument name="56" core="LB1" dimmer="55"/>
+  <instrument name="57" core="LB1" dimmer="56"/>
+  <instrument name="58" core="LB1" dimmer="57"/>
+  <instrument name="59" core="LB1" dimmer="58"/>
+  <instrument name="60" core="LB1" dimmer="59"/>
+  <instrument name="61" core="LB1" dimmer="60"/>
+  <instrument name="62" core="LB1" dimmer="61"/>
+  <instrument name="63" core="LB1" dimmer="62"/>
+  <instrument name="64" core="LB1" dimmer="63"/>
+  <instrument name="65" core="LB1" dimmer="64"/>
+  <instrument name="66" core="LB1" dimmer="65"/>
+  <instrument name="67" core="LB1" dimmer="66"/>
+  <instrument name="68" core="LB1" dimmer="67"/>
+  <instrument name="69" core="LB1" dimmer="68"/>
+  <instrument name="70" core="LB1" dimmer="69"/>
+  <instrument name="71" core="LB1" dimmer="70"/>
+  <instrument name="72" core="LB1" dimmer="71"/>
+  <instrument name="73" core="LB1" dimmer="72"/>
+  <instrument name="74" core="LB1" dimmer="73"/>
+  <instrument name="75" core="LB1" dimmer="74"/>
+  <instrument name="76" core="LB1" dimmer="75"/>
+  <instrument name="77" core="LB1" dimmer="76"/>
+  <instrument name="78" core="LB1" dimmer="77"/>
+  <instrument name="79" core="LB1" dimmer="78"/>
+  <instrument name="80" core="LB1" dimmer="79"/>
+  <instrument name="81" core="LB1" dimmer="80"/>
+  <instrument name="82" core="LB1" dimmer="81"/>
+  <instrument name="83" core="LB1" dimmer="82"/>
+  <instrument name="84" core="LB1" dimmer="83"/>
+  <instrument name="85" core="LB1" dimmer="84"/>
+  <instrument name="86" core="LB1" dimmer="85"/>
+  <instrument name="87" core="LB1" dimmer="86"/>
+  <instrument name="88" core="LB1" dimmer="87"/>
+  <instrument name="89" core="LB1" dimmer="88"/>
+  <instrument name="90" core="LB1" dimmer="89"/>
+  <instrument name="91" core="LB1" dimmer="90"/>
+  <instrument name="92" core="LB1" dimmer="91"/>
+  <instrument name="93" core="LB1" dimmer="92"/>
+  <instrument name="94" core="LB1" dimmer="93"/>
+  <instrument name="95" core="LB1" dimmer="94"/>
+  <instrument name="96" core="LB1" dimmer="95"/>
+  <instrument name="97" core="LB1" dimmer="96"/>
+  <instrument name="98" core="LB1" dimmer="97"/>
+  <instrument name="99" core="LB1" dimmer="98"/>
+  <instrument name="100" core="LB1" dimmer="99"/>
+  <instrument name="101" core="LB1" dimmer="100"/>
+  <instrument name="102" core="LB1" dimmer="101"/>
+  <instrument name="103" core="LB1" dimmer="102"/>
+  <instrument name="104" core="LB1" dimmer="103"/>
+  <instrument name="105" core="LB1" dimmer="104"/>
+  <instrument name="106" core="LB1" dimmer="105"/>
+  <instrument name="107" core="LB1" dimmer="106"/>
+  <instrument name="108" core="LB1" dimmer="107"/>
+  <instrument name="109" core="LB1" dimmer="108"/>
+  <instrument name="110" core="LB1" dimmer="109"/>
+  <instrument name="111" core="LB1" dimmer="110"/>
+  <instrument name="112" core="LB1" dimmer="111"/>
+  <instrument name="113" core="LB1" dimmer="112"/>
+  <instrument name="114" core="LB1" dimmer="113"/>
+  <instrument name="115" core="LB1" dimmer="114"/>
+  <instrument name="116" core="LB1" dimmer="115"/>
+  <instrument name="117" core="LB1" dimmer="116"/>
+  <instrument name="118" core="LB1" dimmer="117"/>
+  <instrument name="119" core="LB1" dimmer="118"/>
+  <instrument name="120" core="LB1" dimmer="119"/>
+  <instrument name="121" core="LB1" dimmer="120"/>
+  <instrument name="122" core="LB1" dimmer="121"/>
+  <instrument name="123" core="LB1" dimmer="122"/>
+  <instrument name="124" core="LB1" dimmer="123"/>
+  <instrument name="125" core="LB1" dimmer="124"/>
+  <instrument name="126" core="LB1" dimmer="125"/>
+  <instrument name="127" core="LB1" dimmer="126"/>
+  <instrument name="128" core="LB1" dimmer="127"/>
+  <instrument name="129" core="LB1" dimmer="128"/>
+  <instrument name="130" core="LB1" dimmer="129"/>
+  <instrument name="131" core="LB1" dimmer="130"/>
+  <instrument name="132" core="LB1" dimmer="131"/>
+  <instrument name="133" core="LB1" dimmer="132"/>
+  <instrument name="134" core="LB1" dimmer="133"/>
+  <instrument name="135" core="LB1" dimmer="134"/>
+  <instrument name="136" core="LB1" dimmer="135"/>
+  <instrument name="137" core="LB1" dimmer="136"/>
+  <instrument name="138" core="LB1" dimmer="137"/>
+  <instrument name="139" core="LB1" dimmer="138"/>
+  <instrument name="140" core="LB1" dimmer="139"/>
+  <instrument name="141" core="LB1" dimmer="140"/>
+  <instrument name="142" core="LB1" dimmer="141"/>
+  <instrument name="143" core="LB1" dimmer="142"/>
+  <instrument name="144" core="LB1" dimmer="143"/>
+  <instrument name="145" core="LB1" dimmer="144"/>
+  <instrument name="146" core="LB1" dimmer="145"/>
+  <instrument name="147" core="LB1" dimmer="146"/>
+  <instrument name="148" core="LB1" dimmer="147"/>
+  <instrument name="149" core="LB1" dimmer="148"/>
+  <instrument name="150" core="LB1" dimmer="149"/>
+  <instrument name="151" core="LB1" dimmer="150"/>
+  <instrument name="152" core="LB1" dimmer="151"/>
+  <instrument name="153" core="LB1" dimmer="152"/>
+  <instrument name="154" core="LB1" dimmer="153"/>
+  <instrument name="155" core="LB1" dimmer="154"/>
+  <instrument name="156" core="LB1" dimmer="155"/>
+  <instrument name="157" core="LB1" dimmer="156"/>
+  <instrument name="158" core="LB1" dimmer="157"/>
+  <instrument name="159" core="LB1" dimmer="158"/>
+  <instrument name="160" core="LB1" dimmer="159"/>
+  <instrument name="161" core="LB1" dimmer="160"/>
+  <instrument name="162" core="LB1" dimmer="161"/>
+  <instrument name="163" core="LB1" dimmer="162"/>
+  <instrument name="164" core="LB1" dimmer="163"/>
+  <instrument name="165" core="LB1" dimmer="164"/>
+  <instrument name="166" core="LB1" dimmer="165"/>
+  <instrument name="167" core="LB1" dimmer="166"/>
+  <instrument name="168" core="LB1" dimmer="167"/>
+  <instrument name="169" core="LB1" dimmer="168"/>
+  <instrument name="170" core="LB1" dimmer="169"/>
+  <instrument name="171" core="LB1" dimmer="170"/>
+  <instrument name="172" core="LB1" dimmer="171"/>
+  <instrument name="173" core="LB1" dimmer="172"/>
+  <instrument name="174" core="LB1" dimmer="173"/>
+  <instrument name="175" core="LB1" dimmer="174"/>
+  <instrument name="176" core="LB1" dimmer="175"/>
+  <instrument name="177" core="LB1" dimmer="176"/>
+  <instrument name="178" core="LB1" dimmer="177"/>
+  <instrument name="179" core="LB1" dimmer="178"/>
+  <instrument name="180" core="LB1" dimmer="179"/>
+  <instrument name="181" core="LB1" dimmer="180"/>
+  <instrument name="182" core="LB1" dimmer="181"/>
+  <instrument name="183" core="LB1" dimmer="182"/>
+  <instrument name="184" core="LB1" dimmer="183"/>
+  <instrument name="185" core="LB1" dimmer="184"/>
+  <instrument name="186" core="LB1" dimmer="185"/>
+  <instrument name="187" core="LB1" dimmer="186"/>
+  <instrument name="188" core="LB1" dimmer="187"/>
+  <instrument name="189" core="LB1" dimmer="188"/>
+  <instrument name="190" core="LB1" dimmer="189"/>
+  <instrument name="191" core="LB1" dimmer="190"/>
+  <instrument name="192" core="LB1" dimmer="191"/>
+  <instrument name="193" core="LB1" dimmer="192"/>
+  <instrument name="194" core="LB1" dimmer="193"/>
+  <instrument name="195" core="LB1" dimmer="194"/>
+  <instrument name="196" core="LB1" dimmer="195"/>
+  <instrument name="197" core="LB1" dimmer="196"/>
+  <instrument name="198" core="LB1" dimmer="197"/>
+  <instrument name="199" core="LB1" dimmer="198"/>
+  <instrument name="200" core="LB1" dimmer="199"/>
+  <instrument name="201" core="LB1" dimmer="200"/>
+  <instrument name="202" core="LB1" dimmer="201"/>
+  <instrument name="203" core="LB1" dimmer="202"/>
+  <instrument name="204" core="LB1" dimmer="203"/>
+  <instrument name="205" core="LB1" dimmer="204"/>
+  <instrument name="206" core="LB1" dimmer="205"/>
+  <instrument name="207" core="LB1" dimmer="206"/>
+  <instrument name="208" core="LB1" dimmer="207"/>
+  <instrument name="209" core="LB1" dimmer="208"/>
+  <instrument name="210" core="LB1" dimmer="209"/>
+  <instrument name="211" core="LB1" dimmer="210"/>
+  <instrument name="212" core="LB1" dimmer="211"/>
+  <instrument name="213" core="LB1" dimmer="212"/>
+  <instrument name="214" core="LB1" dimmer="213"/>
+  <instrument name="215" core="LB1" dimmer="214"/>
+  <instrument name="216" core="LB1" dimmer="215"/>
+  <instrument name="217" core="LB1" dimmer="216"/>
+  <instrument name="218" core="LB1" dimmer="217"/>
+  <instrument name="219" core="LB1" dimmer="218"/>
+  <instrument name="220" core="LB1" dimmer="219"/>
+  <instrument name="221" core="LB1" dimmer="220"/>
+  <instrument name="222" core="LB1" dimmer="221"/>
+  <instrument name="223" core="LB1" dimmer="222"/>
+  <instrument name="224" core="LB1" dimmer="223"/>
+  <instrument name="225" core="LB1" dimmer="224"/>
+  <instrument name="226" core="LB1" dimmer="225"/>
+  <instrument name="227" core="LB1" dimmer="226"/>
+  <instrument name="228" core="LB1" dimmer="227"/>
+  <instrument name="229" core="LB1" dimmer="228"/>
+  <instrument name="230" core="LB1" dimmer="229"/>
+  <instrument name="231" core="LB1" dimmer="230"/>
+  <instrument name="232" core="LB1" dimmer="231"/>
+  <instrument name="233" core="LB1" dimmer="232"/>
+  <instrument name="234" core="LB1" dimmer="233"/>
+  <instrument name="235" core="LB1" dimmer="234"/>
+  <instrument name="236" core="LB1" dimmer="235"/>
+  <instrument name="237" core="LB1" dimmer="236"/>
+  <instrument name="238" core="LB1" dimmer="237"/>
+  <instrument name="239" core="LB1" dimmer="238"/>
+  <instrument name="240" core="LB1" dimmer="239"/>
+  <instrument name="241" core="LB1" dimmer="240"/>
+  <instrument name="242" core="LB1" dimmer="241"/>
+  <instrument name="243" core="LB1" dimmer="242"/>
+  <instrument name="244" core="LB1" dimmer="243"/>
+  <instrument name="245" core="LB1" dimmer="244"/>
+  <instrument name="246" core="LB1" dimmer="245"/>
+  <instrument name="247" core="LB1" dimmer="246"/>
+  <instrument name="248" core="LB1" dimmer="247"/>
+  <instrument name="249" core="LB1" dimmer="248"/>
+  <instrument name="250" core="LB1" dimmer="249"/>
+  <instrument name="251" core="LB1" dimmer="250"/>
+  <instrument name="252" core="LB1" dimmer="251"/>
+  <instrument name="253" core="LB1" dimmer="252"/>
+  <instrument name="254" core="LB1" dimmer="253"/>
+  <instrument name="255" core="LB1" dimmer="254"/>
+  <instrument name="256" core="LB1" dimmer="255"/>
+  <instrument name="257" core="LB1" dimmer="256"/>
+  <instrument name="258" core="LB1" dimmer="257"/>
+  <instrument name="259" core="LB1" dimmer="258"/>
+  <instrument name="260" core="LB1" dimmer="259"/>
+  <instrument name="261" core="LB1" dimmer="260"/>
+  <instrument name="262" core="LB1" dimmer="261"/>
+  <instrument name="263" core="LB1" dimmer="262"/>
+  <instrument name="264" core="LB1" dimmer="263"/>
+  <instrument name="265" core="LB1" dimmer="264"/>
+  <instrument name="266" core="LB1" dimmer="265"/>
+  <instrument name="267" core="LB1" dimmer="266"/>
+  <instrument name="268" core="LB1" dimmer="267"/>
+  <instrument name="269" core="LB1" dimmer="268"/>
+  <instrument name="270" core="LB1" dimmer="269"/>
+  <instrument name="271" core="LB1" dimmer="270"/>
+  <instrument name="272" core="LB1" dimmer="271"/>
+  <instrument name="273" core="LB1" dimmer="272"/>
+  <instrument name="274" core="LB1" dimmer="273"/>
+  <instrument name="275" core="LB1" dimmer="274"/>
+  <instrument name="276" core="LB1" dimmer="275"/>
+  <instrument name="277" core="LB1" dimmer="276"/>
+  <instrument name="278" core="LB1" dimmer="277"/>
+  <instrument name="279" core="LB1" dimmer="278"/>
+  <instrument name="280" core="LB1" dimmer="279"/>
+  <instrument name="281" core="LB1" dimmer="280"/>
+  <instrument name="282" core="LB1" dimmer="281"/>
+  <instrument name="283" core="LB1" dimmer="282"/>
+  <instrument name="284" core="LB1" dimmer="283"/>
+  <instrument name="285" core="LB1" dimmer="284"/>
+  <instrument name="286" core="LB1" dimmer="285"/>
+  <instrument name="287" core="LB1" dimmer="286"/>
+  <instrument name="288" core="LB1" dimmer="287"/>
+  <instrument name="289" core="LB1" dimmer="288"/>
+  <instrument name="290" core="LB1" dimmer="289"/>
+  <instrument name="291" core="LB1" dimmer="290"/>
+  <instrument name="292" core="LB1" dimmer="291"/>
+  <instrument name="293" core="LB1" dimmer="292"/>
+  <instrument name="294" core="LB1" dimmer="293"/>
+  <instrument name="295" core="LB1" dimmer="294"/>
+  <instrument name="296" core="LB1" dimmer="295"/>
+  <instrument name="297" core="LB1" dimmer="296"/>
+  <instrument name="298" core="LB1" dimmer="297"/>
+  <instrument name="299" core="LB1" dimmer="298"/>
+  <instrument name="300" core="LB1" dimmer="299"/>
+  <instrument name="301" core="LB1" dimmer="300"/>
+  <instrument name="302" core="LB1" dimmer="301"/>
+  <instrument name="303" core="LB1" dimmer="302"/>
+  <instrument name="304" core="LB1" dimmer="303"/>
+  <instrument name="305" core="LB1" dimmer="304"/>
+  <instrument name="306" core="LB1" dimmer="305"/>
+  <instrument name="307" core="LB1" dimmer="306"/>
+  <instrument name="308" core="LB1" dimmer="307"/>
+  <instrument name="309" core="LB1" dimmer="308"/>
+  <instrument name="310" core="LB1" dimmer="309"/>
+  <instrument name="311" core="LB1" dimmer="310"/>
+  <instrument name="312" core="LB1" dimmer="311"/>
+  <instrument name="313" core="LB1" dimmer="312"/>
+  <instrument name="314" core="LB1" dimmer="313"/>
+  <instrument name="315" core="LB1" dimmer="314"/>
+  <instrument name="316" core="LB1" dimmer="315"/>
+  <instrument name="317" core="LB1" dimmer="316"/>
+  <instrument name="318" core="LB1" dimmer="317"/>
+  <instrument name="319" core="LB1" dimmer="318"/>
+  <instrument name="320" core="LB1" dimmer="319"/>
+  <instrument name="321" core="LB1" dimmer="320"/>
+  <instrument name="322" core="LB1" dimmer="321"/>
+  <instrument name="323" core="LB1" dimmer="322"/>
+  <instrument name="324" core="LB1" dimmer="323"/>
+  <instrument name="325" core="LB1" dimmer="324"/>
+  <instrument name="326" core="LB1" dimmer="325"/>
+  <instrument name="327" core="LB1" dimmer="326"/>
+  <instrument name="328" core="LB1" dimmer="327"/>
+  <instrument name="329" core="LB1" dimmer="328"/>
+  <instrument name="330" core="LB1" dimmer="329"/>
+  <instrument name="331" core="LB1" dimmer="330"/>
+  <instrument name="332" core="LB1" dimmer="331"/>
+  <instrument name="333" core="LB1" dimmer="332"/>
+  <instrument name="334" core="LB1" dimmer="333"/>
+  <instrument name="335" core="LB1" dimmer="334"/>
+  <instrument name="336" core="LB1" dimmer="335"/>
+  <instrument name="337" core="LB1" dimmer="336"/>
+  <instrument name="338" core="LB1" dimmer="337"/>
+  <instrument name="339" core="LB1" dimmer="338"/>
+  <instrument name="340" core="LB1" dimmer="339"/>
+  <instrument name="341" core="LB1" dimmer="340"/>
+  <instrument name="342" core="LB1" dimmer="341"/>
+  <instrument name="343" core="LB1" dimmer="342"/>
+  <instrument name="344" core="LB1" dimmer="343"/>
+  <instrument name="345" core="LB1" dimmer="344"/>
+  <instrument name="346" core="LB1" dimmer="345"/>
+  <instrument name="347" core="LB1" dimmer="346"/>
+  <instrument name="348" core="LB1" dimmer="347"/>
+  <instrument name="349" core="LB1" dimmer="348"/>
+  <instrument name="350" core="LB1" dimmer="349"/>
+  <instrument name="351" core="LB1" dimmer="350"/>
+  <instrument name="352" core="LB1" dimmer="351"/>
+  <instrument name="353" core="LB1" dimmer="352"/>
+  <instrument name="354" core="LB1" dimmer="353"/>
+  <instrument name="355" core="LB1" dimmer="354"/>
+  <instrument name="356" core="LB1" dimmer="355"/>
+  <instrument name="357" core="LB1" dimmer="356"/>
+  <instrument name="358" core="LB1" dimmer="357"/>
+  <instrument name="359" core="LB1" dimmer="358"/>
+  <instrument name="360" core="LB1" dimmer="359"/>
+  <instrument name="361" core="LB1" dimmer="360"/>
+  <instrument name="362" core="LB1" dimmer="361"/>
+  <instrument name="363" core="LB1" dimmer="362"/>
+  <instrument name="364" core="LB1" dimmer="363"/>
+  <instrument name="365" core="LB1" dimmer="364"/>
+  <instrument name="366" core="LB1" dimmer="365"/>
+  <instrument name="367" core="LB1" dimmer="366"/>
+  <instrument name="368" core="LB1" dimmer="367"/>
+  <instrument name="369" core="LB1" dimmer="368"/>
+  <instrument name="370" core="LB1" dimmer="369"/>
+  <instrument name="371" core="LB1" dimmer="370"/>
+  <instrument name="372" core="LB1" dimmer="371"/>
+  <instrument name="373" core="LB1" dimmer="372"/>
+  <instrument name="374" core="LB1" dimmer="373"/>
+  <instrument name="375" core="LB1" dimmer="374"/>
+  <instrument name="376" core="LB1" dimmer="375"/>
+  <instrument name="377" core="LB1" dimmer="376"/>
+  <instrument name="378" core="LB1" dimmer="377"/>
+  <instrument name="379" core="LB1" dimmer="378"/>
+  <instrument name="380" core="LB1" dimmer="379"/>
+  <instrument name="381" core="LB1" dimmer="380"/>
+  <instrument name="382" core="LB1" dimmer="381"/>
+  <instrument name="383" core="LB1" dimmer="382"/>
+  <instrument name="384" core="LB1" dimmer="383"/>
+  <instrument name="385" core="LB1" dimmer="384"/>
+  <instrument name="386" core="LB1" dimmer="385"/>
+  <instrument name="387" core="LB1" dimmer="386"/>
+  <instrument name="388" core="LB1" dimmer="387"/>
+  <instrument name="389" core="LB1" dimmer="388"/>
+  <instrument name="390" core="LB1" dimmer="389"/>
+  <instrument name="391" core="LB1" dimmer="390"/>
+  <instrument name="392" core="LB1" dimmer="391"/>
+  <instrument name="393" core="LB1" dimmer="392"/>
+  <instrument name="394" core="LB1" dimmer="393"/>
+  <instrument name="395" core="LB1" dimmer="394"/>
+  <instrument name="396" core="LB1" dimmer="395"/>
+  <instrument name="397" core="LB1" dimmer="396"/>
+  <instrument name="398" core="LB1" dimmer="397"/>
+  <instrument name="399" core="LB1" dimmer="398"/>
+  <instrument name="400" core="LB1" dimmer="399"/>
+  <instrument name="401" core="LB1" dimmer="400"/>
+  <instrument name="402" core="LB1" dimmer="401"/>
+  <instrument name="403" core="LB1" dimmer="402"/>
+  <instrument name="404" core="LB1" dimmer="403"/>
+  <instrument name="405" core="LB1" dimmer="404"/>
+  <instrument name="406" core="LB1" dimmer="405"/>
+  <instrument name="407" core="LB1" dimmer="406"/>
+  <instrument name="408" core="LB1" dimmer="407"/>
+  <instrument name="409" core="LB1" dimmer="408"/>
+  <instrument name="410" core="LB1" dimmer="409"/>
+  <instrument name="411" core="LB1" dimmer="410"/>
+  <instrument name="412" core="LB1" dimmer="411"/>
+  <instrument name="413" core="LB1" dimmer="412"/>
+  <instrument name="414" core="LB1" dimmer="413"/>
+  <instrument name="415" core="LB1" dimmer="414"/>
+  <instrument name="416" core="LB1" dimmer="415"/>
+  <instrument name="417" core="LB1" dimmer="416"/>
+  <instrument name="418" core="LB1" dimmer="417"/>
+  <instrument name="419" core="LB1" dimmer="418"/>
+  <instrument name="420" core="LB1" dimmer="419"/>
+  <instrument name="421" core="LB1" dimmer="420"/>
+  <instrument name="422" core="LB1" dimmer="421"/>
+  <instrument name="423" core="LB1" dimmer="422"/>
+  <instrument name="424" core="LB1" dimmer="423"/>
+  <instrument name="425" core="LB1" dimmer="424"/>
+  <instrument name="426" core="LB1" dimmer="425"/>
+  <instrument name="427" core="LB1" dimmer="426"/>
+  <instrument name="428" core="LB1" dimmer="427"/>
+  <instrument name="429" core="LB1" dimmer="428"/>
+  <instrument name="430" core="LB1" dimmer="429"/>
+  <instrument name="431" core="LB1" dimmer="430"/>
+  <instrument name="432" core="LB1" dimmer="431"/>
+  <instrument name="433" core="LB1" dimmer="432"/>
+  <instrument name="434" core="LB1" dimmer="433"/>
+  <instrument name="435" core="LB1" dimmer="434"/>
+  <instrument name="436" core="LB1" dimmer="435"/>
+  <instrument name="437" core="LB1" dimmer="436"/>
+  <instrument name="438" core="LB1" dimmer="437"/>
+  <instrument name="439" core="LB1" dimmer="438"/>
+  <instrument name="440" core="LB1" dimmer="439"/>
+  <instrument name="441" core="LB1" dimmer="440"/>
+  <instrument name="442" core="LB1" dimmer="441"/>
+  <instrument name="443" core="LB1" dimmer="442"/>
+  <instrument name="444" core="LB1" dimmer="443"/>
+  <instrument name="445" core="LB1" dimmer="444"/>
+  <instrument name="446" core="LB1" dimmer="445"/>
+  <instrument name="447" core="LB1" dimmer="446"/>
+  <instrument name="448" core="LB1" dimmer="447"/>
+  <instrument name="449" core="LB1" dimmer="448"/>
+  <instrument name="450" core="LB1" dimmer="449"/>
+  <instrument name="451" core="LB1" dimmer="450"/>
+  <instrument name="452" core="LB1" dimmer="451"/>
+  <instrument name="453" core="LB1" dimmer="452"/>
+  <instrument name="454" core="LB1" dimmer="453"/>
+  <instrument name="455" core="LB1" dimmer="454"/>
+  <instrument name="456" core="LB1" dimmer="455"/>
+  <instrument name="457" core="LB1" dimmer="456"/>
+  <instrument name="458" core="LB1" dimmer="457"/>
+  <instrument name="459" core="LB1" dimmer="458"/>
+  <instrument name="460" core="LB1" dimmer="459"/>
+  <instrument name="461" core="LB1" dimmer="460"/>
+  <instrument name="462" core="LB1" dimmer="461"/>
+  <instrument name="463" core="LB1" dimmer="462"/>
+  <instrument name="464" core="LB1" dimmer="463"/>
+  <instrument name="465" core="LB1" dimmer="464"/>
+  <instrument name="466" core="LB1" dimmer="465"/>
+  <instrument name="467" core="LB1" dimmer="466"/>
+  <instrument name="468" core="LB1" dimmer="467"/>
+  <instrument name="469" core="LB1" dimmer="468"/>
+  <instrument name="470" core="LB1" dimmer="469"/>
+  <instrument name="471" core="LB1" dimmer="470"/>
+  <instrument name="472" core="LB1" dimmer="471"/>
+  <instrument name="473" core="LB1" dimmer="472"/>
+  <instrument name="474" core="LB1" dimmer="473"/>
+  <instrument name="475" core="LB1" dimmer="474"/>
+  <instrument name="476" core="LB1" dimmer="475"/>
+  <instrument name="477" core="LB1" dimmer="476"/>
+  <instrument name="478" core="LB1" dimmer="477"/>
+  <instrument name="479" core="LB1" dimmer="478"/>
+  <instrument name="480" core="LB1" dimmer="479"/>
+  <instrument name="481" core="LB1" dimmer="480"/>
+  <instrument name="482" core="LB1" dimmer="481"/>
+  <instrument name="483" core="LB1" dimmer="482"/>
+  <instrument name="484" core="LB1" dimmer="483"/>
+  <instrument name="485" core="LB1" dimmer="484"/>
+  <instrument name="486" core="LB1" dimmer="485"/>
+  <instrument name="487" core="LB1" dimmer="486"/>
+  <instrument name="488" core="LB1" dimmer="487"/>
+  <instrument name="489" core="LB1" dimmer="488"/>
+  <instrument name="490" core="LB1" dimmer="489"/>
+  <instrument name="491" core="LB1" dimmer="490"/>
+  <instrument name="492" core="LB1" dimmer="491"/>
+  <instrument name="493" core="LB1" dimmer="492"/>
+  <instrument name="494" core="LB1" dimmer="493"/>
+  <instrument name="495" core="LB1" dimmer="494"/>
+  <instrument name="496" core="LB1" dimmer="495"/>
+  <instrument name="497" core="LB1" dimmer="496"/>
+  <instrument name="498" core="LB1" dimmer="497"/>
+  <instrument name="499" core="LB1" dimmer="498"/>
+  <instrument name="500" core="LB1" dimmer="499"/>
+  <instrument name="501" core="LB1" dimmer="500"/>
+  <instrument name="502" core="LB1" dimmer="501"/>
+  <instrument name="503" core="LB1" dimmer="502"/>
+  <instrument name="504" core="LB1" dimmer="503"/>
+  <instrument name="505" core="LB1" dimmer="504"/>
+  <instrument name="506" core="LB1" dimmer="505"/>
+  <instrument name="507" core="LB1" dimmer="506"/>
+  <instrument name="508" core="LB1" dimmer="507"/>
+  <instrument name="509" core="LB1" dimmer="508"/>
+  <instrument name="510" core="LB1" dimmer="509"/>
+  <instrument name="511" core="LB1" dimmer="510"/>
+  <instrument name="512" core="LB1" dimmer="511"/>
+  <instrument name="513" core="LB1" dimmer="512"/>
+  <instrument name="514" core="LB1" dimmer="513"/>
+  <instrument name="515" core="LB1" dimmer="514"/>
+  <instrument name="516" core="LB1" dimmer="515"/>
+  <instrument name="517" core="LB1" dimmer="516"/>
+  <instrument name="518" core="LB1" dimmer="517"/>
+  <instrument name="519" core="LB1" dimmer="518"/>
+  <instrument name="520" core="LB1" dimmer="519"/>
+  <instrument name="521" core="LB1" dimmer="520"/>
+  <instrument name="522" core="LB1" dimmer="521"/>
+  <instrument name="523" core="LB1" dimmer="522"/>
+  <instrument name="524" core="LB1" dimmer="523"/>
+  <instrument name="525" core="LB1" dimmer="524"/>
+  <instrument name="526" core="LB1" dimmer="525"/>
+  <instrument name="527" core="LB1" dimmer="526"/>
+  <instrument name="528" core="LB1" dimmer="527"/>
+  <instrument name="529" core="LB1" dimmer="528"/>
+  <instrument name="530" core="LB1" dimmer="529"/>
+  <instrument name="531" core="LB1" dimmer="530"/>
+  <instrument name="532" core="LB1" dimmer="531"/>
+  <instrument name="533" core="LB1" dimmer="532"/>
+  <instrument name="534" core="LB1" dimmer="533"/>
+  <instrument name="535" core="LB1" dimmer="534"/>
+  <instrument name="536" core="LB1" dimmer="535"/>
+  <instrument name="537" core="LB1" dimmer="536"/>
+  <instrument name="538" core="LB1" dimmer="537"/>
+  <instrument name="539" core="LB1" dimmer="538"/>
+  <instrument name="540" core="LB1" dimmer="539"/>
+  <instrument name="541" core="LB1" dimmer="540"/>
+  <instrument name="542" core="LB1" dimmer="541"/>
+  <instrument name="543" core="LB1" dimmer="542"/>
+  <instrument name="544" core="LB1" dimmer="543"/>
+  <instrument name="545" core="LB1" dimmer="544"/>
+  <instrument name="546" core="LB1" dimmer="545"/>
+  <instrument name="547" core="LB1" dimmer="546"/>
+  <instrument name="548" core="LB1" dimmer="547"/>
+  <instrument name="549" core="LB1" dimmer="548"/>
+  <instrument name="550" core="LB1" dimmer="549"/>
+  <instrument name="551" core="LB1" dimmer="550"/>
+  <instrument name="552" core="LB1" dimmer="551"/>
+  <instrument name="553" core="LB1" dimmer="552"/>
+  <instrument name="554" core="LB1" dimmer="553"/>
+  <instrument name="555" core="LB1" dimmer="554"/>
+  <instrument name="556" core="LB1" dimmer="555"/>
+  <instrument name="557" core="LB1" dimmer="556"/>
+  <instrument name="558" core="LB1" dimmer="557"/>
+  <instrument name="559" core="LB1" dimmer="558"/>
+  <instrument name="560" core="LB1" dimmer="559"/>
+  <instrument name="561" core="LB1" dimmer="560"/>
+  <instrument name="562" core="LB1" dimmer="561"/>
+  <instrument name="563" core="LB1" dimmer="562"/>
+  <instrument name="564" core="LB1" dimmer="563"/>
+  <instrument name="565" core="LB1" dimmer="564"/>
+  <instrument name="566" core="LB1" dimmer="565"/>
+  <instrument name="567" core="LB1" dimmer="566"/>
+  <instrument name="568" core="LB1" dimmer="567"/>
+  <instrument name="569" core="LB1" dimmer="568"/>
+  <instrument name="570" core="LB1" dimmer="569"/>
+  <instrument name="571" core="LB1" dimmer="570"/>
+  <instrument name="572" core="LB1" dimmer="571"/>
+  <instrument name="573" core="LB1" dimmer="572"/>
+  <instrument name="574" core="LB1" dimmer="573"/>
+  <instrument name="575" core="LB1" dimmer="574"/>
+  <instrument name="576" core="LB1" dimmer="575"/>
+  <instrument name="577" core="LB1" dimmer="576"/>
+  <instrument name="578" core="LB1" dimmer="577"/>
+  <instrument name="579" core="LB1" dimmer="578"/>
+  <instrument name="580" core="LB1" dimmer="579"/>
+  <instrument name="581" core="LB1" dimmer="580"/>
+  <instrument name="582" core="LB1" dimmer="581"/>
+  <instrument name="583" core="LB1" dimmer="582"/>
+  <instrument name="584" core="LB1" dimmer="583"/>
+  <instrument name="585" core="LB1" dimmer="584"/>
+  <instrument name="586" core="LB1" dimmer="585"/>
+  <instrument name="587" core="LB1" dimmer="586"/>
+  <instrument name="588" core="LB1" dimmer="587"/>
+  <instrument name="589" core="LB1" dimmer="588"/>
+  <instrument name="590" core="LB1" dimmer="589"/>
+  <instrument name="591" core="LB1" dimmer="590"/>
+  <instrument name="592" core="LB1" dimmer="591"/>
+  <instrument name="593" core="LB1" dimmer="592"/>
+  <instrument name="594" core="LB1" dimmer="593"/>
+  <instrument name="595" core="LB1" dimmer="594"/>
+  <instrument name="596" core="LB1" dimmer="595"/>
+  <instrument name="597" core="LB1" dimmer="596"/>
+  <instrument name="598" core="LB1" dimmer="597"/>
+  <instrument name="599" core="LB1" dimmer="598"/>
+  <instrument name="600" core="LB1" dimmer="599"/>
+  <instrument name="601" core="LB1" dimmer="600"/>
+  <instrument name="602" core="LB1" dimmer="601"/>
+  <instrument name="603" core="LB1" dimmer="602"/>
+  <instrument name="604" core="LB1" dimmer="603"/>
+  <instrument name="605" core="LB1" dimmer="604"/>
+  <instrument name="606" core="LB1" dimmer="605"/>
+  <instrument name="607" core="LB1" dimmer="606"/>
+  <instrument name="608" core="LB1" dimmer="607"/>
+  <instrument name="609" core="LB1" dimmer="608"/>
+  <instrument name="610" core="LB1" dimmer="609"/>
+  <instrument name="611" core="LB1" dimmer="610"/>
+  <instrument name="612" core="LB1" dimmer="611"/>
+  <instrument name="613" core="LB1" dimmer="612"/>
+  <instrument name="614" core="LB1" dimmer="613"/>
+  <instrument name="615" core="LB1" dimmer="614"/>
+  <instrument name="616" core="LB1" dimmer="615"/>
+  <instrument name="617" core="LB1" dimmer="616"/>
+  <instrument name="618" core="LB1" dimmer="617"/>
+  <instrument name="619" core="LB1" dimmer="618"/>
+  <instrument name="620" core="LB1" dimmer="619"/>
+  <instrument name="621" core="LB1" dimmer="620"/>
+  <instrument name="622" core="LB1" dimmer="621"/>
+  <instrument name="623" core="LB1" dimmer="622"/>
+  <instrument name="624" core="LB1" dimmer="623"/>
+  <instrument name="625" core="LB1" dimmer="624"/>
+  <instrument name="626" core="LB1" dimmer="625"/>
+  <instrument name="627" core="LB1" dimmer="626"/>
+  <instrument name="628" core="LB1" dimmer="627"/>
+  <instrument name="629" core="LB1" dimmer="628"/>
+  <instrument name="630" core="LB1" dimmer="629"/>
+  <instrument name="631" core="LB1" dimmer="630"/>
+  <instrument name="632" core="LB1" dimmer="631"/>
+  <instrument name="633" core="LB1" dimmer="632"/>
+  <instrument name="634" core="LB1" dimmer="633"/>
+  <instrument name="635" core="LB1" dimmer="634"/>
+  <instrument name="636" core="LB1" dimmer="635"/>
+  <instrument name="637" core="LB1" dimmer="636"/>
+  <instrument name="638" core="LB1" dimmer="637"/>
+  <instrument name="639" core="LB1" dimmer="638"/>
+  <instrument name="640" core="LB1" dimmer="639"/>
+  <instrument name="641" core="LB1" dimmer="640"/>
+  <instrument name="642" core="LB1" dimmer="641"/>
+  <instrument name="643" core="LB1" dimmer="642"/>
+  <instrument name="644" core="LB1" dimmer="643"/>
+  <instrument name="645" core="LB1" dimmer="644"/>
+  <instrument name="646" core="LB1" dimmer="645"/>
+  <instrument name="647" core="LB1" dimmer="646"/>
+  <instrument name="648" core="LB1" dimmer="647"/>
+  <instrument name="649" core="LB1" dimmer="648"/>
+  <instrument name="650" core="LB1" dimmer="649"/>
+  <instrument name="651" core="LB1" dimmer="650"/>
+  <instrument name="652" core="LB1" dimmer="651"/>
+  <instrument name="653" core="LB1" dimmer="652"/>
+  <instrument name="654" core="LB1" dimmer="653"/>
+  <instrument name="655" core="LB1" dimmer="654"/>
+  <instrument name="656" core="LB1" dimmer="655"/>
+  <instrument name="657" core="LB1" dimmer="656"/>
+  <instrument name="658" core="LB1" dimmer="657"/>
+  <instrument name="659" core="LB1" dimmer="658"/>
+  <instrument name="660" core="LB1" dimmer="659"/>
+  <instrument name="661" core="LB1" dimmer="660"/>
+  <instrument name="662" core="LB1" dimmer="661"/>
+  <instrument name="663" core="LB1" dimmer="662"/>
+  <instrument name="664" core="LB1" dimmer="663"/>
+  <instrument name="665" core="LB1" dimmer="664"/>
+  <instrument name="666" core="LB1" dimmer="665"/>
+  <instrument name="667" core="LB1" dimmer="666"/>
+  <instrument name="668" core="LB1" dimmer="667"/>
+  <instrument name="669" core="LB1" dimmer="668"/>
+  <instrument name="670" core="LB1" dimmer="669"/>
+  <instrument name="671" core="LB1" dimmer="670"/>
+  <instrument name="672" core="LB1" dimmer="671"/>
+  <instrument name="673" core="LB1" dimmer="672"/>
+  <instrument name="674" core="LB1" dimmer="673"/>
+  <instrument name="675" core="LB1" dimmer="674"/>
+  <instrument name="676" core="LB1" dimmer="675"/>
+  <instrument name="677" core="LB1" dimmer="676"/>
+  <instrument name="678" core="LB1" dimmer="677"/>
+  <instrument name="679" core="LB1" dimmer="678"/>
+  <instrument name="680" core="LB1" dimmer="679"/>
+  <instrument name="681" core="LB1" dimmer="680"/>
+  <instrument name="682" core="LB1" dimmer="681"/>
+  <instrument name="683" core="LB1" dimmer="682"/>
+  <instrument name="684" core="LB1" dimmer="683"/>
+  <instrument name="685" core="LB1" dimmer="684"/>
+  <instrument name="686" core="LB1" dimmer="685"/>
+  <instrument name="687" core="LB1" dimmer="686"/>
+  <instrument name="688" core="LB1" dimmer="687"/>
+  <instrument name="689" core="LB1" dimmer="688"/>
+  <instrument name="690" core="LB1" dimmer="689"/>
+  <instrument name="691" core="LB1" dimmer="690"/>
+  <instrument name="692" core="LB1" dimmer="691"/>
+  <instrument name="693" core="LB1" dimmer="692"/>
+  <instrument name="694" core="LB1" dimmer="693"/>
+  <instrument name="695" core="LB1" dimmer="694"/>
+  <instrument name="696" core="LB1" dimmer="695"/>
+  <instrument name="697" core="LB1" dimmer="696"/>
+  <instrument name="698" core="LB1" dimmer="697"/>
+  <instrument name="699" core="LB1" dimmer="698"/>
+  <instrument name="700" core="LB1" dimmer="699"/>
+  <instrument name="701" core="LB1" dimmer="700"/>
+  <instrument name="702" core="LB1" dimmer="701"/>
+  <instrument name="703" core="LB1" dimmer="702"/>
+  <instrument name="704" core="LB1" dimmer="703"/>
+  <instrument name="705" core="LB1" dimmer="704"/>
+  <instrument name="706" core="LB1" dimmer="705"/>
+  <instrument name="707" core="LB1" dimmer="706"/>
+  <instrument name="708" core="LB1" dimmer="707"/>
+  <instrument name="709" core="LB1" dimmer="708"/>
+  <instrument name="710" core="LB1" dimmer="709"/>
+  <instrument name="711" core="LB1" dimmer="710"/>
+  <instrument name="712" core="LB1" dimmer="711"/>
+  <instrument name="713" core="LB1" dimmer="712"/>
+  <instrument name="714" core="LB1" dimmer="713"/>
+  <instrument name="715" core="LB1" dimmer="714"/>
+  <instrument name="716" core="LB1" dimmer="715"/>
+  <instrument name="717" core="LB1" dimmer="716"/>
+  <instrument name="718" core="LB1" dimmer="717"/>
+  <instrument name="719" core="LB1" dimmer="718"/>
+  <instrument name="720" core="LB1" dimmer="719"/>
+  <instrument name="721" core="LB1" dimmer="720"/>
+  <instrument name="722" core="LB1" dimmer="721"/>
+  <instrument name="723" core="LB1" dimmer="722"/>
+  <instrument name="724" core="LB1" dimmer="723"/>
+  <instrument name="725" core="LB1" dimmer="724"/>
+  <instrument name="726" core="LB1" dimmer="725"/>
+  <instrument name="727" core="LB1" dimmer="726"/>
+  <instrument name="728" core="LB1" dimmer="727"/>
+  <instrument name="729" core="LB1" dimmer="728"/>
+  <instrument name="730" core="LB1" dimmer="729"/>
+  <instrument name="731" core="LB1" dimmer="730"/>
+  <instrument name="732" core="LB1" dimmer="731"/>
+  <instrument name="733" core="LB1" dimmer="732"/>
+  <instrument name="734" core="LB1" dimmer="733"/>
+  <instrument name="735" core="LB1" dimmer="734"/>
+  <instrument name="736" core="LB1" dimmer="735"/>
+  <instrument name="737" core="LB1" dimmer="736"/>
+  <instrument name="738" core="LB1" dimmer="737"/>
+  <instrument name="739" core="LB1" dimmer="738"/>
+  <instrument name="740" core="LB1" dimmer="739"/>
+  <instrument name="741" core="LB1" dimmer="740"/>
+  <instrument name="742" core="LB1" dimmer="741"/>
+  <instrument name="743" core="LB1" dimmer="742"/>
+  <instrument name="744" core="LB1" dimmer="743"/>
+  <instrument name="745" core="LB1" dimmer="744"/>
+  <instrument name="746" core="LB1" dimmer="745"/>
+  <instrument name="747" core="LB1" dimmer="746"/>
+  <instrument name="748" core="LB1" dimmer="747"/>
+  <instrument name="749" core="LB1" dimmer="748"/>
+  <instrument name="750" core="LB1" dimmer="749"/>
+  <instrument name="751" core="LB1" dimmer="750"/>
+  <instrument name="752" core="LB1" dimmer="751"/>
+  <instrument name="753" core="LB1" dimmer="752"/>
+  <instrument name="754" core="LB1" dimmer="753"/>
+  <instrument name="755" core="LB1" dimmer="754"/>
+  <instrument name="756" core="LB1" dimmer="755"/>
+  <instrument name="757" core="LB1" dimmer="756"/>
+  <instrument name="758" core="LB1" dimmer="757"/>
+  <instrument name="759" core="LB1" dimmer="758"/>
+  <instrument name="760" core="LB1" dimmer="759"/>
+  <instrument name="761" core="LB1" dimmer="760"/>
+  <instrument name="762" core="LB1" dimmer="761"/>
+  <instrument name="763" core="LB1" dimmer="762"/>
+  <instrument name="764" core="LB1" dimmer="763"/>
+  <instrument name="765" core="LB1" dimmer="764"/>
+  <instrument name="766" core="LB1" dimmer="765"/>
+  <instrument name="767" core="LB1" dimmer="766"/>
+  <instrument name="768" core="LB1" dimmer="767"/>
+  <instrument name="769" core="LB1" dimmer="768"/>
+  <instrument name="770" core="LB1" dimmer="769"/>
+  <instrument name="771" core="LB1" dimmer="770"/>
+  <instrument name="772" core="LB1" dimmer="771"/>
+  <instrument name="773" core="LB1" dimmer="772"/>
+  <instrument name="774" core="LB1" dimmer="773"/>
+  <instrument name="775" core="LB1" dimmer="774"/>
+  <instrument name="776" core="LB1" dimmer="775"/>
+  <instrument name="777" core="LB1" dimmer="776"/>
+  <instrument name="778" core="LB1" dimmer="777"/>
+  <instrument name="779" core="LB1" dimmer="778"/>
+  <instrument name="780" core="LB1" dimmer="779"/>
+  <instrument name="781" core="LB1" dimmer="780"/>
+  <instrument name="782" core="LB1" dimmer="781"/>
+  <instrument name="783" core="LB1" dimmer="782"/>
+  <instrument name="784" core="LB1" dimmer="783"/>
+  <instrument name="785" core="LB1" dimmer="784"/>
+  <instrument name="786" core="LB1" dimmer="785"/>
+  <instrument name="787" core="LB1" dimmer="786"/>
+  <instrument name="788" core="LB1" dimmer="787"/>
+  <instrument name="789" core="LB1" dimmer="788"/>
+  <instrument name="790" core="LB1" dimmer="789"/>
+  <instrument name="791" core="LB1" dimmer="790"/>
+  <instrument name="792" core="LB1" dimmer="791"/>
+  <instrument name="793" core="LB1" dimmer="792"/>
+  <instrument name="794" core="LB1" dimmer="793"/>
+  <instrument name="795" core="LB1" dimmer="794"/>
+  <instrument name="796" core="LB1" dimmer="795"/>
+  <instrument name="797" core="LB1" dimmer="796"/>
+  <instrument name="798" core="LB1" dimmer="797"/>
+  <instrument name="799" core="LB1" dimmer="798"/>
+  <instrument name="800" core="LB1" dimmer="799"/>
+  <instrument name="801" core="LB1" dimmer="800"/>
+  <instrument name="802" core="LB1" dimmer="801"/>
+  <instrument name="803" core="LB1" dimmer="802"/>
+  <instrument name="804" core="LB1" dimmer="803"/>
+  <instrument name="805" core="LB1" dimmer="804"/>
+  <instrument name="806" core="LB1" dimmer="805"/>
+  <instrument name="807" core="LB1" dimmer="806"/>
+  <instrument name="808" core="LB1" dimmer="807"/>
+  <instrument name="809" core="LB1" dimmer="808"/>
+  <instrument name="810" core="LB1" dimmer="809"/>
+  <instrument name="811" core="LB1" dimmer="810"/>
+  <instrument name="812" core="LB1" dimmer="811"/>
+  <instrument name="813" core="LB1" dimmer="812"/>
+  <instrument name="814" core="LB1" dimmer="813"/>
+  <instrument name="815" core="LB1" dimmer="814"/>
+  <instrument name="816" core="LB1" dimmer="815"/>
+  <instrument name="817" core="LB1" dimmer="816"/>
+  <instrument name="818" core="LB1" dimmer="817"/>
+  <instrument name="819" core="LB1" dimmer="818"/>
+  <instrument name="820" core="LB1" dimmer="819"/>
+  <instrument name="821" core="LB1" dimmer="820"/>
+  <instrument name="822" core="LB1" dimmer="821"/>
+  <instrument name="823" core="LB1" dimmer="822"/>
+  <instrument name="824" core="LB1" dimmer="823"/>
+  <instrument name="825" core="LB1" dimmer="824"/>
+  <instrument name="826" core="LB1" dimmer="825"/>
+  <instrument name="827" core="LB1" dimmer="826"/>
+  <instrument name="828" core="LB1" dimmer="827"/>
+  <instrument name="829" core="LB1" dimmer="828"/>
+  <instrument name="830" core="LB1" dimmer="829"/>
+  <instrument name="831" core="LB1" dimmer="830"/>
+  <instrument name="832" core="LB1" dimmer="831"/>
+  <instrument name="833" core="LB1" dimmer="832"/>
+  <instrument name="834" core="LB1" dimmer="833"/>
+  <instrument name="835" core="LB1" dimmer="834"/>
+  <instrument name="836" core="LB1" dimmer="835"/>
+  <instrument name="837" core="LB1" dimmer="836"/>
+  <instrument name="838" core="LB1" dimmer="837"/>
+  <instrument name="839" core="LB1" dimmer="838"/>
+  <instrument name="840" core="LB1" dimmer="839"/>
+  <instrument name="841" core="LB1" dimmer="840"/>
+  <instrument name="842" core="LB1" dimmer="841"/>
+  <instrument name="843" core="LB1" dimmer="842"/>
+  <instrument name="844" core="LB1" dimmer="843"/>
+  <instrument name="845" core="LB1" dimmer="844"/>
+  <instrument name="846" core="LB1" dimmer="845"/>
+  <instrument name="847" core="LB1" dimmer="846"/>
+  <instrument name="848" core="LB1" dimmer="847"/>
+  <instrument name="849" core="LB1" dimmer="848"/>
+  <instrument name="850" core="LB1" dimmer="849"/>
+  <instrument name="851" core="LB1" dimmer="850"/>
+  <instrument name="852" core="LB1" dimmer="851"/>
+  <instrument name="853" core="LB1" dimmer="852"/>
+  <instrument name="854" core="LB1" dimmer="853"/>
+  <instrument name="855" core="LB1" dimmer="854"/>
+  <instrument name="856" core="LB1" dimmer="855"/>
+  <instrument name="857" core="LB1" dimmer="856"/>
+  <instrument name="858" core="LB1" dimmer="857"/>
+  <instrument name="859" core="LB1" dimmer="858"/>
+  <instrument name="860" core="LB1" dimmer="859"/>
+  <instrument name="861" core="LB1" dimmer="860"/>
+  <instrument name="862" core="LB1" dimmer="861"/>
+  <instrument name="863" core="LB1" dimmer="862"/>
+  <instrument name="864" core="LB1" dimmer="863"/>
+  <instrument name="865" core="LB1" dimmer="864"/>
+  <instrument name="866" core="LB1" dimmer="865"/>
+  <instrument name="867" core="LB1" dimmer="866"/>
+  <instrument name="868" core="LB1" dimmer="867"/>
+  <instrument name="869" core="LB1" dimmer="868"/>
+  <instrument name="870" core="LB1" dimmer="869"/>
+  <instrument name="871" core="LB1" dimmer="870"/>
+  <instrument name="872" core="LB1" dimmer="871"/>
+  <instrument name="873" core="LB1" dimmer="872"/>
+  <instrument name="874" core="LB1" dimmer="873"/>
+  <instrument name="875" core="LB1" dimmer="874"/>
+  <instrument name="876" core="LB1" dimmer="875"/>
+  <instrument name="877" core="LB1" dimmer="876"/>
+  <instrument name="878" core="LB1" dimmer="877"/>
+  <instrument name="879" core="LB1" dimmer="878"/>
+  <instrument name="880" core="LB1" dimmer="879"/>
+  <instrument name="881" core="LB1" dimmer="880"/>
+  <instrument name="882" core="LB1" dimmer="881"/>
+  <instrument name="883" core="LB1" dimmer="882"/>
+  <instrument name="884" core="LB1" dimmer="883"/>
+  <instrument name="885" core="LB1" dimmer="884"/>
+  <instrument name="886" core="LB1" dimmer="885"/>
+  <instrument name="887" core="LB1" dimmer="886"/>
+  <instrument name="888" core="LB1" dimmer="887"/>
+  <instrument name="889" core="LB1" dimmer="888"/>
+  <instrument name="890" core="LB1" dimmer="889"/>
+  <instrument name="891" core="LB1" dimmer="890"/>
+  <instrument name="892" core="LB1" dimmer="891"/>
+  <instrument name="893" core="LB1" dimmer="892"/>
+  <instrument name="894" core="LB1" dimmer="893"/>
+  <instrument name="895" core="LB1" dimmer="894"/>
+  <instrument name="896" core="LB1" dimmer="895"/>
+  <instrument name="897" core="LB1" dimmer="896"/>
+  <instrument name="898" core="LB1" dimmer="897"/>
+  <instrument name="899" core="LB1" dimmer="898"/>
+  <instrument name="900" core="LB1" dimmer="899"/>
+  <instrument name="901" core="LB1" dimmer="900"/>
+  <instrument name="902" core="LB1" dimmer="901"/>
+  <instrument name="903" core="LB1" dimmer="902"/>
+  <instrument name="904" core="LB1" dimmer="903"/>
+  <instrument name="905" core="LB1" dimmer="904"/>
+  <instrument name="906" core="LB1" dimmer="905"/>
+  <instrument name="907" core="LB1" dimmer="906"/>
+  <instrument name="908" core="LB1" dimmer="907"/>
+  <instrument name="909" core="LB1" dimmer="908"/>
+  <instrument name="910" core="LB1" dimmer="909"/>
+  <instrument name="911" core="LB1" dimmer="910"/>
+  <instrument name="912" core="LB1" dimmer="911"/>
+  <instrument name="913" core="LB1" dimmer="912"/>
+  <instrument name="914" core="LB1" dimmer="913"/>
+  <instrument name="915" core="LB1" dimmer="914"/>
+  <instrument name="916" core="LB1" dimmer="915"/>
+  <instrument name="917" core="LB1" dimmer="916"/>
+  <instrument name="918" core="LB1" dimmer="917"/>
+  <instrument name="919" core="LB1" dimmer="918"/>
+  <instrument name="920" core="LB1" dimmer="919"/>
+  <instrument name="921" core="LB1" dimmer="920"/>
+  <instrument name="922" core="LB1" dimmer="921"/>
+  <instrument name="923" core="LB1" dimmer="922"/>
+  <instrument name="924" core="LB1" dimmer="923"/>
+  <instrument name="925" core="LB1" dimmer="924"/>
+  <instrument name="926" core="LB1" dimmer="925"/>
+  <instrument name="927" core="LB1" dimmer="926"/>
+  <instrument name="928" core="LB1" dimmer="927"/>
+  <instrument name="929" core="LB1" dimmer="928"/>
+  <instrument name="930" core="LB1" dimmer="929"/>
+  <instrument name="931" core="LB1" dimmer="930"/>
+  <instrument name="932" core="LB1" dimmer="931"/>
+  <instrument name="933" core="LB1" dimmer="932"/>
+  <instrument name="934" core="LB1" dimmer="933"/>
+  <instrument name="935" core="LB1" dimmer="934"/>
+  <instrument name="936" core="LB1" dimmer="935"/>
+  <instrument name="937" core="LB1" dimmer="936"/>
+  <instrument name="938" core="LB1" dimmer="937"/>
+  <instrument name="939" core="LB1" dimmer="938"/>
+  <instrument name="940" core="LB1" dimmer="939"/>
+  <instrument name="941" core="LB1" dimmer="940"/>
+  <instrument name="942" core="LB1" dimmer="941"/>
+  <instrument name="943" core="LB1" dimmer="942"/>
+  <instrument name="944" core="LB1" dimmer="943"/>
+  <instrument name="945" core="LB1" dimmer="944"/>
+  <instrument name="946" core="LB1" dimmer="945"/>
+  <instrument name="947" core="LB1" dimmer="946"/>
+  <instrument name="948" core="LB1" dimmer="947"/>
+  <instrument name="949" core="LB1" dimmer="948"/>
+  <instrument name="950" core="LB1" dimmer="949"/>
+  <instrument name="951" core="LB1" dimmer="950"/>
+  <instrument name="952" core="LB1" dimmer="951"/>
+  <instrument name="953" core="LB1" dimmer="952"/>
+  <instrument name="954" core="LB1" dimmer="953"/>
+  <instrument name="955" core="LB1" dimmer="954"/>
+  <instrument name="956" core="LB1" dimmer="955"/>
+  <instrument name="957" core="LB1" dimmer="956"/>
+  <instrument name="958" core="LB1" dimmer="957"/>
+  <instrument name="959" core="LB1" dimmer="958"/>
+  <instrument name="960" core="LB1" dimmer="959"/>
+  <instrument name="961" core="LB1" dimmer="960"/>
+  <instrument name="962" core="LB1" dimmer="961"/>
+  <instrument name="963" core="LB1" dimmer="962"/>
+  <instrument name="964" core="LB1" dimmer="963"/>
+  <instrument name="965" core="LB1" dimmer="964"/>
+  <instrument name="966" core="LB1" dimmer="965"/>
+  <instrument name="967" core="LB1" dimmer="966"/>
+  <instrument name="968" core="LB1" dimmer="967"/>
+  <instrument name="969" core="LB1" dimmer="968"/>
+  <instrument name="970" core="LB1" dimmer="969"/>
+  <instrument name="971" core="LB1" dimmer="970"/>
+  <instrument name="972" core="LB1" dimmer="971"/>
+  <instrument name="973" core="LB1" dimmer="972"/>
+  <instrument name="974" core="LB1" dimmer="973"/>
+  <instrument name="975" core="LB1" dimmer="974"/>
+  <instrument name="976" core="LB1" dimmer="975"/>
+  <instrument name="977" core="LB1" dimmer="976"/>
+  <instrument name="978" core="LB1" dimmer="977"/>
+  <instrument name="979" core="LB1" dimmer="978"/>
+  <instrument name="980" core="LB1" dimmer="979"/>
+  <instrument name="981" core="LB1" dimmer="980"/>
+  <instrument name="982" core="LB1" dimmer="981"/>
+  <instrument name="983" core="LB1" dimmer="982"/>
+  <instrument name="984" core="LB1" dimmer="983"/>
+  <instrument name="985" core="LB1" dimmer="984"/>
+  <instrument name="986" core="LB1" dimmer="985"/>
+  <instrument name="987" core="LB1" dimmer="986"/>
+  <instrument name="988" core="LB1" dimmer="987"/>
+  <instrument name="989" core="LB1" dimmer="988"/>
+  <instrument name="990" core="LB1" dimmer="989"/>
+  <instrument name="991" core="LB1" dimmer="990"/>
+  <instrument name="992" core="LB1" dimmer="991"/>
+  <instrument name="993" core="LB1" dimmer="992"/>
+  <instrument name="994" core="LB1" dimmer="993"/>
+  <instrument name="995" core="LB1" dimmer="994"/>
+  <instrument name="996" core="LB1" dimmer="995"/>
+  <instrument name="997" core="LB1" dimmer="996"/>
+  <instrument name="998" core="LB1" dimmer="997"/>
+  <instrument name="999" core="LB1" dimmer="998"/>
+  <instrument name="1000" core="LB1" dimmer="999"/>
+  <instrument name="1001" core="LB1" dimmer="1000"/>
+  <instrument name="1002" core="LB1" dimmer="1001"/>
+  <instrument name="1003" core="LB1" dimmer="1002"/>
+  <instrument name="1004" core="LB1" dimmer="1003"/>
+  <instrument name="1005" core="LB1" dimmer="1004"/>
+  <instrument name="1006" core="LB1" dimmer="1005"/>
+  <instrument name="1007" core="LB1" dimmer="1006"/>
+  <instrument name="1008" core="LB1" dimmer="1007"/>
+  <instrument name="1009" core="LB1" dimmer="1008"/>
+  <instrument name="1010" core="LB1" dimmer="1009"/>
+  <instrument name="1011" core="LB1" dimmer="1010"/>
+  <instrument name="1012" core="LB1" dimmer="1011"/>
+  <instrument name="1013" core="LB1" dimmer="1012"/>
+  <instrument name="1014" core="LB1" dimmer="1013"/>
+  <instrument name="1015" core="LB1" dimmer="1014"/>
+  <instrument name="1016" core="LB1" dimmer="1015"/>
+  <instrument name="1017" core="LB1" dimmer="1016"/>
+  <instrument name="1018" core="LB1" dimmer="1017"/>
+  <instrument name="1019" core="LB1" dimmer="1018"/>
+  <instrument name="1020" core="LB1" dimmer="1019"/>
+  <instrument name="1021" core="LB1" dimmer="1020"/>
+  <instrument name="1022" core="LB1" dimmer="1021"/>
+  <instrument name="1023" core="LB1" dimmer="1022"/>
+  <instrument name="1024" core="LB1" dimmer="1023"/>
 
-  <moving_instrument name="moving1" bank="0" dimmer="5" 
+  <moving_instrument name="moving1" core="LB1" dimmer="5" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving2" bank="0" dimmer="10" 
+  <moving_instrument name="moving2" core="LB1" dimmer="10" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving3" bank="0" dimmer="15" 
+  <moving_instrument name="moving3" core="LB1" dimmer="15" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving4" bank="0" dimmer="20" 
+  <moving_instrument name="moving4" core="LB1" dimmer="20" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving5" bank="0" dimmer="25" 
+  <moving_instrument name="moving5" core="LB1" dimmer="25" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving6" bank="0" dimmer="30" 
+  <moving_instrument name="moving6" core="LB1" dimmer="30" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving7" bank="0" dimmer="35" 
+  <moving_instrument name="moving7" core="LB1" dimmer="35" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving8" bank="0" dimmer="40" 
+  <moving_instrument name="moving8" core="LB1" dimmer="40" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving9" bank="0" dimmer="45" 
+  <moving_instrument name="moving9" core="LB1" dimmer="45" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving10" bank="0" dimmer="50" 
+  <moving_instrument name="moving10" core="LB1" dimmer="50" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving11" bank="0" dimmer="55" 
+  <moving_instrument name="moving11" core="LB1" dimmer="55" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving12" bank="0" dimmer="60" 
+  <moving_instrument name="moving12" core="LB1" dimmer="60" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving13" bank="0" dimmer="65" 
+  <moving_instrument name="moving13" core="LB1" dimmer="65" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving14" bank="0" dimmer="70" 
+  <moving_instrument name="moving14" core="LB1" dimmer="70" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving15" bank="0" dimmer="75" 
+  <moving_instrument name="moving15" core="LB1" dimmer="75" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving16" bank="0" dimmer="80" 
+  <moving_instrument name="moving16" core="LB1" dimmer="80" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving17" bank="0" dimmer="85" 
+  <moving_instrument name="moving17" core="LB1" dimmer="85" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving18" bank="0" dimmer="90" 
+  <moving_instrument name="moving18" core="LB1" dimmer="90" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving19" bank="0" dimmer="95" 
+  <moving_instrument name="moving19" core="LB1" dimmer="95" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving20" bank="0" dimmer="100" 
+  <moving_instrument name="moving20" core="LB1" dimmer="100" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving21" bank="0" dimmer="105" 
+  <moving_instrument name="moving21" core="LB1" dimmer="105" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving22" bank="0" dimmer="110" 
+  <moving_instrument name="moving22" core="LB1" dimmer="110" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving23" bank="0" dimmer="115" 
+  <moving_instrument name="moving23" core="LB1" dimmer="115" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving24" bank="0" dimmer="120" 
+  <moving_instrument name="moving24" core="LB1" dimmer="120" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving25" bank="0" dimmer="125" 
+  <moving_instrument name="moving25" core="LB1" dimmer="125" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving26" bank="0" dimmer="130" 
+  <moving_instrument name="moving26" core="LB1" dimmer="130" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving27" bank="0" dimmer="135" 
+  <moving_instrument name="moving27" core="LB1" dimmer="135" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving28" bank="0" dimmer="140" 
+  <moving_instrument name="moving28" core="LB1" dimmer="140" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving29" bank="0" dimmer="150" 
+  <moving_instrument name="moving29" core="LB1" dimmer="150" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving30" bank="0" dimmer="155" 
+  <moving_instrument name="moving30" core="LB1" dimmer="155" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving31" bank="0" dimmer="160" 
+  <moving_instrument name="moving31" core="LB1" dimmer="160" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving32" bank="0" dimmer="165" 
+  <moving_instrument name="moving32" core="LB1" dimmer="165" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving33" bank="0" dimmer="170" 
+  <moving_instrument name="moving33" core="LB1" dimmer="170" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving34" bank="0" dimmer="175" 
+  <moving_instrument name="moving34" core="LB1" dimmer="175" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving35" bank="0" dimmer="180" 
+  <moving_instrument name="moving35" core="LB1" dimmer="180" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving36" bank="0" dimmer="185" 
+  <moving_instrument name="moving36" core="LB1" dimmer="185" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving37" bank="0" dimmer="190" 
+  <moving_instrument name="moving37" core="LB1" dimmer="190" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving38" bank="0" dimmer="195" 
+  <moving_instrument name="moving38" core="LB1" dimmer="195" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving39" bank="0" dimmer="200" 
+  <moving_instrument name="moving39" core="LB1" dimmer="200" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving40" bank="0" dimmer="205" 
+  <moving_instrument name="moving40" core="LB1" dimmer="205" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving41" bank="0" dimmer="210" 
+  <moving_instrument name="moving41" core="LB1" dimmer="210" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving42" bank="0" dimmer="215" 
+  <moving_instrument name="moving42" core="LB1" dimmer="215" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving43" bank="0" dimmer="220" 
+  <moving_instrument name="moving43" core="LB1" dimmer="220" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving44" bank="0" dimmer="225" 
+  <moving_instrument name="moving44" core="LB1" dimmer="225" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving45" bank="0" dimmer="230" 
+  <moving_instrument name="moving45" core="LB1" dimmer="230" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving46" bank="0" dimmer="235" 
+  <moving_instrument name="moving46" core="LB1" dimmer="235" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving47" bank="0" dimmer="240" 
+  <moving_instrument name="moving47" core="LB1" dimmer="240" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving48" bank="0" dimmer="245" 
+  <moving_instrument name="moving48" core="LB1" dimmer="245" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving49" bank="0" dimmer="250" 
+  <moving_instrument name="moving49" core="LB1" dimmer="250" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
-  <moving_instrument name="moving50" bank="0" dimmer="255" 
+  <moving_instrument name="moving50" core="LB1" dimmer="255" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+-->
 
 </instruments>
 

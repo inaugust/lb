@@ -23,6 +23,9 @@ static void start(void *data, const char *el, const char **attr)
 {
   int i;
   const char *dev, *dimmers, *start;
+  CosNaming::NamingContext_ptr context=(CosNaming::NamingContext_ptr) data;
+  CosNaming::Name cname;
+  cname.length(1);
 
   if (strcmp(el, "dimmerbank")==0)
     {
@@ -50,10 +53,14 @@ static void start(void *data, const char *el, const char **attr)
           for (int i=startnum; i<startnum+num; i++)
             {
               sprintf(name, "%i", i);
+
               LB_Dimmer_i* d_i = new LB_Dimmer_i(name, dev, i-startnum);
               /* This pointer won't ever be freed */
               LB::Dimmer_ptr d_ref = d_i->_this();
-              ((LB::Lightboard_ptr) data)->putDimmer(d_ref);
+
+	      cname[0].id   = (const char *)name;
+	      cname[0].kind   = (const char *)"Dimmer";
+	      context->rebind(cname, d_ref);
             }
         }
     }
@@ -108,10 +115,10 @@ static void parse (const char *fn, void *userdata)
   fclose(f);
 }
 
-int initialize_dimmers (LB::Lightboard_ptr lb)
+int initialize_dimmers (CosNaming::NamingContext_ptr context)
 {
   fprintf(stderr, "Initializing dimmers\n");
-  parse("dimmers.xml", lb);
+  parse("dimmers.xml", context);
   fprintf(stderr, "Done initializing dimmers\n");
 }
 
@@ -192,14 +199,12 @@ void LB_Dimmer_i::setValue(CORBA::Long value)
 {
   this->my_value=value;
   char buf[256];
-
   if (this->testfd)
     {
       double t = my_time2();
       sprintf (buf, "%f %li\n", t, value);
       write (this->testfd, buf, strlen(buf));
     }
-
   // lock
   // lseek(this->my_handle, this->my_number, SEEK_SET);
   // write(this->my_handle, &level, 1);

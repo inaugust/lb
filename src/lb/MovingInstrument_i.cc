@@ -89,7 +89,7 @@ static void parse (const char *fn, void *userdata)
 int initialize_moving_instruments (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing moving instruments\n");
-  parse("instruments.xml", lb);
+  //  parse("instruments.xml", lb);
   fprintf(stderr, "Done initializing moving instruments\n");
 }
 

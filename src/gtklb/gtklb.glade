@@ -470,21 +470,41 @@
     <spacing>0</spacing>
 
     <widget>
-      <class>GtkTree</class>
-      <name>programTree</name>
-      <signal>
-	<name>selection_changed</name>
-	<handler>on_programTree_selection_changed</handler>
-	<last_modification_time>Thu, 09 Aug 2001 16:26:09 GMT</last_modification_time>
-      </signal>
-      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-      <view_mode>GTK_TREE_VIEW_LINE</view_mode>
-      <view_line>True</view_line>
+      <class>GtkScrolledWindow</class>
+      <name>scrolledwindow3</name>
+      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
 	<fill>True</fill>
       </child>
+
+      <widget>
+	<class>GtkCTree</class>
+	<name>programTree</name>
+	<can_focus>True</can_focus>
+	<columns>1</columns>
+	<column_widths>80</column_widths>
+	<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	<show_titles>False</show_titles>
+	<shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <child_name>CTree:title</child_name>
+	  <name>label1</name>
+	  <label>label1</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	</widget>
+      </widget>
     </widget>
 
     <widget>
@@ -529,7 +549,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>removeStep</name>
+	  <name>addAction</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <signal>
@@ -537,13 +557,13 @@
 	    <handler>on_remove_clicked</handler>
 	    <last_modification_time>Thu, 09 Aug 2001 16:23:45 GMT</last_modification_time>
 	  </signal>
-	  <label>Remove Step</label>
+	  <label>Add Action</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>editStep</name>
+	  <name>remove</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <signal>
@@ -551,7 +571,16 @@
 	    <handler>on_edit_clicked</handler>
 	    <last_modification_time>Thu, 09 Aug 2001 16:23:56 GMT</last_modification_time>
 	  </signal>
-	  <label>Edit Step</label>
+	  <label>Remove</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>edit</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Edit</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>
@@ -585,28 +614,19 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>addAction</name>
+	  <name>cancel</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Add Action</label>
+	  <label>Cancel</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>removeAction</name>
+	  <name>ok</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Remove Action</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
-	</widget>
-
-	<widget>
-	  <class>GtkButton</class>
-	  <name>editAction</name>
-	  <can_default>True</can_default>
-	  <can_focus>True</can_focus>
-	  <label>Edit Action</label>
+	  <label>OK</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>

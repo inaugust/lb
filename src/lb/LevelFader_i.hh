@@ -19,7 +19,7 @@ private:
   // destructor non-public
   //virtual ~LB_LevelFader_i();
 
-  LB::Cue *cue;
+  LB::Cue cue;
   LB::Instrument_ptr *instruments;
 
 protected:

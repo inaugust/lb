@@ -32,6 +32,9 @@ for x in range(1,1025):
 
 
   <cue name="1">
+    <parent level="50%">house</parent>
+    <parent level="50%">preshow</parent>
+
     <instrument name="1" level="0%"/>
     <instrument name="2" level="100%"/>
 <!--
@@ -2088,6 +2091,7 @@ for x in range(1,1025):
 -->
   </cue>
 
+<!--
   <cue name="moving1">
     <instrument name="moving1" level="100%" target="(10ft, 10ft, 0ft)"/>
     <instrument name="1" level="100%"/>
@@ -2145,3 +2149,4 @@ for x in range(1,1025):
     <instrument name="50" level="100%"/>
   </cue>
 </cues>
+-->

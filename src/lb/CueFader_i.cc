@@ -34,8 +34,6 @@ int initialize_cuefaders (LB::Lightboard_ptr lb)
 
 LB_CueFader_i::LB_CueFader_i(const char *name) : LB_Fader_i (name)
 {
-  this->start_cue=NULL;
-  this->end_cue=NULL;
   this->instruments=NULL;
 }
 
@@ -43,49 +41,24 @@ LB_CueFader_i::~LB_CueFader_i()
 {
 }
 
-void LB_CueFader_i::setStartCue(const LB::Cue& incue)
+void LB_CueFader_i::setCues(const LB::Cue& startcue, const LB::Cue& endcue)
 {
-  if (this->start_cue)
-    delete this->start_cue;
-  this->start_cue=duplicate_cue(incue, 0);
-}
-
-void LB_CueFader_i::setEndCue(const LB::Cue& incue)
-{
-  if (this->end_cue)
-    delete this->end_cue;
-  this->end_cue=duplicate_cue(incue, 0);
+  double start, middle, end;
 
   if (this->instruments)
-    free (this->instruments);
-  this->instruments = (LB::Instrument_ptr *)malloc (sizeof (LB::Instrument_ptr) *
-						incue.ins.length());
-  for (int i=0; i<incue.ins.length(); i++)
     {
-      this->instruments[i]=lb->getInstrument((char *)incue.ins[i].name);
+      //FIXME release each of them;
+      free (this->instruments);
     }
-}
 
-void LB_CueFader_i::setZeroStartCue(const LB::Cue& incue)
-{
-  if (this->start_cue)
-    delete this->start_cue;
-  this->start_cue=duplicate_cue(incue, 1);
-}
-
-void LB_CueFader_i::setZeroEndCue(const LB::Cue& incue)
-{
-  if (this->end_cue)
-    delete this->end_cue;
-  this->end_cue=duplicate_cue(incue, 1);
-
-  if (this->instruments)
-    free (this->instruments);
+  normalize_cues (startcue, endcue, this->start_cue, this->end_cue);
+  
   this->instruments = (LB::Instrument_ptr *)malloc (sizeof (LB::Instrument_ptr) *
-						incue.ins.length());
-  for (int i=0; i<incue.ins.length(); i++)
+						    end_cue.ins.length());  
+  
+  for (int i=0; i<end_cue.ins.length(); i++)
     {
-      this->instruments[i]=lb->getInstrument((char *)incue.ins[i].name);
+      this->instruments[i]=lb->getInstrument((char *)end_cue.ins[i].name);
     }
 }
 
@@ -120,39 +93,36 @@ void LB_CueFader_i::act_on_set_ratio (double ratio)
      Each instrument has the same attributes, in the same order
   */
 
-  LB::Cue *start=this->start_cue;
-  LB::Cue *end=this->end_cue;
-
   double p1, p2, p3;
-  int numins=end->ins.length();
+  int numins=end_cue.ins.length();
   int i;
   int a;
   for (i=0; i<numins; i++)
     {
-      int numattr=end_cue->ins[i].attrs.length();
+      int numattr=end_cue.ins[i].attrs.length();
       for (a=0; a<numattr; a++)
 	{
 
-	  if (!this->hasAttribute(end_cue->ins[i].attrs[a].attr))
+	  if (!this->hasAttribute(end_cue.ins[i].attrs[a].attr))
 	    continue;
 
-	  if (end_cue->ins[i].attrs[a].attr==LB::attr_level)
+	  if (end_cue.ins[i].attrs[a].attr==LB::attr_level)
 	    {
-	      p1=interpolate_levels(start_cue->ins[i].attrs[a].value[0],
-				    end_cue->ins[i].attrs[a].value[0],
+	      p1=interpolate_levels(start_cue.ins[i].attrs[a].value[0],
+				    end_cue.ins[i].attrs[a].value[0],
 				    ratio);
 	      
 	      this->instruments[i]->setLevel(p1);
 	    }
 
-	  if (end_cue->ins[i].attrs[a].attr==LB::attr_target)
+	  if (end_cue.ins[i].attrs[a].attr==LB::attr_target)
 	    {
-	      interpolate_targets(start_cue->ins[i].attrs[a].value[0],
-				  start_cue->ins[i].attrs[a].value[1],
-				  start_cue->ins[i].attrs[a].value[2],
-				  end_cue->ins[i].attrs[a].value[0],
-				  end_cue->ins[i].attrs[a].value[1],
-				  end_cue->ins[i].attrs[a].value[2],
+	      interpolate_targets(start_cue.ins[i].attrs[a].value[0],
+				  start_cue.ins[i].attrs[a].value[1],
+				  start_cue.ins[i].attrs[a].value[2],
+				  end_cue.ins[i].attrs[a].value[0],
+				  end_cue.ins[i].attrs[a].value[1],
+				  end_cue.ins[i].attrs[a].value[2],
 				  ratio,
 				  p1, p2, p3);
 	      

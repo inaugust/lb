@@ -14,8 +14,10 @@ extern "C"
   }
 }
 
-LB_Lightboard_i::LB_Lightboard_i()
+LB_Lightboard_i::LB_Lightboard_i(const char *name)
 {
+  this->my_name=strdup(name);
+
   pthread_mutex_init (&this->queue_lock, NULL);
 
   pthread_create(&this->event_thread, (pthread_attr_t *)NULL,
@@ -31,6 +33,14 @@ LB_Lightboard_i::~LB_Lightboard_i()
 CORBA::ULong LB_Lightboard_i::dimmerRange()
 {
   return 255;
+}
+
+char* LB_Lightboard_i::name()
+{
+  CORBA::String_var ret;
+
+  ret=CORBA::string_dup(this->my_name);
+  return ret._retn();
 }
 
 LB::Instrument_ptr LB_Lightboard_i::getInstrument(const char* name)
@@ -62,6 +72,214 @@ void LB_Lightboard_i::putDimmer(LB::Dimmer_ptr dimr)
 {
   this->dimmers[dimr->name()] = dimr;
 }
+
+CORBA::Long LB_Lightboard_i::createInstrument(const char* show, 
+					      const char* name, 
+					      CORBA::Long dimmer_start)
+{
+  CosNaming::Name cname;
+  cname.length(1);
+  
+  CosNaming::NamingContext_var context;
+  CORBA::Object_var obj;
+
+  //  printf ("Creating instrument for show: %s named: %s dimmer %li\n",
+  //	  show, name, dimmer_start);
+
+  LB_Instrument_i* i_i = new LB_Instrument_i(name, dimmer_start);
+  LB::Instrument_var i_ref = i_i->_this();
+
+
+  try
+    {
+      cname[0].id   = (const char *)"shows";
+      obj=rootNaming->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)show;
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)"instruments";
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+    }
+  catch (...)
+    {
+      printf ("Can't get instrument context\n");
+      return 1;
+    }
+
+  cname[0].id   = (const char *)name;
+  cname[0].kind   = (const char *)"Instrument";
+
+  try 
+    {
+      context->bind(cname, i_ref);
+    }
+  catch(CosNaming::NamingContext::AlreadyBound& ex) 
+    {
+      context->rebind(cname, i_ref);
+    }
+  return 0;
+}
+
+CORBA::Long LB_Lightboard_i::createLevelFader(const char* show, 
+					      const char* name)
+{
+  CosNaming::Name cname;
+  cname.length(1);
+  
+  CosNaming::NamingContext_var context;
+  CORBA::Object_var obj;
+
+  printf ("Creating levelfader for show: %s named: %s\n",
+  	  show, name);
+
+  LB_Fader_i* i_i = new LB_LevelFader_i(name);
+  LB::Fader_var i_ref = i_i->_this();
+
+  try
+    {
+      cname[0].id   = (const char *)"shows";
+      obj=rootNaming->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)show;
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)"faders";
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+    }
+  catch (...)
+    {
+      printf ("Can't get fader context\n");
+      return 1;
+    }
+
+  cname[0].id   = (const char *)name;
+  cname[0].kind   = (const char *)"Fader";
+
+  try 
+    {
+      context->bind(cname, i_ref);
+    }
+  catch(CosNaming::NamingContext::AlreadyBound& ex) 
+    {
+      context->rebind(cname, i_ref);
+    }
+  printf ("done\n");
+  return 0;
+}
+
+CORBA::Long LB_Lightboard_i::createCueFader(const char* show, 
+					    const char* name)
+{
+  CosNaming::Name cname;
+  cname.length(1);
+  
+  CosNaming::NamingContext_var context;
+  CORBA::Object_var obj;
+
+  printf ("Creating cuefader for show: %s named: %s\n",
+  	  show, name);
+
+  LB_Fader_i* i_i = new LB_CueFader_i(name);
+  LB::Fader_var i_ref = i_i->_this();
+
+  try
+    {
+      cname[0].id   = (const char *)"shows";
+      obj=rootNaming->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)show;
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)"faders";
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+    }
+  catch (...)
+    {
+      printf ("Can't get fader context\n");
+      return 1;
+    }
+
+  cname[0].id   = (const char *)name;
+  cname[0].kind   = (const char *)"Fader";
+
+  try 
+    {
+      context->bind(cname, i_ref);
+    }
+  catch(CosNaming::NamingContext::AlreadyBound& ex) 
+    {
+      context->rebind(cname, i_ref);
+    }
+  printf ("done\n");
+  return 0;
+}
+
+CORBA::Long LB_Lightboard_i::createCrossFader(const char* show, 
+					      const char* name)
+{
+  CosNaming::Name cname;
+  cname.length(1);
+  
+  CosNaming::NamingContext_var context;
+  CORBA::Object_var obj;
+
+  printf ("Creating crossfader for show: %s named: %s\n",
+  	  show, name);
+
+  LB_Fader_i* i_i = new LB_CrossFader_i(name);
+  LB::Fader_var i_ref = i_i->_this();
+
+  try
+    {
+      cname[0].id   = (const char *)"shows";
+      obj=rootNaming->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)show;
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+      cname[0].id   = (const char *)"faders";
+      obj=context->resolve(cname);
+      context = CosNaming::NamingContext::_narrow(obj);
+
+    }
+  catch (...)
+    {
+      printf ("Can't get fader context\n");
+      return 1;
+    }
+
+  cname[0].id   = (const char *)name;
+  cname[0].kind   = (const char *)"Fader";
+
+  try 
+    {
+      context->bind(cname, i_ref);
+    }
+  catch(CosNaming::NamingContext::AlreadyBound& ex) 
+    {
+      context->rebind(cname, i_ref);
+    }
+  printf ("done\n");
+  return 0;
+}
+
+
+
 
 void LB_Lightboard_i::print_queue(void)
 {

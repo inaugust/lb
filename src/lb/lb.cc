@@ -13,7 +13,9 @@
 //#include <EventChannelAdmin.hh>
 
 LB::Lightboard_ptr lb;
-CORBA::ORB_var orb;
+CORBA::ORB_ptr orb;
+CosNaming::NamingContext_ptr rootNaming;
+CosNaming::NamingContext_ptr dimmerContext;
 
 int make_level(long int level)
 {
@@ -59,6 +61,7 @@ double make_time(const char *t)
 
 LB::Cue *duplicate_cue (const LB::Cue& incue, int zero)
 {
+  /* Deprecated */
   LB::Cue *cue = new LB::Cue;
 
   cue->name = incue.name;
@@ -127,6 +130,8 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
     {
       outcue1.ins[pos].name = incue2.ins[i].name;
       outcue2.ins[pos].name = incue2.ins[i].name;
+      outcue1.ins[pos].inst = incue2.ins[i].inst;
+      outcue2.ins[pos].inst = incue2.ins[i].inst;
       g_hash_table_insert (hash2, incue2.ins[i].name, (gpointer)(i+1));
       pos++;
     }
@@ -150,6 +155,8 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
 	{
 	  outcue1.ins[pos].name = incue1.ins[i].name;
 	  outcue2.ins[pos].name = incue1.ins[i].name;
+	  outcue1.ins[pos].inst = incue1.ins[i].inst;
+	  outcue2.ins[pos].inst = incue1.ins[i].inst;
 	  pos++;
 	}
       g_hash_table_insert (hash1, incue1.ins[i].name, (gpointer)(i+1));
@@ -214,14 +221,14 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
 	      switch (incue2.ins[pos2].attrs[a2].attr)
 		{
 		case LB::attr_level:
-		  ins = lb->getInstrument(outcue2.ins[i].name);
+		  ins = outcue2.ins[i].inst;
 		  outcue1.ins[i].attrs[a2].attr = 
 		    incue2.ins[pos2].attrs[a2].attr;
 		  outcue1.ins[i].attrs[a2].value.length(1);
 		  outcue1.ins[i].attrs[a2].value[0]=ins->getLevel();
 		  break;
 		case LB::attr_target:
-		  ins = lb->getInstrument(outcue2.ins[i].name);
+		  ins = outcue2.ins[i].inst;
 		  outcue1.ins[i].attrs[a2].attr = 
 		    incue2.ins[pos2].attrs[a2].attr;
 		  outcue1.ins[i].attrs[a2].value.length(3);
@@ -283,15 +290,14 @@ getRootNamingContext(CORBA::ORB_ptr orb)
   return rootContext;
 }
 
-static CORBA::Boolean
+CORBA::Boolean
 bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref, 
                  const char* id, const char* kind)
 {
   
   try { 
-    CosNaming::NamingContext_ptr rootContext = getRootNamingContext(orb);
-    
-    // Bind objref with name Echo to the testContext:
+    CosNaming::NamingContext_var rootContext = getRootNamingContext(orb);
+
     CosNaming::Name objectName;
     objectName.length(1);
     objectName[0].id   = id;   // string copied
@@ -317,8 +323,11 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref,
   return 1;
 }
 
+
 int main(int argc, char** argv)
 {
+  char lb_name[]="LB1";
+
   try {
     // Initialise the ORB.
     orb = CORBA::ORB_init(argc, argv, "omniORB3");
@@ -334,7 +343,7 @@ int main(int argc, char** argv)
     // We allocate the objects on the heap.  Since these are reference
     // counted objects, they will be deleted by the POA when they are no
     // longer needed.
-    LB_Lightboard_i* myLB_Lightboard_i = new LB_Lightboard_i();
+    LB_Lightboard_i* myLB_Lightboard_i = new LB_Lightboard_i(lb_name);
 
     // Activate the objects.  This tells the POA that the objects are
     // ready to accept requests.
@@ -344,37 +353,96 @@ int main(int argc, char** argv)
     // Obtain a reference to each object and output the stringified
     // IOR to stdout
 
-    printf ("a\n");
-    /*    {  */
-      // IDL interface: LB::Lightboard
-      lb = myLB_Lightboard_i->_this();
+    // IDL interface: LB::Lightboard
+    lb = myLB_Lightboard_i->_this();
+    
 
-      // Register the object with the naming service.
-      if( !bindObjectToName(orb, lb, "lb", "Lightboard") )
-            return 1;
+    /* create name graph:
+       /shows
+         /showname
+	   /instruments
+	     instrumentname
+	   /faders
+             fadername
+       /lightboards
+         /lbname
+	   lb
+	   /dimmers
+	     dimmername
 
-      {
+      or at least the bottom part.
+    */
+
+    {
+      CosNaming::Name name;
+      name.length(1);
+      name[0].id   = (const char *)"lightboards";
+
+      rootNaming = getRootNamingContext(orb);
+      CosNaming::NamingContext_var lbcontext, mylbcontext;
+
+      try
+	{
+	  lbcontext=rootNaming->bind_new_context(name);
+	}
+      catch(CosNaming::NamingContext::AlreadyBound& ex) 
+	{
+	  CORBA::Object_var obj;
+	  obj=rootNaming->resolve(name);
+	  lbcontext = CosNaming::NamingContext::_narrow(obj);
+	}
+      
+      name[0].id   = (const char *)lb_name;
+      try
+	{
+	  mylbcontext=lbcontext->bind_new_context(name);
+	}
+      catch(CosNaming::NamingContext::AlreadyBound& ex) 
+	{
+	  lbcontext->unbind(name);
+	  // FIXME: do we need to destroy?
+	  mylbcontext=lbcontext->bind_new_context(name);
+	}
+
+      /* the rest should be empty */
+
+      name[0].id   = (const char *)"lb";
+      name[0].kind   = (const char *)"Lightboard";
+      mylbcontext->rebind(name, lb);
+
+      name[0].id   = (const char *)"dimmers";
+      name[0].kind   = (const char *)"";
+      dimmerContext=mylbcontext->bind_new_context(name);
+
+      initialize_dimmers(dimmerContext);
+    }
+
+    /*
+    // Register the object with the naming service.
+    if( !bindObjectToName(orb, lb, "lb", "Lightboard") )
+      return 1;
+    */
+    
+    {
       CORBA::String_var sior(orb->object_to_string(lb));
       cout << "IDL object LB::Lightboard IOR = '" << (char*)sior << "'" << endl;
       FILE *f = fopen ("/tmp/lb.ior", "w");
       fputs ((char *)sior, f);
       fputs ("\n", f);
       fclose (f);
-      }
-    printf ("a\n");
+    }
+
     // Obtain a POAManager, and tell the POA to start accepting
     // requests on its objects.
     PortableServer::POAManager_var pman = poa->the_POAManager();
     pman->activate();
     
-    initialize_dimmers(lb);
     initialize_instruments(lb);
     initialize_moving_instruments(lb);
     initialize_faders(lb);
     initialize_cuefaders(lb);
     initialize_crossfaders(lb);
     initialize_levelfaders(lb);
-
 
     //    CORBA::Object_var obj = rootContext->resolve(name);
 

@@ -7,7 +7,7 @@ os.environ['IDLPATH']=os.environ.get('IDLPATH','')+'/usr/share/idl:/usr/local/sh
 import CORBA
 import CosNaming
 import sys,string
-import LB, LB__POA
+from idl import LB, LB__POA
 
 class pci(LB__POA.InstrumentLevelListener):
   def sendEvent (self, evt):
@@ -23,12 +23,28 @@ nsi=orb.resolve_initial_references("NameService")
 print nsi
 ns = nsi._narrow(CosNaming.NamingContext)
 print ns
-x=CosNaming.NameComponent("lb","Lightboard")
-x.id="lb"
-x.kind="Lightboard"
+
+x=CosNaming.NameComponent("lightboards","")
 y=[x]
-#print ns.list(2)
 o = ns.resolve(y)
+
+x=CosNaming.NameComponent("LB1","")
+y=[x]
+o = o.resolve(y)
+
+x=CosNaming.NameComponent("dimmers","")
+y=[x]
+o = o.resolve(y)
+
+s=time.time()
+for x in range (1, 1024):
+  x=CosNaming.NameComponent(str(x),"Dimmer")
+  y=[x]
+  z=o.resolve(y)
+  
+e=time.time()
+
+print e-s
 
 #f=open ("/tmp/lb.ior", "r")
 #ior=f.readline()

@@ -7,11 +7,7 @@ module LB
 {
   interface CueFader : Fader
   {
-    void setStartCue (in Cue incue);
-    void setEndCue (in Cue incue);
-
-    void setZeroStartCue (in Cue incue);
-    void setZeroEndCue (in Cue incue);
+    void setCues (in Cue startcue, in Cue endcue);
 
     void setAttributes (in AttrList attr);
     void clear ();

@@ -85,7 +85,7 @@ static void parse (const char *fn, void *userdata)
 int initialize_instruments (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing instruments\n");
-  parse("instruments.xml", lb);
+  //  parse("instruments.xml", lb);
   fprintf(stderr, "Done initializing instruments\n");
 }
 
@@ -97,7 +97,16 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
  
   this->dimmer_start=dimmer_start;
   sprintf (dname, "%i", dimmer_start);
-  this->level_dimmer=lb->getDimmer(dname);
+
+  CORBA::Object_var obj;
+  CosNaming::Name cname;
+  cname.length(1);
+
+  cname[0].id   = (const char *)dname;
+  cname[0].kind   = (const char *)"Dimmer";
+
+  obj=dimmerContext->resolve(cname);
+  this->level_dimmer = LB::Dimmer::_narrow(obj);
 
   pthread_mutex_init (&this->listener_lock, NULL);
 
@@ -119,7 +128,10 @@ LB_Instrument_i::~LB_Instrument_i()
 
 char* LB_Instrument_i::name()
 {
-  return this->my_name;
+  CORBA::String_var ret;
+
+  ret=CORBA::string_dup(this->my_name);
+  return ret._retn();
 }
 
 LB::AttrList* LB_Instrument_i::getAttributes()

@@ -35,7 +35,8 @@ static void print_cue(const LB::Cue& cue)
   printf ("  Name: %s\n", (char *)cue.name);
   for (int i=0; i<cue.ins.length(); i++)
     {
-      printf ("  Instrument: %s\n", (char *)cue.ins[i].name);
+      printf ("  Instrument: %s %s\n", (char *)cue.ins[i].name,
+	      (char *)cue.ins[i].inst->name());
       for (int a=0; a<cue.ins[i].attrs.length(); a++) 
 	{
 	  printf ("    Attribute: %d Value: %f\n", 
@@ -48,41 +49,21 @@ static void print_cue(const LB::Cue& cue)
 
 void LB_CrossFader_i::setCues(const LB::Cue& downcue, const LB::Cue& upcue)
 {
-  double start, middle, end;
-
+  /*
   printf ("Cue1\n");
   print_cue (downcue);
   printf ("Cue2\n");
   print_cue (upcue);
-
-  start = my_time();
-  if (this->instruments)
-    {
-      //release each of them;
-      free (this->instruments);
-    }
+  */
 
   normalize_cues (downcue, upcue, this->down_cue, this->up_cue);
-  
-  middle=my_time();
 
-  this->instruments = (LB::Instrument_ptr *)malloc (sizeof (LB::Instrument_ptr) *
-						    up_cue.ins.length());  
-  
-  for (int i=0; i<up_cue.ins.length(); i++)
-    {
-      this->instruments[i]=lb->getInstrument((char *)up_cue.ins[i].name);
-    }
-  end = my_time();
-
-
-  printf ("%f %f %f\n", middle-start, end-middle, end-start);
-
+  /*
   printf ("Cue1\n");
   print_cue (down_cue);
   printf ("Cue2\n");
   print_cue (up_cue);
-
+  */
 }
 
 void LB_CrossFader_i::setTimes(CORBA::Double downtime, CORBA::Double uptime)
@@ -95,10 +76,8 @@ char *LB_CrossFader_i::getUpCueName()
 {
   CORBA::String_var ret;
 
-  printf ("up:\n");
   if (strlen(this->up_cue.name))
     {
-      printf ("up: %s\n", (char *)this->up_cue.name);
       ret=this->up_cue.name;   //also a String_, deep copy
     }
   else
@@ -110,10 +89,8 @@ char *LB_CrossFader_i::getDownCueName()
 {
   CORBA::String_var ret;
 
-  printf ("down:\n");
   if (strlen(this->down_cue.name))
     {
-      printf ("down: %s\n", (char *)this->down_cue.name);
       ret=this->down_cue.name;
     }
   else
@@ -124,6 +101,8 @@ char *LB_CrossFader_i::getDownCueName()
 void LB_CrossFader_i::act_on_set_ratio (double ratio)
 {
   double utr, dtr, r;
+
+  //  printf ("CrossFader ratio %f\n", ratio);
 
   utr = this->intime / this->up_time;
   dtr = this->intime / this->down_time;
@@ -169,7 +148,7 @@ void LB_CrossFader_i::act_on_set_ratio (double ratio)
 	    {
 	      p1 = down_cue.ins[i].attrs[a].value[0] * dtr;
 	      p2 = up_cue.ins[i].attrs[a].value[0] * utr;
-	      this->instruments[i]->setLevelFromSource(p1+p2, name);
+	      up_cue.ins[i].inst->setLevelFromSource(p1+p2, name);
 	    }
 	}
     }

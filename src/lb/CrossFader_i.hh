@@ -1,3 +1,6 @@
+#ifndef __CROSSFADER_I_HH__
+#define __CROSSFADER_I_HH__
+
 #include <iostream.h>
 #include "CrossFader.hh"
 #include "Fader_i.hh"
@@ -47,3 +50,5 @@ public:
   CORBA::Boolean isRunning();
   */
 };
+
+#endif __CROSSFADER_I_HH__

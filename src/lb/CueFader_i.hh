@@ -21,8 +21,8 @@ private:
   // destructor non-public
   //virtual ~LB_CueFader_i();
 
-  LB::Cue *start_cue;
-  LB::Cue *end_cue;
+  LB::Cue start_cue;
+  LB::Cue end_cue;
   LB::Instrument_ptr *instruments;
   LB::AttrList attributes;
 
@@ -37,11 +37,7 @@ public:
   virtual ~LB_CueFader_i();
 
   // methods corresponding to defined IDL attributes and operations
-  void setStartCue(const LB::Cue& incue);
-  void setEndCue(const LB::Cue& incue);
-
-  void setZeroStartCue(const LB::Cue& incue);
-  void setZeroEndCue(const LB::Cue& incue);
+  void setCues(const LB::Cue& startcue, const LB::Cue& endcue);
 
   void setAttributes(const LB::AttrList& attr);
   void clear();

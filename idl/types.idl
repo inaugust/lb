@@ -3,6 +3,8 @@
 
 module LB
 {
+  interface Instrument;
+
   enum AttrType
     {
       attr_level,     // .01 percent
@@ -21,6 +23,7 @@ module LB
   struct InstAttrs
   {
     string name;
+    Instrument inst;
     sequence<AttrValue> attrs;
   };
 

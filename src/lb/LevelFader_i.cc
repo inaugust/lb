@@ -14,7 +14,7 @@ int initialize_levelfaders (LB::Lightboard_ptr lb)
 
 LB_LevelFader_i::LB_LevelFader_i(const char * name) : LB_Fader_i (name)
 {
-  this->cue=NULL;
+  this->instruments=NULL;
 }
 
 LB_LevelFader_i::~LB_LevelFader_i()
@@ -23,9 +23,7 @@ LB_LevelFader_i::~LB_LevelFader_i()
 
 void LB_LevelFader_i::setCue(const LB::Cue& incue)
 {
-  if (this->cue)
-    delete this->cue;
-  this->cue=duplicate_cue(incue, 0);
+  this->cue=incue;  // Deep copy, I suspect.
 
   if (this->instruments)
     free (this->instruments);
@@ -43,15 +41,15 @@ void LB_LevelFader_i::act_on_set_ratio (double ratio)
   int a;
   int numins;
 
-  numins = cue->ins.length();
+  numins = cue.ins.length();
   for (i=0; i<numins; i++)
     {
-      int numattr=cue->ins[i].attrs.length();
+      int numattr=cue.ins[i].attrs.length();
       for (a=0; a<numattr; a++)
 	{
-	  if (cue->ins[i].attrs[a].attr==LB::attr_level)
+	  if (cue.ins[i].attrs[a].attr==LB::attr_level)
 	    {
-	      p1 = cue->ins[i].attrs[a].value[0] * ratio;
+	      p1 = cue.ins[i].attrs[a].value[0] * ratio;
 	      
 	      this->instruments[i]->setLevelFromSource(p1, this->name());
 	    }

@@ -2,6 +2,10 @@
 #define _LIGHTBOARD_I_HH_
 
 #include "Dimmer_i.hh"
+#include "Instrument_i.hh"
+#include "CrossFader_i.hh"
+#include "LevelFader_i.hh"
+#include "CueFader_i.hh"
 #include "lb.hh"
 
 #include "Lightboard.hh"
@@ -25,12 +29,15 @@ private:
   GSList *event_queue_head;
   GSList *event_queue_tail;
 
+  char *my_name;
+
 public:
   // standard constructor
-  LB_Lightboard_i();
+  LB_Lightboard_i(const char *name);
   virtual ~LB_Lightboard_i();
 
   // methods corresponding to defined IDL attributes and operations
+  char* name();
   CORBA::ULong dimmerRange();
   LB::Instrument_ptr getInstrument(const char* name);
   void putInstrument(LB::Instrument_ptr ins);
@@ -41,9 +48,15 @@ public:
   LB::Dimmer_ptr getDimmer(const char* name);
   void putDimmer(LB::Dimmer_ptr dimr);
 
-  void addEvent(const LB::Event& evt);
+  CORBA::Long createInstrument(const char* show, const char* name, 
+			       CORBA::Long dimmer_start);
+  CORBA::Long createLevelFader(const char* show, const char* name);
+  CORBA::Long createCueFader(const char* show, const char* name);
+  CORBA::Long createCrossFader(const char* show, const char* name);
+
  
   /* This function is not public.  I mean it.  Don't call it! */
+  void addEvent(const LB::Event& evt);
   void do_run_events();
   void print_queue();
 };
