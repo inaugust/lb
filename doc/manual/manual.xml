@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+
+<book title = "Light Board Manual">
+
+<!---------------------------->
+
+<chapter title="Introduction">
+
+This is a lightboard.
+
+</chapter>
+
+<!---------------------------->
+
+<chapter title="Setting Up the System">
+
+<section title="Configuring the Core">
+</section>
+
+<section title="Adding Dimmers">
+</section>
+
+<section title="Adding Driver Modules">
+</section>
+
+</chapter>
+
+<!---------------------------->
+
+<chapter title="Creating a New Show">
+
+<section title="Configuring the Client">
+</section>
+
+<section title="Creating Instruments">
+</section>
+
+<section title="Creating Cues">
+</section>
+
+<section title="Creating Faders">
+</section>
+
+<section title="Creating Programs">
+</section>
+
+</chapter>
+
+
+<!---------------------------->
+
+<chapter title="Running a Show">
+
+<section title="Running a Program">
+</section>
+
+<section title="Using Faders in a Program">
+</section>
+
+</chapter>
+
+<!---------------------------->
+
+<chapter title="Cues">
+
+<section title="Using the Cue Editor">
+</section>
+
+<section title="Cue Parenting">
+</section>
+
+</chapter>
+
+<!---------------------------->
+
+<chapter title="Programs">
+
+<section title="Using the Program Editor">
+</section>
+
+</chapter>
+
+<!---------------------------->
+
+<chapter title="Procedures and Processes">
+
+<section title="Writing a Procedure in Python">
+</section>
+
+<section title="Creating a Process for a Procedure">
+</section>
+
+<section title="Using Processes in Programs">
+</section>
+
+<section title="An Example Procedure">
+</section>
+
+</chapter>
+
+
+<!---------------------------->
+
+</book>
