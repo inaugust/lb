@@ -81,7 +81,7 @@ class TreeWriter:
             for n in tree.children:
                 self.write(n)
             if (len (tree.data)):
-                self.s = self.s + self.indent() + reverse_translate_references(tree.data) + "\n"
+                self.s = self.s + reverse_translate_references(tree.data) + "\n"
             self.ilevel = self.ilevel - 2
             self.s=self.s+self.indent()+'</'+tree.tag+'>\n'
     
@@ -213,7 +213,7 @@ class lightboard(completion, LB__POA.Client):
         p.Parse(data)
         p.close()
         self.undo_bindings()        
-        self.name = str(p.get_name())
+        self.show = str(p.get_name())
         self.do_bindings()
 
         p=TreeParser()

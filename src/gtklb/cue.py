@@ -62,7 +62,8 @@ def load(tree):
             for instrument in cue.find("instrument"):
                 for key, value in instrument.attrs.items():
                     if key == "name": continue
-                    c.instrument[instrument.attrs['name']]={}
+                    if not c.instrument.has_key(instrument.attrs['name']):
+                        c.instrument[instrument.attrs['name']]={}
                     c.instrument[instrument.attrs['name']][key]=value
 
     for c in lb.cue.values():

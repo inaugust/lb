@@ -1,143 +1,124 @@
-<show name="show">
-<programs>
-
-  <program name="prog4">
-    <init>
-    </init>
-    <step name="step1">
-      <transitionfader_set_start cue="moving1" transitionfader="test_fader"/>
-      <transitionfader_set_end cue="moving2" transitionfader="test_fader"/>
-      <transitionfader_run level="100%" time="5s" transitionfader="test_fader"/>
-    </step>
-  </program>
-
-  <program name="prog5">
-    <init>
-      <proc_run id="foo" proc="benchmark"/>
-    </init>
-  </program>
-
-  <program name="prog2">
-    <init>
-    </init>
-    <step name="Cue 1">
-      <process_start process="foo"/>
-    </step>
-    <step name="Stop process">
-      <process_stop process="foo"/>
-    </step>
-  </program>
-
-  <program name="prog3">
-    <init>
-    </init>
-    <step name="Cue 1">
-      <crossfader_load crossfader="X1" cue="1"/>
-      <crossfader_run downtime="4s" crossfader="X1" uptime="4s"/>
-    </step>
-    <step name="Cue 2">
-      <crossfader_load crossfader="X1" cue="2"/>
-      <crossfader_run downtime="3s" crossfader="X1" uptime="3s"/>
-    </step>
-    <step name="Cue 1">
-      <crossfader_load crossfader="X1" cue="1"/>
-      <crossfader_run downtime="2s" crossfader="X1" uptime="2s"/>
-    </step>
-    <step name="Cue 2">
-      <crossfader_load crossfader="X1" cue="2"/>
-      <crossfader_run downtime="1s" crossfader="X1" uptime="1s"/>
-    </step>
-    <step name="Cue 1">
-      <crossfader_load crossfader="X1" cue="1"/>
-      <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s"/>
-    </step>
-  </program>
-
-  <program name="prog1">
-    <init>
-      <levelfader_load cue="house" levelfader="house_fader"/>
-    </init>
-    <step name="House Out">
-      <levelfader_run level="0%" time="5s" levelfader="house_fader"/>
-    </step>
-    <step name="House Up">
-      <levelfader_level level="100%" levelfader="house_fader"/>
-    </step>
-    <step name="House to Half">
-      <levelfader_run level="50%" time="5s" levelfader="house_fader"/>
-    </step>
-  </program>
-
-</programs>
-<instruments>
-
-  <color_mixer_instrument name="cyc" red="cyc_red" green="cyc_green" blue="cyc_blue"/>
-  <instrument driver="instrument" name="8" core="LB1" dimmer="8"/>
-  <instrument driver="instrument" name="9" core="LB1" dimmer="9"/>
-  <instrument driver="instrument" name="6" core="LB1" dimmer="6"/>
-  <instrument driver="instrument" name="7" core="LB1" dimmer="7"/>
-  <instrument driver="instrument" name="4" core="LB1" dimmer="4"/>
-  <instrument driver="instrument" name="5" core="LB1" dimmer="5"/>
-  <instrument driver="instrument" name="2" core="LB1" dimmer="2"/>
-  <instrument driver="instrument" name="3" core="LB1" dimmer="3"/>
-  <instrument driver="instrument" name="house3" core="LB1" dimmer="67"/>
-  <instrument driver="instrument" name="house2" core="LB1" dimmer="66"/>
-  <instrument driver="instrument" name="house1" core="LB1" dimmer="65"/>
-  <instrument driver="instrument" name="cyc_green" core="LB1" dimmer="21"/>
-  <instrument driver="instrument" name="cyc_red" core="LB1" dimmer="20"/>
-  <instrument driver="instrument" name="1" core="LB1" dimmer="1"/>
-  <instrument driver="instrument" name="cyc_blue" core="LB1" dimmer="22"/>
-  <instrument driver="instrument" name="10" core="LB1" dimmer="10"/>
-  <meta_instrument name = "foo">
-    <instrument attributes="level" driver="instrument" name="mtest1" core="LB1" dimmer="100"/>
-    <instrument attributes="gobo_rpm" driver="gobo_rotator" name="mtest2" core="LB1" dimmer="101"/>
-  </meta_instrument>
-
-</instruments>
-<cues>
-
-  <cue name="preshow">
-    <instrument name="2" level="50%"/>
-    <instrument name="1" level="50%"/>
-  </cue>
-
-  <cue name="black">
-  </cue>
-
-  <cue name="2">
-    <instrument name="2" level="0%"/>
-    <instrument name="1" level="100%"/>
-  </cue>
-
-  <cue name="house">
-    <instrument name="house1" level="100%"/>
-    <instrument name="house3" level="100%"/>
-    <instrument name="house2" level="100%"/>
-  </cue>
-
-  <cue name="1">
-    <parent level="50.0%">house</parent>
-    <parent level="50.0%">preshow</parent>
-    <instrument name="2" level="100%"/>
-    <instrument name="1" level="0%"/>
-  </cue>
-
-</cues>
-<crossfaders>
-
-  <crossfader name="X1" core="LB1"/>
-</crossfaders>
-<levelfaders>
-
-  <levelfader name="f1" core="LB1"/>
-</levelfaders>
-<procedures>
-
-  <procedure name="chase" args="instruments">
-
-
-
-# arguments:  instruments (list)
+<show name="unnamed2" >
+  <programs >
+    <program name="prog4" >
+      <init />
+      <step name="step1" >
+        <transitionfader_set_start cue="moving1" transitionfader="test_fader" />
+        <transitionfader_set_end cue="moving2" transitionfader="test_fader" />
+        <transitionfader_run level="100%" time="5s" transitionfader="test_fader" />
+      </step>
+    </program>
+    <program name="prog5" >
+      <init >
+        <proc_run id="foo" proc="benchmark" />
+      </init>
+    </program>
+    <program name="prog2" >
+      <init />
+      <step name="Cue 1" >
+        <process_start process="foo" />
+      </step>
+      <step name="Stop process" >
+        <process_stop process="foo" />
+      </step>
+    </program>
+    <program name="prog3" >
+      <init />
+      <step name="Cue 1" >
+        <crossfader_load cue="1" crossfader="X1" />
+        <crossfader_run downtime="4s" crossfader="X1" uptime="4s" />
+      </step>
+      <step name="Cue 2" >
+        <crossfader_load cue="2" crossfader="X1" />
+        <crossfader_run downtime="3s" crossfader="X1" uptime="3s" />
+      </step>
+      <step name="Cue 1" >
+        <crossfader_load cue="1" crossfader="X1" />
+        <crossfader_run downtime="2s" crossfader="X1" uptime="2s" />
+      </step>
+      <step name="Cue 2" >
+        <crossfader_load cue="2" crossfader="X1" />
+        <crossfader_run downtime="1s" crossfader="X1" uptime="1s" />
+      </step>
+      <step name="Cue 1" >
+        <crossfader_load cue="1" crossfader="X1" />
+        <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s" />
+      </step>
+    </program>
+    <program name="prog1" >
+      <init >
+        <levelfader_load cue="house" levelfader="house_fader" />
+      </init>
+      <step name="House Out" >
+        <levelfader_run level="0%" time="5s" levelfader="house_fader" />
+      </step>
+      <step name="House Up" >
+        <levelfader_level level="100%" levelfader="house_fader" />
+      </step>
+      <step name="House to Half" >
+        <levelfader_run level="50%" time="5s" levelfader="house_fader" />
+      </step>
+    </program>
+  </programs>
+  <instruments >
+    <color_mixer_instrument red="cyc_red" name="cyc" green="cyc_green" blue="cyc_blue" />
+    <instrument name="2" driver="instrument" core="LB1" dimmer="2" />
+    <meta_instrument name="foo" >
+      <instrument core="LB1" name="mtest2" driver="gobo_rotator" attributes="gobo_rpm" dimmer="101" />
+      <instrument core="LB1" name="mtest1" driver="instrument" attributes="level" dimmer="100" />
+    </meta_instrument>
+    <instrument name="8" driver="instrument" core="LB1" dimmer="8" />
+    <instrument name="9" driver="instrument" core="LB1" dimmer="9" />
+    <instrument name="6" driver="instrument" core="LB1" dimmer="6" />
+    <instrument name="7" driver="instrument" core="LB1" dimmer="7" />
+    <instrument name="4" driver="instrument" core="LB1" dimmer="4" />
+    <instrument name="5" driver="instrument" core="LB1" dimmer="5" />
+    <instrument name="house1" driver="instrument" core="LB1" dimmer="65" />
+    <instrument name="3" driver="instrument" core="LB1" dimmer="3" />
+    <instrument name="house3" driver="instrument" core="LB1" dimmer="67" />
+    <instrument name="house2" driver="instrument" core="LB1" dimmer="66" />
+    <instrument name="cyc_green" driver="instrument" core="LB1" dimmer="21" />
+    <instrument name="cyc_red" driver="instrument" core="LB1" dimmer="20" />
+    <instrument name="1" driver="instrument" core="LB1" dimmer="1" />
+    <instrument name="cyc_blue" driver="instrument" core="LB1" dimmer="22" />
+    <instrument name="10" driver="instrument" core="LB1" dimmer="10" />
+  </instruments>
+  <cues >
+    <cue name="preshow" >
+      <instrument level="50%" name="2" />
+      <instrument level="50%" name="1" />
+    </cue>
+    <cue name="black" />
+    <cue name="2" >
+      <instrument level="0%" name="2" />
+      <instrument level="100%" name="1" />
+    </cue>
+    <cue name="house" >
+      <instrument level="100%" name="house1" />
+      <instrument level="100%" name="house3" />
+      <instrument level="100%" name="house2" />
+    </cue>
+    <cue name="1" >
+      <parent level="50.0%" >
+        house
+      </parent>
+      <parent level="50.0%" >
+        preshow
+      </parent>
+      <instrument level="100%" name="2" />
+      <instrument level="100.0%" name="cyc" color="#ff1e00" />
+      <instrument level="0%" name="1" />
+    </cue>
+  </cues>
+  <crossfaders >
+    <crossfader name="X1" core="LB1" />
+  </crossfaders>
+  <levelfaders >
+    <levelfader name="f1" core="LB1" />
+  </levelfaders>
+  <procedures >
+    <procedure args="instruments" name="chase" >
+      # arguments:  instruments (list)
 
 import math, time, string
 
@@ -160,15 +141,11 @@ while(self.running):
 
 if (prev):
     prev.set_attribute(&apos;level&apos;, &apos;0%&apos;)
-  
-  
-  
-  </procedure>
-  <procedure name="circle" args="instrument, center, radius">
 
 
-
-# arguments:  instrument, center, radius
+    </procedure>
+    <procedure args="instrument, center, radius" name="circle" >
+      # arguments:  instrument, center, radius
 
 import math, time, string
 
@@ -193,14 +170,9 @@ while(self.running):
   t=t+.1
   time.sleep(0.5)
 
-  
-  
-  
-  </procedure>
-  <procedure name="benchmark" args="">
 
-
-
+    </procedure>
+    <procedure args="" name="benchmark" >
 import math, time, string
 
 ins=[]
@@ -215,13 +187,11 @@ for y in range(1,4*80):
     x.set_attribute(attribute=&apos;target&apos;, value=&apos;(10ft, 10ft, 10ft)&apos;)
 e=time.time()
 print &apos;set&apos;, 4*80*50 ,&apos;instruments in &apos;, e-s
-  
-  
-  
-  </procedure>
-</procedures>
-<processes>
 
-  <process name="foo" procedure="chase" instruments= "1,2" />
-</processes>
+
+    </procedure>
+  </procedures>
+  <processes >
+    <process procedure="chase" instruments="1,2" name="foo" />
+  </processes>
 </show>

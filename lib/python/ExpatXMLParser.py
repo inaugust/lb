@@ -17,7 +17,7 @@ def reverse_translate_references(str):
 class ExpatXMLParser:
 
     def __init__(self):
-        self.parser=expat.ParserCreate('ASCII')
+        self.parser=expat.ParserCreate()
         self.parser.StartElementHandler = self.magic_start_element
         self.parser.EndElementHandler = self.magic_end_element
         self.parser.CharacterDataHandler = self.char_data
