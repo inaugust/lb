@@ -1,0 +1,6 @@
+#! /bin/sh
+
+aclocal -I config \
+&& autoheader2.50 \
+&& automake --foreign --add-missing --copy \
+&& autoconf2.50

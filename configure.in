@@ -1,0 +1,45 @@
+# Process this file with autoconf to produce a configure script.
+AC_INIT('lb', '0.3.0', 'bugs-lb@inaugust.com')
+AM_INIT_AUTOMAKE('lb','0.3.0')
+AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_SRCDIR([src/lb/CrossFader_i.cc])
+AM_CONFIG_HEADER(config.h)
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+
+# Checks for libraries.
+# FIXME: Replace `main' with a function in `-lexpat':
+AC_CHECK_LIB([expat], [main])
+# FIXME: Replace `main' with a function in `-libs':
+AC_CHECK_LIB([ibs], [main])
+# FIXME: Replace `main' with a function in `-lomniDynamic3':
+AC_CHECK_LIB([omniDynamic3], [main])
+# FIXME: Replace `main' with a function in `-lomniGK_stub':
+AC_CHECK_LIB([omniGK_stub], [main])
+# FIXME: Replace `main' with a function in `-lomniORB3':
+AC_CHECK_LIB([omniORB3], [main])
+# FIXME: Replace `main' with a function in `-lomnithread':
+AC_CHECK_LIB([omnithread], [main])
+# FIXME: Replace `main' with a function in `-lpthread':
+AC_CHECK_LIB([pthread], [main])
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([errno.h fcntl.h stdlib.h string.h sys/time.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_INLINE
+AC_HEADER_TIME
+
+# Checks for library functions.
+AC_FUNC_MALLOC
+AC_CHECK_FUNCS([gettimeofday pow sqrt strdup strrchr])
+
+AC_CONFIG_FILES([
+	Makefile 
+	src/Makefile
+	src/lb/Makefile])
+AC_OUTPUT
