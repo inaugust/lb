@@ -9,7 +9,7 @@ import CosNaming
 import sys,string
 import LB, LB__POA
 
-class pci(LB__POA.EventListener):
+class pci(LB__POA.InstrumentLevelListener):
   def sendEvent (self, evt):
     #print "push!"
     pass
@@ -40,7 +40,7 @@ f = o.getFader('C1')
 #f = f._narrow(LB.CueFader)
 print f, dir(f)
 
-for n in range(1,51):
+for n in range(1,1):
   i = o.getInstrument(str(n))
   print i
   servant=pci()
@@ -54,7 +54,7 @@ class dummy:
   pass
 
 def test_ins():
-  num_ins=50
+  num_ins=1024
 
   attr=dummy()
   attr.attr=LB.attr_level
@@ -89,7 +89,7 @@ def test_ins():
   f.setStartCue(cue1)
   f.setEndCue(cue2)
 
-  f.run(100.0, 5.0)
+  f.run(100.0, 1.0)
 
 
 def test_mov_ins():
