@@ -225,15 +225,18 @@ void LB_Fader_i::stop()
       lb->addEvent(evt);
     }
 
-  /*
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.running=0
-            self.threadlock.release()
-            self.mythread.join()
-            return
-        self.threadlock.release()
-*/
+  pthread_mutex_lock(&this->thread_lock);
+
+  if (this->thread_exists)
+    {
+      this->running=0;
+      pthread_mutex_unlock(&this->thread_lock);
+      pthread_join (this->my_thread, NULL);
+      return;
+    }
+
+  pthread_mutex_unlock(&this->thread_lock);
+
 }
 
 void LB_Fader_i::setLevel(double level)
@@ -264,27 +267,35 @@ void LB_Fader_i::setLevel(double level)
 CORBA::Boolean LB_Fader_i::isRunning()
 {
   return running;
-  /*
-        self.threadlock.acquire()
-        if (self.mythread):
-            ret=1
-        else:
-            ret=0
-        self.threadlock.release()
-        return ret
-  */
 }
-
 
 
 void LB_Fader_i::doFireLevelEvent(const LB::Event &evt)
 {
   pthread_mutex_lock(&this->listener_lock);
   GSList *list = this->level_listeners;
+  GSList *to_remove = NULL;
   while (list)
     {
-      ((LB::FaderLevelListener_ptr) list->data)->levelChanged(evt);
+      try
+	{
+	  ((LB::FaderLevelListener_ptr) list->data)->levelChanged(evt);
+	}
+      catch (...)
+	{
+	  to_remove = g_slist_append(to_remove, list->data);
+	}
       list=list->next;
+    }
+  if (to_remove)
+    {
+      while (to_remove)
+	{
+	  this->level_listeners=g_slist_remove(this->level_listeners,
+					       to_remove->data);
+	  to_remove=to_remove->next;
+	}
+      g_slist_free(to_remove);
     }
   pthread_mutex_unlock(&this->listener_lock);
 }

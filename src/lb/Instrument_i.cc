@@ -123,7 +123,6 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
 
 LB_Instrument_i::~LB_Instrument_i()
 {
-  // add extra destructor code here
 }
 
 char* LB_Instrument_i::name()
@@ -136,7 +135,13 @@ char* LB_Instrument_i::name()
 
 LB::AttrList* LB_Instrument_i::getAttributes()
 {
-  
+  LB::AttrList *l = new LB::AttrList;
+  LB::AttrList_var ret;
+
+  l->length(1);
+  l[0]=LB::attr_level;
+  ret = l;
+  return ret._retn();
 }
 
 void LB_Instrument_i::setLevelFromSource(CORBA::Double level, 
@@ -264,12 +269,22 @@ void LB_Instrument_i::getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Doubl
 
 void LB_Instrument_i::doFireTargetEvent(const LB::Event &evt)
 {
+  pthread_mutex_lock(&this->listener_lock);
+  /*
+  GSList *list = this->target_listeners;
+  while (list)
+    {
+      ((LB::InstrumentTargetListener_ptr) list->data)->targetChanged(evt);
+      list=list->next;
+    }
+  */
+  pthread_mutex_unlock(&this->listener_lock);
 }
 
 void LB_Instrument_i::addTargetListener(const char *l)
 {
   pthread_mutex_lock(&this->listener_lock);
-  //  this->target_listeners=g_slist_append(this->target_listeners, l);
+  //this->target_listeners=g_slist_append(this->target_listeners, l);
   pthread_mutex_unlock(&this->listener_lock);
 }
 

@@ -122,9 +122,7 @@ int initialize_dimmers (CosNaming::NamingContext_ptr context)
   fprintf(stderr, "Done initializing dimmers\n");
 }
 
-//
-// Example implementational code for IDL interface LB::Dimmer
-//
+
 LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
 {
   this->my_name=strdup(name);
@@ -141,7 +139,6 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
           perror ("Dimmer");
         }
       dimmer_devices[device]=dev;
-      // we need a mutex here
     }
   this->my_handle=dev;
   this->testfd=0;
@@ -153,20 +150,27 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
 		      S_IREAD | S_IWRITE);
 }
 
-LB_Dimmer_i::~LB_Dimmer_i(){
-  // add extra destructor code here
+LB_Dimmer_i::~LB_Dimmer_i()
+{
   if (this->testfd)
     close(this->testfd);
 }
-//   Methods corresponding to IDL attributes and operations
+
+
 char* LB_Dimmer_i::name()
 {
-  return this->my_name;
+  CORBA::String_var ret;
+
+  ret=CORBA::string_dup(this->my_name);
+  return ret._retn();
 }
 
 char* LB_Dimmer_i::device()
 {
-  return this->my_device;
+  CORBA::String_var ret;
+
+  ret=CORBA::string_dup(this->my_device);
+  return ret._retn();
 }
 
 CORBA::Long LB_Dimmer_i::number()
@@ -182,6 +186,7 @@ void LB_Dimmer_i::setLevel(CORBA::Double level)
 
 CORBA::Double LB_Dimmer_i::getLevel()
 {
+  return my_level;
 }
 
 
@@ -214,6 +219,7 @@ void LB_Dimmer_i::setValue(CORBA::Long value)
 
 CORBA::Long LB_Dimmer_i::getValue()
 {
+  return my_value;
 }
 
 // End of example implementational code

@@ -34,7 +34,6 @@ int initialize_cuefaders (LB::Lightboard_ptr lb)
 
 LB_CueFader_i::LB_CueFader_i(const char *name) : LB_Fader_i (name)
 {
-  this->instruments=NULL;
 }
 
 LB_CueFader_i::~LB_CueFader_i()
@@ -43,33 +42,20 @@ LB_CueFader_i::~LB_CueFader_i()
 
 void LB_CueFader_i::setCues(const LB::Cue& startcue, const LB::Cue& endcue)
 {
-  double start, middle, end;
-
-  if (this->instruments)
-    {
-      //FIXME release each of them;
-      free (this->instruments);
-    }
-
   normalize_cues (startcue, endcue, this->start_cue, this->end_cue);
-  
-  this->instruments = (LB::Instrument_ptr *)malloc (sizeof (LB::Instrument_ptr) *
-						    end_cue.ins.length());  
-  
-  for (int i=0; i<end_cue.ins.length(); i++)
-    {
-      this->instruments[i]=lb->getInstrument((char *)end_cue.ins[i].name);
-    }
 }
 
 void LB_CueFader_i::setAttributes(const LB::AttrList& attr)
 {
+  this->attributes=attr;
+  /*
   int len=attr.length();
   this->attributes.length(len);
   for (int a=0; a<len; a++)
     {
       this->attributes[a]=attr[a];
     }
+  */
 }
 
 int LB_CueFader_i::hasAttribute(LB::AttrType attr)
@@ -112,7 +98,7 @@ void LB_CueFader_i::act_on_set_ratio (double ratio)
 				    end_cue.ins[i].attrs[a].value[0],
 				    ratio);
 	      
-	      this->instruments[i]->setLevel(p1);
+	      end_cue.ins[i].inst->setLevel(p1);
 	    }
 
 	  if (end_cue.ins[i].attrs[a].attr==LB::attr_target)
@@ -126,7 +112,7 @@ void LB_CueFader_i::act_on_set_ratio (double ratio)
 				  ratio,
 				  p1, p2, p3);
 	      
-	      this->instruments[i]->setTarget(p1, p2, p3);
+	      end_cue.ins[i].inst->setTarget(p1, p2, p3);
 	    }
 	}
     }
@@ -135,35 +121,9 @@ void LB_CueFader_i::act_on_set_ratio (double ratio)
 
 void LB_CueFader_i::clear()
 {
+  start_cue.ins.length(0);
+  start_cue.name = CORBA::string_dup("");
+
+  end_cue.ins.length(0);
+  end_cue.name = CORBA::string_dup("");
 }
-
-
-
-/*
-  printf ("cue %s %p\n",(char *)cue->name, &cue->name);
-
-  int numins=cue->ins.length();
-  printf ("instruments: %li\n", numins);
-  for (int i=0; i<numins; i++)
-    {
-      printf ("  instrument: %s\n", (char *)cue->ins[i].name);
-      int numattr=cue->ins[i].attrs.length();
-      printf ("  attributes: %li\n", numattr);
-      for (int a=0; a<numattr; a++)
-	{
-	  printf ("    %s=%s\n", (char *)cue->ins[i].attrs[a].attr,
-		  (char *)cue->ins[i].attrs[a].value);
-	}
-    }
-
-*/
-
-
-/*
-
-                  24.9
- without hasattr  23.7
- without strcmp   24.1
- without interpolate 11.75
- without setlevel  5
- */

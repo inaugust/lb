@@ -157,4 +157,9 @@ void LB_CrossFader_i::act_on_set_ratio (double ratio)
 
 void LB_CrossFader_i::clear()
 {
+  up_cue.ins.length(0);
+  up_cue.name = CORBA::string_dup("");
+
+  down_cue.ins.length(0);
+  down_cue.name = CORBA::string_dup("");
 }

@@ -28,7 +28,7 @@ IMPL_IDL_FILES = Lightboard Instrument Fader CueFader CrossFader LevelFader\
 #
 # IDL Files that don't have Implementation files
 #
-IDL_FILES = types
+IDL_FILES = types Client
 
 #######################################
 #
