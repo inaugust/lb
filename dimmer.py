@@ -3,8 +3,14 @@ from xmllib import XMLParser
 from os import path
 import time
 from Numeric import *
+from xml.parsers import expat
+from ExpatXMLParser import ExpatXMLParser
 
 def make_level (level):
+    if (type(level)==type(1)):
+        return level
+    if (type(level)==type(1.0)):
+        return int(level)
     level=str(level)
     if (level[-1]=='%'):
         level=int((float(level[:-1])/100.0)*255.0)
@@ -48,7 +54,10 @@ def update_dimmers ():
             matrix=choose(greater(m, 0), (matrix, m))
         for m in lb.scale_source.values():
             matrix=matrix*m
-        
+
+    # Self set dimmers
+    matrix=choose(greater(lb.dimmer_matrix, 0), (matrix, lb.dimmer_matrix))
+    
     lb.dimmer_lock.acquire()
     for (start, end, fh) in lb.dimmer_device:
         fh.seek(start)
@@ -78,13 +87,15 @@ def initialize(lb):
     
     f=open(path.join(lb.datapath, 'dimmers'))
     p=parser()
-    p.feed(f.read())
+    p.Parse(f.read())
+    p.close()
     lb.add_signal ('Dimmer Set Level', dimmer.set_level_real)
     lb.dimmer_range=255
     lb.make_level=make_level
     lb.update_dimmers=update_dimmers
     lb.get_sources=get_sources
     lb.newmatrix=newmatrix
+    lb.dimmer_matrix=lb.newmatrix()
     lb.dimmer_file = open('/dev/dmx', 'w')
     lb.dimmer_lock=Lock()
 
@@ -97,7 +108,7 @@ def shutdown():
     #    if d.fd:
     #        d.fd.close()
 
-class parser(XMLParser):
+class parser(ExpatXMLParser):
 
     def start_dimmerbank (self, attrs):
         start=lb.num_dimmers
@@ -133,28 +144,30 @@ class dimmer:
         #    self.fd=None
 #public
 
-    def set_level(self, level):
+    def set_level(self, level, immediately=1):
         #lb.send_signal('Dimmer Set Level', itself=self, level=level)
-        self.set_level_real(level)
+        self.set_level_real(level, immediately)
         
     def make_level (self, level):
         return make_level(level)
 
 #private
 
-    def set_level_real(self, level):
+    def set_level_real(self, level, immediately=1):
         if (level<0): level=0
         if (level>self.max_level): level=self.max_level
         self.current_level=level
         #print args['level']
         #update hardware
         #print 'dim', self.number, level
-	lb.dimmer_lock.acquire()
-        lb.dimmer_file.seek(self.number)
-        lb.dimmer_file.write(chr(level))
-        lb.dimmer_file.flush()
-	#print 'dimmer ', self.number, '@ ', level
-        lb.dimmer_lock.release()
+        if (immediately):
+            lb.dimmer_lock.acquire()
+            lb.dimmer_file.seek(self.number)
+            lb.dimmer_file.write(chr(level))
+            lb.dimmer_file.flush()
+	    #print 'dimmer ', self.number, '@ ', level
+            lb.dimmer_lock.release()
+        lb.dimmer_matrix[self.number]=level
         #if self.number<50:
         #    self.fd.write(str(time.time()) + ' ' + str(level)+"\n")
 

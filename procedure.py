@@ -2,6 +2,7 @@ from threading import *
 from xmllib import XMLParser
 from os import path
 import string, cStringIO
+from ExpatXMLParser import ExpatXMLParser
 
 def initialize(lb):
     lb.procedure={}
@@ -11,12 +12,13 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
-
+        p.Parse(f.read())
+        p.close()
+    
 def shutdown():
     pass
 
-class parser(XMLParser):
+class parser(ExpatXMLParser):
 
     def start_procedure (self, attrs):
         self.procedure=procedure (attrs['name'])

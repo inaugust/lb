@@ -4,6 +4,10 @@ from threading import *
 import string
 import os
 
+import SocketServer
+import xmlrpcserver
+import xmlrpclib
+
 def make_time(time):
     try:
         time=float(time)
@@ -57,6 +61,12 @@ class lightboard:
             l.initialize(self)
             self._libraries.append(l)
             
+
+    def get_ins(self, name):
+        ins = self.instrument[name]
+        print 'r', ins
+        return ins
+
     def add_signal (self, name, target):
         if (name not in self._signals.keys()):
             self._signals[name]=[]
@@ -83,10 +93,19 @@ class lightboard:
             #self.events.append('Event: ' + signal)
             self._queue_lock.release()
             for t in self._signals[signal]:
-                if (args.has_key('itself')):
-                    t(args['itself'], args)
+                if (type(t)==type('')):
+                    client = xmlrpclib.Server(t)
+                    if (args.has_key('itself')):
+                        nargs=args.copy()
+                        nargs['itself']=args['itself'].get_path()
+                        client.send_signal([signal], nargs)
+                    else:
+                        client.send_signal([signal], args)
                 else:
-                    t(args)
+                    if (args.has_key('itself')):
+                        t(args['itself'], args)
+                    else:
+                        t(args)
 
     def exit (self):
         self._terminated=1
@@ -94,3 +113,32 @@ class lightboard:
         for lib in self._libraries:
             lib.shutdown()
             
+
+class LBRequestHandler(xmlrpcserver.RequestHandler):
+    def call(self, method, params):
+        print self.path
+        path_elements = string.split (self.path, '/')
+        root=lb
+        for e in path_elements:
+            if not e:
+                continue
+            if (type(root)==type({})):
+                root=root[e]
+            else:
+                root=getattr(root, e)
+
+        print "Dispatching: ", root, method, params
+        try:
+            server_method = getattr(root, method)
+        except:
+            raise AttributeError, "Server does not contain XML-RPC procedure %s" % method
+        if len(params)==1:
+            r=apply(server_method, params[0])
+        else:
+            r=apply(server_method, params[0], params[1])
+        if (r==None):
+            return 0
+        return r
+
+
+

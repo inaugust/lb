@@ -1,5 +1,6 @@
 from threading import *
 from xmllib import XMLParser
+from ExpatXMLParser import ExpatXMLParser
 from os import path
 import instrument
 import lightboard
@@ -15,7 +16,8 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
+        p.Parse(f.read())
+        p.close()
     lb.add_signal ('Level Fader Set Cue', levelfader.set_cue_real)
     lb.add_signal ('Level Fader Set Instrument',
                    levelfader.set_instrument_real)
@@ -31,7 +33,7 @@ def shutdown():
 class dummy:
     pass
 
-class parser(XMLParser):
+class parser(ExpatXMLParser):
 
     def start_levelfader (self, attrs):
         name=attrs['name']

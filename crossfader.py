@@ -1,5 +1,6 @@
 from threading import *
 from xmllib import XMLParser
+from ExpatXMLParser import ExpatXMLParser
 from os import path
 from levelfader import levelfader
 import instrument
@@ -13,14 +14,15 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
+        p.Parse(f.read())
+        p.close()
     lb.add_signal ('Crossfader Set Level', crossfader.set_level_real)
     lb.add_signal ('Crossfader Run', crossfader.run_real)
     
 def shutdown():
     pass
 
-class parser(XMLParser):
+class parser(ExpatXMLParser):
 
     def start_crossfader (self, attrs):
         typ=attrs.get('type', 'min')

@@ -4,6 +4,9 @@ import lightboard
 import time
 from Numeric import *
 
+from xml.parsers import expat
+from ExpatXMLParser import ExpatXMLParser
+
 #types:
 # max
 # min
@@ -22,18 +25,17 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
+        p.Parse(f.read())
+        p.close()
     lb.add_signal ('Instrument Set Attribute', instrument.set_attribute_real_vf)
 
 def shutdown():
     pass
 
-class parser(XMLParser):
-
+class parser(ExpatXMLParser):
     def start_instrument (self, attrs):
         lb.instrument[attrs['name']]=instrument(attrs['name'],
                                                 int(attrs['dimmer']))
-
 
 class instrument:
 
@@ -46,16 +48,19 @@ class instrument:
         self.level=0
         self.dimmer=lb.dimmer[self.dimmer_number]
 
-#public
+    #public
 
-    def set_attribute(self, attribute, value, source, typ='min'):
-        lb.send_signal('Instrument Set Attribute', itself=self,
-                       attribute=attribute, value=value, source=source,
-                       typ=typ)
-        #self.set_attribute_real({'attribute':attribute,
-        #                         'value':value,
-        #                         'source':source,
-        #                         'typ':typ})
+    def set_attribute(self, attribute, value, source=None, typ='min',
+                      immediately=1):
+        #print 'set!'
+        #lb.send_signal('Instrument Set Attribute', itself=self,
+        #               attribute=attribute, value=value, source=source,
+        #               typ=typ, immediately=immediately)
+        self.set_attribute_real({'attribute':attribute,
+                                 'value':value,
+                                 'source':source,
+                                 'typ':typ,
+                                 'immediately':immediately})
 
     def make_level(self, level):
         return self.dimmer.make_level(level)
@@ -70,6 +75,13 @@ class instrument:
                 matrix[self.dimmer_number]=self.make_level(val)
         return matrix
 
+    def get_path(self):
+        return '/instrument/'+self.name
+
+    def get_attribute(self, attribute=None):
+        if attribute=='level':
+            return self.level
+
 #private
 
     def set_attribute_real_vf(self, args):
@@ -78,19 +90,13 @@ class instrument:
         
     def set_attribute_real(self, args):
         if (args['attribute']=='level'):
-            self.do_set_level (args['value'], args['typ'], args['source'])
+            self.do_set_level (args['value'], args['typ'], args['source'],
+                               args['immediately'])
 
-    def do_set_level (self, value, typ, source):
+    def do_set_level (self, value, typ, source, immediately):
         self.level=value
-        dict = lb.get_sources(typ)
-        m = self.get_matrix({'level': value})
-        try:
-            matrix=dict[source]
-        except:
-            matrix=lb.newmatrix()
-        matrix=choose(greater(m, 0), (matrix, m))        
-        dict[source]=matrix
-        lb.update_dimmers()
+        level=self.make_level(value)
+        self.dimmer.set_level(level, immediately) 
         
     def __repr__(self):
         r='<%s "%s"' % (self.__class__.__name__, self.name)
@@ -98,3 +104,15 @@ class instrument:
             r=r+' %s="%s"' % (x, getattr(self, x))
         r=r+'>'
         return r
+
+
+# Attic:
+#         dict = lb.get_sources(typ)
+#         m = self.get_matrix({'level': value})
+#         try:
+#             matrix=dict[source]
+#         except:
+#             matrix=lb.newmatrix()
+#         matrix=choose(greater(m, 0), (matrix, m))        
+#         dict[source]=matrix
+#         lb.update_dimmers()

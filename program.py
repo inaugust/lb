@@ -3,6 +3,7 @@ from xmllib import XMLParser
 from os import path
 import string
 import process
+from ExpatXMLParser import ExpatXMLParser
 
 def initialize(lb):
     lb.program={}
@@ -12,7 +13,8 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
+        p.Parse(f.read())
+        p.close()
     lb.add_signal ('Program Run', program.run_real)
     lb.add_signal ('Program Stop', program.stop_real)
     lb.add_signal ('Program Step Forward', program.step_forward_real)
@@ -37,7 +39,7 @@ class loop:
         self.stop=-1
         self.actions=[]
 
-class parser(XMLParser):
+class parser(ExpatXMLParser):
 
     def start_programs (self, attrs):
         pass
@@ -221,6 +223,7 @@ class program:
         print 'run_actions done'
         
     def run_action (self, action, args):
+        ### Level fader
         if (action=='levelfader_load'):
             if (args.has_key('cue')):
                 lb.levelfader[args['levelfader']].set_cue(args['cue'])
@@ -231,6 +234,23 @@ class program:
         if (action=='levelfader_run'):
             time=args.get('time',0)
             lb.levelfader[args['levelfader']].run(args['level'], time)
+
+        ### Transition fader
+
+        if (action=='transitionfader_set_start'):
+            lb.transitionfader[args['transitionfader']].set_start_cue(args['cue'])
+        if (action=='transitionfader_set_end'):
+            lb.transitionfader[args['transitionfader']].set_end_cue(args['cue'])
+        if (action=='transitionfader_set_attributes'):
+            attrs=map(string.strip, string.split(args['attributes'], ','))
+            lb.transitionfader[args['transitionfader']].set_attributes(attrs)
+        if (action=='transitionfader_level'):
+            lb.transitionfader[args['transitionfader']].set_level(args['level'])
+        if (action=='transitionfader_run'):
+            time=args.get('time',0)
+            lb.transitionfader[args['transitionfader']].run(args['level'], time)
+        ### Cross fader
+
         if (action=='xf_load'):
             u=lb.crossfader[args['xf']].get_up_faders()
             u[0].set_cue(args['cue'])
@@ -238,6 +258,9 @@ class program:
             uptime=args.get('uptime', 0)
             downtime=args.get('downtime', 0)
             lb.crossfader[args['xf']].run(uptime, downtime)
+
+        ### Procedure
+            
         if (action=='proc_run'):
             p=process.process()
             self.processes[args['id']]=p

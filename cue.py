@@ -3,6 +3,7 @@ from os import path
 import string
 import lightboard
 from Numeric import *
+from ExpatXMLParser import ExpatXMLParser
 
 def initialize(lb):
     lb.cue={}
@@ -12,14 +13,14 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
-    
+        p.Parse(f.read())
+        p.close()
+        
 def shutdown():
     pass
 
 
-class parser(XMLParser):
-
+class parser(ExpatXMLParser):
     def start_instrument (self, attrs):
         d={}
         d['level']=lb.instrument[attrs['name']].make_level(attrs['level'])

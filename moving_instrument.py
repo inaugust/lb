@@ -7,6 +7,7 @@ from instrument import instrument
 import string
 import re
 from math import *
+from ExpatXMLParser import ExpatXMLParser
 
 RE_FT = re.compile ("[-+]?(\d*.\d+|\d+)\s*ft", re.I)
 RE_IN = re.compile ("[-+]?(\d*.\d+|\d+)\s*in", re.I)
@@ -37,13 +38,14 @@ def initialize(lb):
         f=None
     if (f):
         p=parser()
-        p.feed(f.read())
+        p.Parse(f.read())
+        p.close()
         
 def shutdown():
     pass
 
 
-class parser(XMLParser):
+class parser(ExpatXMLParser):
     def start_moving_instrument (self, attrs):
         name = attrs['name']
         dimmer = int(attrs['dimmer'])
@@ -57,7 +59,7 @@ class parser(XMLParser):
         else: theta=0
         if attrs.has_key('phi'):  phi = float (attrs['phi'])
         else: phi=0
-    
+        
         lb.instrument[attrs['name']]=moving_instrument(name, dimmer,
                                                        x, y, z, theta, phi)
                                                        
@@ -99,10 +101,6 @@ class moving_instrument(instrument):
         for (attr, val) in dict.items():
             if attr=='level':
                 matrix[self.lamp_dimmer_number]=self.make_level(val)
-            if attr=='location':
-                (x, y)=self.xyz_to_xy (val)
-                matrix[self.x_dimmer_number]=x
-                matrix[self.y_dimmer_number]=y
         return matrix
 
 #private
@@ -111,11 +109,12 @@ class moving_instrument(instrument):
         value=str(args['value'])
         typ=args['typ']
         source=args['source']
+        immediately=args['immediately']
         
         if (attribute=='level'):
-            instrument.do_set_level (self, value, typ, source)
+            self.do_set_level (value, typ, source, immediately)
         if (attribute=='location'):
-            self.do_set_location (value, typ, source)
+            self.do_set_location (value, typ, source, immediately)
 
     def xyz_to_xy (self, value):
         (tx, ty, tz) = string.split(value[1:-1], ',')
@@ -149,15 +148,15 @@ class moving_instrument(instrument):
         xlevel=theta/self.theta_delta
         return (xlevel, ylevel)
         
-    def do_set_location (self, value, typ, source):
+    def do_set_location (self, value, typ, source, immediately):
         self.location=value
-        dict = lb.get_sources(typ)
-        m = self.get_matrix({'location': value})
-        try:
-            matrix=dict[source]
-        except:
-            matrix=lb.newmatrix()
-        matrix=choose(greater(m, 0), (matrix, m))        
-        dict[source]=matrix
-        lb.update_dimmers()
-        
+        (x, y)=self.xyz_to_xy (value)
+        self.x_dimmer.set_level(x, immediately)
+        self.y_dimmer.set_level(y, immediately)
+
+
+# Attic:
+#             if attr=='location':
+#                 (x, y)=self.xyz_to_xy (val)
+#                 matrix[self.x_dimmer_number]=x
+#                 matrix[self.y_dimmer_number]=y
