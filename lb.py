@@ -2,7 +2,7 @@
 
 from threading import *
 from Numeric import *
-import SocketServer
+#import SocketServer
 import socket
 import sys
 
@@ -21,7 +21,7 @@ libraries=(
 #    'gtkui',
     )
 
-from lightboard import lightboard, LBRequestHandler
+from lightboard import lightboard #, LBRequestHandler
 
 show='show'
 
@@ -29,13 +29,13 @@ lb = lightboard(show)
 lb.load_libraries(libraries)
 
 
-class MyServer(SocketServer.TCPServer):
-    def server_bind(self):
-        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        apply(SocketServer.TCPServer.server_bind, (self,))
+# class MyServer(SocketServer.TCPServer):
+#     def server_bind(self):
+#         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+#         apply(SocketServer.TCPServer.server_bind, (self,))
         
-server = MyServer(('', 8000), LBRequestHandler)
-t=Thread (target=server.serve_forever)
+# server = MyServer(('', 8000), LBRequestHandler)
+# t=Thread (target=server.serve_forever)
 #t.start()
 
 #sys.exit(0)

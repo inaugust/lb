@@ -4,9 +4,9 @@ from threading import *
 import string
 import os
 
-import SocketServer
-import xmlrpcserver
-import xmlrpclib
+#import SocketServer
+#import xmlrpcserver
+#import xmlrpclib
 
 def make_time(time):
     try:
@@ -114,31 +114,31 @@ class lightboard:
             lib.shutdown()
             
 
-class LBRequestHandler(xmlrpcserver.RequestHandler):
-    def call(self, method, params):
-        print self.path
-        path_elements = string.split (self.path, '/')
-        root=lb
-        for e in path_elements:
-            if not e:
-                continue
-            if (type(root)==type({})):
-                root=root[e]
-            else:
-                root=getattr(root, e)
+# class LBRequestHandler(xmlrpcserver.RequestHandler):
+#     def call(self, method, params):
+#         print self.path
+#         path_elements = string.split (self.path, '/')
+#         root=lb
+#         for e in path_elements:
+#             if not e:
+#                 continue
+#             if (type(root)==type({})):
+#                 root=root[e]
+#             else:
+#                 root=getattr(root, e)
 
-        print "Dispatching: ", root, method, params
-        try:
-            server_method = getattr(root, method)
-        except:
-            raise AttributeError, "Server does not contain XML-RPC procedure %s" % method
-        if len(params)==1:
-            r=apply(server_method, params[0])
-        else:
-            r=apply(server_method, params[0], params[1])
-        if (r==None):
-            return 0
-        return r
+#         print "Dispatching: ", root, method, params
+#         try:
+#             server_method = getattr(root, method)
+#         except:
+#             raise AttributeError, "Server does not contain XML-RPC procedure %s" % method
+#         if len(params)==1:
+#             r=apply(server_method, params[0])
+#         else:
+#             r=apply(server_method, params[0], params[1])
+#         if (r==None):
+#             return 0
+#         return r
 
 
 
