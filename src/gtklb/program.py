@@ -888,7 +888,7 @@ class programDruid:
                     run_action.args={'crossfader': fader_name,
                                       'uptime': fade_time,
                                       'downtime': fade_time}
-                if (isinstance (f, levelfader.Levelfader)):
+                if (isinstance (f, levelfader.LevelFader)):
                     load_action = Action(p)
                     load_action.kind='levelfader_load'
                     load_action.args={'levelfader': fader_name}
