@@ -1,92 +1,68 @@
 <programs>
+
+  <program name="prog4">
+    <init>
+    </init>
+    <step name="step1">
+      <transitionfader_set_start cue="moving1" transitionfader="test_fader"/>
+      <transitionfader_set_end cue="moving2" transitionfader="test_fader"/>
+      <transitionfader_run level="100%" time="5s" transitionfader="test_fader"/>
+    </step>
+  </program>
+
+  <program name="prog5">
+    <init>
+      <proc_run id="foo" proc="benchmark"/>
+    </init>
+  </program>
+
   <program name="prog2">
     <init>
-      <levelfader_load levelfader="house_fader" instrument="house1" />
+      <levelfader_load instrument="house1" levelfader="house_fader"/>
     </init>
-
     <step name="Cue 1">
-      <proc_run id='foo' proc='chase' instruments='moving1, 2, 3'/>
+      <proc_run instruments="moving1, 2, 3" id="foo" proc="chase"/>
     </step>
-
   </program>
-
 
   <program name="prog3">
-
     <init>
     </init>
     <step name="Cue 1">
-      <xf_load xf="X1" cue="1"/>
-      <xf_run xf="X1" uptime="4s" downtime="4s" />
+      <xf_load cue="1" xf="X1"/>
+      <xf_run downtime="4s" uptime="4s" xf="X1"/>
     </step>
-
     <step name="Cue 2">
-      <xf_load xf="X1" cue="2"/>
-      <xf_run xf="X1" uptime="3s" downtime="3s" />
+      <xf_load cue="2" xf="X1"/>
+      <xf_run downtime="3s" uptime="3s" xf="X1"/>
     </step>
-
     <step name="Cue 1">
-      <xf_load xf="X1" cue="1"/>
-      <xf_run xf="X1" uptime="2s" downtime="2s" />
+      <xf_load cue="1" xf="X1"/>
+      <xf_run downtime="2s" uptime="2s" xf="X1"/>
     </step>
-
     <step name="Cue 2">
-      <xf_load xf="X1" cue="2"/>
-      <xf_run xf="X1" uptime="1s" downtime="1s" />
+      <xf_load cue="2" xf="X1"/>
+      <xf_run downtime="1s" uptime="1s" xf="X1"/>
     </step>
-
     <step name="Cue 1">
-      <xf_load xf="X1" cue="1"/>
-      <xf_run xf="X1" uptime="0.5s" downtime="0.5s" />
+      <xf_load cue="1" xf="X1"/>
+      <xf_run downtime="0.5s" uptime="0.5s" xf="X1"/>
     </step>
-
   </program>
 
-  <program name='prog1'>
-
+  <program name="prog1">
     <init>
-      <levelfader_load levelfader="house_fader" cue="house" />
+      <levelfader_load cue="house" levelfader="house_fader"/>
     </init>
-
     <step name="House Out">
-      <levelfader_run levelfader="house_fader" level="0%" time="5s" />
+      <levelfader_run level="0%" time="5s" levelfader="house_fader"/>
     </step>
-
     <step name="House Up">
-      <levelfader_level levelfader="house_fader" level="100%" />
+      <levelfader_level level="100%" levelfader="house_fader"/>
     </step>
-
     <step name="House to Half">
-      <levelfader_run levelfader="house_fader" level="50%" time="5s" />
+      <levelfader_run level="50%" time="5s" levelfader="house_fader"/>
     </step>
-
   </program>
 
-  <program name='prog4'>
-
-    <init>
-    </init>
-
-    <step name="step1">
-      <transitionfader_set_start transitionfader="test_fader" 
-	cue="moving1" />
-      <transitionfader_set_end transitionfader="test_fader" 
-	cue="moving2" />
-<!--
-      <transitionfader_set_attributes transitionfader="test_fader"
-        attributes="level, location" />
--->
-      <transitionfader_run transitionfader="test_fader"
-	level="100%" time="5s" />
-    </step>
-
-  </program>
-  <program name='prog5'>
-
-    <init>
-      <proc_run id='foo' proc='benchmark' />
-    </init>
-
-  </program>
 </programs>
-
