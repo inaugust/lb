@@ -19,6 +19,8 @@
 
 static map<const char *, int, ltstr> dimmer_devices;
 
+static pthread_mutex_t write_lock;
+
 static void start(void *data, const char *el, const char **attr) 
 {
   int i;
@@ -118,6 +120,7 @@ static void parse (const char *fn, void *userdata)
 int initialize_dimmers (CosNaming::NamingContext_ptr context)
 {
   fprintf(stderr, "Initializing dimmers\n");
+  pthread_mutex_init (&write_lock, NULL);
   parse("dimmers.xml", context);
   fprintf(stderr, "Done initializing dimmers\n");
 }
@@ -210,11 +213,11 @@ void LB_Dimmer_i::setValue(CORBA::Long value)
       sprintf (buf, "%f %li\n", t, value);
       write (this->testfd, buf, strlen(buf));
     }
-  // lock
+  pthread_mutex_lock(&write_lock);
   // lseek(this->my_handle, this->my_number, SEEK_SET);
   // write(this->my_handle, &level, 1);
   // flush?
-  // unlock
+  pthread_mutex_unlock(&write_lock);
 }
 
 CORBA::Long LB_Dimmer_i::getValue()
