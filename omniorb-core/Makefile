@@ -11,8 +11,7 @@ LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3  -ltcpwrapG
 
 IDLC=omniidl
 IDL_ARGS=-bcxx -Wbuse_quotes -Wba
-
-#IDL_ARGS=-bcxx -Wbexample -Wbuse_quotes
+IDL_EXAMPLE_ARGS=-Wbexample
 
 #####################################
 #
@@ -43,20 +42,34 @@ OBJECTS := $(foreach file,$(IMPL_FILES),$(file).o) \
 IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
 	$(foreach file,$(IDL_FILES),$(file).hh) 
 
+IDL_I := $(foreach file,$(IMPL_IDL_FILES),$(file)_i.cc) \
+	$(foreach file,$(IDL_FILES),$(file)_i.cc) 
+
 IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc $(file)DynSK.cc) \
 	$(foreach file,$(IDL_FILES),$(file)SK.cc $(file)DynSK.cc)
 
-all : idl lb
+lb : idl $(OBJECTS)
+	$(CXX) -o lb $(LDFLAGS) $(OBJECTS) 
 
 idl : $(IDL_H)
 
-lb : idl $(OBJECTS) 
-	$(CXX) -o lb $(LDFLAGS) $(OBJECTS) 
+example_code: $(IDL_I)
+
+%SK.cc: %.idl
+	$(IDLC) $(IDL_ARGS) $<
+
+%DynSK.cc: %.idl
+	$(IDLC) $(IDL_ARGS) $<
 
 %.hh : %.idl
 	$(IDLC) $(IDL_ARGS) $<
 
+%.cc: %.idl
+	$(IDLC) $(IDL_ARGS) $<
+
+%_i.cc: %.idl
+	$(IDLC) $(IDL_ARGS) $(IDL_EXAMPLE_ARGS) $<
+
 clean:
 	rm -f $(OBJECTS) $(IDL_H) $(IDL_CC) lb *~
-
 
