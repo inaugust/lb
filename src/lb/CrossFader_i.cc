@@ -111,11 +111,15 @@ CORBA::Double LB_CrossFader_i::getDownCueTime()
 void LB_CrossFader_i::act_on_set_ratio (double ratio)
 {
   double utr, dtr, r;
+  double myintime = intime;
 
   //  printf ("CrossFader ratio %f\n", ratio);
 
-  utr = this->intime / this->up_time;
-  dtr = this->intime / this->down_time;
+  if (myintime == 0.0)
+    myintime = 1;
+
+  utr = myintime / this->up_time;
+  dtr = myintime / this->down_time;
 
   if (utr<1.0 || dtr<1.0)
     {
@@ -173,9 +177,27 @@ void LB_CrossFader_i::act_on_set_ratio (double ratio)
 
 void LB_CrossFader_i::clear()
 {
-  up_cue.ins.length(0);
-  up_cue.name = CORBA::string_dup("");
+  int i, a, numins;
+  numins = up_cue.ins.length();
+
+  CORBA::String_var name=this->name();
+
+  for (i=0; i<numins; i++)
+    {
+      int numattr=up_cue.ins[i].attrs.length();
+      for (a=0; a<numattr; a++)
+	{
+	  if (up_cue.ins[i].attrs[a].attr==LB::attr_level)
+	    {
+	      up_cue.ins[i].inst->setLevelFromSource(0.0, name);
+	    }
+	}
+    }
 
   down_cue.ins.length(0);
   down_cue.name = CORBA::string_dup("");
+
+  up_cue.ins.length(0);
+  up_cue.name = CORBA::string_dup("");
+  this->setLevel(0.0);
 }

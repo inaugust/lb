@@ -2190,7 +2190,7 @@
     <widget>
       <class>GtkTable</class>
       <name>table4</name>
-      <rows>8</rows>
+      <rows>9</rows>
       <columns>3</columns>
       <homogeneous>False</homogeneous>
       <row_spacing>0</row_spacing>
@@ -2276,29 +2276,29 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>run</name>
-	  <can_default>True</can_default>
-	  <can_focus>True</can_focus>
-	  <signal>
-	    <name>clicked</name>
-	    <handler>on_run_clicked</handler>
-	    <last_modification_time>Thu, 23 Aug 2001 15:32:38 GMT</last_modification_time>
-	  </signal>
-	  <label>Run</label>
-	  <relief>GTK_RELIEF_NORMAL</relief>
-	</widget>
-
-	<widget>
-	  <class>GtkButton</class>
 	  <name>stop</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <signal>
 	    <name>clicked</name>
 	    <handler>on_stop_clicked</handler>
-	    <last_modification_time>Thu, 23 Aug 2001 20:43:38 GMT</last_modification_time>
+	    <last_modification_time>Thu, 27 Sep 2001 22:16:54 GMT</last_modification_time>
 	  </signal>
 	  <label>Stop</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>clear</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <signal>
+	    <name>clicked</name>
+	    <handler>on_clear_clicked</handler>
+	    <last_modification_time>Thu, 27 Sep 2001 22:17:02 GMT</last_modification_time>
+	  </signal>
+	  <label>Clear</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>
@@ -2622,6 +2622,45 @@
 	    <last_modification_time>Fri, 24 Aug 2001 17:20:01 GMT</last_modification_time>
 	  </signal>
 	  <label>Load</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkHButtonBox</class>
+	<name>hbuttonbox33</name>
+	<layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	<spacing>30</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>8</top_attach>
+	  <bottom_attach>9</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>True</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>True</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>run</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <signal>
+	    <name>clicked</name>
+	    <handler>on_run_clicked</handler>
+	    <last_modification_time>Thu, 27 Sep 2001 22:17:07 GMT</last_modification_time>
+	  </signal>
+	  <label>Run</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>

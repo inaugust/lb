@@ -57,7 +57,7 @@ class instrument_cue_proxy:
             pass
         
 
-class cue_editor(completion):
+class CueEditor(completion):
 
     def __init__(self):
         self.my_locals={'lb': lb}
@@ -281,6 +281,14 @@ class cue_editor(completion):
                 self.cue.parent[count][1]=level
                 break
             count=count+1
+        if self.live_updates:
+            self.cue.invalidate()
+            for name, idict in self.cue.apparent.items():
+                for attr, value in idict.items():
+                    lb.instrument[name].set_attribute(attr, value)
+            threads_leave()
+            self.update_display()
+            threads_enter()
         
     def parent_row_selected(self, widget, row, column, data=None):
         in_tree = self.parentTree.get_widget("inTree")
@@ -356,7 +364,7 @@ class cue_editor(completion):
 
     def edit_new_clicked(self, widget, data=None):
         self.cue.set_editing(0)
-        newcue = cue.cue('', update_refs = 0)
+        newcue = cue.Cue('', update_refs = 0)
         newcue.editor=self
         self.set_cue(newcue)
         threads_leave()
@@ -368,6 +376,8 @@ class cue_editor(completion):
         self.cue.invalidate()
         self.cue.update_refs()
         self.cue.send_update()
+        for c in lb.cue.values():
+            c.validate()
         threads_enter()
         self.editTree.get_widget ("nameEntry").set_sensitive(0)
         self.update_cue_menu()
@@ -388,7 +398,7 @@ class cue_editor(completion):
             self.set_cue(lb.cue[self.cue.name].copy())
         else:
             self.cue.set_editing(0)
-            newcue = cue.cue('', update_refs = 0)
+            newcue = cue.Cue('', update_refs = 0)
             newcue.editor=self
             self.set_cue(newcue)
         threads_leave()

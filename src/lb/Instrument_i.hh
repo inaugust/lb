@@ -28,11 +28,16 @@ protected:
   GSList *gobo_rpm_listeners;
 
   pthread_mutex_t listener_lock;
+  CORBA::Long listener_id;
+
 
   pthread_mutex_t source_lock;
 
   GHashTable *sources;
   virtual void updateLevelFromSources();
+
+  CORBA::Long addListener(GSList **list, const LB::EventListener_ptr l);
+  void removeListener(GSList **list, CORBA::Long id);
 
 public:
 
@@ -48,18 +53,18 @@ public:
 
   virtual void setLevel(CORBA::Double level);
   virtual CORBA::Double getLevel();
-  void addLevelListener(const LB::EventListener_ptr l);
-  void removeLevelListener(const LB::EventListener_ptr l);
+  CORBA::Long addLevelListener(const LB::EventListener_ptr l);
+  void removeLevelListener(CORBA::Long id);
 
   virtual void setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z);
   virtual void getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z);
-  void addTargetListener(const LB::EventListener_ptr l);
-  void removeTargetListener(const LB::EventListener_ptr l);
+  CORBA::Long addTargetListener(const LB::EventListener_ptr l);
+  void removeTargetListener(CORBA::Long id);
 
   virtual void setGoboRPM(CORBA::Double rpm);
   virtual void getGoboRPM(CORBA::Double& rpm);
-  void addGoboRPMListener(const LB::EventListener_ptr l);
-  void removeGoboRPMListener(const LB::EventListener_ptr l);
+  CORBA::Long addGoboRPMListener(const LB::EventListener_ptr l);
+  void removeGoboRPMListener(CORBA::Long id);
 
   void sendEvent(const LB::Event& evt);
 };

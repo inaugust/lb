@@ -3,6 +3,14 @@
 #include <lb.hh>
 #include "GoboRotator.hh"
 
+/*
+    rosco
+    1) 1 channel, 1 direction, linear
+
+    rosco
+    2) fwd speed, rev speed
+*/
+
 
 extern "C" void lb_module_init(void)
 {

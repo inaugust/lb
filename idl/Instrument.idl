@@ -15,18 +15,18 @@ module LB
   
     void setLevel (in double level); /* percent */
     double getLevel ();
-    void addLevelListener (in EventListener l);
-    void removeLevelListener (in EventListener l);
+    long addLevelListener (in EventListener l);
+    void removeLevelListener (in long id);
 
     void setTarget(in double x, in double y, in double z);
     void getTarget(out double x, out double y, out double z);
-    void addTargetListener (in EventListener l);
-    void removeTargetListener (in EventListener l);
+    long addTargetListener (in EventListener l);
+    void removeTargetListener (in long id);
 
     void setGoboRPM(in double rpm);
     void getGoboRPM(out double rpm);
-    void addGoboRPMListener (in EventListener l);
-    void removeGoboRPMListener (in EventListener l);
+    long addGoboRPMListener (in EventListener l);
+    void removeGoboRPMListener (in long id);
 
 
     /*** Intra-core use only ***/

@@ -10,23 +10,23 @@ module LB
     readonly attribute string name;
 
     void run (in double level, in double time);
-    void addRunListener (in EventListener l);
-    void removeRunListener (in EventListener l);
+    long addRunListener (in EventListener l);
+    void removeRunListener (in long id);
 
     void stop ();
-    void addStopListener (in EventListener l);
-    void removeStopListener (in EventListener l);
+    long addStopListener (in EventListener l);
+    void removeStopListener (in long id);
 
     void setLevel (in double level);
     double getLevel ();
-    void addLevelListener (in EventListener l);
-    void removeLevelListener (in EventListener l);
+    long addLevelListener (in EventListener l);
+    void removeLevelListener (in long id);
 
-    void addCompleteListener (in EventListener l);
-    void removeCompleteListener (in EventListener l);
+    long addCompleteListener (in EventListener l);
+    void removeCompleteListener (in long id);
 
-    void addSourceListener (in EventListener l);
-    void removeSourceListener (in EventListener l);
+    long addSourceListener (in EventListener l);
+    void removeSourceListener (in long id);
 
     boolean isRunning ();
     // wait for

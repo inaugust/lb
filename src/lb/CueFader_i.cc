@@ -92,4 +92,5 @@ void LB_CueFader_i::clear()
 
   end_cue.ins.length(0);
   end_cue.name = CORBA::string_dup("");
+  this->setLevel(0.0);
 }

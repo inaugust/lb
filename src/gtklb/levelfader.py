@@ -249,6 +249,11 @@ class LevelFader (LB__POA.EventListener):
         if not self.isRunning(): return
         self.stop()
 
+    def clear_clicked(self, widget, data=None):
+        if self.isRunning():
+            self.stop()
+        self.clear()
+        
     def load_clicked(self, widget, data=None):
         if self.isRunning(): return
         menu = self.tree.get_widget("topCueMenu")
@@ -258,11 +263,11 @@ class LevelFader (LB__POA.EventListener):
         
     def create_window (self):
         listener=self._this()
-        self.corefader.addLevelListener(listener)
-        self.corefader.addSourceListener(listener)
-        self.corefader.addRunListener(listener)
-        self.corefader.addStopListener(listener)
-        self.corefader.addCompleteListener(listener)
+        self.level_listener_id = self.corefader.addLevelListener(listener)
+        self.source_listener_id = self.corefader.addSourceListener(listener)
+        self.run_listener_id = self.corefader.addRunListener(listener)
+        self.stop_listener_id = self.corefader.addStopListener(listener)
+        self.complete_listener_id = self.corefader.addCompleteListener(listener)
         threads_enter()
         try:
             wTree = GladeXML ("gtklb.glade",
@@ -270,11 +275,13 @@ class LevelFader (LB__POA.EventListener):
             
             dic = {"on_run_clicked": self.run_clicked,
                    "on_stop_clicked": self.stop_clicked,
+                   "on_clear_clicked": self.clear_clicked,
                    "on_load_clicked": self.load_clicked}
             
             wTree.signal_autoconnect (dic)
             
             w=wTree.get_widget ("fader")
+            w.connect ('destroy', self.window_destroyed)
             w.set_title("Levelfader %s" % self.name)
 
             t=wTree.get_widget ("topLabel")
@@ -388,7 +395,13 @@ class LevelFader (LB__POA.EventListener):
         except:
             pass
 
-    def destroyed (self, widget, data=None):
+    def window_destroyed (self, widget, data=None):
+        self.corefader.removeLevelListener(self.level_listener_id)
+        self.corefader.removeSourceListener(self.source_listener_id)
+        self.corefader.removeRunListener(self.run_listener_id)
+        self.corefader.removeStopListener(self.stop_listener_id)
+        self.corefader.removeCompleteListener(self.complete_listener_id)
+
         self.levelfader_open_menu_item.set_sensitive(1)        
 
     def open_cb(self, widget, data):

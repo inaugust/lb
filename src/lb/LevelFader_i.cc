@@ -93,6 +93,7 @@ void LB_LevelFader_i::act_on_set_ratio (double ratio)
 
 void LB_LevelFader_i::clear()
 {
+  this->setLevel(0.0);
   cue.ins.length(0);
   cue.name = CORBA::string_dup("");
 }

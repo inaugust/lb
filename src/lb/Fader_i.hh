@@ -58,7 +58,11 @@ protected:
   GSList *source_listeners;  
 
   pthread_mutex_t listener_lock;
+  CORBA::Long listener_id;
 
+  CORBA::Long addListener(GSList **list, const LB::EventListener_ptr l);
+  void removeListener(GSList **list, const CORBA::Long id);
+  
 public:
   // standard constructor
   LB_Fader_i(const char *name);
@@ -72,16 +76,16 @@ public:
   void setLevel_withTime(double level, double time_left);  // not CORBA
   CORBA::Double getLevel();
   CORBA::Boolean isRunning();
-  void addRunListener(const LB::EventListener_ptr l);
-  void removeRunListener(const LB::EventListener_ptr l);
-  void addStopListener(const LB::EventListener_ptr l);
-  void removeStopListener(const LB::EventListener_ptr l);
-  void addLevelListener(const LB::EventListener_ptr l);
-  void removeLevelListener(const LB::EventListener_ptr l);
-  void addCompleteListener(const LB::EventListener_ptr l);
-  void removeCompleteListener(const LB::EventListener_ptr l);
-  void addSourceListener(const LB::EventListener_ptr l);
-  void removeSourceListener(const LB::EventListener_ptr l);
+  CORBA::Long addRunListener(const LB::EventListener_ptr l);
+  void removeRunListener(CORBA::Long);
+  CORBA::Long addStopListener(const LB::EventListener_ptr l);
+  void removeStopListener(CORBA::Long);
+  CORBA::Long addLevelListener(const LB::EventListener_ptr l);
+  void removeLevelListener(CORBA::Long);
+  CORBA::Long addCompleteListener(const LB::EventListener_ptr l);
+  void removeCompleteListener(CORBA::Long);
+  CORBA::Long addSourceListener(const LB::EventListener_ptr l);
+  void removeSourceListener(CORBA::Long);
   
 
   /* This function is not public.  I mean it.  Don't call it! */

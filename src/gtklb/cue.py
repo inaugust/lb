@@ -78,7 +78,7 @@ def newCue_cb(widget, data=None):
     # called from menu
     threads_leave()
     c = Cue('', update_refs=0)
-    editor = cue_edit.cue_editor()
+    editor = cue_edit.CueEditor()
     c.editor = editor
     c.set_editing(1)
     editor.set_cue(c)
@@ -198,7 +198,7 @@ class Cue:
 
     def edit(self):
         cue = self.copy()
-        editor = cue_edit.cue_editor()
+        editor = cue_edit.CueEditor()
         cue.editor = editor
         cue.set_editing(1)
         editor.set_cue(cue)

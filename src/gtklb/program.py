@@ -874,7 +874,7 @@ class programDruid:
                         pass
 
                 p=Program(name)
-                if (isinstance (f, crossfader.crossfader)):
+                if (isinstance (f, crossfader.Crossfader)):
                     load_action = Action(p)
                     load_action.kind='crossfader_load'
                     load_action.args={'crossfader': fader_name}
@@ -883,7 +883,7 @@ class programDruid:
                     run_action.args={'crossfader': fader_name,
                                       'uptime': fade_time,
                                       'downtime': fade_time}
-                if (isinstance (f, levelfader.levelfader)):
+                if (isinstance (f, levelfader.Levelfader)):
                     load_action = Action(p)
                     load_action.kind='levelfader_load'
                     load_action.args={'levelfader': fader_name}

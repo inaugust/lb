@@ -27,3 +27,7 @@ ways to resolve dimmer control conflicts:
   - con:
     - packages must know about each other, or user must specify
       hierarchy.
+
+-------------
+faders - clear button, new cues don't show up
+

@@ -34,16 +34,11 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
   pthread_mutex_init (&this->listener_lock, NULL);
   pthread_mutex_init (&this->source_lock, NULL);
 
-  this->level_listeners=NULL;
-  this->target_listeners=NULL;
-  this->gobo_rpm_listeners=NULL;
+  this->level_listeners = NULL;
+  this->target_listeners = NULL;
+  this->gobo_rpm_listeners = NULL;
+  this->listener_id = 0;
   this->sources=g_hash_table_new (g_str_hash, g_str_equal);
-  
-  /*
-  printf ("Instrument %s, at %i, dimmer %p\n", this->my_name, 
-	  this->dimmer_start,
-	  this->level_dimmer);
-  */
 }
 
 LB_Instrument_i::~LB_Instrument_i()
@@ -75,15 +70,11 @@ void LB_Instrument_i::setLevelFromSource(CORBA::Double level,
 
   pthread_mutex_lock(&this->source_lock);
 
-  //printf ("%s @ %f\n", source, level);
-      
   if (level)
     {
-      //printf ("must insert\n");
       v=(double *)g_hash_table_lookup(this->sources, source);
       if (v)
 	{
-	  //printf ("found\n");
 	  if (*v==level)
 	    {
 	      pthread_mutex_unlock(&this->source_lock);
@@ -93,55 +84,29 @@ void LB_Instrument_i::setLevelFromSource(CORBA::Double level,
 	}
       else
 	{
-	  //printf ("not found\n");
 	  double *v = (double *) malloc(sizeof(double));
       
 	  *v=level;
 	  p = strdup (source);
-	  //printf ("inserting source %p, orig %p\n", p, source);
 	  g_hash_table_insert (this->sources, p, v);
 	}
     }
   else
     {
-      //printf ("must remove\n");
-      //printf ("%s @ %f\n", source, level);
       v=(double *)g_hash_table_lookup(this->sources, source);
-      //printf ("%s @ %f\n", source, level);
       if (v)
 	{
 	  char **okey;
 	  double **oval;
 	  
-	  //printf ("%s @ %f\n", source, level);
 	  g_hash_table_lookup_extended(this->sources, source, (void **)okey, 
 				       (void **)oval);
-	  //printf ("%s @ %f\n", source, level);
-
-	  //printf ("key pointer %p\n", okey);
-	  //printf ("key value %s\n", *okey);
-
-	  //printf ("val pointer %p\n", oval);
-	  //printf ("val value %f\n", *oval);
-
-	  //printf ("orig %p\n", source);
-
 	  g_hash_table_remove(this->sources, source);
-
-
 	  free (*oval);
-	  //printf ("deleted\n");
-	  //printf ("%s @ %f\n", source, level);
 	  free (*okey);
-	  //printf ("freed\n");
-	  //printf ("%s @ %f\n", source, level);
-	  //printf ("%s @ %f\n", source, level);
 	}
     }
-  //printf ("%s @ %f\n", source, level);
-  //printf (">update\n");
   this->updateLevelFromSources();
-  //printf ("<update\n");
   pthread_mutex_unlock(&this->source_lock);
 }
 
@@ -156,7 +121,6 @@ void LB_Instrument_i::updateLevelFromSources()
   double max=0;
 
   g_hash_table_foreach(this->sources, find_max, &max);
-  //printf ("found max %f\n", max);
   this->setLevel(max);
 }
 
@@ -196,13 +160,14 @@ void LB_Instrument_i::sendEvent(const LB::Event &evt)
   GSList *to_remove = NULL;
   while (list)
     {
+      ListenerRecord *r = (ListenerRecord *) list->data;
       try
 	{
-	  ((LB::EventListener_ptr) list->data)->receiveEvent(evt);
+	  r->listener->receiveEvent(evt);
 	}
       catch (...)
 	{
-	  to_remove = g_slist_append(to_remove, list->data);
+	  to_remove = g_slist_append(to_remove, r);
 	}
       list=list->next;
     }
@@ -210,27 +175,63 @@ void LB_Instrument_i::sendEvent(const LB::Event &evt)
     {
       while (to_remove)
 	{
+	  ListenerRecord *r = (ListenerRecord *) to_remove->data;
 	  *handle=g_slist_remove(*handle, to_remove->data);
 	  to_remove=to_remove->next;
+	  delete r;
 	}
       g_slist_free(to_remove);
     }
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-
-void LB_Instrument_i::addLevelListener(const LB::EventListener_ptr l)
+CORBA::Long LB_Instrument_i::addListener(GSList **list,
+					 const LB::EventListener_ptr l)
 {
+  ListenerRecord *r = new ListenerRecord;
+
   pthread_mutex_lock(&this->listener_lock);
-  LB::EventListener_ptr p = LB::EventListener::_duplicate(l);
-  this->level_listeners=g_slist_append(this->level_listeners, p);
+
+  r->id = this->listener_id++;
+  r->listener = LB::EventListener::_duplicate(l);
+  *list=g_slist_append(*list, r);
+
+  pthread_mutex_unlock(&this->listener_lock);
+  return r->id;
+}
+
+void LB_Instrument_i::removeListener(GSList **list,
+				     CORBA::Long id)
+{
+  ListenerRecord *r;
+  GSList *l = *list;
+
+  pthread_mutex_lock(&this->listener_lock);
+
+  while (l)
+    {
+      r = (ListenerRecord *)l->data;
+      if (r->id == id)
+	{
+	  *list = g_slist_remove(*list, r);
+	  break;
+	  delete r;
+	}
+      l=l->next;
+    }
+  
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-void LB_Instrument_i::removeLevelListener(const LB::EventListener_ptr l)
+
+CORBA::Long LB_Instrument_i::addLevelListener(const LB::EventListener_ptr l)
 {
-  pthread_mutex_lock(&this->listener_lock);
-  pthread_mutex_unlock(&this->listener_lock);
+  return this->addListener(&this->level_listeners, l);
+}
+
+void LB_Instrument_i::removeLevelListener(CORBA::Long id)
+{
+  this->removeListener(&this->level_listeners, id);
 }
 
 void LB_Instrument_i::setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z)
@@ -241,18 +242,14 @@ void LB_Instrument_i::getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Doubl
 {
 }
 
-void LB_Instrument_i::addTargetListener(const LB::EventListener_ptr l)
+CORBA::Long LB_Instrument_i::addTargetListener(const LB::EventListener_ptr l)
 {
-  pthread_mutex_lock(&this->listener_lock);
-  LB::EventListener_ptr p = LB::EventListener::_duplicate(l);
-  this->target_listeners=g_slist_append(this->target_listeners, p);
-  pthread_mutex_unlock(&this->listener_lock);
+  return this->addListener(&this->target_listeners, l);
 }
 
-void LB_Instrument_i::removeTargetListener(const LB::EventListener_ptr l)
+void LB_Instrument_i::removeTargetListener(CORBA::Long id)
 {
-  pthread_mutex_lock(&this->listener_lock);
-  pthread_mutex_unlock(&this->listener_lock);
+  this->removeListener(&this->target_listeners, id);
 }
 
 
@@ -264,18 +261,14 @@ void LB_Instrument_i::getGoboRPM(CORBA::Double& rpm)
 {
 }
 
-void LB_Instrument_i::addGoboRPMListener(const LB::EventListener_ptr l)
+CORBA::Long LB_Instrument_i::addGoboRPMListener(const LB::EventListener_ptr l)
 {
-  pthread_mutex_lock(&this->listener_lock);
-  LB::EventListener_ptr p = LB::EventListener::_duplicate(l);
-  this->gobo_rpm_listeners=g_slist_append(this->gobo_rpm_listeners, p);
-  pthread_mutex_unlock(&this->listener_lock);
+  return this->addListener(&this->gobo_rpm_listeners, l);
 }
 
-void LB_Instrument_i::removeGoboRPMListener(const LB::EventListener_ptr l)
+void LB_Instrument_i::removeGoboRPMListener(CORBA::Long id)
 {
-  pthread_mutex_lock(&this->listener_lock);
-  pthread_mutex_unlock(&this->listener_lock);
+  this->removeListener(&this->gobo_rpm_listeners, id);
 }
 
 

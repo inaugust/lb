@@ -17,6 +17,13 @@ extern CORBA::ORB_ptr orb;
 extern CosNaming::NamingContext_ptr rootNaming;
 extern CosNaming::NamingContext_ptr dimmerContext;
 
+typedef struct 
+{
+  CORBA::Long id;
+  LB::EventListener_ptr listener;
+} ListenerRecord;
+  
+
 int make_level(const char *level);
 double make_time(const char *t);
 LB::Cue *duplicate_cue (const LB::Cue& incue, int zero);
