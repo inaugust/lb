@@ -1,0 +1,1023 @@
+<show name="show" >
+  <programs >
+    <program name="kjhbk" >
+      <init />
+      <step name="Cue 1 [blackout]" >
+        <crossfader_load crossfader="X1" cue="blackout" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 2 [colors_of_wind]" >
+        <crossfader_load crossfader="X1" cue="colors_of_wind" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 3 [constant_sorrow]" >
+        <crossfader_load crossfader="X1" cue="constant_sorrow" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+    </program>
+    <program name="freshman_follies" >
+      <init />
+      <step name="Cue 1 [preshow]" >
+        <crossfader_load cue="preshow" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 2 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 5 [two_worlds_opening]" >
+        <crossfader_load cue="two_worlds_opening" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 6 [two_worlds_trees]" >
+        <crossfader_load cue="two_worlds_trees" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 7 [two_worlds_mid_sides]" >
+        <crossfader_load cue="two_worlds_mid_sides" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 8 [two_worlds_mid_light]" >
+        <crossfader_load cue="two_worlds_mid_light" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 9 [two_worlds_down_color]" >
+        <crossfader_load cue="two_worlds_down_color" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="two_worlds_opening" >
+        <crossfader_load crossfader="X1" cue="two_worlds_trees" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 10 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="0" crossfader="X1" uptime="0" />
+      </step>
+      <step name="acting troupe" >
+        <crossfader_load crossfader="X1" cue="acting_troupe" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="blackout" >
+        <crossfader_load crossfader="X1" cue="blackout" />
+        <crossfader_run downtime="0" crossfader="X1" uptime="0" />
+      </step>
+      <step name="Cue 11 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 12 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="6" crossfader="X1" uptime="6" />
+      </step>
+      <step name="Cue 13 [lost_souls]" >
+        <crossfader_load cue="lost_souls" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 14 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="0" crossfader="X1" uptime="0" />
+      </step>
+      <step name="Cue 15 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 16 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 17 [acting_troupe]" >
+        <crossfader_load cue="acting_troupe" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="storm" >
+        <crossfader_load crossfader="X1" cue="rain" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="back to acting troupe" >
+        <crossfader_load crossfader="X1" cue="acting_troupe" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 18 [standing_outside_fire]" >
+        <crossfader_load cue="standing_outside_fire" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 19 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 20 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 21 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 22 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 23 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 24 [acting_troupe]" >
+        <crossfader_load cue="acting_troupe" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="video" >
+        <crossfader_load crossfader="X1" cue="real_blackout" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="back to acting troupe" >
+        <crossfader_load crossfader="X1" cue="acting_troupe" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 25 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 26 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 27 [two_worlds_down_color]" >
+        <crossfader_load cue="two_worlds_down_color" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 28 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 29 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 30 [colors_of_wind]" >
+        <crossfader_load cue="colors_of_wind" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 31 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 32 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 33 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 34 [two_worlds_mid_sides]" >
+        <crossfader_load cue="two_worlds_mid_sides" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 35 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 36 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 37 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="0" crossfader="X1" uptime="0" />
+      </step>
+      <step name="Cue 38 [escuhame]" >
+        <crossfader_load cue="escuhame" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 39 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 40 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 41 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 42 [colors_of_wind]" >
+        <crossfader_load cue="colors_of_wind" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 43 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 44 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 45 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 46 [council]" >
+        <crossfader_load cue="council" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 47 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 48 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 49 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 50 [two_worlds_mid_sides]" >
+        <crossfader_load cue="two_worlds_mid_sides" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 51 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 52 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 53 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 54 [acting_troupe]" >
+        <crossfader_load cue="acting_troupe" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 55 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="0" crossfader="X1" uptime="0" />
+      </step>
+      <step name="Cue 56 [dorm_acts]" >
+        <crossfader_load cue="dorm_acts" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+      <step name="Cue 57 [blackout]" >
+        <crossfader_load cue="blackout" crossfader="X1" />
+        <crossfader_run downtime="0" crossfader="X1" uptime="0" />
+      </step>
+      <step name="Cue 58 [preshow]" >
+        <crossfader_load cue="preshow" crossfader="X1" />
+        <crossfader_run downtime="3" crossfader="X1" uptime="3" />
+      </step>
+    </program>
+    <program name="prog4" >
+      <init />
+      <step name="step1" >
+        <transitionfader_set_start cue="moving1" transitionfader="test_fader" />
+        <transitionfader_set_end cue="moving2" transitionfader="test_fader" />
+        <transitionfader_run level="100%" time="5s" transitionfader="test_fader" />
+      </step>
+    </program>
+    <program name="prog5" >
+      <init >
+        <proc_run id="foo" proc="benchmark" />
+      </init>
+    </program>
+    <program name="prog2" >
+      <init />
+      <step name="Cue 1" >
+        <process_start process="foo" />
+      </step>
+      <step name="Stop process" >
+        <process_stop process="foo" />
+      </step>
+    </program>
+    <program name="prog3" >
+      <init />
+      <step name="Cue 1" >
+        <crossfader_load crossfader="X1" cue="1" />
+        <crossfader_run downtime="4s" crossfader="X1" uptime="4s" />
+      </step>
+      <step name="Cue 2" >
+        <crossfader_load crossfader="X1" cue="2" />
+        <crossfader_run downtime="3s" crossfader="X1" uptime="3s" />
+      </step>
+      <step name="Cue 1" >
+        <crossfader_load crossfader="X1" cue="1" />
+        <crossfader_run downtime="2s" crossfader="X1" uptime="2s" />
+      </step>
+      <step name="Cue 2" >
+        <crossfader_load crossfader="X1" cue="2" />
+        <crossfader_run downtime="1s" crossfader="X1" uptime="1s" />
+      </step>
+      <step name="Cue 1" >
+        <crossfader_load crossfader="X1" cue="1" />
+        <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s" />
+      </step>
+    </program>
+    <program name="prog1" >
+      <init >
+        <levelfader_load cue="house" levelfader="house_fader" />
+      </init>
+      <step name="House Out" >
+        <levelfader_run level="0%" time="5s" levelfader="house_fader" />
+      </step>
+      <step name="House Up" >
+        <levelfader_level level="100%" levelfader="house_fader" />
+      </step>
+      <step name="House to Half" >
+        <levelfader_run level="50%" time="5s" levelfader="house_fader" />
+      </step>
+    </program>
+  </programs>
+  <instruments >
+    <instrument name="tribal_front_sl" driver="instrument" core="LB1" dimmer="5" />
+    <instrument name="front_sr" driver="instrument" core="LB1" dimmer="2" />
+    <instrument name="rear_trees_green_sl" driver="instrument" core="LB1" dimmer="46" />
+    <instrument name="front_src" driver="instrument" core="LB1" dimmer="3" />
+    <instrument name="side_pink_mid" driver="instrument" core="LB1" dimmer="30" />
+    <instrument name="old_rain2" driver="instrument" core="LB1" dimmer="17" />
+    <instrument name="front_up_sl" driver="instrument" core="LB1" dimmer="36" />
+    <instrument name="old_rain1" driver="instrument" core="LB1" dimmer="16" />
+    <instrument name="front_up_sr" driver="instrument" core="LB1" dimmer="33" />
+    <instrument name="front_slc" driver="instrument" core="LB1" dimmer="4" />
+    <instrument name="storm_stage_1" driver="instrument" core="LB1" dimmer="18" />
+    <instrument name="rear_trees_green_sr" driver="instrument" core="LB1" dimmer="37" />
+    <instrument name="mid_trees" driver="instrument" core="LB1" dimmer="31" />
+    <instrument name="front_mid_src" driver="instrument" core="LB1" dimmer="24" />
+    <instrument name="storm_stage_2" driver="instrument" core="LB1" dimmer="21" />
+    <instrument name="front_sl" driver="instrument" core="LB1" dimmer="6" />
+    <instrument name="tribal_front_sr" driver="instrument" core="LB1" dimmer="1" />
+    <instrument name="front_mid_sl2" driver="instrument" core="LB1" dimmer="27" />
+    <instrument name="front_mid_slc" driver="instrument" core="LB1" dimmer="25" />
+    <instrument name="rear_trees_yellow_sl1" driver="instrument" core="LB1" dimmer="45" />
+    <instrument name="rear_trees_yellow_sl2" driver="instrument" core="LB1" dimmer="44" />
+    <instrument name="storm_stage_3" driver="instrument" core="LB1" dimmer="28" />
+    <instrument name="side_blue_ds" driver="instrument" core="LB1" dimmer="19" />
+    <instrument name="storm_audience_2" driver="instrument" core="LB1" dimmer="11" />
+    <instrument name="storm_audience_3" driver="instrument" core="LB1" dimmer="12" />
+    <instrument name="rear_trees_green_slc" driver="instrument" core="LB1" dimmer="43" />
+    <instrument name="storm_audience_1" driver="instrument" core="LB1" dimmer="10" />
+    <instrument name="tribal_back_pink" driver="instrument" core="LB1" dimmer="14" />
+    <instrument name="tribal_back_blue" driver="instrument" core="LB1" dimmer="15" />
+    <instrument name="rain_lights" driver="instrument" core="LB1" dimmer="7" />
+    <instrument name="ghandi" driver="instrument" core="LB1" dimmer="35" />
+    <instrument name="rear_trees_green_src" driver="instrument" core="LB1" dimmer="41" />
+    <instrument name="rear_trees_yellow_sr" driver="instrument" core="LB1" dimmer="40" />
+    <instrument name="front_mid_sr1" driver="instrument" core="LB1" dimmer="22" />
+    <instrument name="rear_sangria_sl" driver="instrument" core="LB1" dimmer="47" />
+    <instrument name="rear_trees_yellow_src" driver="instrument" core="LB1" dimmer="38" />
+    <instrument name="rear_trees_yellow_slc" driver="instrument" core="LB1" dimmer="42" />
+    <instrument name="front_mid_sr2" driver="instrument" core="LB1" dimmer="23" />
+    <instrument name="front_mid_sl1" driver="instrument" core="LB1" dimmer="26" />
+    <instrument name="rear_sangria_sr" driver="instrument" core="LB1" dimmer="39" />
+    <instrument name="front_up_mid" driver="instrument" core="LB1" dimmer="34" />
+    <instrument name="rain_gobo_3" driver="instrument" core="LB1" dimmer="103" />
+    <instrument name="rain_gobo_2" driver="instrument" core="LB1" dimmer="101" />
+    <instrument name="rain_gobo_1" driver="instrument" core="LB1" dimmer="9" />
+    <instrument name="side_pink_ds" driver="instrument" core="LB1" dimmer="20" />
+    <instrument name="side_blue_mid" driver="instrument" core="LB1" dimmer="32" />
+    <instrument name="rain_gobo_4" driver="instrument" core="LB1" dimmer="105" />
+  </instruments>
+  <cues >
+    <cue name="blackout" >
+      <instrument level="0%" name="tribal_front_sl" />
+      <instrument level="0%" name="front_sr" />
+      <instrument level="0%" name="storm_audience_3" />
+      <instrument level="0.0%" name="rear_trees_green_sl" />
+      <instrument level="0%" name="front_src" />
+      <instrument level="0%" name="side_pink_mid" />
+      <instrument level="0%" name="old_rain2" />
+      <instrument level="0%" name="front_up_sl" />
+      <instrument level="0%" name="old_rain1" />
+      <instrument level="0%" name="front_up_sr" />
+      <instrument level="0%" name="front_slc" />
+      <instrument level="0%" name="storm_stage_1" />
+      <instrument level="0%" name="rear_trees_green_sr" />
+      <instrument level="0%" name="mid_trees" />
+      <instrument level="0%" name="front_mid_src" />
+      <instrument level="0%" name="front_sl" />
+      <instrument level="0%" name="tribal_front_sr" />
+      <instrument level="0%" name="front_mid_sl2" />
+      <instrument level="0%" name="front_mid_slc" />
+      <instrument level="0%" name="rear_trees_yellow_sl1" />
+      <instrument level="0%" name="rear_trees_yellow_sl2" />
+      <instrument level="0%" name="storm_stage_3" />
+      <instrument level="20.0%" name="side_blue_ds" />
+      <instrument level="0%" name="storm_audience_2" />
+      <instrument level="0%" name="storm_stage_2" />
+      <instrument level="0%" name="rear_trees_green_slc" />
+      <instrument level="0%" name="storm_audience_1" />
+      <instrument level="0%" name="tribal_back_pink" />
+      <instrument level="0%" name="tribal_back_blue" />
+      <instrument level="0%" name="rain_lights" />
+      <instrument level="0%" name="ghandi" />
+      <instrument level="0%" name="rear_trees_green_src" />
+      <instrument level="0%" name="rear_trees_yellow_sr" />
+      <instrument level="0%" name="front_mid_sr1" />
+      <instrument level="0%" name="rear_sangria_sl" />
+      <instrument level="0%" name="rear_trees_yellow_src" />
+      <instrument level="0%" name="rear_trees_yellow_slc" />
+      <instrument level="0%" name="front_mid_sr2" />
+      <instrument level="0%" name="front_mid_sl1" />
+      <instrument level="0%" name="rear_sangria_sr" />
+      <instrument level="0%" name="front_up_mid" />
+      <instrument level="0%" name="rain_gobo_3" />
+      <instrument level="0%" name="rain_gobo_2" />
+      <instrument level="0%" name="rain_gobo_1" />
+      <instrument level="0%" name="side_pink_ds" />
+      <instrument level="20.0%" name="side_blue_mid" />
+      <instrument level="0%" name="rain_gobo_4" />
+    </cue>
+    <cue name="lost_souls" >
+      <parent level="100.0%" >
+        rear_sangria
+      </parent>
+      <parent level="31.0%" >
+        trees
+      </parent>
+    </cue>
+    <cue name="rear_sangria" >
+      <instrument level="100.0%" name="rear_sangria_sr" />
+      <instrument level="100.0%" name="rear_sangria_sl" />
+    </cue>
+    <cue name="two_worlds_down_color" >
+      <parent level="100.0%" >
+        two_worlds_mid_light
+      </parent>
+      <instrument level="100.0%" name="side_blue_ds" />
+      <instrument level="82.0%" name="side_pink_ds" />
+    </cue>
+    <cue name="council" >
+      <parent level="70.0%" >
+        acting_troupe
+      </parent>
+      <instrument level="100.0%" name="tribal_back_blue" />
+      <instrument level="100.0%" name="tribal_front_sr" />
+      <instrument level="100.0%" name="tribal_front_sl" />
+      <instrument level="67.0%" name="tribal_back_pink" />
+    </cue>
+    <cue name="two_worlds_trees" >
+      <parent level="100.0%" >
+        two_worlds_opening
+      </parent>
+      <instrument level="65.0%" name="mid_trees" />
+    </cue>
+    <cue name="colors_of_wind" >
+      <instrument level="59.0%" name="rear_sangria_sl" />
+      <instrument level="59.0%" name="rear_sangria_sr" />
+      <instrument level="100.0%" name="side_pink_mid" />
+      <instrument level="0.0%" name="mid_trees" />
+      <instrument level="100.0%" name="side_blue_mid" />
+    </cue>
+    <cue name="dorm_acts" >
+      <parent level="65.0%" >
+        trees
+      </parent>
+      <parent level="85.0%" >
+        front_down
+      </parent>
+      <parent level="85.0%" >
+        front_mid
+      </parent>
+      <parent level="85.0%" >
+        front_up
+      </parent>
+      <parent level="70.0%" >
+        rear_sangria
+      </parent>
+      <instrument level="75.0%" name="side_blue_mid" />
+      <instrument level="85.0%" name="front_up_mid" />
+      <instrument level="75.0%" name="rear_trees_green_slc" />
+      <instrument level="75.0%" name="side_blue_ds" />
+      <instrument level="85.0%" name="front_src" />
+      <instrument level="75.0%" name="side_pink_mid" />
+      <instrument level="75.0%" name="side_pink_ds" />
+    </cue>
+    <cue name="escuhame" >
+      <parent level="100.0%" >
+        rear_sangria
+      </parent>
+      <instrument level="60.0%" name="side_blue_ds" />
+      <instrument level="100.0%" name="side_pink_ds" />
+      <instrument level="100.0%" name="side_pink_mid" />
+      <instrument level="72.0%" name="side_blue_mid" />
+    </cue>
+    <cue name="front_wash" >
+      <parent level="100.0%" >
+        front_down
+      </parent>
+      <parent level="100.0%" >
+        front_mid
+      </parent>
+      <parent level="100.0%" >
+        front_up
+      </parent>
+    </cue>
+    <cue name="front_up" >
+      <instrument level="100.0%" name="front_up_mid" />
+      <instrument level="100.0%" name="front_up_sr" />
+      <instrument level="100.0%" name="front_up_sl" />
+    </cue>
+    <cue name="r_sangria" >
+      <instrument level="100.0%" name="rear_sangria_sr" />
+      <instrument level="100.0%" name="rear_sangria_sl" />
+    </cue>
+    <cue name="rain" >
+      <instrument level="100.0%" name="rain_gobo_3" />
+      <instrument level="100.0%" name="rain_gobo_2" />
+      <instrument level="100.0%" name="rain_gobo_1" />
+      <instrument level="100.0%" name="rain_lights" />
+      <instrument level="100.0%" name="rain_gobo_4" />
+    </cue>
+    <cue name="front_down" >
+      <instrument level="100.0%" name="front_src" />
+      <instrument level="100.0%" name="front_slc" />
+      <instrument level="100.0%" name="front_sl" />
+      <instrument level="100.0%" name="front_sr" />
+    </cue>
+    <cue name="usefull_tree_wash" >
+      <parent level="100.0%" >
+        trees
+      </parent>
+      <parent level="100.0%" >
+        front_wash
+      </parent>
+      <instrument level="100.0%" name="rain_lights" />
+      <instrument level="100.0%" name="side_blue_ds" />
+      <instrument level="100.0%" name="side_pink_mid" />
+      <instrument level="100.0%" name="side_pink_ds" />
+      <instrument level="100.0%" name="side_blue_mid" />
+    </cue>
+    <cue name="council_night" >
+      <instrument level="77.0%" name="tribal_front_sl" />
+      <instrument level="74.0%" name="tribal_back_blue" />
+      <instrument level="88.0%" name="side_blue_ds" />
+      <instrument level="77.0%" name="tribal_front_sr" />
+      <instrument level="76.0%" name="side_blue_mid" />
+      <instrument level="42.0%" name="tribal_back_pink" />
+    </cue>
+    <cue name="two_worlds_mid_sides" >
+      <parent level="100.0%" >
+        two_worlds_trees
+      </parent>
+      <instrument level="55.0%" name="side_pink_mid" />
+      <instrument level="68.0%" name="side_blue_mid" />
+    </cue>
+    <cue name="front_mid" >
+      <instrument level="100.0%" name="front_mid_sl2" />
+      <instrument level="100.0%" name="front_mid_slc" />
+      <instrument level="100.0%" name="front_mid_sr2" />
+      <instrument level="100.0%" name="front_mid_sl1" />
+      <instrument level="100.0%" name="front_mid_sr1" />
+      <instrument level="100.0%" name="front_mid_src" />
+    </cue>
+    <cue name="trees" >
+      <instrument level="100.0%" name="rear_trees_green_src" />
+      <instrument level="100.0%" name="rear_trees_yellow_sl2" />
+      <instrument level="100.0%" name="rear_trees_yellow_sl1" />
+      <instrument level="100.0%" name="rear_trees_green_sr" />
+      <instrument level="100.0%" name="mid_trees" />
+      <instrument level="100.0%" name="rear_trees_green_slc" />
+      <instrument level="100.0%" name="rear_trees_green_sl" />
+      <instrument level="100.0%" name="rear_trees_yellow_sr" />
+      <instrument level="100.0%" name="rear_trees_yellow_src" />
+      <instrument level="100.0%" name="rear_trees_yellow_slc" />
+    </cue>
+    <cue name="real_blackout" >
+      <instrument level="0%" name="tribal_front_sl" />
+      <instrument level="0%" name="front_sr" />
+      <instrument level="0%" name="rear_trees_green_sl" />
+      <instrument level="0%" name="front_src" />
+      <instrument level="0%" name="side_pink_mid" />
+      <instrument level="0%" name="old_rain2" />
+      <instrument level="0%" name="front_up_sl" />
+      <instrument level="0%" name="front_up_sr" />
+      <instrument level="0%" name="front_slc" />
+      <instrument level="0%" name="storm_stage_1" />
+      <instrument level="0%" name="rear_trees_green_sr" />
+      <instrument level="0%" name="mid_trees" />
+      <instrument level="0%" name="front_mid_src" />
+      <instrument level="0%" name="storm_stage_2" />
+      <instrument level="0%" name="front_sl" />
+      <instrument level="0%" name="tribal_front_sr" />
+      <instrument level="0%" name="front_mid_sl2" />
+      <instrument level="0%" name="front_mid_sl1" />
+      <instrument level="0%" name="front_mid_slc" />
+      <instrument level="0%" name="rear_trees_yellow_sl1" />
+      <instrument level="0%" name="rear_trees_yellow_sl2" />
+      <instrument level="0%" name="storm_stage_3" />
+      <instrument level="0%" name="side_blue_ds" />
+      <instrument level="0%" name="storm_audience_2" />
+      <instrument level="0%" name="storm_audience_3" />
+      <instrument level="0%" name="rear_trees_green_slc" />
+      <instrument level="0%" name="storm_audience_1" />
+      <instrument level="0%" name="tribal_back_pink" />
+      <instrument level="0%" name="tribal_back_blue" />
+      <instrument level="0%" name="rain_lights" />
+      <instrument level="0%" name="ghandi" />
+      <instrument level="0%" name="rear_trees_green_src" />
+      <instrument level="0%" name="rear_trees_yellow_sr" />
+      <instrument level="0%" name="front_mid_sr1" />
+      <instrument level="0%" name="rear_sangria_sl" />
+      <instrument level="0%" name="rear_trees_yellow_src" />
+      <instrument level="0%" name="rear_trees_yellow_slc" />
+      <instrument level="0%" name="front_mid_sr2" />
+      <instrument level="0%" name="old_rain1" />
+      <instrument level="0%" name="rear_sangria_sr" />
+      <instrument level="0%" name="front_up_mid" />
+      <instrument level="0%" name="rain_gobo_3" />
+      <instrument level="0%" name="rain_gobo_2" />
+      <instrument level="0%" name="rain_gobo_1" />
+      <instrument level="0%" name="side_pink_ds" />
+      <instrument level="0%" name="side_blue_mid" />
+      <instrument level="0%" name="rain_gobo_4" />
+    </cue>
+    <cue name="acting_troupe" >
+      <parent level="56.0%" >
+        front_mid
+      </parent>
+      <parent level="60.0%" >
+        front_up
+      </parent>
+      <parent level="70.0%" >
+        trees
+      </parent>
+      <parent level="53.0%" >
+        front_down
+      </parent>
+    </cue>
+    <cue name="preshow" >
+      <parent level="45.0%" >
+        trees
+      </parent>
+      <instrument level="28.0%" name="tribal_back_blue" />
+      <instrument level="23.0%" name="tribal_back_pink" />
+    </cue>
+    <cue name="two_worlds_opening" >
+      <instrument level="42.0%" name="ghandi" />
+    </cue>
+    <cue name="constant_sorrow" >
+      <instrument level="100.0%" name="rear_sangria_sl" />
+      <instrument level="100.0%" name="front_slc" />
+      <instrument level="100.0%" name="front_sl" />
+      <instrument level="100.0%" name="front_sr" />
+      <instrument level="100.0%" name="front_src" />
+      <instrument level="100.0%" name="rear_sangria_sr" />
+    </cue>
+    <cue name="standing_outside_fire" >
+      <parent level="20.0%" >
+        trees
+      </parent>
+      <parent level="20.0%" >
+        rear_sangria
+      </parent>
+      <parent level="57.0%" >
+        front_wash
+      </parent>
+      <instrument level="100.0%" name="side_pink_ds" />
+      <instrument level="100.0%" name="side_blue_ds" />
+      <instrument level="100.0%" name="side_pink_mid" />
+      <instrument level="57.0%" name="front_up_sl" />
+      <instrument level="100.0%" name="side_blue_mid" />
+    </cue>
+    <cue name="two_worlds_mid_light" >
+      <parent level="100.0%" >
+        two_worlds_mid_sides
+      </parent>
+      <instrument level="64.0%" name="front_mid_slc" />
+    </cue>
+  </cues>
+  <crossfaders >
+    <crossfader name="X1" core="LB1" />
+  </crossfaders>
+  <levelfaders >
+    <levelfader name="f1" core="LB1" />
+    <levelfader name="l2" core="LB1" />
+  </levelfaders>
+  <procedures >
+    <procedure args="instruments" name="chase" >
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+
+
+# arguments:  instruments (list)
+
+import math, time, string
+
+instruments=map(string.strip, string.split(args[&apos;instruments&apos;], &apos;,&apos;))
+
+count=0
+prev=None
+while(self.running):
+  ins = lb.instrument[instruments[count]]
+  ins.set_attribute(&apos;level&apos;, &apos;100%&apos;)
+  print ins
+  if (prev):
+    prev.set_attribute(&apos;level&apos;, &apos;0%&apos;)
+    print prev
+  prev=ins 
+  count=count+1
+  if (count&gt;=len(instruments)):
+    count=0
+  time.sleep(0.5)
+
+if (prev):
+    prev.set_attribute(&apos;level&apos;, &apos;0%&apos;)
+  
+  
+  
+  
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    </procedure>
+    <procedure args="instrument, center, radius" name="circle" >
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+
+
+# arguments:  instrument, center, radius
+
+import math, time, string
+
+instrument=args[&apos;instrument&apos;]
+if type(args[&apos;center&apos;])==type(&apos;string&apos;):
+    center_x, center_y = string.split(args[&apos;center&apos;], &apos;,&apos;)
+    center_x=int(center_x)
+    center_y=int(center_y)
+else:
+    center_x, center_y = args[&apos;center&apos;]
+radius=int(args[&apos;radius&apos;])
+t=0
+
+while(self.running):
+  print &apos;t=&apos;+str(t)
+  print &apos;instrument=&apos;+str(instrument)
+  print center_x+(radius*math.cos(t))
+  print center_y+(radius*math.sin(t))
+  lb.instrument[instrument].set_attribute(attribute=&apos;location&apos;,
+	value=&apos;(&apos;+str(math.cos(t))+&apos;ft, &apos;+ str(math.sin(t))+&apos;ft, 0ft)&apos;,
+	source=self.name)
+  t=t+.1
+  time.sleep(0.5)
+
+  
+  
+  
+  
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    </procedure>
+    <procedure args="" name="benchmark" >
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+
+
+import math, time, string
+
+ins=[]
+for x in range(1,50):
+  ins.append(lb.instrument[&apos;moving&apos;+str(x)])
+
+if (1&gt;2): print &apos;not true!&apos;
+
+s=time.time()
+for y in range(1,4*80):
+  for x in ins:
+    x.set_attribute(attribute=&apos;target&apos;, value=&apos;(10ft, 10ft, 10ft)&apos;)
+e=time.time()
+print &apos;set&apos;, 4*80*50 ,&apos;instruments in &apos;, e-s
+  
+  
+  
+  
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    </procedure>
+  </procedures>
+  <processes >
+    <process procedure="chase" instruments="1,2" name="foo" />
+  </processes>
+</show>
