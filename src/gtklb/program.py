@@ -811,8 +811,6 @@ class program:
             w.connect ('select_row', self.edit_row_selected)
             w.connect ('unselect_row', self.edit_row_unselected)
             w.set_drag_compare_func(self.edit_drag_compare)
-            popupTree = GladeXML ("gtklb.glade",
-                                  "programPopupMenu")
             menu = GtkMenu()
             i=GtkMenuItem("Edit")
             i.connect("activate", self.popup_edit_activated, None)
