@@ -211,10 +211,10 @@ class lightboard(completion, LB__POA.Client):
 
         p=parser()
         p.Parse(data)
-        p.close()
         self.undo_bindings()        
         self.show = str(p.get_name())
         self.do_bindings()
+        p.close()
 
         p=TreeParser()
         p.Parse(data)

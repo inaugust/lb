@@ -2,6 +2,7 @@
 #   <instrument attributes="level" driver="name" name="lamp" .../>
 #   <instrument attributes="color" driver="gel_scroller" name="scroller" .../>
 # </meta_instrument>
+# TODO: make sub-list iteration more elegant
 
 import lightboard
 import time
@@ -28,9 +29,15 @@ def load_clump(tree, group = None):
         for subins in ins.find("instrument"):
             sub = instrument.Instrument(subins.attrs, group=None, hidden=1)
             small_attr_list = map(string.strip,string.split(subins.attrs['attributes'], ','))
-            attr_list = attr_list + small_attr_list
+            for i in small_attr_list:
+                if i  not in attr_list:
+                    attr_list.append(i)
+            #attr_list = attr_list + small_attr_list
             for attr in small_attr_list:
-                subs[attr]=sub
+                if subs.has_key(attr):
+                    subs[attr].append(sub)
+                else:
+                    subs[attr]=[sub]
         i=MetaInstrument(ins.attrs, attr_list, subs, group)
 
 def load(tree):
@@ -56,7 +63,11 @@ class MetaInstrument(instrument.Instrument):
         self.attributes = tuple(attr_list)
         self.subinstrument = subs
         for sub in subs.values():
-            sub.parent = self
+            if type([]) == type(sub):
+                for s in sub:
+                    s.parent=self
+            else:
+                sub.parent = self
         
         if group is not None:
             if not lb.instrument_group.has_key(group):
@@ -73,10 +84,13 @@ class MetaInstrument(instrument.Instrument):
         instrument = DOMNode(self.module, {'name':self.name})
         subs = {}
         for a,i in self.subinstrument.items():
-            if subs.has_key(i):
-                subs[i]=subs[i]+', '+a
-            else:
-                subs[i]=a
+            if type(i) != type([]):
+                i=[i]
+            for x in i:
+                if subs.has_key(x):
+                    subs[x]=subs[x]+', '+a
+                else:
+                    subs[x]=a
         for i,a in subs.items():
             n = i.to_tree()
             n.attrs['attributes']=a
@@ -84,10 +98,16 @@ class MetaInstrument(instrument.Instrument):
         return instrument
 
     def set_level (self, level):
-        self.subinstrument['level'].set_level(level)
+        for sub in self.subinstrument['level']:
+            if type(sub) == type([]):
+                print "I'm trying to set a meta_instrument level"
+                for i in sub:
+                    i.set_level(level)
+            else:
+                sub.set_level(level)
         
     def get_level (self):
-        return self.subinstrument['level'].get_level()        
+        return self.subinstrument['level'][0].get_level()        
 
     def set_color (self, color):
         self.subinstrument['color'].set_level(level)
@@ -107,7 +127,11 @@ class MetaInstrument(instrument.Instrument):
         ret = []
         
         for attr, value in attr_dict.items():
-            ret = ret + self.subinstrument[attr].to_core_InstAttrs({attr: value})
+            foo=self.subinstrument[attr]
+            if type(foo)!=type([]):
+                foo=[foo]
+            for f in foo:
+                ret = ret + f.to_core_InstAttrs({attr: value})
 
         return ret
     

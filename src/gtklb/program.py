@@ -452,7 +452,7 @@ class Program:
     def edit_add_step_clicked(self, widget, data=None):
         tree=self.editTree.get_widget("programTree")
         current = tree.selection[0]
-        s = step(self)
+        s = Step(self)
         s.name = "<unnamed>"
         node = tree.insert_node(None, current.sibling, [s.name],
                                 is_leaf=FALSE)
@@ -556,7 +556,7 @@ class Program:
         win = self.editTree.get_widget ("programEdit")
         tree = self.editTree.get_widget ("programTree")
         self.actions = []
-        self.init_step = step(self)
+        self.init_step = Step(self)
         self.init_step.name = '<init>'
         for node in tree.base_nodes():
             s = tree.node_get_row_data(node)
@@ -899,7 +899,7 @@ class programDruid:
                 count = 1
                 for n in ptree.base_nodes():
                     cue_name = ptree.get_node_info(n)[0]
-                    s = step(p)
+                    s = Step(p)
                     s.actions = [load_action.copy(), run_action.copy()]
                     s.actions[0].args['cue']=cue_name
                     s.name = 'Cue %i [%s]' % (count, cue_name)
