@@ -408,6 +408,45 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref,
   return 1;
 }
 
+void 
+recursive_unbind_and_destroy_help(CosNaming::NamingContext_ptr context,
+				  CosNaming::BindingList &list)
+{
+  for (CORBA::ULong i = 0; i < list.length(); i++)
+    {
+      if (list[i].binding_type == CosNaming::ncontext)
+	recursive_unbind_and_destroy(context, list[i].binding_name);
+      else
+	context->unbind(list[i].binding_name);
+    }
+}
+
+void 
+recursive_unbind_and_destroy(CosNaming::NamingContext_ptr context, 
+			     CosNaming::Name name)
+{
+  CosNaming::BindingIterator_var iterator;
+  CosNaming::BindingList_var list;
+  CosNaming::NamingContext_ptr newcontext;
+
+  CORBA::Object_var obj=context->resolve(name);
+  newcontext = CosNaming::NamingContext::_narrow(obj);
+
+  newcontext->list(128, list, iterator);
+  recursive_unbind_and_destroy_help(newcontext, list);
+  if (!CORBA::is_nil (iterator))
+    {
+      CORBA::Boolean not_done;
+      do
+	{
+	  not_done = iterator->next_n(128, list);
+	  recursive_unbind_and_destroy_help(newcontext, list);
+	} while (not_done);
+    }
+  context->unbind(name);
+  newcontext->destroy();
+}
+
 static void load_modules(void)
 {
   void (*func)(void);
@@ -518,8 +557,8 @@ int main(int argc, char** argv)
 	}
       catch(CosNaming::NamingContext::AlreadyBound& ex) 
 	{
-	  lbcontext->unbind(name);
-	  // FIXME: do we need to destroy?
+	  recursive_unbind_and_destroy (lbcontext, name);
+
 	  mylbcontext=lbcontext->bind_new_context(name);
 	}
 

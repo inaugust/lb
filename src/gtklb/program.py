@@ -308,6 +308,7 @@ class Program:
         self.next_step=None
         self.processes={}
         self.mythread=None
+        self.joining = 0
         self.threadlock=Lock()
         self.stepnumlock=Lock()
 
@@ -347,12 +348,14 @@ class Program:
     def run (self):
         self.threadlock.acquire()
         if (self.mythread):
-            self.running=0
+            self.running = 0
+            self.joining = 1
             self.steplock.release()
             self.threadlock.release()
             self.mythread.join()
             self.threadlock.acquire()
-
+            self.mythread = None
+            self.joining = 0
         self.running=1
         self.steplock=Semaphore (0)
         self.current_step=None
@@ -366,11 +369,14 @@ class Program:
     def stop (self):
         self.threadlock.acquire()
         if (self.mythread):
-            self.running=0
+            self.running = 0
+            self.joining = 1
             self.steplock.release()
             self.threadlock.release()
             self.mythread.join()
             self.threadlock.acquire()
+            self.mythread = None
+            self.joining = 0
         self.threadlock.release()
         
     def step_forward (self):
@@ -406,9 +412,10 @@ class Program:
 
     def do_run (self, actions):
         self.run_steps ()
-        self.threadlock.acquire()
-        self.mythread=None
-        self.threadlock.release()
+        if not self.joining:
+            self.threadlock.acquire()
+            self.mythread=None
+            self.threadlock.release()
 
     def run_steps (self):        
         while (1):
@@ -763,14 +770,15 @@ class Program:
         threads_leave()
 
     def ui_set_next_step(self):
+        threads_enter()
         self.cue_list.unselect_all()
         self.label_next.set_text('Next: ---')
-        threads_enter()
         if (self.get_next_step()):
             #self.cue_list.disconnect(self.cue_list_handler_id)
 
             self.label_next.set_text('Next: '+self.get_next_step().name)
             self.cue_list.select_item(self.next_step)
+            self.cue_list.scroll_vertical(SCROLL_JUMP, float(self.next_step)/float(len(self.actions)))
 
             #self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
 
@@ -803,9 +811,6 @@ class Program:
         self.run_menu_item.set_sensitive(0)
         threads_leave()
         self.create_window()
-        threads_enter()
-
-        threads_leave()
         self.run()
         threads_enter()
 

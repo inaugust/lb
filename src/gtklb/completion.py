@@ -5,8 +5,38 @@ import __builtin__
 import __main__
 import types
 import code
+import re
 from codeop import compile_command
 from gtk import *
+
+def find_space(text):
+    balancing = {
+        '"' : '"',
+        "'" : "'",
+        }
+    
+    unbalanced=[]
+
+    count = 0
+    prev = ''
+    lastspace=None
+    for l in text:
+        count = count+1
+        if l in balancing.values():
+            if len(unbalanced) != 0:
+                if balancing[unbalanced[-1]] == l:
+                    unbalanced.pop()
+                else:
+                    unbalanced.append(l)
+            else:
+                unbalanced.append(l)                
+        elif l in balancing.keys():
+            unbalanced.append(l)
+        if l==' ' and prev!='\\':
+            if len(unbalanced) == 0:
+                lastspace = count
+        prev = l
+    return lastspace
 
 class completion(code.InteractiveConsole):
     def __init__(self, locals):
@@ -52,26 +82,38 @@ class completion(code.InteractiveConsole):
         with a __getattr__ hook is evaluated.
 
         """
-        import re
+
+        matches = []
+        initial_quote = "'"
 
         #m = re.match(r"(\w+(\.\w+)*)\.(\w*)", text)
-        m = re.match(r"([\w.\[\]\'\"]*)((\[(\w*))|(\.(\w*)))", text)
+        m = re.match(r"([\w\.\[\]\'\"]*)((\[([\'\"\w]*))|(\.(\w*)))", text)
         if not m:
-            return
-        expr, item, attr = m.group(1, 4, 6)
-        words = []
-        matches = []
+            return []
 
+        expr, item, attr = m.group(1, 4, 6)
+        if item:
+            if item[0]=='"':
+                initial_quote = '"'
+                item = item[1:]
+            elif item[0]=="'":
+                item = item[1:]
+        
+        words = []
+        
         if (item!=None):
             i=None
             for dict in self.completion_dicts:
-                i=eval(expr, dict)
+                try:
+                    i=eval(expr, dict)
+                except:
+                    pass
                 if i:
                     break
             if (not i): 
-                return
+                return []
             if (type(i)==type([])):
-                words=words+range(0, len(i))
+                words=words+map(str, range(0, len(i)))
                 t=0
             if (type(i)==type({})):
                 words=words+i.keys()
@@ -81,18 +123,21 @@ class completion(code.InteractiveConsole):
             for word in words:
                 if word[:n] == item:
                     if (t):
-                        matches.append("%s['%s']" % (expr, word))
+                        matches.append("%s[%s%s%s]" % (expr, initial_quote, word, initial_quote))
                     else:
                         matches.append("%s[%s]" % (expr, word))
                 
         elif (attr!=None):
             i=None
             for dict in self.completion_dicts:
-                i=eval(expr, dict)
+                try:
+                    i=eval(expr, dict)
+                except:
+                    pass
                 if i:
                     break
             if (not i): 
-                return
+                return []
             for word in dir(i):
                 if (word[0] != '_'):
                     words.append(word)
@@ -115,12 +160,21 @@ class completion(code.InteractiveConsole):
     def completion_matches(self, text):
         """ From rlcompleter.py
         """
-        if "." in text or "[" in text:
-            matches = self.completion_attr_matches(text)
+        lastword = text
+        loc = find_space(text)
+        if loc:
+            lastword = text[loc:]
+            
+        while (lastword[0] == '('):
+            loc = loc+1
+            lastword = lastword[1:]
+        if "." in text or "[" in lastword:
+            matches = self.completion_attr_matches(lastword)
         else:
-            matches = self.completion_global_matches(text)
+            matches = self.completion_global_matches(lastword)
         rmatches=[]
         for match in matches:
+            match = text[:loc]+match
             if match not in rmatches:
                 rmatches.append(match)
         return rmatches

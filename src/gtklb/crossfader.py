@@ -16,6 +16,8 @@ crossfader_open_menu=None
 
 def action_crossfader_load(args):
     xf = lb.crossfader[args['crossfader']]
+    if xf.isRunning():
+        xf.stop()
     old_cue = xf.getUpCueName()
     if (old_cue and lb.cue.has_key(old_cue)):
         cue1=lb.cue[old_cue]

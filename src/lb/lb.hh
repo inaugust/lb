@@ -35,6 +35,8 @@ bindObjectToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref,
 CORBA::Boolean
 bindContextToName(CORBA::ORB_ptr orb, CORBA::Object_ptr objref, 
 		  const char* id);
-
+void 
+recursive_unbind_and_destroy(CosNaming::NamingContext_ptr context, 
+			     CosNaming::Name name);
 
 #endif __LB_HH__

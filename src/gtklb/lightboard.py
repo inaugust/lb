@@ -121,38 +121,38 @@ class lightboard(completion, LB__POA.Client):
         self.create_window()
 
     def do_bindings(self):
+        x=CosNaming.NameComponent("shows","")
         try:
-            x=CosNaming.NameComponent("shows","")
             o = self.root_naming.resolve([x])
         except:
             o = self.root_naming.bind_new_context([x])
 
+        x=CosNaming.NameComponent(self.show,"")            
         try:
-            x=CosNaming.NameComponent(self.show,"")
             o = o.resolve([x])
         except:
             o = o.bind_new_context([x])
 
+        x=CosNaming.NameComponent("clients","")
         try:
-            x=CosNaming.NameComponent("clients","")
             client_ctx = o.resolve([x])
         except:
             client_ctx = o.bind_new_context([x])
 
+        x=CosNaming.NameComponent(self.name, "Client")
         try:
-            x=CosNaming.NameComponent(self.name, "Client")
             i = client_ctx.rebind([x], self._this())
         except:
             print 'Unable to bind client'
 
+        x=CosNaming.NameComponent("instruments","")
         try:
-            x=CosNaming.NameComponent("instruments","")
             ins_ctx = o.resolve([x])
         except:
             ins_ctx = o.bind_new_context([x])
 
+        x=CosNaming.NameComponent("faders","")
         try:
-            x=CosNaming.NameComponent("faders","")
             fad_ctx = o.resolve([x])
         except:
             fad_ctx = o.bind_new_context([x])
@@ -162,17 +162,8 @@ class lightboard(completion, LB__POA.Client):
         self.client_context = client_ctx
 
     def undo_bindings(self):
-        x=CosNaming.NameComponent("shows","")
-        o = self.root_naming.resolve([x])
-
-        x=CosNaming.NameComponent(self.show,"")
-        o = o.resolve([x])
-
-        x=CosNaming.NameComponent("clients","")
-        client_ctx = o.resolve([x])
-
         x=CosNaming.NameComponent(self.name, "Client")
-        client_ctx.unbind([x])
+        self.client_context.unbind([x])
 
     def check_cores(self):
         self.core_names=[]
@@ -445,15 +436,13 @@ class lightboard(completion, LB__POA.Client):
             (c,b)=iterator.next_one()
             if not c:
                 break
-            print 'name',  b.binding_name[0].id
             if (b.binding_name[0].id==self.name):
                 continue
             client = self.client_context.resolve(b.binding_name)
-            print 'sending data to ', client
             try:
                 client.receiveData(data)
             except:
-                print 'exception'
+                self.client_context.unbind(b.binding_name)
                 
 
 

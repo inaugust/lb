@@ -57,6 +57,7 @@ protected:
   GSList *complete_listeners;  
   GSList *source_listeners;  
 
+  pthread_mutex_t load_lock;
   pthread_mutex_t listener_lock;
   CORBA::Long listener_id;
 

@@ -34,6 +34,7 @@ static void print_cue(const LB::Cue& cue)
 
 void LB_LevelFader_i::setCue(const LB::Cue& incue)
 {
+  pthread_mutex_lock(&this->load_lock);
   this->cue=incue;  // Deep copy, I suspect.
   printf ("set\n");
   if (this->source_listeners)
@@ -45,11 +46,14 @@ void LB_LevelFader_i::setCue(const LB::Cue& incue)
       evt.type=LB::event_fader_source;
       lb->addEvent(evt);
     }
+  pthread_mutex_unlock(&this->load_lock);
 }
 
 char *LB_LevelFader_i::getCueName()
 {
   CORBA::String_var ret;
+
+  pthread_mutex_lock(&this->load_lock);
 
   if (strlen(this->cue.name))
     {
@@ -57,6 +61,7 @@ char *LB_LevelFader_i::getCueName()
     }
   else
     ret=CORBA::string_dup("");
+  pthread_mutex_unlock(&this->load_lock);
   return ret._retn();
 }
 
@@ -94,7 +99,9 @@ void LB_LevelFader_i::act_on_set_ratio (double ratio)
 void LB_LevelFader_i::clear()
 {
   this->setLevel(0.0);
+  pthread_mutex_lock(&this->load_lock);
   cue.ins.length(0);
   cue.name = CORBA::string_dup("");
+  pthread_mutex_unlock(&this->load_lock);
 }
 

@@ -16,6 +16,7 @@ LB_Fader_i::LB_Fader_i(const char *name)
   pthread_mutex_init (&this->thread_lock, NULL);
   pthread_mutex_init (&this->level_lock, NULL);
   pthread_mutex_init (&this->listener_lock, NULL);
+  pthread_mutex_init (&this->load_lock, NULL);
   this->thread_exists=0;
   this->running=0;
 
@@ -98,6 +99,10 @@ double my_time(void)
 
 void LB_Fader_i::do_run(void)
 {
+  printf ("do_run locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("do_run lockb\n");
+
   printf ("%s from %f to %f scheduled for %f\n", this->my_name, this->fromlevel, this->tolevel, this->intime);
   
   double start = my_time();
@@ -110,6 +115,8 @@ void LB_Fader_i::do_run(void)
   if (tolevel-fromlevel==0)
     {
       printf ("nothing to do, levels are the same\n");
+      printf ("do_run unlock\n");
+      pthread_mutex_unlock(&this->load_lock);
       pthread_mutex_lock(&this->thread_lock);
       this->thread_exists=0;
       pthread_mutex_unlock(&this->thread_lock);
@@ -131,13 +138,14 @@ void LB_Fader_i::do_run(void)
   if (intime==0)
     {
       printf ("nothing to do, time is 0\n");
+      printf ("do_run unlock\n");
+      pthread_mutex_unlock(&this->load_lock);
       this->setLevel(tolevel);
       pthread_mutex_lock(&this->thread_lock);
       this->thread_exists=0;
       pthread_mutex_unlock(&this->thread_lock);
       this->running=0;
       this->completed();
-
       return;
     }
   double adelta=fabs(delta);
@@ -223,6 +231,9 @@ void LB_Fader_i::do_run(void)
     if (self.callback):
     self.callback(self.callback_arg, self.name, None)
   */
+
+  printf ("do_run unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
 }
 
 
@@ -312,6 +323,9 @@ void LB_Fader_i::setLevel_withTime(double level, double time_left)
 void LB_Fader_i::setLevel(double level)
 {
   printf ("Fader level %f\n", level);
+  printf ("setlevel locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("setlevel lockb\n");
   pthread_mutex_lock(&this->level_lock);
 
   this->level=level;
@@ -329,6 +343,8 @@ void LB_Fader_i::setLevel(double level)
     }
 
   pthread_mutex_unlock(&this->level_lock);
+  printf ("setlevel unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
 }
 
 CORBA::Double LB_Fader_i::getLevel()

@@ -43,38 +43,56 @@ static void print_cue(const LB::Cue& cue)
 
 void LB_CrossFader_i::setCues(const LB::Cue& downcue, const LB::Cue& upcue)
 {
+  printf ("setcues locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("setcues lockb\n");
+
+  /*
   printf ("Cue1\n");
   print_cue (downcue);
   printf ("Cue2\n");
   print_cue (upcue);
+  */
 
   normalize_cues (downcue, upcue, this->down_cue, this->up_cue);
 
+  /*
   printf ("Cue1\n");
   print_cue (down_cue);
   printf ("Cue2\n");
   print_cue (up_cue);
+  */
 
   if (this->source_listeners)
     {
-      printf ("hi\n");
       LB::Event evt;
       evt.source=this->POA_LB::CrossFader::_this();
       evt.value.length(0);
       evt.type=LB::event_fader_source;
       lb->addEvent(evt);
     }
+  printf ("setcues unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
 }
 
 void LB_CrossFader_i::setTimes(CORBA::Double downtime, CORBA::Double uptime)
 {
+  printf ("settimse locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("settimes lockb\n");
   this->up_time=uptime;
   this->down_time=downtime;
+  printf ("settimes unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
 }
 
 char *LB_CrossFader_i::getUpCueName()
 {
   CORBA::String_var ret;
+
+  printf ("genupname locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("genupname lockb\n");
 
   if (strlen(this->up_cue.name))
     {
@@ -82,6 +100,9 @@ char *LB_CrossFader_i::getUpCueName()
     }
   else
     ret=CORBA::string_dup("");
+
+  printf ("genupname unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
   return ret._retn();
 }
 
@@ -89,12 +110,19 @@ char *LB_CrossFader_i::getDownCueName()
 {
   CORBA::String_var ret;
 
+  printf ("gendname locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("gendname lockb\n");
+
   if (strlen(this->down_cue.name))
     {
       ret=this->down_cue.name;
     }
   else
     ret=CORBA::string_dup("");
+
+  printf ("gendname unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
   return ret._retn();
 }
 
@@ -178,6 +206,11 @@ void LB_CrossFader_i::act_on_set_ratio (double ratio)
 void LB_CrossFader_i::clear()
 {
   int i, a, numins;
+
+  printf ("clear locka\n");
+  pthread_mutex_lock(&this->load_lock);
+  printf ("clear lockb\n");
+
   numins = up_cue.ins.length();
 
   CORBA::String_var name=this->name();
@@ -199,5 +232,7 @@ void LB_CrossFader_i::clear()
 
   up_cue.ins.length(0);
   up_cue.name = CORBA::string_dup("");
+  printf ("clear unlock\n");
+  pthread_mutex_unlock(&this->load_lock);
   this->setLevel(0.0);
 }
