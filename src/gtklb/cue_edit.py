@@ -591,6 +591,7 @@ class CueEditor(completion):
             combo.entry.disconnect (self.cue_menu_handler_id)
         entries = lb.cue.keys()[:]
         if entries:
+            entries.sort()
             combo.set_popdown_strings(entries)
         combo.entry.set_text(self.cue.name)
         self.cue_menu_handler_id = combo.entry.connect ("changed", self.cue_changed, None)
