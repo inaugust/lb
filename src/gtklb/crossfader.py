@@ -38,7 +38,7 @@ def shutdown():
 class parser(ExpatXMLParser):
 
     def start_crossfader (self, attrs):
-        self.crossfader=crossfader (attrs['name'])
+        self.crossfader=crossfader (attrs['name'], attrs['core'])
 
     def end_crossfader (self):
         lb.crossfader[self.crossfader.name]=self.crossfader
@@ -56,12 +56,25 @@ class parser(ExpatXMLParser):
 class crossfader(LB__POA.FaderLevelListener):
     """ Python wrapper for core Crossfader class"""
 
-    def __init__(self, name):
+    def __init__(self, name, corename):
         self.name=name
-        self.corefader=lb.get_fader('X1')
+        self.corename=corename
+        self.corefader=lb.get_fader(name)
+        if (self.corefader is not None):
+            e=0
+            try:
+                e=self.corefader._non_existent()
+            except:
+                self.corefader=None
+            if (e): self.corefader=None
+        if (self.corefader is None):
+            c = lb.get_core(corename)
+            c.createCrossFader (lb.show, name)
+        self.corefader=lb.get_fader(name)
 
         listener=self._this()
         print listener
+        print self.corefader
         self.corefader.addLevelListener(listener)
 
         #FIXME
@@ -148,3 +161,6 @@ class crossfader(LB__POA.FaderLevelListener):
 
         self.crossfader_menu_item.set_sensitive(0)
         self.window.show_all()
+
+# see gtk_signal_handler_block_by_func
+# at http://developer.gnome.org/doc/API/gtk/gtkeditable.html

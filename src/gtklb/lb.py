@@ -7,18 +7,19 @@ import sys
 import gtk
 
 libraries=(
-    'cue',
-    'crossfader',
-    'program',
-    'procedure',
-    'process',
-    'keyboard',
-#    'gtkui',
-    )
+  'instrument',
+  'cue',
+  'crossfader',
+  'program',
+  'procedure',
+  'process',
+  'keyboard',
+  )
 
 from lightboard import lightboard
 
-show='../../show'
+showpath='../../show'
+show='show'
 
 def gtk_main():
   gtk.threads_enter()
@@ -28,7 +29,7 @@ def gtk_main():
 t=Thread (target=gtk_main)
 t.start()
 
-lb = lightboard(show)
+lb = lightboard(show, showpath)
 lb.load_libraries(libraries)
 lb.run()
 

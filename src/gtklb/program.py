@@ -7,8 +7,15 @@ from ExpatXMLParser import ExpatXMLParser
 from cue import cue
 import time
 from gtk import *
+from libglade import *
 
 run_menu=None
+
+action_types={
+    'xf_load': (('xf', lb.crossfader.keys), ('cue', lb.cue.keys)),
+    'xf_run': (('xf', lb.crossfader.keys), ('uptime', ''),
+               ('downtime', '')),
+    }
 
 def initialize(lb):
     global run_menu
@@ -44,11 +51,103 @@ def shutdown():
         p.stop_real({})
 
 class step:
-    def __init__(self):
+    def __init__(self, my_prog):
+        self.program = my_prog
         self.name=''
         self.actions=[]
 
-class loop:
+    def window_change(self, widget=None, data=None):
+        menu = self.editTree.get_widget("actionTypeMenu")
+        name = menu.children()[0].get()
+        args = action_types[name]
+        l = len(args)
+        table = self.editTree.get_widget("table")
+        for c in table.children():
+            table.remove(c)
+        table.resize(3,l+1)
+        for x in range (0, l):
+            label = GtkLabel(args[x][0])
+            label.show()
+            table.attach(label, 0, 1, x, x+1)
+            value = args[x][1]
+            if callable(value):
+                value=value()
+            if type(value)==type([]):
+                entry = GtkOptionMenu()
+                menu=GtkMenu()
+                entry.set_menu(menu)
+                count = 0
+                current = 0
+                for v in value:
+                    try:
+                        if v == data[args[x][0]]:
+                            current = count
+                    except:
+                        pass
+                    i=GtkMenuItem(v)
+                    menu.append(i)
+                    count = count +1
+                entry.set_history(current)
+            if type(value)==type(''):
+                entry = GtkEntry()
+                current = ''
+                try:
+                    current = data[args[x][0]]
+                except:
+                    pass
+                entry.set_text(current)
+            entry.show_all()
+            table.attach(entry, 1, 2, x, x+1)
+            
+    def edit_action(self, actnum):
+        print 'edit', actnum
+        (kind, args) = self.actions[actnum]
+        wTree = GladeXML ("gtklb.glade",
+                          "programActionEdit")
+        table = wTree.get_widget("table")
+        self.editTree = wTree
+        
+        optionMenu = self.editTree.get_widget("actionTypeMenu")
+        
+        menu=GtkMenu()
+        menu.connect ("selection-done", self.window_change, None)
+        optionMenu.set_menu(menu)
+        count = 0
+        current = 0
+        for t in action_types.keys():
+            if t == kind:
+                current = count
+            i=GtkMenuItem(t)
+            i.show()
+            menu.append(i)
+            count = count +1
+        optionMenu.set_history(current)
+        menu.show()
+        self.window_change(data = args)
+
+    def name_ok_clicked(self, widget, data=None):
+        win = self.nameTree.get_widget("programStepEdit")
+        entry = self.nameTree.get_widget("entry")
+        self.name = entry.get_text()
+        self.program.update_tree()
+        win.destroy()
+
+    def name_cancel_clicked(self, widget, data=None):
+        pass
+    
+    def edit_name(self):
+        wTree = GladeXML ("gtklb.glade",
+                          "programStepEdit")
+
+        self.nameTree = wTree
+        
+        ok = self.nameTree.get_widget("ok")
+        cancel = self.nameTree.get_widget("cancel")
+        
+        ok.connect ("clicked", self.name_ok_clicked, None)
+        ok.connect ("clicked", self.name_cancel_clicked, None)
+
+class loop(step):
     def __init__(self):
         self.name=''
         self.start=-1
@@ -73,13 +172,12 @@ class parser(ExpatXMLParser):
         self.program.run_menu_item=prog
         run_menu.append(prog)
         prog.connect("activate", self.program.run_cb, None)
-        #prog1.GTKPY_MAIN = window1Widget
         prog.show()
         threads_leave()
         self.program.create_window()
 
     def start_step (self, attrs):
-        s = step ()
+        s = step (self.program)
         self.pstack.append (s)
         if (attrs.has_key('name')):
             s.name=attrs['name']
@@ -110,7 +208,7 @@ class parser(ExpatXMLParser):
         top.actions.append(l)
         
     def start_init (self, attrs):
-        s=step()
+        s=step(self.program)
         self.pstack.append (s)
         if (attrs.has_key('name')):
             s.name=attrs['name']
@@ -171,7 +269,8 @@ class program:
             self.steplock=Semaphore (0)
             self.current_step=None
             self.set_next_step(0)
-            self.run_actions(self.init_step.actions)
+            if (self.init_step is not None):
+                self.run_actions(self.init_step.actions)
             self.mythread=Thread (target=program.do_run, args=(self,
                                                                self.actions))
             self.mythread.start()
@@ -275,7 +374,7 @@ class program:
             import time
             print time
             start = time.time()
-            xf = lb.crossfader[args['xf']]
+            xf = lb.fader[args['xf']]
             print 1
             old_cue = xf.getUpCueName()
             print 'old_cue', old_cue
@@ -322,6 +421,133 @@ class program:
             del self.processes[args['id']]
 
     # UI methods
+
+    def edit_add_clicked(self, widget, data=None):
+        l=self.editTree.get_widget("programTree").get_selection()
+        (stepnum, actnum) = self.tree_dict[l[0]]
+        if actnum == -1:
+            self.actions.append(step(self))
+            self.actions[len(self.actions)-1].edit_name()
+        else:
+            cstep = self.actions[stepnum]
+            cstep.actions.append('', {})
+            cstep.edit_action(len(cstep.actions)-1)
+            
+    def edit_remove_clicked(self, widget, data=None):
+        pass
+
+    def edit_edit_clicked(self, widget, data=None):
+        l=self.editTree.get_widget("programTree").get_selection()
+        (stepnum, actnum) = self.tree_dict[l[0]]
+        if actnum == -1:
+            self.actions[stepnum].edit_name()
+        else:
+            step = self.actions[stepnum]
+            step.edit_action(actnum)
+
+    def edit_selection_changed(self, widget, data=None):
+        l=widget.get_selection()
+        if len(l) == 0:
+            b = self.editTree.get_widget("addAction")
+            b.children()[0].set_sensitive(0)
+            b = self.editTree.get_widget("removeAction")
+            b.children()[0].set_sensitive(0)
+            b = self.editTree.get_widget("editAction")
+            b.children()[0].set_sensitive(0)
+            b = self.editTree.get_widget("addStep")
+            b.children()[0].set_sensitive(0)
+            b = self.editTree.get_widget("removeStep")
+            b.children()[0].set_sensitive(0)
+            b = self.editTree.get_widget("editStep")
+            b.children()[0].set_sensitive(0)
+        else:
+            (stepnum, actnum) = self.tree_dict[l[0]]
+            if actnum == -1:
+                b = self.editTree.get_widget("addAction")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("removeAction")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("editAction")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("addStep")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("removeStep")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("editStep")
+                b.children()[0].set_sensitive(1)
+            else:
+                b = self.editTree.get_widget("addAction")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("removeAction")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("editAction")
+                b.children()[0].set_sensitive(1)
+                b = self.editTree.get_widget("addStep")
+                b.children()[0].set_sensitive(0)
+                b = self.editTree.get_widget("removeStep")
+                b.children()[0].set_sensitive(0)
+                b = self.editTree.get_widget("editStep")
+                b.children()[0].set_sensitive(0)
+                    
+    def update_tree(self):
+        tree = self.editTree.get_widget ("programTree")
+        for i in tree.children():
+            tree.remove_item(i)
+        self.tree_dict = {}
+        item = GtkTreeItem("<init>")
+        self.tree_dict[item]=[-1, -1]
+        tree.append(item)
+        subtree = GtkTree()
+        item.set_subtree(subtree)
+        subtree.show()
+        act_count = 0
+        if (self.init_step is not None):
+            for act in self.init_step.actions:
+                subitem = GtkTreeItem(act[0])
+                self.tree_dict[subitem]=[-1, act_count]
+                subtree.append(subitem)
+                subitem.show()
+                act_count = act_count + 1
+        item.show()
+
+        step_count = 0
+        for step in self.actions:
+            item = GtkTreeItem(step.name)
+            self.tree_dict[item]=[step_count, -1]
+            tree.append(item)
+            subtree = GtkTree()
+            item.set_subtree(subtree)
+            subtree.show()
+            act_count = 0
+            for act in step.actions:
+                subitem = GtkTreeItem(act[0])
+                self.tree_dict[subitem]=[step_count, act_count]
+                subtree.append(subitem)
+                subitem.show()
+                act_count = act_count + 1
+            item.show()
+            step_count = step_count + 1
+        
+    def edit(self):
+        threads_enter()
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "programEdit")
+            dic = {"on_add_clicked": self.edit_add_clicked,
+                   "on_remove_clicked": self.edit_remove_clicked,
+                   "on_edit_clicked": self.edit_edit_clicked,
+                   "on_programTree_selection_changed": self.edit_selection_changed}
+            self.editTree=wTree
+            wTree.signal_autoconnect (dic)
+            
+            self.update_tree()
+
+        finally:
+            threads_leave()
+       
+    def step_edit(self, stepnum):
+        step = self.actions[stepnum]
+        step.edit()
 
     def create_window(self):
         threads_enter()
