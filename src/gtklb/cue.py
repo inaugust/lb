@@ -8,6 +8,7 @@ from libglade import *
 from completion import completion
 import time
 import instrument
+import string
 
 from omniORB import CORBA
 from idl import LB, LB__POA
@@ -81,10 +82,11 @@ class cueFactory:
         w = self.tree.get_widget("nameDialog")
         e = self.tree.get_widget("nameEntry")
         name = e.get_text()
-        if not lb.program.has_key(name):
-            threads_leave()
-            c=cue(name)
-            threads_enter()
+        if (string.strip(name) != ''):
+            if not lb.program.has_key(name):
+                threads_leave()
+                c=cue(name)
+                threads_enter()
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):
@@ -490,18 +492,16 @@ class cue(completion):
             b=wTree.get_widget ("ok")
             b.connect("clicked", self.parent_ok_clicked)
 
-            self.parentTree.get_widget("cueParent").show()
-            threads_leave()
-        #except:
-        #    del self.old_parents
-        #    threads_leave()
+            win = self.parentTree.get_widget("cueParent")
+            win.show()
         finally:
             threads_leave()
         self.update_parents_display()
+        return win
         
     def edit_parents_clicked(self, widget, data=None):
         threads_leave()
-        self.edit_parents()
+        self.child_windows.append(self.edit_parents())
         threads_enter()
     
     def edit_blackout_clicked(self, widget, data=None):
@@ -588,6 +588,8 @@ class cue(completion):
 
     def edit_destroyed(self, widget, data=None):
         self.edit_menu_item.set_sensitive(1)        
+        for w in self.child_windows:
+            w.destroy()
 
     def edit_cb(self, widget, data):
         """ Called from lightboard->program->edit """
@@ -598,6 +600,7 @@ class cue(completion):
         threads_enter()
         
     def edit_self(self):        
+        self.child_windows = []
         self.locals['self']=self
         l = lb.instrument.keys()
         for name in l:

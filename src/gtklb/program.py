@@ -7,6 +7,7 @@ from ExpatXMLParser import ExpatXMLParser
 from cue import cue
 import time
 from gtk import *
+import GDK
 from libglade import *
 import crossfader
 import levelfader
@@ -50,6 +51,7 @@ def reset():
     global run_menu
     global edit_menu
     lb.program={}
+    lb.program_clipboard = None
     threads_enter()
     menubar=lb.menubar
     for m in menubar.children():
@@ -259,7 +261,7 @@ class action:
         optionMenu.set_history(current)
         menu.show()
         self.window_change(data = self.args)
-
+        return win
 
 class step:
     def __init__(self, my_prog):
@@ -292,7 +294,8 @@ class step:
         
         ok.connect ("clicked", self.ok_clicked, None)
         cancel.connect ("clicked", win.destroy)
-
+        return win
+    
 class loop(step):
     def __init__(self):
         self.name=''
@@ -597,7 +600,7 @@ class program:
         node = tree.insert_node(None, current.sibling, [s.name],
                                 is_leaf=FALSE)
         tree.node_set_row_data(node, s)
-        s.edit()
+        self.child_windows.append(s.edit())
 
     def edit_add_action_clicked(self, widget, data=None):
         tree=self.editTree.get_widget("programTree")
@@ -612,7 +615,7 @@ class program:
         node = tree.insert_node(parent, sibling, [act.kind],
                                 is_leaf=TRUE)
         tree.node_set_row_data(node, act)
-        act.edit()
+        self.child_windows.append(act.edit())
             
     def edit_remove_clicked(self, widget, data=None):
         tree=self.editTree.get_widget("programTree")
@@ -623,7 +626,7 @@ class program:
         tree=self.editTree.get_widget("programTree")
         current = tree.selection[0]
         n = tree.node_get_row_data(current)
-        n.edit()
+        self.child_windows.append(n.edit())
 
     def edit_row_unselected(self, widget, row, column, data=None):
         l=self.editTree.get_widget("programTree").selection
@@ -723,8 +726,80 @@ class program:
 
     def edit_destroyed(self, widget, data=None):
         self.edit_menu_item.set_sensitive(1)        
+        for w in self.child_windows:
+            w.destroy()
+
+    def popup_edit_activated(self, widget, data=None):
+        tree = self.editTree.get_widget ("programTree")
+        obj = tree.node_get_row_data(self.popup_node)
+        self.child_windows.append(obj.edit())
+
+    def popup_cut_activated(self, widget, data=None):
+        tree = self.editTree.get_widget ("programTree")
+        obj = tree.node_get_row_data(self.popup_node)
+        children = []
+        if self.popup_node.level == 1:
+            for child in self.popup_node.children:
+                children.append(tree.node_get_row_data(child))
+        lb.program_clipboard = (self.popup_node.level, obj, children)
+        tree.remove_node(self.popup_node)
+        
+    def popup_copy_activated(self, widget, data=None):
+        tree = self.editTree.get_widget ("programTree")
+        obj = tree.node_get_row_data(self.popup_node)
+        children = []
+        if self.popup_node.level == 1:
+            for child in self.popup_node.children:
+                children.append(tree.node_get_row_data(child))
+        lb.program_clipboard = (self.popup_node.level, obj, children)
+        
+    def popup_paste_activated(self, widget, data=None):
+        if (lb.program_clipboard == None):
+            return
+        tree = self.editTree.get_widget ("programTree")
+        cb_node_level = lb.program_clipboard[0]
+        cur_node = self.popup_node
+        cb_obj = lb.program_clipboard[1]
+        cb_children = lb.program_clipboard[2]
+        if cb_node_level == 1 and cur_node.level==1:
+            #step into step, gets inserted after step
+            str = format_step (cb_obj.name, {})
+            parent_node = tree.insert_node(None, cur_node, [str],
+                                           is_leaf=FALSE)
+            tree.node_set_row_data(parent_node, cb_obj.copy())
+            for a in cb_children:
+                str = format_step (a.kind, a.args)
+                node = tree.insert_node(parent_node, None, [str],
+                                        is_leaf=TRUE)
+                tree.node_set_row_data(node, a.copy())
+        if cb_node_level == 2 and cur_node.level==1:
+            #action into step, gets inserted at end of step
+            str = format_step (cb_obj.kind, cb_obj.args)
+            node = tree.insert_node(cur_node, None, [str], is_leaf=TRUE)
+            tree.node_set_row_data(node, cb_obj.copy())
+        if cb_node_level == 2 and cur_node.level==2:
+            #action into action, gets inserted after action
+            str = format_step (cb_obj.kind, cb_obj.args)
+            node = tree.insert_node(cur_node.parent, cur_node, [str],
+                                    is_leaf=TRUE)
+            tree.node_set_row_data(node, cb_obj.copy())
+
+    def popup_delete_activated(self, widget, data=None):
+        tree = self.editTree.get_widget ("programTree")
+        tree.remove_node(self.popup_node)
+
+    def popup_handler (self, widget, event):
+        if (event.type == GDK.BUTTON_PRESS):
+            if (event.button == 3):
+                (row, col) =  widget.get_selection_info (event.x, event.y)
+                self.popup_node=widget.node_nth(row)
+                self.popup_menu.popup (None, None, None, 
+                                       event.button, event.time);
+                return 1
+        return 0
     
     def edit(self):
+        self.child_windows = []
         threads_enter()
         try:
             wTree = GladeXML ("gtklb.glade",
@@ -736,6 +811,27 @@ class program:
             w.connect ('select_row', self.edit_row_selected)
             w.connect ('unselect_row', self.edit_row_unselected)
             w.set_drag_compare_func(self.edit_drag_compare)
+            popupTree = GladeXML ("gtklb.glade",
+                                  "programPopupMenu")
+            menu = GtkMenu()
+            i=GtkMenuItem("Edit")
+            i.connect("activate", self.popup_edit_activated, None)
+            menu.append(i)
+            i=GtkMenuItem("Cut")
+            i.connect("activate", self.popup_cut_activated, None)
+            menu.append(i)
+            i=GtkMenuItem("Copy")
+            i.connect("activate", self.popup_copy_activated, None)
+            menu.append(i)
+            i=GtkMenuItem("Paste")
+            i.connect("activate", self.popup_paste_activated, None)
+            menu.append(i)
+            i=GtkMenuItem("Delete")
+            i.connect("activate", self.popup_delete_activated, None)
+            menu.append(i)
+            menu.show_all()
+            self.popup_menu = menu
+            w.connect("button_press_event", self.popup_handler)
 
             self.editTree=wTree
 
@@ -864,12 +960,6 @@ class program:
         self.run()
         threads_enter()
 
-
-def drag_data_get (widget,context,data,info,time,user):
-    data.set(data.target,123,user)
-
-def drag_data_rec (widget,context,x,y,data,info,time,user) :
-    print 'rec'
     
 class programDruid:
 
