@@ -124,6 +124,7 @@ class transitionfader(fader):
         print 'start', self.start_cue_name
         print 'end', self.end_cue_name
         print 'attr', self.attributes
+        starttime=time.time()
         if (self.start_cue_name == None or self.end_cue_name==None):
             return
 
@@ -170,7 +171,19 @@ class transitionfader(fader):
                 elif (attr=='target'):
                     dict[attr]=map(lb.len_to_ft, string.split(val[1:-1], ','))
 
-
+        cue={}
+        for (name, dict) in self.end_cue.items():
+            cue[lb.instrument[name]]=dict
+        self.end_cue=cue
+        cue={}
+        for (name, dict) in self.start_cue.items():
+            cue[lb.instrument[name]]=dict
+        self.start_cue=cue
+            
+            
+        endtime=time.time()
+        print 'fixed cues in ', endtime-starttime
+            
     def act_on_set_ratio(self, ratio):
         # we have the lock
         for (name, dict) in self.end_cue.items():
@@ -183,16 +196,16 @@ class transitionfader(fader):
                                              ratio)
         lb.update_dimmers()
 
-    def do_set_level(self, name, start, end, ratio):
-        ins=lb.instrument[name]
+    def do_set_level(self, ins, start, end, ratio):
+        #ins=lb.instrument[name]
         level=start+((end-start)*ratio)
         #print name, start, end, level, ratio
         ins.set_attribute_real({'attribute':'level', 'value':level,
                                 'immediately':0,
                                 'source':None, 'typ':min})
 
-    def do_set_target(self, name, start, end, ratio):
-        ins=lb.instrument[name]
+    def do_set_target(self, ins, start, end, ratio):
+        #ins=lb.instrument[name]
         #print start, end
         pos=[((end[0]-start[0])*ratio),
              ((end[1]-start[1])*ratio),
