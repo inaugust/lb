@@ -1,6 +1,7 @@
 from os import path
 import lightboard
 import time
+import attribute_widgets
 
 from ExpatXMLParser import ExpatXMLParser, DOMNode
 from idl import LB
@@ -69,7 +70,10 @@ class Instrument:
     #public
 
     def to_tree(self):
-        dict = self.arglist.copy()
+        dict = {}
+        for arg in self.arglist:
+            dict[arg.name]=arg.value
+            
         dict['name']=self.name
         dict['driver']=self.driver
         dict['core']=self.corename

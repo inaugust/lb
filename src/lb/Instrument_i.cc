@@ -68,12 +68,10 @@ char* LB_Instrument_i::name()
 
 LB::AttrList* LB_Instrument_i::getAttributes()
 {
-  LB::AttrList *l = new LB::AttrList;
-  LB::AttrList_var ret;
+  LB::AttrList_var ret = new LB::AttrList;
 
-  l->length(1);
-  l[0]=LB::attr_level;
-  ret = l;
+  ret->length(1);
+  ret[0]=LB::attr_level;
   return ret._retn();
 }
 
