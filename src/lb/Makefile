@@ -52,16 +52,7 @@ lb : idl $(OBJECTS)
 
 idl : $(IDL_H)
 
-%SK.cc: ../../idl/%.idl
-	$(IDLC) $(IDL_ARGS) $<
-
-%DynSK.cc: ../../idl/%.idl
-	$(IDLC) $(IDL_ARGS) $<
-
-%.hh : ../../idl/%.idl
-	$(IDLC) $(IDL_ARGS) $<
-
-%.cc: ../../idl/%.idl
+%.hh %DynSK.cc %SK.cc: ../../idl/%.idl
 	$(IDLC) $(IDL_ARGS) $<
 
 %_example.cc: ../../idl/%.idl
