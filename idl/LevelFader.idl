@@ -1,0 +1,16 @@
+#ifndef _LEVELFADER_IDL_
+#define _LEVELFADER_IDL_
+
+#include "Fader.idl"
+
+module LB
+{
+  interface LevelFader : Fader
+  {
+    void setCue (in Cue incue);
+    void clear ();
+  };
+
+};
+
+#endif /* _LEVELFADER_IDL_ */

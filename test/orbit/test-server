@@ -1,0 +1,31 @@
+#!/usr/bin/env python1.5
+import CORBA
+import CosNaming
+import sys
+from test_lib import FFactory, Instance
+
+
+_libraries=[]
+
+def load_libraries(orb, libs):
+    for lib in libs:
+        print "Loading library: " + lib
+        l=__import__(lib, globals(), locals(), [])
+        l.initialize(orb)
+        _libraries.append(l)
+
+orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
+poa = orb.resolve_initial_references("RootPOA")
+ref = FFactory()._this() # implicit activation
+
+#load_libraries(orb,['test_lib'])
+#context = CoxNaming.NamingContext._narrow(context_obj)
+
+#name=CosNaming.NameComponent()
+#name.id='test name'
+#name.kind='TestServer'
+#context.bind(name,ref)
+open("./test-server.ior", "w").write(orb.object_to_string(ref))
+
+poa._get_the_POAManager().activate()
+orb.run()

@@ -1,0 +1,10 @@
+#include "Instrument.idl"
+ 
+module LB
+{
+  
+  interface MovingInstrument : Instrument
+  {
+  };
+
+};
