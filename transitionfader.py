@@ -152,6 +152,9 @@ class transitionfader(fader):
         
         for (name, dict) in self.start_cue.items():
             for attr, val in dict.items():
+                if attr not in self.attributes:
+                    del dict[attr]
+                    continue
                 if (attr=='level'):
                     dict[attr]=lb.instrument[name].make_level(val)
                 elif (attr=='target'):
@@ -159,6 +162,9 @@ class transitionfader(fader):
 
         for (name, dict) in self.end_cue.items():
             for attr, val in dict.items():
+                if attr not in self.attributes:
+                    del dict[attr]
+                    continue
                 if (attr=='level'):
                     dict[attr]=lb.instrument[name].make_level(val)
                 elif (attr=='target'):
@@ -169,12 +175,12 @@ class transitionfader(fader):
         # we have the lock
         for (name, dict) in self.end_cue.items():
             for attr in dict.keys():
-                if attr in self.attributes:
-                    #print name, dict, attr, self.attributes
-                    self.attribute_methods[attr](name,
-                                                 self.start_cue[name][attr],
-                                                 dict[attr],
-                                                 ratio)
+                # if attr in self.attributes:
+                #print name, dict, attr, self.attributes
+                self.attribute_methods[attr](name,
+                                             self.start_cue[name][attr],
+                                             dict[attr],
+                                             ratio)
         lb.update_dimmers()
 
     def do_set_level(self, name, start, end, ratio):
