@@ -99,9 +99,9 @@ double my_time(void)
 
 void LB_Fader_i::do_run(void)
 {
-  printf ("do_run locka\n");
+  //printf ("do_run locka\n");
   pthread_mutex_lock(&this->load_lock);
-  printf ("do_run lockb\n");
+  //printf ("do_run lockb\n");
 
   printf ("%s from %f to %f scheduled for %f\n", this->my_name, this->fromlevel, this->tolevel, this->intime);
   
@@ -115,7 +115,7 @@ void LB_Fader_i::do_run(void)
   if (tolevel-fromlevel==0)
     {
       printf ("nothing to do, levels are the same\n");
-      printf ("do_run unlock\n");
+      //printf ("do_run unlock\n");
       pthread_mutex_unlock(&this->load_lock);
       pthread_mutex_lock(&this->thread_lock);
       this->thread_exists=0;
@@ -138,7 +138,7 @@ void LB_Fader_i::do_run(void)
   if (intime==0)
     {
       printf ("nothing to do, time is 0\n");
-      printf ("do_run unlock\n");
+      //printf ("do_run unlock\n");
       pthread_mutex_unlock(&this->load_lock);
       this->setLevel(tolevel);
       pthread_mutex_lock(&this->thread_lock);
@@ -151,8 +151,10 @@ void LB_Fader_i::do_run(void)
   double adelta=fabs(delta);
   long steps=(long)(fabs(tolevel-fromlevel)/adelta);
 
+  /*
   printf ("delta1, adelta1: %f %f\n", delta,adelta);
   printf ("steps1         : %li\n", steps);
+  */
 
   if(float(steps)/intime > maximum_refresh_rate)
     {
@@ -161,8 +163,10 @@ void LB_Fader_i::do_run(void)
       adelta=fabs(delta);
     }
 
+  /*
   printf ("delta2, adelta2: %f %f\n", delta,adelta);
   printf ("steps 2      : %li\n", steps);
+  */
   
   // Correct for rounding errors.
 
@@ -171,8 +175,8 @@ void LB_Fader_i::do_run(void)
   else
     while ((double(steps) * delta) > (tolevel-fromlevel)) steps++;
 
-  printf ("steps 3      : %li\n", steps);
   /*
+  printf ("steps 3      : %li\n", steps);
   printf ("steps: ((%f - %f)=%f)/%f = %f =? %li\n", tolevel, fromlevel,
 	  fabs(tolevel-fromlevel), adelta, fabs(tolevel-fromlevel)/adelta, 
 	  steps);
@@ -183,7 +187,7 @@ void LB_Fader_i::do_run(void)
   double *times = (double *) malloc (sizeof(double)*steps);
   double *levels = (double *) malloc (sizeof(double)*steps);
 
-  printf ("schedule\n");
+  //  printf ("schedule\n");
   double mylevel=level;
   double mytime=start;
   for (long s=0; s<steps; s++)
@@ -194,7 +198,7 @@ void LB_Fader_i::do_run(void)
       times[s]=mytime;
       levels[s]=mylevel;
     }
-  printf ("running\n");
+  printf ("%s running.\n",this->my_name);
 
   long t;
   double left, mt;
@@ -232,7 +236,8 @@ void LB_Fader_i::do_run(void)
     self.callback(self.callback_arg, self.name, None)
   */
 
-  printf ("do_run unlock\n");
+  //  printf ("do_run unlock\n");
+  printf ("\n***************\n\n%s finished!!!\n\n**************\n",this->my_name);
   pthread_mutex_unlock(&this->load_lock);
 }
 

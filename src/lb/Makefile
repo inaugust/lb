@@ -1,8 +1,8 @@
 #CXX = g++-3.0
 
-CPPFLAGS =  -O2 -g -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -I. -I.. -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
+CPPFLAGS =  -O2 -g -D__OMNIORB3__ -D_REENTRANT  -I/home/mordred/omni-3.0.4/include -I. -I.. -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
 
-LDFLAGS = -rdynamic -export-dynamic -ldl -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3 -lomnithread -L/usr/local/lib/omniORB3 `glib-config --libs`
+LDFLAGS = -rdynamic -export-dynamic -ldl -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3 -lomnithread -L/home/mordred/omni-3.0.4/lib/i586_linux_2.0_glibc2.1 `glib-config --libs`
 
 IDLC=omniidl
 IDL_ARGS=-bcxx -Wba #-Wbuse_quotes
