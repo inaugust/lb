@@ -2,9 +2,27 @@ from xmllib import XMLParser
 from os import path
 import lightboard
 import time
+import attribute_widgets
 
 from xml.parsers import expat
 from ExpatXMLParser import ExpatXMLParser
+from idl import LB
+
+instrument_attributes = (
+    'level',
+    )
+
+attribute_mapping = {
+    'level': (LB.attr_level,
+              attribute_widgets.LevelWidget,
+              attribute_widgets.level_string_to_core,
+              attribute_widgets.level_core_to_string),
+    'time': (None, 
+             None,
+             attribute_widgets.time_string_to_core,
+             attribute_widgets.time_core_to_string)
+    }
+
 
 def initialize(lb):
     lb.instrument={}
@@ -59,17 +77,17 @@ class instrument:
 
     def get_attribute (self, name):
         if name == 'level':
-            return self.getLevel()
+            return self.get_level()
         raise AttributeError, name
     
     def set_attribute (self, name, arg):
         if name == 'level':
-            return self.setLevel(arg)
+            return self.set_level(arg)
         raise AttributeError, name
         
     def set_level (self, level):
-        self.coreinstrument.setLevel (level)
+        self.coreinstrument.setLevel (lb.level_to_percent(level))
 
     def get_level (self):
-        return self.coreinstrument.getLevel ()
+        return lb.percent_to_level(self.coreinstrument.getLevel ())
         

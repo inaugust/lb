@@ -33,68 +33,6 @@
     <spacing>0</spacing>
 
     <widget>
-      <class>GtkHButtonBox</class>
-      <name>hbuttonbox5</name>
-      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-      <spacing>30</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
-
-      <widget>
-	<class>GtkToggleButton</class>
-	<name>liveUpdates</name>
-	<border_width>5</border_width>
-	<can_focus>True</can_focus>
-	<label>Live Updates</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-	<active>False</active>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>parents</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Cue Parenting...</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>blackout</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Blackout</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button12</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Cancel</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button13</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>OK</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-    </widget>
-
-    <widget>
       <class>GtkVPaned</class>
       <name>vpaned1</name>
       <handle_size>10</handle_size>
@@ -128,16 +66,41 @@
 	  </child>
 
 	  <widget>
-	    <class>GtkTree</class>
-	    <name>outTree</name>
-	    <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	    <view_mode>GTK_TREE_VIEW_LINE</view_mode>
-	    <view_line>True</view_line>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow4</name>
+	    <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
 	      <fill>True</fill>
 	    </child>
+
+	    <widget>
+	      <class>GtkCTree</class>
+	      <name>outTree</name>
+	      <can_focus>True</can_focus>
+	      <columns>1</columns>
+	      <column_widths>80</column_widths>
+	      <selection_mode>GTK_SELECTION_EXTENDED</selection_mode>
+	      <show_titles>True</show_titles>
+	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>CTree:title</child_name>
+		<name>label2</name>
+		<label>Available Instruments</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+	      </widget>
+	    </widget>
 	  </widget>
 
 	  <widget>
@@ -172,8 +135,8 @@
 	</widget>
 
 	<widget>
-	  <class>GtkVBox</class>
-	  <name>vbox3</name>
+	  <class>GtkHBox</class>
+	  <name>hbox11</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
 	  <child>
@@ -182,12 +145,10 @@
 	  </child>
 
 	  <widget>
-	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow2</name>
-	    <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
-	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	    <class>GtkVBox</class>
+	    <name>vbox3</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
 	    <child>
 	      <padding>0</padding>
 	      <expand>True</expand>
@@ -195,52 +156,94 @@
 	    </child>
 
 	    <widget>
-	      <class>GtkCTree</class>
-	      <name>inTree</name>
-	      <can_focus>True</can_focus>
-	      <columns>2</columns>
-	      <column_widths>80,80</column_widths>
-	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	      <show_titles>True</show_titles>
-	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+	      <class>GtkScrolledWindow</class>
+	      <name>scrolledwindow2</name>
+	      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+	      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
 
 	      <widget>
-		<class>GtkLabel</class>
-		<child_name>CTree:title</child_name>
-		<name>instrumentLabel</name>
-		<label>Instrument</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>0.5</xalign>
-		<yalign>0.5</yalign>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
+		<class>GtkCTree</class>
+		<name>inTree</name>
+		<can_focus>True</can_focus>
+		<columns>2</columns>
+		<column_widths>80,80</column_widths>
+		<selection_mode>GTK_SELECTION_EXTENDED</selection_mode>
+		<show_titles>True</show_titles>
+		<shadow_type>GTK_SHADOW_IN</shadow_type>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <child_name>CTree:title</child_name>
+		  <name>instrumentLabel</name>
+		  <label>Instrument</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		</widget>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <child_name>CTree:title</child_name>
+		  <name>levelLabel</name>
+		  <label>Level</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		</widget>
 	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkHButtonBox</class>
+	      <name>hbuttonbox3</name>
+	      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	      <spacing>30</spacing>
+	      <child_min_width>85</child_min_width>
+	      <child_min_height>27</child_min_height>
+	      <child_ipad_x>7</child_ipad_x>
+	      <child_ipad_y>0</child_ipad_y>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
 
 	      <widget>
-		<class>GtkLabel</class>
-		<child_name>CTree:title</child_name>
-		<name>levelLabel</name>
-		<label>Level</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>0.5</xalign>
-		<yalign>0.5</yalign>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
+		<class>GtkButton</class>
+		<name>removeFromCue</name>
+		<can_default>True</can_default>
+		<can_focus>True</can_focus>
+		<signal>
+		  <name>clicked</name>
+		  <handler>on_removeFromCue_clicked</handler>
+		  <last_modification_time>Wed, 08 Aug 2001 14:46:13 GMT</last_modification_time>
+		</signal>
+		<label>Remove From Cue</label>
+		<relief>GTK_RELIEF_NORMAL</relief>
 	      </widget>
 	    </widget>
 	  </widget>
 
 	  <widget>
-	    <class>GtkHButtonBox</class>
-	    <name>hbuttonbox3</name>
-	    <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-	    <spacing>30</spacing>
-	    <child_min_width>85</child_min_width>
-	    <child_min_height>27</child_min_height>
-	    <child_ipad_x>7</child_ipad_x>
-	    <child_ipad_y>0</child_ipad_y>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow8</name>
+	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -248,17 +251,19 @@
 	    </child>
 
 	    <widget>
-	      <class>GtkButton</class>
-	      <name>removeFromCue</name>
-	      <can_default>True</can_default>
-	      <can_focus>True</can_focus>
-	      <signal>
-		<name>clicked</name>
-		<handler>on_removeFromCue_clicked</handler>
-		<last_modification_time>Wed, 08 Aug 2001 14:46:13 GMT</last_modification_time>
-	      </signal>
-	      <label>Remove From Cue</label>
-	      <relief>GTK_RELIEF_NORMAL</relief>
+	      <class>GtkViewport</class>
+	      <name>viewport1</name>
+	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	      <widget>
+		<class>GtkTable</class>
+		<name>table2</name>
+		<rows>2</rows>
+		<columns>3</columns>
+		<homogeneous>False</homogeneous>
+		<row_spacing>0</row_spacing>
+		<column_spacing>0</column_spacing>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -336,6 +341,68 @@
 	</child>
       </widget>
     </widget>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <name>hbuttonbox5</name>
+      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+      <spacing>30</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>8</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
+
+      <widget>
+	<class>GtkToggleButton</class>
+	<name>liveUpdates</name>
+	<border_width>5</border_width>
+	<can_focus>True</can_focus>
+	<label>Live Updates</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<active>False</active>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>parents</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Cue Parenting...</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>blackout</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Blackout</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>cancel</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Cancel</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>ok</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>OK</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+      </widget>
+    </widget>
   </widget>
 </widget>
 
@@ -346,7 +413,7 @@
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
-  <default_width>550</default_width>
+  <default_width>752</default_width>
   <default_height>335</default_height>
   <allow_shrink>False</allow_shrink>
   <allow_grow>True</allow_grow>
@@ -359,54 +426,10 @@
     <spacing>0</spacing>
 
     <widget>
-      <class>GtkHButtonBox</class>
-      <name>hbuttonbox7</name>
-      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-      <spacing>30</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>add</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Add</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>ok</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>OK</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>remove</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Remove</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkHPaned</class>
-      <name>hpaned2</name>
-      <handle_size>10</handle_size>
-      <gutter_size>6</gutter_size>
-      <position>270</position>
+      <class>GtkHBox</class>
+      <name>hbox10</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
@@ -414,36 +437,339 @@
       </child>
 
       <widget>
-	<class>GtkList</class>
-	<name>list1</name>
-	<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	<class>GtkHPaned</class>
+	<name>hpaned2</name>
+	<handle_size>10</handle_size>
+	<gutter_size>6</gutter_size>
+	<position>260</position>
 	<child>
-	  <shrink>True</shrink>
-	  <resize>False</resize>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>True</fill>
 	</child>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vbox11</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <shrink>True</shrink>
+	    <resize>False</resize>
+	  </child>
+
+	  <widget>
+	    <class>GtkScrolledWindow</class>
+	    <name>scrolledwindow6</name>
+	    <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	    <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkCTree</class>
+	      <name>outTree</name>
+	      <can_focus>True</can_focus>
+	      <columns>1</columns>
+	      <column_widths>80</column_widths>
+	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	      <show_titles>False</show_titles>
+	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<child_name>CTree:title</child_name>
+		<name>label4</name>
+		<label>label4</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+	      </widget>
+	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHButtonBox</class>
+	    <name>hbuttonbox17</name>
+	    <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	    <spacing>30</spacing>
+	    <child_min_width>85</child_min_width>
+	    <child_min_height>27</child_min_height>
+	    <child_ipad_x>7</child_ipad_x>
+	    <child_ipad_y>0</child_ipad_y>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>add</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vbox6</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <shrink>True</shrink>
+	    <resize>True</resize>
+	  </child>
+
+	  <widget>
+	    <class>GtkVBox</class>
+	    <name>vbox10</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkScrolledWindow</class>
+	      <name>scrolledwindow7</name>
+	      <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
+	      <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	      <child>
+		<padding>0</padding>
+		<expand>True</expand>
+		<fill>True</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkCTree</class>
+		<name>inTree</name>
+		<can_focus>True</can_focus>
+		<columns>2</columns>
+		<column_widths>144,80</column_widths>
+		<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+		<show_titles>True</show_titles>
+		<shadow_type>GTK_SHADOW_IN</shadow_type>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <child_name>CTree:title</child_name>
+		  <name>label6</name>
+		  <label>Cue</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		</widget>
+
+		<widget>
+		  <class>GtkLabel</class>
+		  <child_name>CTree:title</child_name>
+		  <name>label6</name>
+		  <label>Level</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		</widget>
+	      </widget>
+	    </widget>
+
+	    <widget>
+	      <class>GtkHButtonBox</class>
+	      <name>hbuttonbox16</name>
+	      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	      <spacing>30</spacing>
+	      <child_min_width>85</child_min_width>
+	      <child_min_height>27</child_min_height>
+	      <child_ipad_x>7</child_ipad_x>
+	      <child_ipad_y>0</child_ipad_y>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+
+	      <widget>
+		<class>GtkButton</class>
+		<name>remove</name>
+		<can_default>True</can_default>
+		<can_focus>True</can_focus>
+		<label>Remove</label>
+		<relief>GTK_RELIEF_NORMAL</relief>
+	      </widget>
+	    </widget>
+	  </widget>
+	</widget>
       </widget>
 
       <widget>
 	<class>GtkVBox</class>
-	<name>vbox6</name>
+	<name>vbox13</name>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
 	<child>
-	  <shrink>True</shrink>
-	  <resize>True</resize>
+	  <padding>14</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
 	</child>
 
 	<widget>
-	  <class>GtkTree</class>
-	  <name>tree2</name>
-	  <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	  <view_mode>GTK_TREE_VIEW_LINE</view_mode>
-	  <view_line>True</view_line>
+	  <class>GtkTable</class>
+	  <name>attributeTable</name>
+	  <rows>2</rows>
+	  <columns>2</columns>
+	  <homogeneous>False</homogeneous>
+	  <row_spacing>6</row_spacing>
+	  <column_spacing>8</column_spacing>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
-	    <fill>True</fill>
+	    <fill>False</fill>
 	  </child>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label8</name>
+	    <label>Cue</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label9</name>
+	    <label>Level</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>cueLabel</name>
+	    <label></label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkHBox</class>
+      <name>hbox9</name>
+      <homogeneous>False</homogeneous>
+      <spacing>0</spacing>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
+
+      <widget>
+	<class>GtkHButtonBox</class>
+	<name>hbuttonbox7</name>
+	<layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	<spacing>30</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
+	<child>
+	  <padding>0</padding>
+	  <expand>True</expand>
+	  <fill>False</fill>
+	</child>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cancel</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>Cancel</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <name>ok</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <label>OK</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>
     </widget>

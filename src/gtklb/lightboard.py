@@ -9,6 +9,7 @@ from rexec import RExec
 import __builtin__
 import __main__
 from completion import completion
+import instrument
 
 import os
 os.environ['IDLPATH']=os.environ.get('IDLPATH','')+'/usr/share/idl:/usr/local/share/idl:omniorb-core'
@@ -127,6 +128,8 @@ class lightboard(completion):
             return None
 
     def get_core(self, name):
+        #deprecated
+        print "DON'T USE GET_CORE!"
         x=CosNaming.NameComponent("lightboards", "")
         o = self.root_naming.resolve([x])
         x=CosNaming.NameComponent(name, "")
@@ -135,42 +138,17 @@ class lightboard(completion):
         o = o.resolve([x])
         return o
 
-    def level_to_percent(self, level):
-        level=str(level)
-        if (level[-1]=='%'):
-            level=level[:-1]
-        return float(level)
+    def core_attr_id (self, name):
+        return instrument.attribute_mapping[name][0]
 
-    def percent_to_level(self, pct):
-        level=str(pct)+'%'
-        return level
+    def attr_widget (self, name):
+        return instrument.attribute_mapping[name][1]
+            
+    def value_to_string(self, name, value):
+        return instrument.attribute_mapping[name][3](value)
 
-    def time_to_seconds(self, time):
-        try:
-            time=float(time)
-            return time
-        except:
-            time=str(time)
-        if(string.lower(time[-1])=='s'):
-            return float(time[:-1])
-        if(string.lower(time[-1])=='m'):
-            return float(time[:-1])*60
-        if(string.lower(time[-1])=='h'):
-            return float(time[:-1])*60*60
-        ftime=0.0
-        multiple=1.0
-        l=string.rfind(time, ':')
-        while (l!=-1):
-            n=float(time[l+1:])
-            ftime=ftime+(n*multiple)
-            time=time[:l]
-            multiple=multiple*60.0
-            if (multiple>3600):
-                return None
-            l=string.rfind(time, ':')
-        if (len(time)):
-            ftime=ftime+(float(time)*multiple)
-        return ftime
+    def value_to_core(self, name, value):
+        return instrument.attribute_mapping[name][2](value)
 
     def create_window(self):
         threads_enter()

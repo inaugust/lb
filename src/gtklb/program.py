@@ -447,8 +447,8 @@ class program:
             start = time.time()
             xf = lb.crossfader[args['xf']]
             
-            uptime=lb.time_to_seconds(args.get('uptime', 0))
-            downtime=lb.time_to_seconds(args.get('downtime', 0))
+            uptime=lb.value_to_core('time', args.get('uptime', 0))[0]
+            downtime=lb.value_to_core('time', args.get('downtime', 0))[0]
             xf.setTimes(uptime, downtime)
 
             if (downtime>uptime): intime=downtime
