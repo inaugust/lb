@@ -161,7 +161,10 @@ class CueEditor(completion):
             in_tree.clear()
             out_tree.clear()
             groups_in_in = {}
-            for name, dict in self.cue.apparent.items():
+            in_keys = self.cue.apparent.keys()
+            in_keys.sort()
+            for name in in_keys:
+                dict = self.cue.apparent[name]
                 origname = name
                 defunct = 0
                 try: proxy = self.cue_proxies[name]
@@ -433,6 +436,17 @@ class CueEditor(completion):
         threads_leave()
         self.update_display()
         threads_enter()
+
+    def edit_new_child_clicked(self, widget, data=None):
+        self.cue.set_editing(0)
+        newcue = cue.Cue('', update_refs = 0)
+        newcue.parent = [[self.cue.name, 100.0],]
+        newcue.editor=self
+        newcue.validate()
+        self.set_cue(newcue)
+        threads_leave()
+        self.update_display()
+        threads_enter()
         
     def do_save_actions(self):
         threads_leave()
@@ -605,6 +619,7 @@ class CueEditor(completion):
                    "on_parents_clicked": self.edit_parents_clicked,
                    "on_blackout_clicked": self.edit_blackout_clicked,
                    "on_new_clicked": self.edit_new_clicked,
+                   "on_new_child_clicked": self.edit_new_child_clicked,
                    "on_save_clicked": self.edit_save_clicked,
                    "on_revert_clicked": self.edit_revert_clicked,
                    "on_cancel_clicked": self.edit_cancel_clicked,

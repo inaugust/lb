@@ -147,15 +147,15 @@ class Cue:
                 self.apparent={}
                 self.valid=0
                 self.build_time=0
-        for name, lvl in self.parent:
-            for name, idict in lb.cue[name].apparent.items():
-                if (not self.apparent.has_key(name)):
-                    self.apparent[name]={}
-                for attr, value in idict.items():
-                    if (attr=='level'):
-                        value = lb.value_to_string('level', [lb.value_to_core ('level', value)[0] * (lvl/100.0)])
-                    self.apparent[name][attr]=value
         if (not self.valid):
+            for name, lvl in self.parent:
+                for name, idict in lb.cue[name].apparent.items():
+                    if (not self.apparent.has_key(name)):
+                        self.apparent[name]={}
+                    for attr, value in idict.items():
+                        if (attr=='level'):
+                            value = lb.value_to_string('level', [lb.value_to_core ('level', value)[0] * (lvl/100.0)])
+                        self.apparent[name][attr]=value
             for name, idict in self.instrument.items():
                 if (not self.apparent.has_key(name)):
                     self.apparent[name]={}

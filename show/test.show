@@ -25,23 +25,23 @@
     <program name="prog3" >
       <init />
       <step name="Cue 1" >
-        <crossfader_load cue="1" crossfader="X1" />
+        <crossfader_load crossfader="X1" cue="1" />
         <crossfader_run downtime="4s" crossfader="X1" uptime="4s" />
       </step>
       <step name="Cue 2" >
-        <crossfader_load cue="2" crossfader="X1" />
+        <crossfader_load crossfader="X1" cue="2" />
         <crossfader_run downtime="3s" crossfader="X1" uptime="3s" />
       </step>
       <step name="Cue 1" >
-        <crossfader_load cue="1" crossfader="X1" />
+        <crossfader_load crossfader="X1" cue="1" />
         <crossfader_run downtime="2s" crossfader="X1" uptime="2s" />
       </step>
       <step name="Cue 2" >
-        <crossfader_load cue="2" crossfader="X1" />
+        <crossfader_load crossfader="X1" cue="2" />
         <crossfader_run downtime="1s" crossfader="X1" uptime="1s" />
       </step>
       <step name="Cue 1" >
-        <crossfader_load cue="1" crossfader="X1" />
+        <crossfader_load crossfader="X1" cue="1" />
         <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s" />
       </step>
     </program>
@@ -62,28 +62,46 @@
   </programs>
   <instruments >
     <color_mixer_instrument red="cyc_red" name="cyc" green="cyc_green" blue="cyc_blue" />
-    <instrument name="2" driver="instrument" core="LB1" dimmer="2" />
-    <meta_instrument name="foo" >
-      <instrument core="LB1" name="mtest2" driver="gobo_rotator" attributes="gobo_rpm" dimmer="101" />
-      <instrument core="LB1" name="mtest1" driver="instrument" attributes="level" dimmer="100" />
-    </meta_instrument>
     <instrument name="8" driver="instrument" core="LB1" dimmer="8" />
     <instrument name="9" driver="instrument" core="LB1" dimmer="9" />
     <instrument name="6" driver="instrument" core="LB1" dimmer="6" />
     <instrument name="7" driver="instrument" core="LB1" dimmer="7" />
     <instrument name="4" driver="instrument" core="LB1" dimmer="4" />
     <instrument name="5" driver="instrument" core="LB1" dimmer="5" />
-    <instrument name="house1" driver="instrument" core="LB1" dimmer="65" />
+    <instrument name="2" driver="instrument" core="LB1" dimmer="2" />
     <instrument name="3" driver="instrument" core="LB1" dimmer="3" />
-    <instrument name="house3" driver="instrument" core="LB1" dimmer="67" />
+    <instrument name="house1" driver="instrument" core="LB1" dimmer="65" />
     <instrument name="house2" driver="instrument" core="LB1" dimmer="66" />
-    <instrument name="cyc_green" driver="instrument" core="LB1" dimmer="21" />
+    <instrument name="house3" driver="instrument" core="LB1" dimmer="67" />
     <instrument name="cyc_red" driver="instrument" core="LB1" dimmer="20" />
     <instrument name="1" driver="instrument" core="LB1" dimmer="1" />
-    <instrument name="cyc_blue" driver="instrument" core="LB1" dimmer="22" />
+    <instrument name="cyc_green" driver="instrument" core="LB1" dimmer="21" />
     <instrument name="10" driver="instrument" core="LB1" dimmer="10" />
+    <instrument name="cyc_blue" driver="instrument" core="LB1" dimmer="22" />
   </instruments>
   <cues >
+    <cue name="1" >
+      <parent level="50.0%" >
+house
+      </parent>
+      <parent level="50.0%" >
+preshow
+      </parent>
+      <instrument level="100.0%" name="cyc" color="#ff1e00" />
+      <instrument level="100%" name="2" />
+      <instrument level="0%" name="1" />
+    </cue>
+    <cue name="house" >
+      <instrument level="100%" name="house1" />
+      <instrument level="100%" name="house3" />
+      <instrument level="100%" name="house2" />
+    </cue>
+    <cue name="B" >
+      <parent level="100.0%" >
+A
+      </parent>
+      <instrument level="75.0%" name="1" />
+    </cue>
     <cue name="preshow" >
       <instrument level="50%" name="2" />
       <instrument level="50%" name="1" />
@@ -93,21 +111,13 @@
       <instrument level="0%" name="2" />
       <instrument level="100%" name="1" />
     </cue>
-    <cue name="house" >
-      <instrument level="100%" name="house1" />
-      <instrument level="100%" name="house3" />
-      <instrument level="100%" name="house2" />
+    <cue name="C" >
+      <parent level="100.0%" >
+B
+      </parent>
     </cue>
-    <cue name="1" >
-      <parent level="50.0%" >
-        house
-      </parent>
-      <parent level="50.0%" >
-        preshow
-      </parent>
-      <instrument level="100%" name="2" />
-      <instrument level="100.0%" name="cyc" color="#ff1e00" />
-      <instrument level="0%" name="1" />
+    <cue name="A" >
+      <instrument level="50.0%" name="1" />
     </cue>
   </cues>
   <crossfaders >
@@ -144,6 +154,24 @@ if (prev):
 
 
     </procedure>
+    <procedure args="" name="benchmark" >
+import math, time, string
+
+ins=[]
+for x in range(1,50):
+  ins.append(lb.instrument[&apos;moving&apos;+str(x)])
+
+if (1&gt;2): print &apos;not true!&apos;
+
+s=time.time()
+for y in range(1,4*80):
+  for x in ins:
+    x.set_attribute(attribute=&apos;target&apos;, value=&apos;(10ft, 10ft, 10ft)&apos;)
+e=time.time()
+print &apos;set&apos;, 4*80*50 ,&apos;instruments in &apos;, e-s
+
+
+    </procedure>
     <procedure args="instrument, center, radius" name="circle" >
       # arguments:  instrument, center, radius
 
@@ -172,26 +200,8 @@ while(self.running):
 
 
     </procedure>
-    <procedure args="" name="benchmark" >
-import math, time, string
-
-ins=[]
-for x in range(1,50):
-  ins.append(lb.instrument[&apos;moving&apos;+str(x)])
-
-if (1&gt;2): print &apos;not true!&apos;
-
-s=time.time()
-for y in range(1,4*80):
-  for x in ins:
-    x.set_attribute(attribute=&apos;target&apos;, value=&apos;(10ft, 10ft, 10ft)&apos;)
-e=time.time()
-print &apos;set&apos;, 4*80*50 ,&apos;instruments in &apos;, e-s
-
-
-    </procedure>
   </procedures>
   <processes >
-    <process procedure="chase" instruments="1,2" name="foo" />
+    <process procedure="chase" name="foo" instruments="1,2" />
   </processes>
 </show>
