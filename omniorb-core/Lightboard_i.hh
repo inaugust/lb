@@ -5,6 +5,7 @@
 #include "lb.hh"
 
 #include <Lightboard.hh>
+#include <CosEventChannelAdmin.hh>
 
 //
 // Example class implementing IDL interface LB::Lightboard
@@ -36,6 +37,8 @@ public:
   LB::Dimmer_ptr getDimmer(const char* name);
   void putDimmer(LB::Dimmer_ptr dimr);
   
+  CosEventChannelAdmin::ProxyPushConsumer_ptr proxy_consumer;  
+
 };
 
 #endif _LIGHTBOARD_I_HH_

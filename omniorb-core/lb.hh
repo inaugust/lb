@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <expat.h>
 #include "Lightboard.hh"
+#include <CosEventChannelAdmin.hh>
 
 #include <map.h>
 struct ltstr
@@ -15,6 +16,7 @@ struct ltstr
 };
 
 extern LB::Lightboard_ptr lb;
+extern CosEventChannelAdmin::ProxyPushConsumer_ptr proxy_consumer;
 
 int make_level(const char *level);
 double make_time(const char *t);

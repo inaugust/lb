@@ -31,7 +31,13 @@ module LB
   };
 
   typedef sequence<AttrType> AttrList;
-    
+
+  struct InstrumentUpdateEvent
+  {
+    AttrType attr;
+    sequence<double> value;
+  };
+
 };
 
 #endif /* _TYPES_IDL_ */

@@ -125,6 +125,16 @@ void LB_Instrument_i::setLevel(CORBA::Double level)
 {
   this->my_level=level;
   this->level_dimmer->setValue(level);
+
+  /*
+  LB::InstrumentUpdateEvent data;
+  data.attr=LB::attr_level;
+  data.value=level;
+
+  CORBA::Any any;
+  any <<= data;
+  proxy_consumer->push(any);
+  */
 }
 
 CORBA::Double LB_Instrument_i::getLevel()
