@@ -1,3 +1,18 @@
+gtk assert, unreproducable
+  multiple ins selected in cue edit
+  running level up with little button
+  gtk critical gtkstyle.c gtk_style_get_prop_experimental 
+     assertion file!=null failed line 3931
+
+don't allow opening cue parenting dlg more than once
+
+two programs
+  progs A and B use same XF
+  first time B uses XF doesn't work
+
+nameserver
+  maybe when client exists while faders are running
+
 Maybe we should make a bug tracking system. :)
 	Status: Closed
 	Notes: Frivolous bug report :)
