@@ -33,7 +33,10 @@ LB_Fader_i::~LB_Fader_i()
 //   Methods corresponding to IDL attributes and operations
 char* LB_Fader_i::name()
 {
-  return this->my_name;
+  CORBA::String_var ret;
+
+  ret=CORBA::string_dup(this->my_name);
+  return ret._retn();
 }
 
 extern "C"
@@ -179,6 +182,8 @@ void LB_Fader_i::do_run(void)
   free (times);
   free (levels);
 
+  this->running=0;
+
   if (this->complete_listeners)
     {
       LB::Event evt;
@@ -189,7 +194,7 @@ void LB_Fader_i::do_run(void)
 
       lb->addEvent(evt);
     }
-
+  
   /*
     if (self.callback):
     self.callback(self.callback_arg, self.name, None)
@@ -237,7 +242,8 @@ void LB_Fader_i::setLevel(double level)
       LB::Event evt;
 
       evt.source=this->_this();
-      evt.value.length(0);
+      evt.value.length(1);
+      evt.value[0]=level;
       evt.type=LB::event_fader_level;
 
       lb->addEvent(evt);
@@ -253,6 +259,7 @@ void LB_Fader_i::setLevel(double level)
 
 CORBA::Boolean LB_Fader_i::isRunning()
 {
+  return running;
   /*
         self.threadlock.acquire()
         if (self.mythread):

@@ -16,8 +16,8 @@ private:
   // destructor non-public
   //virtual ~LB_CrossFader_i();
 
-  LB::Cue *up_cue;
-  LB::Cue *down_cue;
+  LB::Cue up_cue;
+  LB::Cue down_cue;
 
   LB::Instrument_ptr *instruments;
 
@@ -31,8 +31,13 @@ public:
   virtual ~LB_CrossFader_i();
 
   // methods corresponding to defined IDL attributes and operations
-  void setUpCue(const LB::Cue& incue, CORBA::Double time);
-  void setDownCue(const LB::Cue& incue, CORBA::Double time);
+  void setCues(const LB::Cue& downcue, const LB::Cue& upcue);
+
+  void setTimes(CORBA::Double downtime, CORBA::Double uptime);
+
+  char* getUpCueName();
+  char* getDownCueName();
+
   void clear();
   /*
   char* name();

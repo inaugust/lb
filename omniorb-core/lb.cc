@@ -88,6 +88,161 @@ LB::Cue *duplicate_cue (const LB::Cue& incue, int zero)
   return cue;
 }
 
+static double my_time(void)
+{
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  
+  double r = tv.tv_sec + tv.tv_usec/1000000.0;
+  return r;
+}
+
+void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
+		     LB::Cue &outcue1, LB::Cue &outcue2)
+{
+  GHashTable *hash1, *hash2;
+  int outcue_len=0;
+
+  hash1=g_hash_table_new (g_str_hash, g_str_equal);
+  hash2=g_hash_table_new (g_str_hash, g_str_equal);
+
+  outcue1.name = incue1.name;
+  outcue2.name = incue2.name;
+  
+  int numins; 
+  int numattr2, numattr1;
+  gpointer loc;
+  int pos, pos1, pos2;
+
+  double time1, time2, time3, time4;
+
+  time1=my_time();
+
+  numins = incue2.ins.length();
+  pos=0;
+  outcue_len=numins;
+  outcue1.ins.length(outcue_len);
+  outcue2.ins.length(outcue_len);
+  for (int i=0; i<numins; i++)
+    {
+      outcue1.ins[pos].name = incue2.ins[i].name;
+      outcue2.ins[pos].name = incue2.ins[i].name;
+      g_hash_table_insert (hash2, incue2.ins[i].name, (gpointer)(i+1));
+      pos++;
+    }
+
+  time2=my_time();
+
+  numins = incue1.ins.length();
+  for (int i=0; i<numins; i++)
+    {
+      if (g_hash_table_lookup(hash2, incue1.ins[i].name)==NULL)
+	++outcue_len;
+    }
+
+  outcue1.ins.length(outcue_len);
+  outcue2.ins.length(outcue_len);
+
+  numins = incue1.ins.length();
+  for (int i=0; i<numins; i++)
+    {
+      if (g_hash_table_lookup(hash2, incue1.ins[i].name)==NULL)
+	{
+	  outcue1.ins[pos].name = incue1.ins[i].name;
+	  outcue2.ins[pos].name = incue1.ins[i].name;
+	  pos++;
+	}
+      g_hash_table_insert (hash1, incue1.ins[i].name, (gpointer)(i+1));
+    }
+
+  time3=my_time();
+
+  numins = outcue2.ins.length();
+  for (int i=0; i<numins; i++)
+    {
+      loc=g_hash_table_lookup(hash2, outcue2.ins[i].name);
+      pos2=((int)loc)-1;
+      loc=g_hash_table_lookup(hash1, outcue2.ins[i].name);
+      pos1=((int)loc)-1;
+      /*
+	foreach attr in second cue
+	  put it in second cue
+	  if the first cue has it
+  	    put same attr in first cue
+          else
+            put current state in first cue
+      */
+      
+      if (pos2>-1)
+	numattr2 = incue2.ins[pos2].attrs.length();
+      else
+	numattr2 = 0;
+      if (pos1>-1)
+	numattr1 = incue1.ins[pos1].attrs.length();
+      else
+	numattr1 = 0;
+      
+      outcue1.ins[i].attrs.length(numattr2);
+      outcue2.ins[i].attrs.length(numattr2);
+
+      for (int a2=0; a2<numattr2; a2++)
+	{
+	  outcue2.ins[i].attrs[a2].attr = incue2.ins[pos2].attrs[a2].attr;
+	  outcue2.ins[i].attrs[a2].value = incue2.ins[pos2].attrs[a2].value;
+	  int placed=0;
+	  for (int a1=0; a1<numattr1; a1++)
+	    {
+	      if (incue1.ins[pos1].attrs[a1].attr == 
+		  incue2.ins[pos2].attrs[a2].attr)
+		{
+		  placed=1;
+
+		  outcue1.ins[i].attrs[a2].attr = 
+		    incue1.ins[pos1].attrs[a1].attr;
+
+		  outcue1.ins[i].attrs[a2].value =        // deep copy
+		    incue1.ins[pos1].attrs[a1].value;     // or so i'm told
+
+		  break;
+		}
+	    }
+	  if (!placed)
+	    {
+	      LB::Instrument_var ins;
+	      double p1, p2, p3;
+	      
+	      switch (incue2.ins[pos2].attrs[a2].attr)
+		{
+		case LB::attr_level:
+		  ins = lb->getInstrument(outcue2.ins[i].name);
+		  outcue1.ins[i].attrs[a2].attr = 
+		    incue2.ins[pos2].attrs[a2].attr;
+		  outcue1.ins[i].attrs[a2].value.length(1);
+		  outcue1.ins[i].attrs[a2].value[0]=ins->getLevel();
+		  break;
+		case LB::attr_target:
+		  ins = lb->getInstrument(outcue2.ins[i].name);
+		  outcue1.ins[i].attrs[a2].attr = 
+		    incue2.ins[pos2].attrs[a2].attr;
+		  outcue1.ins[i].attrs[a2].value.length(3);
+		  ins->getTarget(p1, p2, p3);
+		  outcue1.ins[i].attrs[a2].value[0]=p1;
+		  outcue1.ins[i].attrs[a2].value[1]=p2;
+		  outcue1.ins[i].attrs[a2].value[2]=p3;
+		  break;
+		}		  
+	    }
+	}   // loop over attributes in cue2
+    }  // loop over all instruments
+
+  time4=my_time();
+
+  printf ("norm: %f %f %f\n", time2-time1, time3-time2, time4-time3);
+
+  g_hash_table_destroy (hash1);
+  g_hash_table_destroy (hash2);
+}
+
 CosNaming::NamingContext_ptr
 getRootNamingContext(CORBA::ORB_ptr orb)
 {

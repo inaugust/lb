@@ -25,7 +25,6 @@ private:
   // destructor non-public
   //virtual ~LB_Fader_i();
 
-  char *my_name;
   int level;
   pthread_t my_thread;
   int thread_exists;
@@ -34,6 +33,7 @@ private:
   pthread_mutex_t level_lock;
 
 protected:
+  char *my_name;
   virtual void act_on_set_ratio (double ratio);
   double fromlevel;
   double tolevel;

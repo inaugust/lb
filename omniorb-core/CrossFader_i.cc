@@ -15,37 +15,110 @@ int initialize_crossfaders (LB::Lightboard_ptr lb)
 
 LB_CrossFader_i::LB_CrossFader_i(const char * name) : LB_Fader_i (name)
 {
-  this->up_cue=NULL;
-  this->down_cue=NULL;
 }
 
 LB_CrossFader_i::~LB_CrossFader_i()
 {
 }
 
-void LB_CrossFader_i::setUpCue(const LB::Cue& incue, CORBA::Double time)
+static double my_time(void)
 {
-  if (this->up_cue)
-    delete this->up_cue;
-  this->up_cue=duplicate_cue(incue, 0);
-  this->up_time=time;
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  
+  double r = tv.tv_sec + tv.tv_usec/1000000.0;
+  return r;
 }
 
-void LB_CrossFader_i::setDownCue(const LB::Cue& incue, CORBA::Double time)
+static void print_cue(const LB::Cue& cue)
 {
-  if (this->down_cue)
-    delete this->down_cue;
-  this->down_cue=duplicate_cue(incue, 0);
-  this->down_time=time;
+  printf ("  Name: %s\n", (char *)cue.name);
+  for (int i=0; i<cue.ins.length(); i++)
+    {
+      printf ("  Instrument: %s\n", (char *)cue.ins[i].name);
+      for (int a=0; a<cue.ins[i].attrs.length(); a++) 
+	{
+	  printf ("    Attribute: %d Value: %f\n", 
+		  cue.ins[i].attrs[a].attr,
+		  cue.ins[i].attrs[a].value[0]);
+	}
+    }
+  printf ("  End\n");
+}
 
+void LB_CrossFader_i::setCues(const LB::Cue& downcue, const LB::Cue& upcue)
+{
+  double start, middle, end;
+
+  printf ("Cue1\n");
+  print_cue (downcue);
+  printf ("Cue2\n");
+  print_cue (upcue);
+
+  start = my_time();
   if (this->instruments)
-    free (this->instruments);
+    {
+      //release each of them;
+      free (this->instruments);
+    }
+
+  normalize_cues (downcue, upcue, this->down_cue, this->up_cue);
   
+  middle=my_time();
+
   this->instruments = (LB::Instrument_ptr *)malloc (sizeof (LB::Instrument_ptr) *
-						    incue.ins.length());
+						    up_cue.ins.length());  
   
-  for (int i=0; i<incue.ins.length(); i++)
-    this->instruments[i]=lb->getInstrument((char *)incue.ins[i].name);
+  for (int i=0; i<up_cue.ins.length(); i++)
+    {
+      this->instruments[i]=lb->getInstrument((char *)up_cue.ins[i].name);
+    }
+  end = my_time();
+
+
+  printf ("%f %f %f\n", middle-start, end-middle, end-start);
+
+  printf ("Cue1\n");
+  print_cue (down_cue);
+  printf ("Cue2\n");
+  print_cue (up_cue);
+
+}
+
+void LB_CrossFader_i::setTimes(CORBA::Double downtime, CORBA::Double uptime)
+{
+  this->up_time=uptime;
+  this->down_time=downtime;
+}
+
+char *LB_CrossFader_i::getUpCueName()
+{
+  CORBA::String_var ret;
+
+  printf ("up:\n");
+  if (strlen(this->up_cue.name))
+    {
+      printf ("up: %s\n", (char *)this->up_cue.name);
+      ret=this->up_cue.name;   //also a String_, deep copy
+    }
+  else
+    ret=CORBA::string_dup("");
+  return ret._retn();
+}
+
+char *LB_CrossFader_i::getDownCueName()
+{
+  CORBA::String_var ret;
+
+  printf ("down:\n");
+  if (strlen(this->down_cue.name))
+    {
+      printf ("down: %s\n", (char *)this->down_cue.name);
+      ret=this->down_cue.name;
+    }
+  else
+    ret=CORBA::string_dup("");
+  return ret._retn();
 }
 
 void LB_CrossFader_i::act_on_set_ratio (double ratio)
@@ -84,18 +157,19 @@ void LB_CrossFader_i::act_on_set_ratio (double ratio)
   int a;
   int numins;
 
-  numins = down_cue->ins.length();
+  CORBA::String_var name=this->name();
+
+  numins = up_cue.ins.length();
   for (i=0; i<numins; i++)
     {
-      int numattr=down_cue->ins[i].attrs.length();
+      int numattr=up_cue.ins[i].attrs.length();
       for (a=0; a<numattr; a++)
 	{
-	  if (down_cue->ins[i].attrs[a].attr==LB::attr_level)
+	  if (up_cue.ins[i].attrs[a].attr==LB::attr_level)
 	    {
-	      p1 = down_cue->ins[i].attrs[a].value[0] * dtr;
-	      p2 = up_cue->ins[i].attrs[a].value[0] * utr;
-	      
-	      this->instruments[i]->setLevelFromSource(p1+p2, this->name());
+	      p1 = down_cue.ins[i].attrs[a].value[0] * dtr;
+	      p2 = up_cue.ins[i].attrs[a].value[0] * utr;
+	      this->instruments[i]->setLevelFromSource(p1+p2, name);
 	    }
 	}
     }

@@ -157,16 +157,22 @@ void LB_Instrument_i::setLevelFromSource(CORBA::Double level,
   else
     {
       //      printf ("must remove\n");
-      char **okey;
-      double **oval;
-
-      g_hash_table_lookup_extended(this->sources, source, (void **)okey, 
-				   (void **)oval);
-
-      delete *oval;
-      free (*okey);
+      v=(double *)g_hash_table_lookup(this->sources, source);
+      if (v)
+	{
+	  char **okey;
+	  double **oval;
+	  
+	  g_hash_table_lookup_extended(this->sources, source, (void **)okey, 
+				       (void **)oval);
+	  
+	  delete *oval;
+	  free (*okey);
+	}
     }
+  //  printf (">update\n");
   this->updateLevelFromSources();
+  //  printf ("<update\n");
 }
 
 static void find_max(gpointer key, double *value, double *max)

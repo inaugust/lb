@@ -7,8 +7,12 @@ module LB
 {
   interface CrossFader : Fader
   {
-    void setUpCue (in Cue incue, in double time);
-    void setDownCue (in Cue incue, in double time);
+    void setCues (in Cue downcue, in Cue upcue);
+    void setTimes (in double downtime, in double uptime);
+
+    string getUpCueName ();
+    string getDownCueName ();
+
     void clear ();
   };
 
