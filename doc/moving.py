@@ -12,6 +12,13 @@ def distance(a,b):
 
 def adj_over_hyp(a,b,c):
     """a,b are adjacent, c is the third side"""
+    #return a/b
+    #return a/c
+    #return b/a
+    #return b/c
+    #return c/a
+    #return c/b
+
     hyp=max(a,b,c)
     if hyp==a: adj=b
     else: adj=a
@@ -45,25 +52,25 @@ y2=point2[1]
 y3=point3[1]
 y4=point4[1]
 
-eq1_left=(x1 - a)* (x2 - a) + (y1 - b)* (y2 - b) + c
+eq1_left=(x1 - a)* (x2 - a) + (y1 - b)* (y2 - b) + pow(c,2)
 eq1_right=(
-    sqrt(pow(abs(-x1 + a ),2)  + pow(abs(-y1 + b),2) +abs(c)) *
-    sqrt(pow(abs(-x2 + a ),2)  + pow(abs(-y2 + b),2) +abs(c)) * theta12)
+    sqrt(pow(abs(-x1 + a ),2)  + pow(abs(-y1 + b),2) +pow(abs(c),2)) *
+    sqrt(pow(abs(-x2 + a ),2)  + pow(abs(-y2 + b),2) +pow(abs(c),2)) * theta12)
 
-eq2_left=(x2 - a)* (x3 - a) + (y2 - b)* (y3 - b) + c
+eq2_left=(x2 - a)* (x3 - a) + (y2 - b)* (y3 - b) + pow(c,2)
 eq2_right=(
-    sqrt(pow(abs(-x2 + a ),2)  + pow(abs(-y2 + b),2) +abs(c)) *
-    sqrt(pow(abs(-x3 + a ),2)  + pow(abs(-y3 + b),2) +abs(c)) * theta23)
+    sqrt(pow(abs(-x2 + a ),2)  + pow(abs(-y2 + b),2) +pow(abs(c),2)) *
+    sqrt(pow(abs(-x3 + a ),2)  + pow(abs(-y3 + b),2) +pow(abs(c),2)) * theta23)
 
-eq3_left=(x3 - a)* (x4 - a) + (y3 - b)* (y4 - b) + c
+eq3_left=(x3 - a)* (x4 - a) + (y3 - b)* (y4 - b) + pow(c,2)
 eq3_right=(
-    sqrt(pow(abs(-x3 + a ),2)  + pow(abs(-y3 + b),2) +abs(c)) *
-    sqrt(pow(abs(-x4 + a ),2)  + pow(abs(-y4 + b),2) +abs(c)) * theta34)
+    sqrt(pow(abs(-x3 + a ),2)  + pow(abs(-y3 + b),2) +pow(abs(c),2)) *
+    sqrt(pow(abs(-x4 + a ),2)  + pow(abs(-y4 + b),2) +pow(abs(c),2)) * theta34)
 
-eq4_left=(x4 - a)* (x1 - a) + (y4 - b)* (y1 - b) + c
+eq4_left=(x4 - a)* (x1 - a) + (y4 - b)* (y1 - b) + pow(c,2)
 eq4_right=(
-    sqrt(pow(abs(-x4 + a ),2)  + pow(abs(-y4 + b),2) +abs(c)) *
-    sqrt(pow(abs(-x1 + a ),2)  + pow(abs(-y1 + b),2) +abs(c)) * theta41)
+    sqrt(pow(abs(-x4 + a ),2)  + pow(abs(-y4 + b),2) +pow(abs(c),2)) *
+    sqrt(pow(abs(-x1 + a ),2)  + pow(abs(-y1 + b),2) +pow(abs(c),2)) * theta41)
 
 print eq1_left, eq1_right
 print eq2_left, eq2_right
