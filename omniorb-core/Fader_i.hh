@@ -31,11 +31,12 @@ private:
   int running;
   pthread_mutex_t thread_lock;
   pthread_mutex_t level_lock;
+
+protected:
+  virtual void act_on_set_ratio (double ratio);
   double fromlevel;
   double tolevel;
   double intime;
-
-  virtual void act_on_set_ratio (double ratio);
 
 public:
   // standard constructor

@@ -20,5 +20,6 @@ extern CORBA::ORB_var orb;
 
 int make_level(const char *level);
 double make_time(const char *t);
+LB::Cue *duplicate_cue (const LB::Cue& incue, int zero);
 
 #endif __LB_HH__

@@ -164,6 +164,9 @@ void LB_Fader_i::do_run(void)
   pthread_mutex_lock(&this->thread_lock);
   this->thread_exists=0;
   pthread_mutex_unlock(&this->thread_lock);
+
+  free (times);
+  free (levels);
   /*
     if (self.callback):
     self.callback(self.callback_arg, self.name, None)

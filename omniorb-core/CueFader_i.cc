@@ -43,46 +43,41 @@ LB_CueFader_i::~LB_CueFader_i()
 {
 }
 
-
-LB::Cue *duplicate_cue (const LB::Cue& incue)
-{
-  LB::Cue *cue = new LB::Cue;
-
-  cue->name = incue.name;
-  int numins=incue.ins.length();
-  cue->ins.length(numins);
-  for (int i=0; i<numins; i++)
-    {
-      cue->ins[i].name = incue.ins[i].name;
-      int numattr=incue.ins[i].attrs.length();
-      cue->ins[i].attrs.length(numattr);
-      for (int a=0; a<numattr; a++)
-	{
-	  cue->ins[i].attrs[a].attr=incue.ins[i].attrs[a].attr;
-	  int numval=incue.ins[i].attrs[a].value.length();
-	  cue->ins[i].attrs[a].value.length(numval);
-	  for (int v=0; v<numval; v++)
-	    {
-	      cue->ins[i].attrs[a].value[v]=incue.ins[i].attrs[a].value[v];
-	    }
-	}
-    }
-  
-  return cue;
-}
-
 void LB_CueFader_i::setStartCue(const LB::Cue& incue)
 {
   if (this->start_cue)
     delete this->start_cue;
-  this->start_cue=duplicate_cue(incue);
+  this->start_cue=duplicate_cue(incue, 0);
 }
 
 void LB_CueFader_i::setEndCue(const LB::Cue& incue)
 {
   if (this->end_cue)
     delete this->end_cue;
-  this->end_cue=duplicate_cue(incue);
+  this->end_cue=duplicate_cue(incue, 0);
+
+  if (this->instruments)
+    free (this->instruments);
+  this->instruments = (LB::Instrument_ptr *)malloc (sizeof (LB::Instrument_ptr) *
+						incue.ins.length());
+  for (int i=0; i<incue.ins.length(); i++)
+    {
+      this->instruments[i]=lb->getInstrument((char *)incue.ins[i].name);
+    }
+}
+
+void LB_CueFader_i::setZeroStartCue(const LB::Cue& incue)
+{
+  if (this->start_cue)
+    delete this->start_cue;
+  this->start_cue=duplicate_cue(incue, 1);
+}
+
+void LB_CueFader_i::setZeroEndCue(const LB::Cue& incue)
+{
+  if (this->end_cue)
+    delete this->end_cue;
+  this->end_cue=duplicate_cue(incue, 1);
 
   if (this->instruments)
     free (this->instruments);

@@ -77,13 +77,14 @@ void LB_Lightboard_i::print_queue(void)
   printf ("end of queue\n");
 }
 
-void LB_Lightboard_i::addEvent(LB::Event& evt)
-  /* 
-     Queues up an event.  We take ownership of the event structure.
-     Allocate it with new, and don't use it after you pass it in. 
-  */
+void LB_Lightboard_i::addEvent(const LB::Event& evt)
 {
   GSList *p=NULL;
+
+  LB::Event *myevent = new LB::Event();
+  myevent->type=evt.type;
+  myevent->source=evt.source->_duplicate(evt.source);
+  myevent->value=evt.value;
 
   //  printf ("-> addEvent\n");
   //  printf ("add: lock\n");
@@ -92,7 +93,7 @@ void LB_Lightboard_i::addEvent(LB::Event& evt)
 
   //  print_queue();
 
-  p = g_slist_append(this->event_queue_tail, &evt);
+  p = g_slist_append(this->event_queue_tail, myevent);
 
   if (this->event_queue_tail == NULL)
     {

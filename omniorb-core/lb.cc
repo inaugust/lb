@@ -5,6 +5,8 @@
 #include "MovingInstrument_i.hh"
 #include "Fader_i.hh"
 #include "CueFader_i.hh"
+#include "CrossFader_i.hh"
+#include "LevelFader_i.hh"
 
 
 //#include <CosEventChannelAdmin.hh>
@@ -54,6 +56,37 @@ double make_time(const char *t)
   return ftime;
 }
 
+
+LB::Cue *duplicate_cue (const LB::Cue& incue, int zero)
+{
+  LB::Cue *cue = new LB::Cue;
+
+  cue->name = incue.name;
+  int numins=incue.ins.length();
+  cue->ins.length(numins);
+  for (int i=0; i<numins; i++)
+    {
+      cue->ins[i].name = incue.ins[i].name;
+      int numattr=incue.ins[i].attrs.length();
+      cue->ins[i].attrs.length(numattr);
+      for (int a=0; a<numattr; a++)
+	{
+	  cue->ins[i].attrs[a].attr=incue.ins[i].attrs[a].attr;
+	  int numval=incue.ins[i].attrs[a].value.length();
+	  cue->ins[i].attrs[a].value.length(numval);
+	  for (int v=0; v<numval; v++)
+	    {
+	      if (zero)
+		cue->ins[i].attrs[a].value[v]=0.0;
+
+	      else
+		cue->ins[i].attrs[a].value[v]=incue.ins[i].attrs[a].value[v];
+	    }
+	}
+    }
+  
+  return cue;
+}
 
 CosNaming::NamingContext_ptr
 getRootNamingContext(CORBA::ORB_ptr orb)
@@ -184,6 +217,8 @@ int main(int argc, char** argv)
     initialize_moving_instruments(lb);
     initialize_faders(lb);
     initialize_cuefaders(lb);
+    initialize_crossfaders(lb);
+    initialize_levelfaders(lb);
 
 
     //    CORBA::Object_var obj = rootContext->resolve(name);

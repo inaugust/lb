@@ -139,9 +139,11 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
   this->my_handle=dev;
   this->testfd=0;
   if (!strcmp(name, "1"))
-    this->testfd=open("/tmp/dimmer1", O_RDWR | O_TRUNC |O_CREAT);
+    this->testfd=open("/tmp/dimmer1", O_RDWR | O_TRUNC |O_CREAT, 
+		      S_IREAD | S_IWRITE);
   if (!strcmp(name, "2"))
-    this->testfd=open("/tmp/dimmer2", O_RDWR | O_TRUNC |O_CREAT);
+    this->testfd=open("/tmp/dimmer2", O_RDWR | O_TRUNC |O_CREAT,
+		      S_IREAD | S_IWRITE);
 }
 
 LB_Dimmer_i::~LB_Dimmer_i(){

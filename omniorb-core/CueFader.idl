@@ -9,6 +9,10 @@ module LB
   {
     void setStartCue (in Cue incue);
     void setEndCue (in Cue incue);
+
+    void setZeroStartCue (in Cue incue);
+    void setZeroEndCue (in Cue incue);
+
     void setAttributes (in AttrList attr);
     void clear ();
   };

@@ -1,0 +1,17 @@
+#ifndef _CROSSFADER_IDL_
+#define _CROSSFADER_IDL_
+
+#include "Fader.idl"
+
+module LB
+{
+  interface CrossFader : Fader
+  {
+    void setUpCue (in Cue incue, in double time);
+    void setDownCue (in Cue incue, in double time);
+    void clear ();
+  };
+
+};
+
+#endif /* _CROSSFADER_IDL_ */

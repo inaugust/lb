@@ -41,7 +41,7 @@ public:
   LB::Dimmer_ptr getDimmer(const char* name);
   void putDimmer(LB::Dimmer_ptr dimr);
 
-  void addEvent(LB::Event& evt);
+  void addEvent(const LB::Event& evt);
  
   /* This function is not public.  I mean it.  Don't call it! */
   void do_run_events();

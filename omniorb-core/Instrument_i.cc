@@ -103,7 +103,8 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
 
   this->level_listeners=NULL;
   this->target_listeners=NULL;
-
+  this->sources=g_hash_table_new (g_str_hash, g_str_equal);
+  
   /*
   printf ("Instrument %s, at %i, dimmer %p\n", this->my_name, 
 	  this->dimmer_start,
@@ -123,7 +124,63 @@ char* LB_Instrument_i::name()
 
 LB::AttrList* LB_Instrument_i::getAttributes()
 {
+  
+}
 
+void LB_Instrument_i::setLevelFromSource(CORBA::Double level, 
+					 const char* source)
+{
+  double *v;
+
+  //  printf ("%s @ %f\n", source, level);
+      
+  if (level)
+    {
+      //      printf ("must insert\n");
+      v=(double *)g_hash_table_lookup(this->sources, source);
+      if (v)
+	{
+	  //	  printf ("found\n");
+	  if (*v==level)
+	    return;
+	  *v=level;
+	}
+      else
+	{
+	  //	  printf ("not found\n");
+	  double *v = new double;
+      
+	  *v=level;
+	  g_hash_table_insert (this->sources, strdup(source), v);
+	}
+    }
+  else
+    {
+      //      printf ("must remove\n");
+      char **okey;
+      double **oval;
+
+      g_hash_table_lookup_extended(this->sources, source, (void **)okey, 
+				   (void **)oval);
+
+      delete *oval;
+      free (*okey);
+    }
+  this->updateLevelFromSources();
+}
+
+static void find_max(gpointer key, double *value, double *max)
+{
+  if (*value > *max)
+    *max=*value;
+}
+
+void LB_Instrument_i::updateLevelFromSources()
+{
+  double max=0;
+
+  g_hash_table_foreach(this->sources, find_max, &max);
+  this->setLevel(max);
 }
 
 void LB_Instrument_i::setLevel(CORBA::Double level)
@@ -132,14 +189,14 @@ void LB_Instrument_i::setLevel(CORBA::Double level)
   this->level_dimmer->setValue((long)((level/100.0)*255.0));
   if (this->level_listeners)
     {
-      LB::Event *evt = new LB::Event();
+      LB::Event evt;
 
-      evt->source=this->_this();
-      evt->value.length(1);
-      evt->value[0]=level;
-      evt->type=LB::event_instrument_level;
+      evt.source=this->_this();
+      evt.value.length(1);
+      evt.value[0]=level;
+      evt.type=LB::event_instrument_level;
 
-      lb->addEvent(*evt);
+      lb->addEvent(evt);
     }
 }
 

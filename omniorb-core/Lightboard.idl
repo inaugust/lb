@@ -6,6 +6,7 @@
 #include "MovingInstrument.idl"
 #include "Fader.idl"
 #include "CueFader.idl"
+#include "CrossFader.idl"
 #include "Dimmer.idl"
 
 module LB
@@ -29,7 +30,7 @@ module LB
 
     /* Don't call these from clients, only other cores */
 
-    void addEvent(inout Event evt);
+    void addEvent(in Event evt);
   };
 };
 

@@ -1,3 +1,6 @@
+#ifndef __CUEFADER_I_HH__
+#define __CUEFADER_I_HH__
+
 #include <iostream.h>
 #include "CueFader.hh"
 #include "Fader_i.hh"
@@ -23,8 +26,11 @@ private:
   LB::Instrument_ptr *instruments;
   LB::AttrList attributes;
 
-  void act_on_set_ratio (double ratio);
   int hasAttribute(LB::AttrType attr);
+
+protected:
+  void act_on_set_ratio (double ratio);
+
 public:
   // standard constructor
   LB_CueFader_i(const char *name);
@@ -33,6 +39,10 @@ public:
   // methods corresponding to defined IDL attributes and operations
   void setStartCue(const LB::Cue& incue);
   void setEndCue(const LB::Cue& incue);
+
+  void setZeroStartCue(const LB::Cue& incue);
+  void setZeroEndCue(const LB::Cue& incue);
+
   void setAttributes(const LB::AttrList& attr);
   void clear();
   /*
@@ -43,3 +53,5 @@ public:
   CORBA::Boolean isRunning();
   */
 };
+
+#endif __CUEFADER_I_HH__

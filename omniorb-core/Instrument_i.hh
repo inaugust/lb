@@ -30,6 +30,10 @@ protected:
   GSList *level_listeners;
   GSList *target_listeners;
 
+  GHashTable *sources;
+
+  virtual void updateLevelFromSources();
+
   pthread_mutex_t listener_lock;
 
 public:
@@ -41,6 +45,8 @@ public:
   // methods corresponding to defined IDL attributes and operations
   char* name();
   LB::AttrList* getAttributes();
+
+  virtual void setLevelFromSource(CORBA::Double level, const char* source);
 
   virtual void setLevel(CORBA::Double level);
   virtual CORBA::Double getLevel();

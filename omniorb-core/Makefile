@@ -22,8 +22,8 @@ IMPL_FILES = lb
 #
 # Implementation files that are also IDL files
 #
-IMPL_IDL_FILES = Lightboard Instrument Fader CueFader MovingInstrument\
-	Dimmer
+IMPL_IDL_FILES = Lightboard Instrument Fader CueFader CrossFader LevelFader\
+	MovingInstrument Dimmer
 
 #
 # IDL Files that don't have Implementation files
