@@ -177,22 +177,20 @@ class Action:
             if callable(value):
                 value=value()
             if type(value)==type([]):
-                entry = GtkOptionMenu()
-                menu=GtkMenu()
+                entry = GtkCombo()
                 count = 0
                 current = 0
+                menuitems=[]
                 for v in value:
                     try:
                         if v == data[args[x][0]]:
                             current = count
                     except:
                         pass
-                    i=GtkMenuItem(v)
-                    menu.append(i)
+                    menuitems.append(v)
                     count = count +1
-                menu.show_all()
-                entry.set_menu(menu)
-                entry.set_history(current)
+                entry.set_popdown_strings(menuitems)
+                entry.entry.set_text(value[current])
             if type(value)==type(''):
                 entry = GtkEntry()
                 current = ''
