@@ -13,8 +13,30 @@ start_menu = None
 stop_menu = None
 edit_menu = None
 
+
+def action_process_start(args):
+    proc = lb.process[args['process']]
+    if not proc.running:
+        proc.start()
+
+def action_process_stop(args):
+    proc = lb.process[args['process']]
+    if proc.running:
+        proc.stop()
+    
+def get_process_keys():
+    l = lb.process.keys()
+    l.sort()
+    return l
+
 def initialize():
     reset()
+    lb.program_action_type['process_start'] = (
+        action_process_start,
+        (('process', get_process_keys),))
+    lb.program_action_type['process_stop'] = (
+        action_process_stop,
+        (('process', get_process_keys),))
 
 def reset():
     global start_menu
@@ -174,7 +196,8 @@ class process:
         self.name = name
         self.procedure = procedure
         self.args = args
-       
+        self.running = 0
+        
         if (update_refs):
             self.update_refs()
 

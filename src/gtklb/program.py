@@ -230,7 +230,9 @@ class action:
         menu.connect ("selection-done", self.window_change, None)
         count = 0
         current = 0
-        for t in lb.program_action_type.keys():
+        l = lb.program_action_type.keys()
+        l.sort()
+        for t in l:
             if t == self.kind:
                 current = count
             i=GtkMenuItem(t)
@@ -421,15 +423,15 @@ class program:
             self.threadlock.release()
             self.mythread.join()
             self.threadlock.acquire()
-        else:
-            self.running=1
-            self.steplock=Semaphore (0)
-            self.current_step=None
-            self.set_next_step(0)
-            self.run_actions(self.init_step.actions)
-            self.mythread=Thread (target=program.do_run, args=(self,
-                                                               self.actions))
-            self.mythread.start()
+
+        self.running=1
+        self.steplock=Semaphore (0)
+        self.current_step=None
+        self.set_next_step(0)
+        self.run_actions(self.init_step.actions)
+        self.mythread=Thread (target=program.do_run, args=(self,
+                                                           self.actions))
+        self.mythread.start()
         self.threadlock.release()
 
     def stop (self):
@@ -486,15 +488,14 @@ class program:
     def do_run (self, actions):
         self.run_steps ()
         self.threadlock.acquire()
-        if (self.running):
-            self.mythread=None
-            # else, we were stopped, let stop handle it
+        self.mythread=None
         self.threadlock.release()
 
     def run_steps (self):        
         while (1):
             self.steplock.acquire()
-            if (not self.running): return
+            if (not self.running):
+                return
             self.stepnumlock.acquire()
             if (self.next_step >= len(self.actions)):
                 self.stepnumlock.release()

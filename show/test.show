@@ -1,4 +1,74 @@
 <show name="show">
+<programs>
+
+  <program name="prog4">
+    <init>
+    </init>
+    <step name="step1">
+      <transitionfader_set_start cue="moving1" transitionfader="test_fader"/>
+      <transitionfader_set_end cue="moving2" transitionfader="test_fader"/>
+      <transitionfader_run level="100%" time="5s" transitionfader="test_fader"/>
+    </step>
+  </program>
+
+  <program name="prog5">
+    <init>
+      <proc_run id="foo" proc="benchmark"/>
+    </init>
+  </program>
+
+  <program name="prog2">
+    <init>
+    </init>
+    <step name="Cue 1">
+      <process_start process="foo"/>
+    </step>
+    <step name="Stop process">
+      <process_stop process="foo"/>
+    </step>
+  </program>
+
+  <program name="prog3">
+    <init>
+    </init>
+    <step name="Cue 1">
+      <crossfader_load crossfader="X1" cue="1"/>
+      <crossfader_run downtime="4s" crossfader="X1" uptime="4s"/>
+    </step>
+    <step name="Cue 2">
+      <crossfader_load crossfader="X1" cue="2"/>
+      <crossfader_run downtime="3s" crossfader="X1" uptime="3s"/>
+    </step>
+    <step name="Cue 1">
+      <crossfader_load crossfader="X1" cue="1"/>
+      <crossfader_run downtime="2s" crossfader="X1" uptime="2s"/>
+    </step>
+    <step name="Cue 2">
+      <crossfader_load crossfader="X1" cue="2"/>
+      <crossfader_run downtime="1s" crossfader="X1" uptime="1s"/>
+    </step>
+    <step name="Cue 1">
+      <crossfader_load crossfader="X1" cue="1"/>
+      <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s"/>
+    </step>
+  </program>
+
+  <program name="prog1">
+    <init>
+      <levelfader_load cue="house" levelfader="house_fader"/>
+    </init>
+    <step name="House Out">
+      <levelfader_run level="0%" time="5s" levelfader="house_fader"/>
+    </step>
+    <step name="House Up">
+      <levelfader_level level="100%" levelfader="house_fader"/>
+    </step>
+    <step name="House to Half">
+      <levelfader_run level="50%" time="5s" levelfader="house_fader"/>
+    </step>
+  </program>
+
+</programs>
 <instruments>
 
   <color_mixer_instrument name="cyc" red="cyc_red" green="cyc_green" blue="cyc_blue"/>
@@ -10,14 +80,14 @@
   <instrument name="5" core="LB1" dimmer="5"/>
   <instrument name="2" core="LB1" dimmer="2"/>
   <instrument name="3" core="LB1" dimmer="3"/>
-  <instrument name="house1" core="LB1" dimmer="65"/>
-  <instrument name="house2" core="LB1" dimmer="66"/>
   <instrument name="house3" core="LB1" dimmer="67"/>
+  <instrument name="house2" core="LB1" dimmer="66"/>
+  <instrument name="house1" core="LB1" dimmer="65"/>
+  <instrument name="cyc_green" core="LB1" dimmer="21"/>
   <instrument name="cyc_red" core="LB1" dimmer="20"/>
   <instrument name="1" core="LB1" dimmer="1"/>
-  <instrument name="cyc_green" core="LB1" dimmer="21"/>
-  <instrument name="10" core="LB1" dimmer="10"/>
   <instrument name="cyc_blue" core="LB1" dimmer="22"/>
+  <instrument name="10" core="LB1" dimmer="10"/>
 </instruments>
 <cues>
 
@@ -56,77 +126,10 @@
 
   <levelfader name="f1" core="LB1"/>
 </levelfaders>
-<programs>
-
-  <program name="prog4">
-    <init>
-    </init>
-    <step name="step1">
-      <transitionfader_set_start cue="moving1" transitionfader="test_fader"/>
-      <transitionfader_set_end cue="moving2" transitionfader="test_fader"/>
-      <transitionfader_run level="100%" time="5s" transitionfader="test_fader"/>
-    </step>
-  </program>
-
-  <program name="prog5">
-    <init>
-      <proc_run id="foo" proc="benchmark"/>
-    </init>
-  </program>
-
-  <program name="prog2">
-    <init>
-      <levelfader_load instrument="house1" levelfader="house_fader"/>
-    </init>
-    <step name="Cue 1">
-      <proc_run id="foo" instruments="moving1, 2, 3" proc="chase"/>
-    </step>
-  </program>
-
-  <program name="prog3">
-    <init>
-    </init>
-    <step name="Cue 1">
-      <crossfader_load cue="1" crossfader="X1"/>
-      <crossfader_run downtime="4s" crossfader="X1" uptime="4s"/>
-    </step>
-    <step name="Cue 2">
-      <crossfader_load cue="2" crossfader="X1"/>
-      <crossfader_run downtime="3s" crossfader="X1" uptime="3s"/>
-    </step>
-    <step name="Cue 1">
-      <crossfader_load cue="1" crossfader="X1"/>
-      <crossfader_run downtime="2s" crossfader="X1" uptime="2s"/>
-    </step>
-    <step name="Cue 2">
-      <crossfader_load cue="2" crossfader="X1"/>
-      <crossfader_run downtime="1s" crossfader="X1" uptime="1s"/>
-    </step>
-    <step name="Cue 1">
-      <crossfader_load cue="1" crossfader="X1"/>
-      <crossfader_run downtime="0.5s" crossfader="X1" uptime="0.5s"/>
-    </step>
-  </program>
-
-  <program name="prog1">
-    <init>
-      <levelfader_load cue="house" levelfader="house_fader"/>
-    </init>
-    <step name="House Out">
-      <levelfader_run level="0%" time="5s" levelfader="house_fader"/>
-    </step>
-    <step name="House Up">
-      <levelfader_level level="100%" levelfader="house_fader"/>
-    </step>
-    <step name="House to Half">
-      <levelfader_run level="50%" time="5s" levelfader="house_fader"/>
-    </step>
-  </program>
-
-</programs>
 <procedures>
 
   <procedure name="chase" args="instruments">
+
 
 
 # arguments:  instruments (list)
@@ -154,28 +157,10 @@ if (prev):
     prev.set_attribute(&apos;level&apos;, &apos;0%&apos;)
   
   
-  </procedure>
-  <procedure name="benchmark" args="">
-
-
-import math, time, string
-
-ins=[]
-for x in range(1,50):
-  ins.append(lb.instrument[&apos;moving&apos;+str(x)])
-
-if (1&gt;2): print &apos;not true!&apos;
-
-s=time.time()
-for y in range(1,4*80):
-  for x in ins:
-    x.set_attribute(attribute=&apos;target&apos;, value=&apos;(10ft, 10ft, 10ft)&apos;)
-e=time.time()
-print &apos;set&apos;, 4*80*50 ,&apos;instruments in &apos;, e-s
-  
   
   </procedure>
   <procedure name="circle" args="instrument, center, radius">
+
 
 
 # arguments:  instrument, center, radius
@@ -203,6 +188,29 @@ while(self.running):
   t=t+.1
   time.sleep(0.5)
 
+  
+  
+  
+  </procedure>
+  <procedure name="benchmark" args="">
+
+
+
+import math, time, string
+
+ins=[]
+for x in range(1,50):
+  ins.append(lb.instrument[&apos;moving&apos;+str(x)])
+
+if (1&gt;2): print &apos;not true!&apos;
+
+s=time.time()
+for y in range(1,4*80):
+  for x in ins:
+    x.set_attribute(attribute=&apos;target&apos;, value=&apos;(10ft, 10ft, 10ft)&apos;)
+e=time.time()
+print &apos;set&apos;, 4*80*50 ,&apos;instruments in &apos;, e-s
+  
   
   
   </procedure>

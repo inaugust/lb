@@ -16,10 +16,14 @@ from idl import LB, LB__POA
 levelfader_open_menu=None
 
 def get_cue_keys():
-    return lb.cue.keys()
+    l = lb.cue.keys()
+    l.sort()
+    return l
 
 def get_levelfader_keys():
-    return lb.levelfader.keys()
+    l = lb.levelfader.keys()
+    l.sort()
+    return l
 
 def action_levelfader_load(args):
     lb.levelfader[args['levelfader']].setCue(args['cue'])
