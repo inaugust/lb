@@ -258,7 +258,7 @@ class Process:
         self.threadlock.acquire()
         self.started()
         self.running=1
-        self.mythread=Thread (target=process.do_run, 
+        self.mythread=Thread (target=Process.do_run, 
                               args=(self, proc,
                                     self.args))
         self.mythread.start()

@@ -137,7 +137,11 @@ class InstrumentInfo:
         load(tree)
     
     def get_arguments(self, ins):
-        dict = {'name': ['', '']}
+        dict = {'name': ['', ''],
+                'red': ['red', ''],
+                'green': ['green', ''],
+                'blue': ['blue', '']
+                }
         for name, value in dict.items():
             if ins.attrs.has_key(name):
                 dict[name][0]=ins.attrs[name]

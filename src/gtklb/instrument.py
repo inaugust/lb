@@ -119,7 +119,7 @@ class Instrument:
                 self.coreinstrument=None
             if (e): self.coreinstrument=None
         if (self.coreinstrument is None):
-            print "I'm here!\n"
+            #print "I'm here!\n"
             c = lb.get_core(self.corename)
             c.createInstrument (lb.show, self.name, self.driver, self.arglist)
             self.coreinstrument=lb.get_instrument(self.name)

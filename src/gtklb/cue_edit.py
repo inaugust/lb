@@ -312,7 +312,8 @@ class CueEditor(completion):
 
     def parent_destroyed(self, widget, data=None):
         win = self.parentTree.get_widget("cueParent")
-        self.child_windows.remove(win)
+        if win in self.child_windows:
+            self.child_windows.remove(win)
         if (self.cues_old_parents is not None):
             self.cue.parent = self.cues_old_parents
         del self.cues_old_parents
