@@ -96,6 +96,7 @@ class crossFaderFactory:
             if not lb.crossfader.has_key(name):
                 threads_leave()
                 c = crossfader(name, corename)
+                c.send_update()
                 threads_enter()
         w.destroy()
     
@@ -174,6 +175,12 @@ class crossfader(LB__POA.EventListener):
         s=s+sp+'<crossfader name="%s" core="%s"/>\n' % (self.name,
                                                         self.corename)
         return s
+
+    def send_update(self):
+        s="<crossfaders>\n\n"
+        s=s+self.to_xml(1)+"\n"
+        s=s+"</crossfaders>\n"
+        lb.sendData(s)
 
     def run(self, level, time):
         time=lb.value_to_core('time', time)

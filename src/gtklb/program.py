@@ -125,6 +125,7 @@ class programFactory:
             if not lb.program.has_key(name):
                 threads_leave()
                 p=program(name)
+                p.send_update()
                 threads_enter()
         w.destroy()
     
@@ -494,6 +495,12 @@ class program:
         s=s+sp+'</program>\n'
         return s
 
+    def send_update(self):
+        s="<programs>\n\n"
+        s=s+self.to_xml(1)+"\n"
+        s=s+"</programs>\n"
+        lb.sendData(s)
+
     # private
 
     def do_run (self, actions):
@@ -712,6 +719,7 @@ class program:
                 a = tree.node_get_row_data(child)
                 s.actions.append(a)
         win.destroy()
+        self.send_update()
         
     def edit_cancel_clicked(self, widget, data=None):
         win = self.editTree.get_widget ("programEdit")
@@ -1049,7 +1057,7 @@ class programDruid:
                     s.name = 'Cue %i [%s]' % (count, cue_name)
                     count = count + 1
                     p.actions.append(s)
-                    
+                p.send_update()
                 threads_enter()
         window.destroy()
     

@@ -32,7 +32,7 @@ for arg in sys.argv[1:]:
   else:
     value = arg
   print name,value
-  if (name == '--clientname'):
+  if (name == '--client'):
     clientname = value
   if (name == '--show'):
     datafile = value

@@ -86,6 +86,7 @@ class cueFactory:
             if not lb.program.has_key(name):
                 threads_leave()
                 c=cue(name)
+                c.send_update()
                 threads_enter()
         w.destroy()
     

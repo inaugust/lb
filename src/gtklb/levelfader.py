@@ -97,6 +97,7 @@ class levelFaderFactory:
             if not lb.levelfader.has_key(name):
                 threads_leave()
                 c = levelfader(name, corename)
+                c.send_update()
                 threads_enter()
         w.destroy()
     
@@ -178,6 +179,12 @@ class levelfader(LB__POA.EventListener):
         s=s+sp+'<levelfader name="%s" core="%s"/>\n' % (self.name,
                                                         self.corename)
         return s
+
+    def send_update(self):
+        s="<levelfaders>\n\n"
+        s=s+self.to_xml(1)+"\n"
+        s=s+"</levelfaders>\n"
+        lb.sendData(s)
 
     def run(self, level, time):
         time=lb.value_to_core('time', time)

@@ -86,6 +86,7 @@ class processFactory:
             if not lb.process.has_key(name):
                 threads_leave()
                 p=process(name, pname, args)
+                p.send_update()
                 threads_enter()
         win.destroy()
 
@@ -252,6 +253,12 @@ class process:
                                                            args)
         return s
 
+    def send_update(self):
+        s="<processes>\n\n"
+        s=s+self.to_xml(1)+"\n"
+        s=s+"</processes>\n"
+        lb.sendData(s)
+
     # private
 
     def do_run (self, process_procedure, args):
@@ -311,6 +318,7 @@ class process:
         self.procedure = pname
         self.args = args
         self.update_refs()
+        self.send_update()
         threads_enter()
         
         win.destroy()

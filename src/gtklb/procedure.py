@@ -58,7 +58,7 @@ class procedureFactory:
     def ok_clicked(self, widget, data=None):
         win = self.newTree.get_widget("editProcedure")
         nameEntry = self.newTree.get_widget("nameEntry")
-        argEntry = self.newTree.get_widget("nameEntry")
+        argEntry = self.newTree.get_widget("argEntry")
         text = self.newTree.get_widget("text")
         name = nameEntry.get_text()
         args = argEntry.get_text()
@@ -68,6 +68,7 @@ class procedureFactory:
                 threads_leave()
                 p=procedure(name, args)
                 p.set_proc(source)
+                p.send_update()
                 threads_enter()
         win.destroy()
 
@@ -171,6 +172,11 @@ class procedure:
         s = s + sp + '</procedure>\n'
         return s
 
+    def send_update(self):
+        s="<procedures>\n\n"
+        s=s+self.to_xml(1)+"\n"
+        s=s+"</procedures>\n"
+        lb.sendData(s)
 
     def set_args (self, args):
         self.argstr = args
@@ -240,6 +246,7 @@ class procedure:
         self.set_args(args)
         self.set_proc(source)
         self.update_refs()
+        self.send_update()
 
         threads_enter()
         win.destroy()
