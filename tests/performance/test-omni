@@ -1,0 +1,20 @@
+#!/usr/bin/python1.5
+
+from omniORB import CORBA
+import sys,string,time
+import echo_idl
+
+orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
+ior = sys.argv[1]
+o = orb.string_to_object(ior)
+
+print o
+start=time.time()
+for x in range(1,16000):
+  y=o.echoString('foo')
+print time.time()-start
+
+start=time.time()
+for x in range(1,16000):
+  o.loseString('foo')
+print time.time()-start

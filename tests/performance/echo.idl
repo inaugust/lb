@@ -1,0 +1,10 @@
+#ifndef __ECHO_IDL__
+#define __ECHO_IDL__
+
+module Test {
+interface Echo {
+  string echoString(in string mesg);
+  void loseString(in string mesg);
+};
+};
+#endif 
