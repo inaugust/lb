@@ -2,7 +2,8 @@
 
 import CORBA
 import sys,string
-import Lightboard
+import LB
+import time
 
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 ior = sys.argv[1]
@@ -10,8 +11,46 @@ o = orb.string_to_object(ior)
 
 print o, o.__repo_id
 
-l=o.getInstrument('foo')
+#dimmers=[]
+#for x in range (1,2001):
+#  dimmers.append(o.getDimmer(str(x)))
 
-print l
-for x in range(1,1000):
-  l.setAttribute('a','x')
+instruments=[]
+for x in range (1,1001):
+  instruments.append(o.getInstrument(str(x)))
+
+#l=o.getDimmer('1')
+#l=dimmers[0]
+#l=o.getFader('foo')
+
+#print l
+print 'run'
+
+s=time.time()
+for x in range(1,16):
+  for l in instruments:
+    l.setLevel('50%')
+e=time.time()
+print e-s
+
+# 16000 function calls
+# lb has 1 dimmer, test calls 1 dimmer, no function bodies          10.6 sec
+# lb has 2048 dimmers, test calls 1 dimmer, no function bodies      11.0 sec
+# lb has 2048 dimmers, test calls 1 dimmer, make_level only         11.5 sec
+# lb has 2048 dimmers, test calls 1 dimmer, make_level, disk        25.7 sec
+# lb has 2048 dimmers, test calls 2000 dimmers, make_level only     10.4 sec
+
+# lb has 2048 dimmers, test calls 2000 dimmers, net, make_level     14.35 sec
+
+# on lola
+# lb has 2048 dimmers, test calls 2000 dimmers, make_level only     7.7 sec
+
+#s=time.time()
+#for x in range(1,50*80*4):
+#  x=o.dimmerRange
+#e=time.time()
+#print e-s
+
+
+#(* 50 80 4)
+#(/ 16000 2000.0)

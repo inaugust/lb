@@ -2,7 +2,7 @@
 import CORBA
 import CosNaming
 import sys
-from test_lib import Factory, Instance
+from test_lib import FFactory, Instance
 
 
 _libraries=[]
@@ -16,7 +16,7 @@ def load_libraries(orb, libs):
 
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 poa = orb.resolve_initial_references("RootPOA")
-ref = Factory()._this() # implicit activation
+ref = FFactory()._this() # implicit activation
 
 #load_libraries(orb,['test_lib'])
 #context = CoxNaming.NamingContext._narrow(context_obj)

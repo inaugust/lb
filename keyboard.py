@@ -4,6 +4,7 @@ from threading import *
 from select import *
 import sys, termios, TERMIOS, string
 import process
+import time
 
 SPACE=' '
 oldtermios=None
@@ -18,9 +19,9 @@ def initialize(lb):
     new[3] = new[3] & ~(TERMIOS.ICANON | TERMIOS.ECHO)
     termios.tcsetattr(fd, TERMIOS.TCSANOW, new)
 
-    lb.add_signal ('Key Press', handle_key_press)
     t=Thread (target=kbmonitor)
     t.start()
+    #time.sleep(10)
 
 def shutdown():
     global terminated
@@ -28,9 +29,8 @@ def shutdown():
     fd = sys.stdin.fileno()
     termios.tcsetattr(fd, TERMIOS.TCSANOW, oldtermios)
     
-def handle_key_press (args):
+def handle_key_press (key):
     global proc
-    key = args['key']
     if (key==SPACE):
         lb.crossfader['AB'].get_fader('A').set_cue('1')
         lb.crossfader['AB'].get_fader('A').set_level('100%')
@@ -66,6 +66,7 @@ def handle_key_press (args):
         lb.exit()
         
 def kbmonitor ():
+    print 'kbmonitor started'
     while not terminated:
         try:
             (i,o,e)=select ([sys.stdin], [], [], 2)
@@ -73,5 +74,5 @@ def kbmonitor ():
             lb.exit ()
         if sys.stdin in i:
           c=sys.stdin.read(1)
-          lb.send_signal('Key Press', key=c)
+          handle_key_press(c)
     print 'kbmonitor exited'

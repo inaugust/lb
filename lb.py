@@ -1,18 +1,13 @@
 #!/usr/bin/python
 
 from threading import *
-from Numeric import *
-#import SocketServer
 import socket
 import sys
 
+import gtk
+
 libraries=(
-    'dimmer',
-    'instrument',
-    'moving_instrument',
     'cue',
-    'levelfader',
-    'transitionfader',
     'crossfader',
     'program',
     'procedure',
@@ -21,23 +16,20 @@ libraries=(
 #    'gtkui',
     )
 
-from lightboard import lightboard #, LBRequestHandler
+from lightboard import lightboard
 
 show='show'
 
+def gtk_main():
+  gtk.threads_enter()
+  gtk.mainloop()
+  gtk.threads_leave()
+
+t=Thread (target=gtk_main)
+t.start()
+
 lb = lightboard(show)
 lb.load_libraries(libraries)
+lb.run()
 
-
-# class MyServer(SocketServer.TCPServer):
-#     def server_bind(self):
-#         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-#         apply(SocketServer.TCPServer.server_bind, (self,))
-        
-# server = MyServer(('', 8000), LBRequestHandler)
-# t=Thread (target=server.serve_forever)
-#t.start()
-
-#sys.exit(0)
-lb.start()
 

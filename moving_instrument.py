@@ -156,8 +156,8 @@ class moving_instrument(instrument):
     def do_set_target (self, value, typ, source, immediately):
         self.target=value
         (x, y)=self.xyz_to_xy (value)
-        self.x_dimmer.set_level(x, immediately)
-        self.y_dimmer.set_level(y, immediately)
+        #self.x_dimmer.set_level(x, immediately)
+        #self.y_dimmer.set_level(y, immediately)
 
 
 # Attic:

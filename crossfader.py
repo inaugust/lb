@@ -2,12 +2,27 @@ from threading import *
 from xmllib import XMLParser
 from ExpatXMLParser import ExpatXMLParser
 from os import path
-from levelfader import levelfader
-import instrument
-from Numeric import *
+from gtk import *
+
+from omniORB import CORBA
+import CosNaming
+from idl import LB, LB__POA
+
+crossfader_menu=None
 
 def initialize(lb):
+    global crossfader_menu
     lb.crossfader={}
+
+    threads_enter()
+    crossfader1=GtkMenuItem("Crossfader")
+    lb.fader_menu.append(crossfader1)
+    crossfader_menu=GtkMenu()
+    crossfader1.set_submenu(crossfader_menu)
+
+    lb.menubar.show_all()
+    threads_leave()
+
     try:
         f=open(path.join(lb.datapath, 'crossfaders'))
     except:
@@ -16,8 +31,6 @@ def initialize(lb):
         p=parser()
         p.Parse(f.read())
         p.close()
-    lb.add_signal ('Crossfader Set Level', crossfader.set_level_real)
-    lb.add_signal ('Crossfader Run', crossfader.run_real)
     
 def shutdown():
     pass
@@ -25,181 +38,113 @@ def shutdown():
 class parser(ExpatXMLParser):
 
     def start_crossfader (self, attrs):
-        typ=attrs.get('type', 'min')
-        self.crossfader=crossfader (attrs['name'], typ)
+        self.crossfader=crossfader (attrs['name'])
 
     def end_crossfader (self):
         lb.crossfader[self.crossfader.name]=self.crossfader
 
-    def start_fader (self, attrs):
-        name=self.crossfader.name+'.'+attrs['name']
+        threads_enter()
+        fad=GtkMenuItem(self.crossfader.name)
+        self.crossfader.crossfader_menu_item=fad
+        crossfader_menu.append(fad)
+        fad.connect("activate", self.crossfader.open_cb, None)
+        fad.show()
+        threads_leave()
+        self.crossfader.create_window()
 
-        f=levelfader(name, callback=crossfader.fader_return_levels,
-                callback_arg=self.crossfader, groupname='crossfader.'+self.crossfader.name)
-        lb.levelfader[name]=f
 
-        self.crossfader.levels[name]=lb.newmatrix()
+class crossfader(LB__POA.FaderLevelListener):
+    """ Python wrapper for core Crossfader class"""
 
-        if attrs['direction']=='up':
-            self.crossfader.up[name]=f
-        elif attrs['direction']=='down':
-            self.crossfader.down[name]=f
-            
-class crossfader:
-
-    def __init__(self, name, typ='min'):
+    def __init__(self, name):
         self.name=name
-        self.sourcename='crossfader.'+name
-        self.sourcedict=lb.get_sources(typ)
-        self.level=0
-        self.typ=typ
-        self.up={}
-        self.down={}
-        self.levels={} #1 entry per fader which is a dict of (ins, level) 
-        self.mythread=None
-        self.running=0
-        self.update_count=Semaphore (0)
-        self.running_fader_lock=Lock()
-        self.running_fader_count=0
-        self.threadlock=Lock()
-        self.debug=[]
+        self.corefader=lb.get_fader('X1')
 
-    def get_fader (self, name):
-        if self.down.has_key(name):
-            return self.down[name]
-        if self.up.has_key(name):
-            return self.up[name]
+        listener=self._this()
+        print listener
+        self.corefader.addLevelListener(listener)
 
-        name=self.name+'.'+name
+        #FIXME
 
-        if self.down.has_key(name):
-            return self.down[name]
-        if self.up.has_key(name):
-            return self.up[name]
+    def run(self, level, time):
+        time=lb.time_to_seconds(time)
+        level=lb.level_to_percent(level)
+        return self.corefader.run(level, time)
 
-        return None
+    def stop(self):
+        return self.corefader.stop()
 
-    def get_up_faders (self):
-        return self.up.values()
+    def setLevel(self, level):
+        return self.corefader.setLevel(float(level))
 
-    def get_down_faders (self):
-        return self.down.values()
+    def isRunning(self):
+        return self.corefader.isRunning()
+
+    def setCues(self, downcue, upcue):
+        return self.corefader.setCues(downcue.core_cue, upcue.core_cue)
+
+    def setTimes(self, downtime, uptime):
+        downtime=lb.time_to_seconds(downtime)
+        uptime=lb.time_to_seconds(uptime)
+        return self.corefader.setTimes(downtime, uptime)
+
+    def getUpCueName(self):
+        return self.corefader.getUpCueName()
     
-    def set_level(self, level):
-        lb.send_signal('Crossfader Set Level', itself=self, level=level)
+    def getDownCueName(self):
+        return self.corefader.getDownCueName()
 
-    def run(self, uptime=0, downtime=0):
-        lb.send_signal('Crossfader Run', itself=self, uptime=uptime,
-                       downtime=downtime)
+    def clear(self):
+        return self.corefader.clear()
+
+    # UI methods
+
+    def adjustment_changed(self, widget, data):
+        if (not self.corefader.isRunning()):
+            #print 'updating fader'
+            self.corefader.setLevel(100.0-widget.value)
+
+    def create_window (self):
+        threads_enter()
+        window=GtkWindow(WINDOW_TOPLEVEL)
+        self.window=window
+        window.set_title("Crossfader")
+        window.set_default_size(150, 300)
+        window.set_policy(FALSE, TRUE, FALSE)
+        window.set_position(WIN_POS_NONE)
         
-    #private
-    
-    def fader_return_levels(self, name, matrix):
-        #print 'return levels', name, matrix
-        if (matrix==None):
-            #run is done
-            self.running_fader_lock.acquire()
-            self.running_fader_count=self.running_fader_count-1
-            print self.running_fader_count
-            if (self.running_fader_count==0):
-                self.update_count.release()
-            self.running_fader_lock.release()
-            return
-        self.levels[name]=matrix
-        self.update_count.release()
+        vbox=GtkVBox()
+        window.add(vbox)
+        vbox.set_homogeneous(FALSE)
+        vbox.set_spacing(0)
+
+        self.label_up=GtkLabel("Up: ---")
+        self.label_down=GtkLabel("Dn: ---")
         
-    def update_levels_from_faders(self):
-        self.matrix=lb.newmatrix()
-        #print self.levels
-        #print self.levels.values()
-        for matrix in self.levels.values():
-            self.matrix=self.matrix+matrix
-        # self.sourcedict == lb.min_source, or somesuch
-        self.sourcedict[self.sourcename]=self.matrix
-        lb.update_dimmers()
+        vbox.pack_start(self.label_up, FALSE, FALSE, 0)
+        vbox.pack_start(self.label_down, FALSE, FALSE, 0)
 
-    def set_level_real(self, args):
-        self.threadlock.acquire()
+        self.adjustment=GtkAdjustment(100.0, 0.0, 110.0, 1.0, 10.0, 10.0)
+        self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
+        scale = GtkVScale (self.adjustment)
+        scale.set_draw_value(0);
+        #scrollbar=GtkVScrollbar(self.adjustment)
+        scale.set_usize(0, 200)
 
-        if (self.mythread != None):
-            self.threadlock.release()
-            return
+        vbox.pack_start(scale, FALSE, FALSE, 0)
 
-        level=lb.make_level(args['level'])
-        self.level=level
+        threads_leave()
 
-        for up in self.up.values():
-            up.set_level(level)
-        self.update_count.acquire()
+    def levelChanged(self, evt):
+        threads_enter()
+        self.adjustment.disconnect(self.adjustment_handler_id)
+        self.adjustment.set_value(100.0-evt.value[0])
+        self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
+        gdk_flush()
+        threads_leave()
 
-        for down in self.down.values():
-            down.set_level(lb.dimmer_range-level)
-        self.update_count.acquire()
+    def open_cb(self, widget, data):
+        """ Called from lightboard->fader->crossfader"""
 
-        self.update_levels_from_faders()
-
-        self.threadlock.release()
-        
-    def run_real(self, args):
-        self.threadlock.acquire()
-        uptime=args['uptime']
-        downtime=args['downtime']
-        if (self.mythread):
-            #self.stop()
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        else:
-            self.running=1
-            self.mythread=Thread (target=crossfader.do_run, args=(self,
-                                                                  uptime,
-                                                                  downtime))
-            self.mythread.start()
-        self.threadlock.release()
-
-    def do_run(self, uptime, downtime):
-        self.running_fader_lock.acquire()
-        for up in self.up.values():
-            print up
-            self.running_fader_count=self.running_fader_count+1
-            up.run(level='100%', time=uptime)
-        for down in self.down.values():
-            print down
-            self.running_fader_count=self.running_fader_count+1
-            down.run(level=0, time=downtime)
-        self.running_fader_lock.release()
-            
-        while(1):
-            self.update_count.acquire()
-            # not locking here, because it will be set to zero
-            # before the release (we only care about 0)
-            if (self.running_fader_count):
-                self.update_levels_from_faders()
-            else:
-                break
-
-        print 'done'
-        count=0
-        for up in self.up.values():
-            down=self.down.values()[count]
-            down.set_cue(up.cue.name)
-            down.set_level('100%')
-            print 'wait'
-            self.update_count.acquire()
-            print 'go'
-            up.clear()
-            print 'wait'
-            self.update_count.acquire()
-            print 'go'
-            self.update_levels_from_faders()
-            count=count+1
-        
-        self.threadlock.acquire()
-        self.mythread=None
-        self.running=0
-        self.threadlock.release()
-        print 'bye'
-        for d in self.debug:
-            print d
-        self.debug=[]
-        
+        self.crossfader_menu_item.set_sensitive(0)
+        self.window.show_all()

@@ -4,9 +4,32 @@ from os import path
 import string
 import process
 from ExpatXMLParser import ExpatXMLParser
+from cue import cue
+import time
+from gtk import *
+
+run_menu=None
 
 def initialize(lb):
+    global run_menu
     lb.program={}
+
+    threads_enter()
+    menubar=lb.menubar
+    program1=GtkMenuItem("Program")
+    menubar.append(program1)
+
+    program1_menu=GtkMenu()
+    program1.set_submenu(program1_menu)
+
+    run1=GtkMenuItem("Run")
+    program1_menu.append(run1)
+    run_menu=GtkMenu()
+    run1.set_submenu(run_menu)
+
+    menubar.show_all()
+    threads_leave()
+
     try:
         f=open(path.join(lb.datapath, 'programs'))
     except:
@@ -15,13 +38,6 @@ def initialize(lb):
         p=parser()
         p.Parse(f.read())
         p.close()
-    lb.add_signal ('Program Run', program.run_real)
-    lb.add_signal ('Program Stop', program.stop_real)
-    lb.add_signal ('Program Step Forward', program.step_forward_real)
-    lb.add_signal ('Program Set Next Step', program.set_next_step_real)
-    lb.add_signal ('Program Step Start', None)
-    lb.add_signal ('Program Step Halt', None)
-    lb.add_signal ('Program Step Complete', None)
     
 def shutdown():
     for p in lb.program.values():
@@ -51,6 +67,16 @@ class parser(ExpatXMLParser):
 
     def end_program (self):
         lb.program[self.program.name]=self.program
+
+        threads_enter()
+        prog=GtkMenuItem(self.program.name)
+        self.program.run_menu_item=prog
+        run_menu.append(prog)
+        prog.connect("activate", self.program.run_cb, None)
+        #prog1.GTKPY_MAIN = window1Widget
+        prog.show()
+        threads_leave()
+        self.program.create_window()
 
     def start_step (self, attrs):
         s = step ()
@@ -105,6 +131,8 @@ class parser(ExpatXMLParser):
         top=self.pstack[-1]
         top.actions.append ((tag, attrs))
         
+
+
 class program:
 
     def __init__(self, name):
@@ -118,18 +146,6 @@ class program:
         self.threadlock=Lock()
         self.stepnumlock=Lock()
 
-    def run (self):
-        lb.send_signal ('Program Run', itself=self)
-
-    def stop (self):
-        lb.send_signal ('Program Stop', itself=self)
-
-    def step_forward (self):
-        lb.send_signal ('Program Step Forward', itself=self)
-
-    def set_next_step (self, step):
-        lb.send_signal ('Program Set Next Step', itself=self, step=step)
-
     def get_current_step (self):
         if (self.current_step != None):
             return self.actions[self.current_step]
@@ -142,9 +158,7 @@ class program:
         else:
             return None
         
-    #private
-    
-    def run_real (self, args):
+    def run (self):
         self.threadlock.acquire()
         if (self.mythread):
             self.running=0
@@ -163,7 +177,7 @@ class program:
             self.mythread.start()
         self.threadlock.release()
 
-    def stop_real (self, args):
+    def stop (self):
         self.threadlock.acquire()
         if (self.mythread):
             self.running=0
@@ -173,13 +187,17 @@ class program:
             self.threadlock.acquire()
         self.threadlock.release()
         
-    def step_forward_real (self, args):
+    def step_forward (self):
         self.steplock.release()
 
-    def set_next_step_real (self, args):
+    def set_next_step (self, step):
         self.stepnumlock.acquire()
-        self.next_step=args['step']
+        self.next_step=step
+        self.ui_set_next_step()
         self.stepnumlock.release()
+
+    # private
+
 
     def do_run (self, actions):
         print 'do_run'
@@ -209,9 +227,11 @@ class program:
             self.stepnumlock.release()
             self.set_next_step(next)
 
-            lb.send_signal ('Program Step Start', itself=self)
+            #lb.send_signal ('Program Step Start', itself=self)
+            self.ui_step_start()
             self.run_actions (action.actions)
-            lb.send_signal ('Program Step Complete', itself=self)
+            self.ui_step_complete()
+            #lb.send_signal ('Program Step Complete', itself=self)
 
     def run_actions (self, actions):        
         print 'run_actions'
@@ -232,8 +252,8 @@ class program:
         if (action=='levelfader_level'):
             lb.levelfader[args['levelfader']].set_level(args['level'])
         if (action=='levelfader_run'):
-            time=args.get('time',0)
-            lb.levelfader[args['levelfader']].run(args['level'], time)
+            intime=args.get('time',0)
+            lb.levelfader[args['levelfader']].run(args['level'], intime)
 
         ### Transition fader
 
@@ -247,17 +267,49 @@ class program:
         if (action=='transitionfader_level'):
             lb.transitionfader[args['transitionfader']].set_level(args['level'])
         if (action=='transitionfader_run'):
-            time=args.get('time',0)
-            lb.transitionfader[args['transitionfader']].run(args['level'], time)
+            intime=args.get('time',0)
+            lb.transitionfader[args['transitionfader']].run(args['level'], intime)
         ### Cross fader
 
         if (action=='xf_load'):
-            u=lb.crossfader[args['xf']].get_up_faders()
-            u[0].set_cue(args['cue'])
+            import time
+            print time
+            start = time.time()
+            xf = lb.crossfader[args['xf']]
+            print 1
+            old_cue = xf.getUpCueName()
+            print 'old_cue', old_cue
+            if (old_cue):
+                print 'found'
+                cue1=lb.cue[old_cue]
+            else:
+                print 'blank'
+                cue1=cue("")
+            cue2=lb.cue[args['cue']]
+            print 2            
+            #(cue1,cue2)=cue1.normalize(cue2)
+            print cue1.core_cue, cue2.core_cue
+            print cue1.name, cue2.name
+            #print cue1.ins
+            xf.setCues (cue1, cue2)
+            end = time.time()
+            print 'loaded in ', end-start
+            
         if (action=='xf_run'):
-            uptime=args.get('uptime', 0)
-            downtime=args.get('downtime', 0)
-            lb.crossfader[args['xf']].run(uptime, downtime)
+            import time
+            start = time.time()
+            xf = lb.crossfader[args['xf']]
+            
+            uptime=lb.time_to_seconds(args.get('uptime', 0))
+            downtime=lb.time_to_seconds(args.get('downtime', 0))
+            xf.setTimes(uptime, downtime)
+
+            if (downtime>uptime): intime=downtime
+            else: intime=uptime
+            intime=args.get('time', intime)
+            end = time.time()
+            print 'prep to run in ', end-start
+            xf.run(100.0, intime)
 
         ### Procedure
             
@@ -269,4 +321,117 @@ class program:
             self.processes[args['id']].stop()
             del self.processes[args['id']]
 
+    # UI methods
 
+    def create_window(self):
+        threads_enter()
+        window1=GtkWindow(WINDOW_TOPLEVEL)
+        self.window=window1
+        window1.set_title(self.name)
+        window1.set_default_size(300, 200)
+        window1.set_policy(FALSE, TRUE, FALSE)
+        window1.set_position(WIN_POS_NONE)
+        
+        vbox1=GtkVBox()
+        window1.add(vbox1)
+        vbox1.set_homogeneous(FALSE)
+        vbox1.set_spacing(0)
+        
+        hbox1=GtkHBox()
+        vbox1.pack_start(hbox1, FALSE, FALSE, 0)
+        hbox1.set_homogeneous(TRUE)
+        hbox1.set_spacing(0)
+        
+        self.label_cur=GtkLabel("Current: ---")
+        self.label_next=GtkLabel("Next: ---")
+        
+        hbox1.pack_start(self.label_cur, FALSE, FALSE, 0)
+        hbox1.pack_start(self.label_next, FALSE, FALSE, 0)
+
+        scrolledwindow1=GtkScrolledWindow()
+        vbox1.pack_start(scrolledwindow1, TRUE, TRUE, 0)
+        scrolledwindow1.set_usize(-1, 200)
+        #scrolledwindow1.set_policy(POLICY_ALWAYS, POLICY_ALWAYS)
+
+        self.cue_list=GtkList()
+        scrolledwindow1.add_with_viewport(self.cue_list)
+
+        items=[]
+        print self.actions
+        for i in self.actions:
+            print i, i.name
+            item=GtkListItem(i.name)
+            items.append(item)
+        self.cue_list.append_items(items)
+
+        self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
+
+        hbuttonbox1=GtkHButtonBox()
+        vbox1.pack_start(hbuttonbox1, TRUE, TRUE, 0)
+        self.button_stop=GtkButton("Stop")
+        hbuttonbox1.pack_start(self.button_stop, TRUE, TRUE, 0)
+        self.button_stop.connect('clicked', self.stop_clicked, None)
+
+        self.button_go=GtkButton("Go")
+        hbuttonbox1.pack_start(self.button_go, TRUE, TRUE, 0)
+        self.button_go.connect('clicked', self.go_clicked, None)
+
+        threads_leave()
+
+    def ui_step_start(self):
+        threads_enter()
+        self.button_go.set_sensitive(0)
+    
+        print 'startevt', self.get_current_step()
+        if (self.get_current_step()):
+            self.label_cur.set_text('Current: '+self.get_current_step().name)
+        threads_leave()
+
+    def ui_step_complete(self):
+        threads_enter()
+        self.button_go.set_sensitive(1)
+        threads_leave()
+
+    def ui_set_next_step(self):
+        if (self.get_next_step()):
+            threads_enter()
+            #self.cue_list.disconnect(self.cue_list_handler_id)
+
+            self.label_next.set_text('Next: '+self.get_next_step().name)
+            self.cue_list.unselect_all()
+            self.cue_list.select_item(self.next_step)
+
+            #self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
+
+            threads_leave()
+
+    def stop_clicked(self, widget, data):
+        pass
+
+    def go_clicked(self, widget, data):
+        self.step_forward()
+
+    def selection_changed(self, widget, data):
+        print 'changed'
+        print widget.get_selection()
+        sel=widget.get_selection()
+        if (not sel):
+            return
+        p=widget.child_position(sel[0])
+        print p
+        if (p==self.next_step):
+            return
+        threads_leave()
+        self.set_next_step(p)
+        threads_enter()
+
+    def run_cb(self, widget, data):
+        """ Called from lightboard->program->run """
+
+        self.run_menu_item.set_sensitive(0)
+        self.window.show_all()
+
+        threads_leave()
+        self.run()
+        threads_enter()
+        

@@ -7,15 +7,16 @@ import Fruit
 orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
 ior = open("./test-server.ior").readline()
 o = orb.string_to_object(ior)
-print o, o.__repo_id
+print o
 try:
-	o.add_fruit(Fruit.Properties(name = "orange", color = Fruit.orange))
-	o.add_fruit(Fruit.Properties(name = "banana", color = Fruit.yellow))
-	o.add_fruit(Fruit.Properties(name = "apple", color = Fruit.red))
-	o.add_fruit(Fruit.Properties(name = "lime", color = Fruit.green))
+	o.add_fruit(Fruit.Properties(name = "orange", thecolor = Fruit.orange))
+	o.add_fruit(Fruit.Properties(name = "banana", thecolor = Fruit.yellow))
+	o.add_fruit(Fruit.Properties(name = "apple", thecolor = Fruit.red))
+	o.add_fruit(Fruit.Properties(name = "lime", thecolor = Fruit.green))
 except: pass
+print dir(o)
 for fruit in o.fruit_list:
-	print "%s is %s" % (fruit.name, Fruit.Color[fruit.color])
+	print "%s is %s" % (fruit.name, Fruit.Color[fruit.thecolor])
 
 i = o.get_instance(o.fruit_list[0])
 print i
@@ -30,7 +31,7 @@ except Fruit.Instance.BigBite, exd:
 		print "I'm done eating my %s; throwing it out" % i.fruit.name
 		o.discard_instance(i)
 
-print "Pi is", Fruit.Factory.pi
+print "Pi is", Fruit.FFactory.pi
 print "Calling get_random_fruit"
 r = o.get_random_fruit()
 print "Back on get random" 

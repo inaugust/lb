@@ -2,38 +2,17 @@ import __main__
 import sys
 from threading import *
 import string
+import time
+from gtk import *
+
 import os
+os.environ['IDLPATH']=os.environ.get('IDLPATH','')+'/usr/share/idl:/usr/local/share/idl:omniorb-core'
 
-#import SocketServer
-#import xmlrpcserver
-#import xmlrpclib
+from omniORB import CORBA
+import CosNaming
+from idl import LB, LB__POA
 
-def make_time(time):
-    try:
-        time=float(time)
-        return time
-    except:
-        time=str(time)
-    if(string.lower(time[-1])=='s'):
-        return float(time[:-1])
-    if(string.lower(time[-1])=='m'):
-        return float(time[:-1])*60
-    if(string.lower(time[-1])=='h'):
-        return float(time[:-1])*60*60
-    ftime=0.0
-    multiple=1.0
-    l=string.rfind(time, ':')
-    while (l!=-1):
-        n=float(time[l+1:])
-        ftime=ftime+(n*multiple)
-        time=time[:l]
-        multiple=multiple*60.0
-        if (multiple>3600):
-            return None
-        l=string.rfind(time, ':')
-    if (len(time)):
-        ftime=ftime+(float(time)*multiple)
-    return ftime
+import string
 
 class lightboard:
 
@@ -49,10 +28,29 @@ class lightboard:
     def __init__(self, datapath):
         self.datapath=datapath
         __builtins__['lb']=self
-        self.add_signal('Shutdown', None)
-        self._queue_lock=Semaphore (1)
-        self._queue_count=Semaphore (0)
-        self.events=[]
+
+        self.orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
+        self.poa = self.orb.resolve_initial_references("RootPOA")
+        nsi=self.orb.resolve_initial_references("NameService")
+        ns = nsi._narrow(CosNaming.NamingContext)
+        x=CosNaming.NameComponent("lb","Lightboard")
+        x.id="lb"
+        x.kind="Lightboard"
+        y=[x]
+        self.core = ns.resolve(y)
+        print self.core
+        self.poa._get_the_POAManager().activate()
+        t=Thread (target=self.orb.run)
+        t.start()
+        self.instrument={}
+        self.create_window()
+        
+    def run(self):
+        #for x in range (1, 1025):
+        #    #print x
+        #    self.instrument[str(x)]=self.core.getInstrument(str(x))
+        print 'a'
+        print 'a'
         
     def load_libraries(self, libs):
         for lib in libs:
@@ -60,85 +58,78 @@ class lightboard:
             l=__import__(lib, globals(), locals(), [])
             l.initialize(self)
             self._libraries.append(l)
-            
+        print 'bye'
 
-    def get_ins(self, name):
-        ins = self.instrument[name]
-        print 'r', ins
+    def get_instrument(self, name):
+        #ins = self.core.getInstrument(name)
+        ins=self.instrument[name]
         return ins
 
-    def add_signal (self, name, target):
-        if (name not in self._signals.keys()):
-            self._signals[name]=[]
-        if (target):
-            self._signals[name].append(target)
-
-    def send_signal (self, name, **args):
-        #print name
-        self._queue_lock.acquire()
-        self._event_queue.append((name, args))
-        self._queue_lock.release()
-        self._queue_count.release()
-
-    def start(self):
-        try:
-            os.nice(-19)
-        except:
-            pass
-        while not self._terminated:
-            self._queue_count.acquire()
-            self._queue_lock.acquire()
-            signal,args = self._event_queue.pop(0)
-            print 'Event: ' + signal
-            #self.events.append('Event: ' + signal)
-            self._queue_lock.release()
-            for t in self._signals[signal]:
-                if (type(t)==type('')):
-                    client = xmlrpclib.Server(t)
-                    if (args.has_key('itself')):
-                        nargs=args.copy()
-                        nargs['itself']=args['itself'].get_path()
-                        client.send_signal([signal], nargs)
-                    else:
-                        client.send_signal([signal], args)
-                else:
-                    if (args.has_key('itself')):
-                        t(args['itself'], args)
-                    else:
-                        t(args)
+    def get_fader(self, name):
+        ins = self.core.getFader(name)
+        return ins
 
     def exit (self):
-        self._terminated=1
-        self.send_signal ('Shutdown')
         for lib in self._libraries:
             lib.shutdown()
-            
 
-# class LBRequestHandler(xmlrpcserver.RequestHandler):
-#     def call(self, method, params):
-#         print self.path
-#         path_elements = string.split (self.path, '/')
-#         root=lb
-#         for e in path_elements:
-#             if not e:
-#                 continue
-#             if (type(root)==type({})):
-#                 root=root[e]
-#             else:
-#                 root=getattr(root, e)
+    def level_to_percent(self, level):
+        level=str(level)
+        if (level[-1]=='%'):
+            level=level[:-1]
+        return float(level)
+        
+    def time_to_seconds(self, time):
+        try:
+            time=float(time)
+            return time
+        except:
+            time=str(time)
+        if(string.lower(time[-1])=='s'):
+            return float(time[:-1])
+        if(string.lower(time[-1])=='m'):
+            return float(time[:-1])*60
+        if(string.lower(time[-1])=='h'):
+            return float(time[:-1])*60*60
+        ftime=0.0
+        multiple=1.0
+        l=string.rfind(time, ':')
+        while (l!=-1):
+            n=float(time[l+1:])
+            ftime=ftime+(n*multiple)
+            time=time[:l]
+            multiple=multiple*60.0
+            if (multiple>3600):
+                return None
+            l=string.rfind(time, ':')
+        if (len(time)):
+            ftime=ftime+(float(time)*multiple)
+        return ftime
 
-#         print "Dispatching: ", root, method, params
-#         try:
-#             server_method = getattr(root, method)
-#         except:
-#             raise AttributeError, "Server does not contain XML-RPC procedure %s" % method
-#         if len(params)==1:
-#             r=apply(server_method, params[0])
-#         else:
-#             r=apply(server_method, params[0], params[1])
-#         if (r==None):
-#             return 0
-#         return r
+    def create_window(self):
+        threads_enter()
+        window1=GtkWindow(WINDOW_TOPLEVEL)
+        self.window=window1
+        window1.set_title("Lightboard")
+        window1.set_default_size(300, 200)
+        window1.set_policy(FALSE, TRUE, FALSE)
+        window1.set_position(WIN_POS_NONE)
+
+        vbox1=GtkVBox()
+        window1.add(vbox1)
+        vbox1.set_homogeneous(FALSE)
+        vbox1.set_spacing(0)
+
+        self.menubar=GtkMenuBar()
+        vbox1.pack_start(self.menubar, FALSE, FALSE, 0)
+
+        fader_menu_item=GtkMenuItem("Fader")
+        self.menubar.append(fader_menu_item)
+        self.fader_menu=GtkMenu()
+        fader_menu_item.set_submenu(self.fader_menu)
+
+        window1.show_all()
+        threads_leave()
 
 
-
+        

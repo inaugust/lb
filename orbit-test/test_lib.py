@@ -21,27 +21,28 @@ class Instance(Fruit__POA.Instance):
 			raise Fruit.Instance.AllEaten
 
 	def get_factory(self):
-		return Factory()._this()
+		return FFactory()._this()
 
 	def _test_print_foo(self):
 		print "I love jookie"
 
-class Factory(Fruit__POA.Factory):
+class FFactory(Fruit__POA.FFactory):
 	def __init__(self):
 		self.fruit_list = []
 
 	def add_fruit(self, f):
 		for fruit in self.fruit_list:
 			if fruit.name == f.name:
-				raise Fruit.Factory.AlreadyExists
+				raise Fruit.FFactory.AlreadyExists
 		self.fruit_list.append(f)
 
 	def get_instance(self, fruit):
 		return Instance(fruit)._this()
 
 	def discard_instance(self, ref):
-		servant = poa.reference_to_servant(ref)
-		poa.deactivate_object(servant)
+		#servant = poa.reference_to_servant(ref)
+		#poa.deactivate_object(servant)
+		pass
 
 	def get_random_fruit(self):
 		import random
@@ -50,13 +51,13 @@ class Factory(Fruit__POA.Factory):
 
 	def test_union(self, color):
 		if color == Fruit.orange:
-			return Fruit.Factory.TestUnion(color, "foobar")
+			return Fruit.FFactory.TestUnion(color, "foobar")
 		elif color == Fruit.red:
-			return Fruit.Factory.TestUnion(color, 42)
+			return Fruit.FFactory.TestUnion(color, 42)
 		elif color == Fruit.yellow:
-			return Fruit.Factory.TestUnion(color, 2.71828)
+			return Fruit.FFactory.TestUnion(color, 2.71828)
 		elif color == Fruit.green:
-			return Fruit.Factory.TestUnion(color, CORBA.TRUE)
+			return Fruit.FFactory.TestUnion(color, CORBA.TRUE)
 
 	def test_any(self):
 		import random
@@ -78,8 +79,8 @@ class Factory(Fruit__POA.Factory):
 #poa = orb.resolve_initial_references("RootPOA")
 
 #def initialize(orb):
-#    fruit_fac=Factory()._this()
-    #ref = Factory()._this() # implicit activation
+#    fruit_fac=FFactory()._this()
+    #ref = FFactory()._this() # implicit activation
 #    open("./test-server.ior", "w").write(orb.object_to_string(fruit_fac))
 #
 #poa._get_the_POAManager().activate()

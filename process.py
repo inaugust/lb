@@ -8,8 +8,6 @@ def initialize(lb):
     lb.process={}
     lb.process_lock=Lock()    
     lb.process_num=0
-    lb.add_signal ('Process Start', process.start_real)
-    lb.add_signal ('Process Stop', process.stop_real)
     
 def shutdown():
     for p in lb.process.values():
@@ -26,21 +24,6 @@ class process:
         return self.name
 
     def start (self, process_procedure, **args):
-        lb.send_signal ('Process Start', itself=self,
-                        process_procedure=process_procedure,
-                        procargs=args)
-
-    def start_with_args (self, process_procedure, args):
-        lb.send_signal ('Process Start', itself=self,
-                        process_procedure=process_procedure,
-                        procargs=args)
-
-    def stop (self):
-        lb.send_signal ('Process Stop', itself=self)
-
-    #private
-    
-    def start_real (self, args):
         if (self.name):
             print 'error'
             return
@@ -51,7 +34,7 @@ class process:
         lb.process[name]=self
         lb.process_lock.release()
 
-        inproc=args['process_procedure']
+        inproc=process_procedure
         if (type(inproc)==type('string')):
             proc=lb.procedure[inproc]
         elif (isinstance (inproc, procedure.procedure)):
@@ -63,11 +46,11 @@ class process:
         self.running=1
         self.mythread=Thread (target=process.do_run, 
                               args=(self, proc,
-                                    args['procargs']))
+                                    args))
         self.mythread.start()
         self.threadlock.release()
 
-    def stop_real (self, args):
+    def stop (self):
         self.threadlock.acquire()
         if (self.mythread):
             self.running=0
@@ -75,6 +58,8 @@ class process:
             self.mythread.join()
             self.threadlock.acquire()
         self.threadlock.release()
+
+    # private
 
     def do_run (self, process_procedure, args):
         print 'do_run'
