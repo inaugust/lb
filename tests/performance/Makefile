@@ -1,16 +1,15 @@
-CCFLAGS=-O2 -D__x86__ -D__linux__ -D__OSVERSION__=2 -I.
-LDFLAGS=-lomniORB3 -lomniGK_stub
+CXXFLAGS = -O2 -D__x86__ -D__linux__ -D__OSVERSION__=2  -Wall
+LDFLAGS = -lomniORB3 -lomniGK_stub
 IDL=omniidl
 IDLFLAGS=-bcxx -Wbuse_quotes
 IDLPYFLAGS=-bpython
+
 CC=g++
-ECHO_FILES=echoSK.o echo_i.o
+OBJS=echoSK.o echo_i.o
+TARGETS=echo
 
-%.o : %.cc 
-	$(CC) $(CCFLAGS) -c $<
-
-echo: $(ECHO_FILES)
-	$(CC) $(LDFLAGS) -o $@ $(ECHO_FILES)
+echo: $(OBJS)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS)
 
 echoSK.cc: echo.idl
 	$(IDL) $(IDLFLAGS) echo.idl

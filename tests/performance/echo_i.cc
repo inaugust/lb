@@ -4,7 +4,7 @@
 //
 
 #include <iostream.h>
-#include <echo.hh>
+#include "echo.hh"
 #include <stdio.h>
 
 class Test_Echo_i : public POA_Test::Echo,
