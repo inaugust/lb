@@ -1,6 +1,13 @@
 #CXX = g++-3.0
-CPPFLAGS = -D__x86__ -D__linux__ -D__OSVERSION__=2 -I. -I/usr/include -I/usr/include/COS
-LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread
+
+CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT -D__STL_NO_NAMESPACES -I/usr/local/include/omniORB3 -I. -I/usr/include -I/usr/include/COS -D__x86__ -D__linux__ -D__OSVERSION__=2
+
+#Older version
+#CPPFLAGS = -D_REENTRANT -D__OMNIORB3__ -D__x86__ -D__linux__ -D__OSVERSION__=2 -I. -I/usr/include -I/usr/include/COS -I/usr/local/include/omniORB3
+
+LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3 
+
+#-ltcpwrapGK -lomnithread -lpthread
 
 IDLC=omniidl
 IDL_ARGS=-bcxx -Wbuse_quotes

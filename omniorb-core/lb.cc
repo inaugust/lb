@@ -8,15 +8,16 @@
 
 
 #include <CosEventChannelAdmin.hh>
-//#include <EventChannelAdmin.hh>
-extern CosNaming::NamingContext_ptr getRootNamingContext(CORBA::ORB_ptr orb);
+#include <EventChannelAdmin.hh>
 
+//extern CosNaming::NamingContext_ptr getRootNamingContext(CORBA::ORB_ptr orb);
 
 LB::Lightboard_ptr lb;
 
 int make_level(long int level)
 {
   /* takes a percentage in .01 percent and returns 0-dimmerrange */
+  return 0;
 }
 
 double make_time(const char *t)
@@ -52,6 +53,47 @@ double make_time(const char *t)
     ftime=ftime+(atof(tim)*multiple);
   free(tim);
   return ftime;
+}
+
+
+CosNaming::NamingContext_ptr
+getRootNamingContext(CORBA::ORB_ptr orb)
+{
+  CosNaming::NamingContext_ptr rootContext;
+  try {
+
+     // Get initial reference.
+     CORBA::Object_var initServ;
+     initServ = orb->resolve_initial_references("NameService");
+
+     // Narrow the object returned by resolve_initial_references()
+     // to a CosNaming::NamingContext object:
+     rootContext = CosNaming::NamingContext::_narrow(initServ);
+     if (CORBA::is_nil(rootContext))
+     {
+        cerr << "Failed to narrow naming context." << endl;
+        exit(1);
+     }
+  }
+  catch(CORBA::ORB::InvalidName& ex) {
+     cerr << "Service required is invalid [does not exist]." << endl;
+     exit(1);
+  }
+  catch (CORBA::COMM_FAILURE& ex) {
+     cerr << "Caught system exception COMM_FAILURE."
+          << endl;
+     exit(1);
+  }
+  catch (omniORB::fatalException& ex) {
+     cerr << "Caught Fatal Exception" << endl;
+     throw;
+  }
+  catch (...) {
+     cerr << "Caught a system exception while resolving the naming service."
+          << endl;
+     exit(1);
+  }
+  return rootContext;
 }
 
 
@@ -117,6 +159,11 @@ int main(int argc, char** argv)
     CosNaming::NamingContext_ptr rootContext;
     rootContext = getRootNamingContext(orb);
     
+    EventChannelAdmin::EventChannelFactory_ptr factory;
+    CosNaming::Name name;
+    name.length (1);
+    name[0].id = CORBA::string_dup (factoryName);
+    name[0].kind = CORBA::string_dup (factoryKind);
 
 
     /************** events **************/
