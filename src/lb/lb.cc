@@ -215,29 +215,8 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
 	    }
 	  if (!placed)
 	    {
-	      LB::Instrument_var ins;
-	      double p1, p2, p3;
-	      
-	      switch (incue2.ins[pos2].attrs[a2].attr)
-		{
-		case LB::attr_level:
-		  ins = outcue2.ins[i].inst;
-		  outcue1.ins[i].attrs[a2].attr = 
-		    incue2.ins[pos2].attrs[a2].attr;
-		  outcue1.ins[i].attrs[a2].value.length(1);
-		  outcue1.ins[i].attrs[a2].value[0]=ins->getLevel();
-		  break;
-		case LB::attr_target:
-		  ins = outcue2.ins[i].inst;
-		  outcue1.ins[i].attrs[a2].attr = 
-		    incue2.ins[pos2].attrs[a2].attr;
-		  outcue1.ins[i].attrs[a2].value.length(3);
-		  ins->getTarget(p1, p2, p3);
-		  outcue1.ins[i].attrs[a2].value[0]=p1;
-		  outcue1.ins[i].attrs[a2].value[1]=p2;
-		  outcue1.ins[i].attrs[a2].value[2]=p3;
-		  break;
-		}		  
+	      outcue1.ins[i].attrs[a2].attr = incue2.ins[pos2].attrs[a2].attr;
+	      get_attribute_value(outcue1.ins[i].attrs[a2], outcue2.ins[i].inst);
 	    }
 	}   // loop over attributes in cue2
 

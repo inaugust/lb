@@ -63,6 +63,7 @@ void LB_CrossFader_i::setCues(const LB::Cue& downcue, const LB::Cue& upcue)
 
   if (this->source_listeners)
     {
+      printf ("hi\n");
       LB::Event evt;
       evt.source=this->POA_LB::CrossFader::_this();
       evt.value.length(0);

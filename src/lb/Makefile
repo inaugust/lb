@@ -1,6 +1,6 @@
 #CXX = g++-3.0
 
-CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
+CPPFLAGS =  -O2 -g -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
 
 #Older version
 #CPPFLAGS = -D_REENTRANT -D__OMNIORB3__ -D__x86__ -D__linux__ -D__OSVERSION__=2 -I. -I/usr/include -I/usr/include/COS -I/usr/local/include/omniORB3
@@ -15,7 +15,7 @@ IDL_EXAMPLE_ARGS=-Wbexample
 #
 # Implementation files that don't have anything to do with IDL
 #
-IMPL_FILES = lb
+IMPL_FILES = lb attributes
 
 #
 # Implementation files that are also IDL files

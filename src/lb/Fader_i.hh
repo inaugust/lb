@@ -42,6 +42,15 @@ protected:
   double intime;
   double level;
 
+  /* The fader will choose a number of steps so that: There are no
+     more steps than are needed so that each one has at least the
+     minimum percent change.  And there are no more steps than the
+     maximum refresh rate permits.
+  */
+
+  double minimum_percent_change;
+  double maximum_refresh_rate;
+
   GSList *level_listeners;
   GSList *run_listeners;  
   GSList *stop_listeners;  

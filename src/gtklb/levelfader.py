@@ -15,8 +15,30 @@ from idl import LB, LB__POA
 
 levelfader_open_menu=None
 
+def get_cue_keys():
+    return lb.cue.keys()
+
+def get_levelfader_keys():
+    return lb.levelfader.keys()
+
+def action_levelfader_load(args):
+    lb.levelfader[args['levelfader']].setCue(args['cue'])
+
+def action_levelfader_run(args):
+    intime=args.get('time',0)
+    lb.levelfader[args['levelfader']].run(args['level'], intime)
+
 def initialize():
     reset()
+    lb.program_action_type['levelfader_load'] = (
+        action_levelfader_load,
+        (('levelfader', get_levelfader_keys),
+         ('cue', get_cue_keys)))
+    lb.program_action_type['levelfader_run'] = (
+        action_levelfader_run,
+        (('levelfader', get_levelfader_keys), ('time', ''),
+         ('level', '')))
+    
 
 def reset():
     global levelfader_open_menu

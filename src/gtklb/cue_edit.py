@@ -370,11 +370,13 @@ class cue_editor(completion):
         self.cue.send_update()
         threads_enter()
         self.editTree.get_widget ("nameEntry").set_sensitive(0)
+        self.update_cue_menu()
         self.cue.set_editing(1)
         
     def edit_save_clicked(self, widget, data=None):
         self.do_save_actions()
-        
+        self.set_cue(lb.cue[self.cue.name].copy())
+            
     def edit_ok_clicked(self, widget, data=None):
         win = self.editTree.get_widget("cueEdit")
         self.do_save_actions()
@@ -383,7 +385,7 @@ class cue_editor(completion):
     
     def edit_revert_clicked(self, widget, data=None):
         if lb.cue.has_key(self.cue.name):
-            self.set_cue(lb.cue[self.cue.name])
+            self.set_cue(lb.cue[self.cue.name].copy())
         else:
             self.cue.set_editing(0)
             newcue = cue.cue('', update_refs = 0)
@@ -481,7 +483,7 @@ class cue_editor(completion):
     def cue_changed(self, widget, data=None):
         menu = self.editTree.get_widget("cueMenu")
         name = menu.children()[0].get()
-        newcue = lb.cue[name]
+        newcue = lb.cue[name].copy()
         self.cue.set_editing(0)
         newcue.editor=self
         self.set_cue(newcue)

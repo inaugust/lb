@@ -18,6 +18,9 @@ int initialize_faders (LB::Lightboard_ptr lb)
 
 LB_Fader_i::LB_Fader_i(const char *name)
 {
+  this->minimum_percent_change = 100.0/255.0;  // About 0.39 % per step
+  this->maximum_refresh_rate = 30.0; // 30 updates per second
+
   this->my_name=strdup(name);
   this->level=0.0;
   pthread_mutex_init (&this->thread_lock, NULL);
@@ -125,9 +128,10 @@ void LB_Fader_i::do_run(void)
     }
   double delta;
   if ((tolevel-fromlevel)>0)
-    delta=.4;
+    delta=minimum_percent_change;
   else
-    delta=-.4;
+    delta=-minimum_percent_change;
+
   /*
   if (intime<=3)
     delta=delta*((long)((1/(4*exp(intime-3)))+1.5));
@@ -147,6 +151,19 @@ void LB_Fader_i::do_run(void)
   double adelta=fabs(delta);
   long steps=(long)(fabs(tolevel-fromlevel)/adelta);
 
+  printf ("delta1, adelta1: %f %f\n", delta,adelta);
+  printf ("steps1         : %li\n", steps);
+
+  if(float(steps)/intime > maximum_refresh_rate)
+    {
+      steps = long(maximum_refresh_rate * intime);
+      delta = (tolevel-fromlevel)/steps;
+      adelta=fabs(delta);
+    }
+
+  printf ("delta2, adelta2: %f %f\n", delta,adelta);
+  printf ("steps 2      : %li\n", steps);
+  
   // Correct for rounding errors.
 
   if ((tolevel-fromlevel)>0)
@@ -154,6 +171,7 @@ void LB_Fader_i::do_run(void)
   else
     while ((double(steps) * delta) > (tolevel-fromlevel)) steps++;
 
+  printf ("steps 3      : %li\n", steps);
   /*
   printf ("steps: ((%f - %f)=%f)/%f = %f =? %li\n", tolevel, fromlevel,
 	  fabs(tolevel-fromlevel), adelta, fabs(tolevel-fromlevel)/adelta, 

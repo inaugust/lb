@@ -13,8 +13,52 @@ from idl import LB, LB__POA
 
 crossfader_open_menu=None
 
+
+def action_crossfader_load(args):
+    xf = lb.crossfader[args['crossfader']]
+    old_cue = xf.getUpCueName()
+    if (old_cue and lb.cue.has_key(old_cue)):
+        cue1=lb.cue[old_cue]
+    else:
+        old_cue = xf.getDownCueName()
+        if (old_cue and lb.cue.has_key(old_cue)):
+            cue1=lb.cue[old_cue]
+        else:
+            cue1=cue("")
+    cue2=lb.cue[args['cue']]
+    xf.setCues (cue1, cue2)
+    xf.setLevel(0.0)
+
+def action_crossfader_run(args):
+    xf = lb.crossfader[args['crossfader']]
+  
+    uptime=lb.value_to_core('time', args.get('uptime', 0))
+    downtime=lb.value_to_core('time', args.get('downtime', 0))
+    xf.setTimes(uptime, downtime)
+
+    if (downtime>uptime): intime=downtime
+    else: intime=uptime
+    intime=args.get('time', intime)
+    xf.run(100.0, intime)
+
+def get_cue_keys():
+    return lb.cue.keys()
+
+def get_crossfader_keys():
+    return lb.crossfader.keys()
+
 def initialize():
     reset()
+    lb.program_action_type['crossfader_load'] = (
+        action_crossfader_load,
+        (('crossfader', get_crossfader_keys),
+         ('cue', get_cue_keys)))
+    lb.program_action_type['crossfader_run'] = (
+        action_crossfader_run,
+        (('crossfader', get_crossfader_keys),
+         ('uptime', ''),
+         ('downtime', '')))
+
 
 def reset():
     global crossfader_open_menu

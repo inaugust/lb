@@ -1,23 +1,6 @@
 #include "CueFader_i.hh"
 #include "lb.hh"
 
-double interpolate_levels(double start, double end, double ratio)
-{
-  double r=start+((end-start)*ratio);
-  //  printf ("%f, %f: %f+%f=%f\n", end, ratio, start, (end-start)*ratio, r);
-  return r;
-}
-
-void interpolate_targets(double sx, double sy, double sz,
-			 double ex, double ey, double ez,
-			 double ratio,
-			 double &ox, double &oy, double &oz)
-{
-  ox=(ex-sx)*ratio;
-  oy=(ey-sy)*ratio;
-  oz=(ez-sz)*ratio;
-}
-
 int initialize_cuefaders (LB::Lightboard_ptr lb)
 {
   fprintf(stderr, "Initializing cuefaders\n");
@@ -87,7 +70,7 @@ void LB_CueFader_i::act_on_set_ratio (double ratio)
      Each instrument has the same attributes, in the same order
   */
 
-  double p1, p2, p3;
+  LB::AttrValue data;
   int numins=end_cue.ins.length();
   int i;
   int a;
@@ -100,28 +83,11 @@ void LB_CueFader_i::act_on_set_ratio (double ratio)
 	  if (!this->hasAttribute(end_cue.ins[i].attrs[a].attr))
 	    continue;
 
-	  if (end_cue.ins[i].attrs[a].attr==LB::attr_level)
-	    {
-	      p1=interpolate_levels(start_cue.ins[i].attrs[a].value[0],
-				    end_cue.ins[i].attrs[a].value[0],
-				    ratio);
-	      
-	      end_cue.ins[i].inst->setLevel(p1);
-	    }
-
-	  if (end_cue.ins[i].attrs[a].attr==LB::attr_target)
-	    {
-	      interpolate_targets(start_cue.ins[i].attrs[a].value[0],
-				  start_cue.ins[i].attrs[a].value[1],
-				  start_cue.ins[i].attrs[a].value[2],
-				  end_cue.ins[i].attrs[a].value[0],
-				  end_cue.ins[i].attrs[a].value[1],
-				  end_cue.ins[i].attrs[a].value[2],
-				  ratio,
-				  p1, p2, p3);
-	      
-	      end_cue.ins[i].inst->setTarget(p1, p2, p3);
-	    }
+	  interpolate_attribute_values (start_cue.ins[i].attrs[a],
+					end_cue.ins[i].attrs[a],
+					ratio,
+					data);
+	  set_attribute_value (data, end_cue.ins[i].inst);
 	}
     }
 }

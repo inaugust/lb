@@ -15,27 +15,6 @@ import levelfader
 run_menu=None
 edit_menu=None
 
-def get_cue_keys():
-    return lb.cue.keys()
-
-def get_crossfader_keys():
-    return lb.crossfader.keys()
-
-def get_levelfader_keys():
-    return lb.levelfader.keys()
-
-action_types={
-    'crossfader_load': (('crossfader', get_crossfader_keys),
-                        ('cue', get_cue_keys)),
-    'crossfader_run': (('crossfader', get_crossfader_keys), ('uptime', ''),
-                       ('downtime', '')),
-    
-    'levelfader_load': (('levelfader', get_levelfader_keys),
-                        ('cue', get_cue_keys)),
-    'levelfader_run': (('levelfader', get_levelfader_keys), ('time', ''),
-                       ('level', '')),
-    }
-
 def format_step(name, arg_dict):
     k = arg_dict.keys()
     k.sort()
@@ -45,6 +24,7 @@ def format_step(name, arg_dict):
     return str
 
 def initialize():
+    lb.program_action_type = {}
     reset()
 
 def reset():
@@ -163,7 +143,7 @@ class action:
     def window_change(self, widget=None, data=None):
         menu = self.editTree.get_widget("actionTypeMenu")
         name = menu.children()[0].get()
-        args = action_types[name]
+        args = lb.program_action_type[name][1]
         l = len(args)
         table = self.editTree.get_widget("table")
         for c in table.children():
@@ -214,7 +194,7 @@ class action:
         menu = self.editTree.get_widget("actionTypeMenu")
         win = self.editTree.get_widget("programActionEdit")
         name = menu.children()[0].get()
-        args = action_types[name]
+        args = lb.program_action_type[name][1]
         l = len(args)
 
         self.kind=name
@@ -250,7 +230,7 @@ class action:
         menu.connect ("selection-done", self.window_change, None)
         count = 0
         current = 0
-        for t in action_types.keys():
+        for t in lb.program_action_type.keys():
             if t == self.kind:
                 current = count
             i=GtkMenuItem(t)
@@ -537,65 +517,8 @@ class program:
             self.run_action (action.kind, action.args)
         
     def run_action (self, action, args):
-        ### Level fader
-        if (action=='levelfader_load'):
-            lb.levelfader[args['levelfader']].setCue(args['cue'])
-        if (action=='levelfader_run'):
-            intime=args.get('time',0)
-            lb.levelfader[args['levelfader']].run(args['level'], intime)
-
-        ### Transition fader
-
-        if (action=='transitionfader_set_start'):
-            lb.transitionfader[args['transitionfader']].set_start_cue(args['cue'])
-        if (action=='transitionfader_set_end'):
-            lb.transitionfader[args['transitionfader']].set_end_cue(args['cue'])
-        if (action=='transitionfader_set_attributes'):
-            attrs=map(string.strip, string.split(args['attributes'], ','))
-            lb.transitionfader[args['transitionfader']].set_attributes(attrs)
-        if (action=='transitionfader_level'):
-            lb.transitionfader[args['transitionfader']].set_level(args['level'])
-        if (action=='transitionfader_run'):
-            intime=args.get('time',0)
-            lb.transitionfader[args['transitionfader']].run(args['level'], intime)
-        ### Cross fader
-
-        if (action=='crossfader_load'):
-            xf = lb.crossfader[args['crossfader']]
-            old_cue = xf.getUpCueName()
-            if (old_cue and lb.cue.has_key(old_cue)):
-                cue1=lb.cue[old_cue]
-            else:
-                old_cue = xf.getDownCueName()
-                if (old_cue and lb.cue.has_key(old_cue)):
-                    cue1=lb.cue[old_cue]
-                else:
-                    cue1=cue("")
-            cue2=lb.cue[args['cue']]
-            xf.setCues (cue1, cue2)
-            xf.setLevel(0.0)
-            
-        if (action=='crossfader_run'):
-            xf = lb.crossfader[args['crossfader']]
-            
-            uptime=lb.value_to_core('time', args.get('uptime', 0))
-            downtime=lb.value_to_core('time', args.get('downtime', 0))
-            xf.setTimes(uptime, downtime)
-
-            if (downtime>uptime): intime=downtime
-            else: intime=uptime
-            intime=args.get('time', intime)
-            xf.run(100.0, intime)
-
-        ### Procedure
-            
-        if (action=='proc_run'):
-            p=process.process()
-            self.processes[args['id']]=p
-            p.start_with_args(lb.procedure[args['proc']], args)
-        if (action=='proc_stop'):
-            self.processes[args['id']].stop()
-            del self.processes[args['id']]
+        m = lb.program_action_type[action][0]
+        m(args)
 
     # UI methods
 

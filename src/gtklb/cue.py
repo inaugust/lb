@@ -61,46 +61,17 @@ def save():
     s=s+"</cues>\n"
     return s
 
-class cueFactory:
-    def __init__(self):
-        threads_enter()
-        try:
-            wTree = GladeXML ("gtklb.glade",
-                              "nameDialog")
-            
-            dic = {"on_ok_clicked": self.ok_clicked,
-                   "on_cancel_clicked": self.cancel_clicked}
-            
-            wTree.signal_autoconnect (dic)
-            
-            self.tree=wTree
-        finally:
-            threads_leave()
-        
-    def ok_clicked(self, widget, data=None):
-        w = self.tree.get_widget("nameDialog")
-        e = self.tree.get_widget("nameEntry")
-        name = e.get_text()
-        if (string.strip(name) != ''):
-            if not lb.program.has_key(name):
-                threads_leave()
-                c=cue(name)
-                c.send_update()
-                threads_enter()
-        w.destroy()
-    
-    def cancel_clicked(self, widget, data=None):
-        w = self.tree.get_widget("nameDialog")
-        w.destroy()
-
-
 def newCue_cb(widget, data=None):
     # called from menu
     threads_leave()
-    f = cueFactory()
+    c = cue('', update_refs=0)
+    editor = cue_edit.cue_editor()
+    c.editor = editor
+    c.set_editing(1)
+    editor.set_cue(c)
+    editor.edit()
     threads_enter()
-    # that's it.
-
+    
 class parser(ExpatXMLParser):
     def __init__(self):
         ExpatXMLParser.__init__(self)

@@ -7,13 +7,13 @@ import sys
 import gtk
 
 libraries=(
+  'program',
   'instrument',
   'color_mixer_instrument',
   'cue',
   'fader',
   'crossfader',
   'levelfader',
-  'program',
   'procedure',
   'process',
   )
