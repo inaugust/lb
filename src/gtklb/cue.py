@@ -177,8 +177,11 @@ class Cue:
         cue = LB.Cue(self.name, [])
 
         for (name, dict) in incue.apparent.items():
-            i = lb.instrument[name].to_core_InstAttrs(dict)
-            cue.ins = cue.ins + i
+            try:
+                i = lb.instrument[name].to_core_InstAttrs(dict)
+                cue.ins = cue.ins + i
+            except:
+                pass
         cue.ins=lb.sort_by_attr(cue.ins, 'name')            
         return cue
 

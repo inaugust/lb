@@ -16,6 +16,19 @@ from idl import LB, LB__POA
 
 tree_columns=['level', 'color', 'gobo_rpm']
 
+class defunct_instrument_cue_proxy:
+    def __init__ (self, name):
+        self.__dict__['name'] = name
+
+    def get_name (self):
+        return self.__dict__['name']
+
+    def __getattr__(self, name):
+        return ''
+
+    def __setattr__(self, name, value):
+        pass
+
 class instrument_cue_proxy:
     def __init__ (self, name, editor):
         # name is the name of the instrument to proxy for
@@ -23,6 +36,9 @@ class instrument_cue_proxy:
         self.__dict__['instrument'] = lb.instrument[name]
         self.__dict__['editor'] = editor
         self.__dict__['name'] = name
+
+    def get_name (self):
+        return self.__dict__['name']
 
     def __getattr__(self, name):
         e = self.__dict__['editor']
@@ -103,6 +119,14 @@ class CueEditor(completion):
         dict=self.cue.apparent[name]
         row = in_tree.find_row_from_data(self.cue_proxies[name])
         if (row<0):
+            defunct = 0
+            try: proxy = self.cue_proxies[name]
+            except:
+                proxy = defunct_instrument_cue_proxy(name)
+                name = name + " <defunct>"
+                defunct = 1
+            if not self.cue.instrument.has_key (name) and not defunct:
+                name = name + " <inherited>"
             l=[name]
             for a in tree_columns:
                 if (dict.has_key(a)):
@@ -111,7 +135,7 @@ class CueEditor(completion):
                     l.append('')
             pos = in_tree.append (l)
             node = in_tree.node_nth(pos)
-            in_tree.node_set_row_data(node, self.cue_proxies[name])
+            in_tree.node_set_row_data(node, proxy)
             return
         
         col = 1
@@ -132,6 +156,14 @@ class CueEditor(completion):
             in_tree.clear()
             out_tree.clear()
             for name, dict in self.cue.apparent.items():
+                defunct = 0
+                try: proxy = self.cue_proxies[name]
+                except:
+                    proxy = defunct_instrument_cue_proxy(name)
+                    name = name + " <defunct>"
+                    defunct = 1
+                if not self.cue.instrument.has_key (name) and not defunct:
+                    name = name + " <inherited>"
                 l=[name]
                 ins_in_cue.append(name)
                 for a in tree_columns:
@@ -141,7 +173,7 @@ class CueEditor(completion):
                         l.append('')
                 pos = in_tree.append (l)
                 node = in_tree.node_nth(pos)
-                in_tree.node_set_row_data(node, self.cue_proxies[name])
+                in_tree.node_set_row_data(node, proxy)
             l = lb.instrument.keys()
             l.sort()
             for name in l:
@@ -155,8 +187,8 @@ class CueEditor(completion):
         out_tree = self.editTree.get_widget("outTree")
         sel = out_tree.selection
         for x in sel:
-            # this works whether it's text or pixtext
-            name = out_tree.get_node_info(x)[0]
+            data = in_tree.node_get_row_data(x)
+            name = data.get_name()
             self.cue.instrument[name]={}
             self.cue.apparent[name]={}
         threads_leave()
@@ -167,7 +199,8 @@ class CueEditor(completion):
         in_tree = self.editTree.get_widget("inTree")
         sel = in_tree.selection
         for x in sel:
-            name = in_tree.get_node_info(x)[0]
+            data = in_tree.node_get_row_data(x)
+            name = data.get_name()
             try:
                 del self.cue.instrument[name]
             except:
@@ -443,7 +476,11 @@ class CueEditor(completion):
         if (len (self.editing_instruments) == 0):
             return
 
-        common_attrs = list(lb.instrument[self.editing_instruments[0]].attributes)
+        try:
+            common_attrs = list(lb.instrument[self.editing_instruments[0]].attributes)
+        except:  # defunct instrument
+            return
+        
         for n in self.editing_instruments:
             i =lb.instrument[n]
             for a in common_attrs:
@@ -480,7 +517,8 @@ class CueEditor(completion):
         table = self.editTree.get_widget("attributeTable")
         self.editing_instruments=[]
         for n in in_tree.selection:
-            name = in_tree.node_get_pixtext(n, 0)[0]
+            data = in_tree.node_get_row_data(n)
+            name = data.get_name()
             self.editing_instruments.append(name)
         self.edit_update_attribute_widgets()
         return 1
