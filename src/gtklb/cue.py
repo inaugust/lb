@@ -3,7 +3,6 @@ from os import path
 import string
 import lightboard
 from ExpatXMLParser import ExpatXMLParser
-import operator
 from gtk import *
 from libglade import *
 from completion import completion
@@ -14,6 +13,8 @@ from omniORB import CORBA
 from idl import LB, LB__POA
 
 edit_menu=None
+
+tree_columns=['level', 'color']
 
 def initialize():
     reset()
@@ -59,12 +60,6 @@ def save():
         s=s+c.to_xml(1)+"\n"
     s=s+"</cues>\n"
     return s
-
-def sort_by_attr(seq, attr):
-    intermed = map(None, map(getattr, seq, (attr,)*len(seq)),
-                   xrange(len(seq)), seq)
-    intermed.sort()
-    return map(operator.getitem, intermed, (-1,) * len(intermed))
 
 class cueFactory:
     def __init__(self):
@@ -123,7 +118,6 @@ class parser(ExpatXMLParser):
             if key == "name": continue
             self.cue.instrument[attrs['name']]={}
             self.cue.instrument[attrs['name']][key]=value
-            print attrs['name'], key, value
 
     def start_cue (self, attrs):
         if (not self.in_cues): return        
@@ -184,7 +178,7 @@ class instrument_cue_proxy:
         c.build_time=time.time()
         if c.live_updates:
             i.set_attribute(name, value)
-        c.update_display()
+        c.update_display2(n)
 
 class cue(completion):
 
@@ -265,14 +259,9 @@ class cue(completion):
         cue = LB.Cue(self.name, [])
 
         for (name, dict) in incue.apparent.items():
-            i = LB.InstAttrs(name, lb.instrument[name].coreinstrument, [])
-            for (attr, value) in dict.items():
-                a = LB.AttrValue(lb.core_attr_id(attr),
-                                 lb.value_to_core(attr, value))
-                i.attrs.append(a)
-            i.attrs=sort_by_attr(i.attrs, 'attr')
-            cue.ins.append(i)
-        cue.ins=sort_by_attr(cue.ins, 'name')            
+            i = lb.instrument[name].to_core_InstAttrs(dict)
+            cue.ins = cue.ins + i
+        cue.ins=lb.sort_by_attr(cue.ins, 'name')            
         return cue
 
     def to_xml(self, indent=0):
@@ -291,29 +280,42 @@ class cue(completion):
         s=s+sp+'</cue>\n'
         return s
 
+    def update_display2(self, name):
+        """just update it"""
+        row = self.in_tree.find_row_from_data(self.my_locals[name])
+
+        dict=self.apparent[name]
+        col = 1
+        for a in tree_columns:
+            if (dict.has_key(a)):
+                self.in_tree.set_text(row, col, dict[a])
+            else:
+                self.in_tree.set_text(row, col, '')
+            col = col + 1
+
     def update_display(self):
+        """should be called redraw"""
         threads_enter()
         try:
-            attrs = ['level']
             ins_in_cue = []
             self.in_tree.clear()
             self.out_tree.clear()
             for name, dict in self.apparent.items():
                 l=[name]
                 ins_in_cue.append(name)
-                for a in attrs:
+                for a in tree_columns:
                     if (dict.has_key(a)):
                         l.append(dict[a])
                     else:
                         l.append('')
-                self.in_tree.append (l)
+                pos = self.in_tree.append (l)
+                node = self.in_tree.node_nth(pos)
+                self.in_tree.node_set_row_data(node, self.my_locals[name])
             l = lb.instrument.keys()
             l.sort()
             for name in l:
                 if (name not in ins_in_cue):
                     self.out_tree.append([name])
-                p = instrument_cue_proxy(name, self)
-                self.my_locals[name]=p
         finally:
             threads_leave()
 
@@ -509,14 +511,11 @@ class cue(completion):
         threads_enter()
         
     def edit_row_selected(self, widget, row, column, data=None):
-        print self, widget, row, column, data
         in_tree = self.editTree.get_widget("inTree")
         table = self.editTree.get_widget("attributeTable")
         node = in_tree.node_nth(row)
         #node = in_tree.selection[0]
-        print node
         name = in_tree.node_get_pixtext(node, 0)[0]
-        print name
         
         for c in table.children():
             table.remove(c)
@@ -528,17 +527,21 @@ class cue(completion):
         table.resize(2, l+1)
 
         w = GtkLabel("Instrument:")
-        table.attach(w, 0,1,0,1)
+        table.attach(w, 0,1,0,1, xoptions=FILL, yoptions=0)
         w = GtkLabel(name)
-        table.attach(w, 1,2,0,1)
+        align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+        align.add(w)
+        table.attach(align, 1,2,0,1, xoptions=FILL, yoptions=0)
 
         for i in range(1,l+1):
             a = ins.attributes[i-1]
             v = getattr(self.locals[self.editing_instrument], a)
             w = GtkLabel(a)
-            table.attach(w, 0,1, l,l+1)
+            table.attach(w, 0,1, i,i+1, xoptions=FILL, yoptions=0)
             w = lb.attr_widget(a)(v, self.edit_attr_changed)            
-            table.attach(w.get_widget(), 1,2, l,l+1)
+            align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+            align.add(w.get_widget())
+            table.attach(align, 1,2, i,i+1, xoptions=FILL, yoptions=0)
         table.show_all()
         return 1
            
@@ -558,8 +561,13 @@ class cue(completion):
         threads_enter()
         
     def edit_self(self):        
-        threads_enter()
         self.locals['self']=self
+        l = lb.instrument.keys()
+        for name in l:
+            p = instrument_cue_proxy(name, self)
+            self.my_locals[name]=p
+
+        threads_enter()
         try:
             wTree = GladeXML ("gtklb.glade",
                               "cueEdit")
@@ -599,20 +607,4 @@ class cue(completion):
             threads_leave()
 
         self.update_display()
-
-    def test(self):
-        print self.instrument
-        print self.apparent
-
-        attrs = ['level']
-        for name, dict in self.apparent.items():
-            l=[name]
-            print name
-            for a in attrs:
-                if (dict.has_key(a)):
-                    l.append(dict[a])
-                else:
-                    l.append('')
-            print l
-
 

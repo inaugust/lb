@@ -13,10 +13,23 @@ run_menu=None
 edit_menu=None
 
 action_types={
-    'xf_load': (('xf', lb.crossfader.keys), ('cue', lb.cue.keys)),
-    'xf_run': (('xf', lb.crossfader.keys), ('uptime', ''),
-               ('downtime', '')),
+    'crossfader_load': (('crossfader', lb.crossfader.keys),
+                        ('cue', lb.cue.keys)),
+    'crossfader_run': (('crossfader', lb.crossfader.keys), ('uptime', ''),
+                       ('downtime', '')),
+    
+    'levelfader_load': (('levelfader', lb.levelfader.keys),
+                        ('cue', lb.cue.keys)),
+    'levelfader_run': (('levelfader', lb.levelfader.keys), ('time', '')),
     }
+
+def format_step(name, arg_dict):
+    k = arg_dict.keys()
+    k.sort()
+    str=name
+    for arg in k:
+        str=str+"  "+arg + " = " + arg_dict[arg]
+    return str
 
 def initialize():
     reset()
@@ -128,19 +141,19 @@ class action:
         table = self.editTree.get_widget("table")
         for c in table.children():
             table.remove(c)
-        table.resize(3,l+1)
+        table.resize(2,l)
         self.entryWidgets=[]
         for x in range (0, l):
             label = GtkLabel(args[x][0])
+            label.set_alignment(1.0, 0.5)
             label.show()
-            table.attach(label, 0, 1, x, x+1)
+            table.attach(label, 0, 1, x, x+1, xoptions=FILL, yoptions=0)
             value = args[x][1]
             if callable(value):
                 value=value()
             if type(value)==type([]):
                 entry = GtkOptionMenu()
                 menu=GtkMenu()
-                entry.set_menu(menu)
                 count = 0
                 current = 0
                 for v in value:
@@ -153,6 +166,8 @@ class action:
                     menu.append(i)
                     count = count +1
                 entry.set_history(current)
+                menu.show_all()
+                entry.set_menu(menu)
             if type(value)==type(''):
                 entry = GtkEntry()
                 current = ''
@@ -162,8 +177,11 @@ class action:
                     pass
                 entry.set_text(current)
             entry.show_all()
+            align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+            align.add(entry)
+            align.show()
             self.entryWidgets.append(entry)
-            table.attach(entry, 1, 2, x, x+1)
+            table.attach(align, 1, 2, x, x+1, xoptions=FILL, yoptions=0)
 
     def ok_clicked(self, widget, data=None):
         menu = self.editTree.get_widget("actionTypeMenu")
@@ -189,7 +207,6 @@ class action:
         win.destroy()
             
     def edit(self):
-        print 'edit'
         wTree = GladeXML ("gtklb.glade",
                           "programActionEdit")
         table = wTree.get_widget("table")
@@ -204,7 +221,6 @@ class action:
         
         menu=GtkMenu()
         menu.connect ("selection-done", self.window_change, None)
-        optionMenu.set_menu(menu)
         count = 0
         current = 0
         for t in action_types.keys():
@@ -214,6 +230,8 @@ class action:
             i.show()
             menu.append(i)
             count = count +1
+        menu.show_all()
+        optionMenu.set_menu(menu)
         optionMenu.set_history(current)
         menu.show()
         self.window_change(data = self.args)
@@ -382,7 +400,7 @@ class program:
             return None
 
     def get_next_step (self):
-        if (self.next_step != None):
+        if (self.next_step != None and self.next_step <len(self.actions)):
             return self.actions[self.next_step]
         else:
             return None
@@ -452,7 +470,6 @@ class program:
     # private
 
     def do_run (self, actions):
-        print 'do_run'
         self.run_steps ()
         self.threadlock.acquire()
         if (self.running):
@@ -461,18 +478,14 @@ class program:
         self.threadlock.release()
 
     def run_steps (self):        
-        print 'run_steps'
-
         while (1):
-            print 'step - waiting'
             self.steplock.acquire()
-            print 'got it'
             if (not self.running): return
             self.stepnumlock.acquire()
             if (self.next_step >= len(self.actions)):
                 self.stepnumlock.release()
                 self.set_next_step(None)
-                break
+                continue
             self.current_step = self.next_step
             next = self.current_step + 1
             action=self.actions[self.current_step]
@@ -486,13 +499,8 @@ class program:
             #lb.send_signal ('Program Step Complete', itself=self)
 
     def run_actions (self, actions):        
-        print 'run_actions'
-
         for action in actions:
-            print action
-            print 'action - '+action.kind
             self.run_action (action.kind, action.args)
-        print 'run_actions done'
         
     def run_action (self, action, args):
         ### Level fader
@@ -523,44 +531,31 @@ class program:
             lb.transitionfader[args['transitionfader']].run(args['level'], intime)
         ### Cross fader
 
-        if (action=='xf_load'):
-            import time
-            print time
-            start = time.time()
-            xf = lb.fader[args['xf']]
-            print 1
+        if (action=='crossfader_load'):
+            xf = lb.crossfader[args['crossfader']]
             old_cue = xf.getUpCueName()
-            print 'old_cue', old_cue
-            if (old_cue):
-                print 'found'
+            if (old_cue and lb.cue.has_key(old_cue)):
                 cue1=lb.cue[old_cue]
             else:
-                print 'blank'
-                cue1=cue("")
+                old_cue = xf.getDownCueName()
+                if (old_cue and lb.cue.has_key(old_cue)):
+                    cue1=lb.cue[old_cue]
+                else:
+                    cue1=cue("")
             cue2=lb.cue[args['cue']]
-            print 2            
-            #(cue1,cue2)=cue1.normalize(cue2)
-            print cue1.core_cue, cue2.core_cue
-            print cue1.name, cue2.name
-            #print cue1.ins
             xf.setCues (cue1, cue2)
-            end = time.time()
-            print 'loaded in ', end-start
+            xf.setLevel(0.0)
             
-        if (action=='xf_run'):
-            import time
-            start = time.time()
-            xf = lb.crossfader[args['xf']]
+        if (action=='crossfader_run'):
+            xf = lb.crossfader[args['crossfader']]
             
-            uptime=lb.value_to_core('time', args.get('uptime', 0))[0]
-            downtime=lb.value_to_core('time', args.get('downtime', 0))[0]
+            uptime=lb.value_to_core('time', args.get('uptime', 0))
+            downtime=lb.value_to_core('time', args.get('downtime', 0))
             xf.setTimes(uptime, downtime)
 
             if (downtime>uptime): intime=downtime
             else: intime=uptime
             intime=args.get('time', intime)
-            end = time.time()
-            print 'prep to run in ', end-start
             xf.run(100.0, intime)
 
         ### Procedure
@@ -649,28 +644,33 @@ class program:
         if (nodeData is not None):
             node = tree.find_by_row_data(None, nodeData)
             if (node.level==1):
-                tree.node_set_text(node, 0, nodeData.name)
+                str = format_step (nodeData.name, {})
             if (node.level==2):
-                tree.node_set_text(node, 0, nodeData.kind)
+                str = format_step (nodeData.kind, nodeData.args)
+            tree.node_set_text(node, 0, str)
             return
         tree.set_reorderable(1)
 
         istep = self.init_step.copy()
 
-        stepNode=tree.insert_node(None, None, [istep.name], is_leaf=FALSE)
+        str = format_step (istep.name, {})
+        stepNode=tree.insert_node(None, None, [str], is_leaf=FALSE)
         tree.node_set_row_data(stepNode, istep)
         for act in istep.actions:
-            n=tree.insert_node(StepNode, None, [act.kind], is_leaf=TRUE)
+            str = format_step (act.kind, act.args)
+            n=tree.insert_node(StepNode, None, [str], is_leaf=TRUE)
             tree.node_set_row_data(n, act)
 
         for step in self.actions:
             #should be self.steps
             step = step.copy()
-            stepNode=tree.insert_node(None, None, [step.name], is_leaf=FALSE)
+            str = format_step (step.name, {})
+            stepNode=tree.insert_node(None, None, [str], is_leaf=FALSE)
             tree.node_set_row_data(stepNode, step)
             
             for act in step.actions:
-                n=tree.insert_node(stepNode, None, [act.kind], is_leaf=TRUE)
+                str = format_step (act.kind, act.args)
+                n=tree.insert_node(stepNode, None, [str], is_leaf=TRUE)
                 tree.node_set_row_data(n, act)
 
     def edit_ok_clicked(self, widget, data=None):
@@ -753,65 +753,42 @@ class program:
        
     def create_window(self):
         threads_enter()
-        window1=GtkWindow(WINDOW_TOPLEVEL)
-        window1.connect ('destroy', self.run_destroyed)
-        self.window=window1
-        window1.set_title(self.name)
-        window1.set_default_size(300, 200)
-        window1.set_policy(FALSE, TRUE, FALSE)
-        window1.set_position(WIN_POS_NONE)
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "programRun")
+            
+            dic = {"on_go_clicked": self.go_clicked,
+                   "on_stop_clicked": self.stop_clicked,
+                   "on_list_selection_changed": self.selection_changed}
+            
+            wTree.signal_autoconnect (dic)
+            
+            w=wTree.get_widget ("programRun")
+            self.window = w
+            w.set_title("Program %s" % self.name)
+            w.connect ('destroy', self.run_destroyed)
+
+            self.label_cur=wTree.get_widget("currentLabel")
+            self.label_next=wTree.get_widget("nextLabel")
+
+            self.button_stop=wTree.get_widget("stop")
+            self.button_go=wTree.get_widget("go")
         
-        vbox1=GtkVBox()
-        window1.add(vbox1)
-        vbox1.set_homogeneous(FALSE)
-        vbox1.set_spacing(0)
-        
-        hbox1=GtkHBox()
-        vbox1.pack_start(hbox1, FALSE, FALSE, 0)
-        hbox1.set_homogeneous(TRUE)
-        hbox1.set_spacing(0)
-        
-        self.label_cur=GtkLabel("Current: ---")
-        self.label_next=GtkLabel("Next: ---")
-        
-        hbox1.pack_start(self.label_cur, FALSE, FALSE, 0)
-        hbox1.pack_start(self.label_next, FALSE, FALSE, 0)
+            self.cue_list=wTree.get_widget("list")
 
-        scrolledwindow1=GtkScrolledWindow()
-        vbox1.pack_start(scrolledwindow1, TRUE, TRUE, 0)
-        scrolledwindow1.set_usize(-1, 200)
-        #scrolledwindow1.set_policy(POLICY_ALWAYS, POLICY_ALWAYS)
-
-        self.cue_list=GtkList()
-        scrolledwindow1.add_with_viewport(self.cue_list)
-
-        items=[]
-        for i in self.actions:
-            item=GtkListItem(i.name)
-            items.append(item)
-        self.cue_list.append_items(items)
-
-        self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
-
-        hbuttonbox1=GtkHButtonBox()
-        vbox1.pack_start(hbuttonbox1, TRUE, TRUE, 0)
-        self.button_stop=GtkButton("Stop")
-        hbuttonbox1.pack_start(self.button_stop, TRUE, TRUE, 0)
-        self.button_stop.connect('clicked', self.stop_clicked, None)
-
-        self.button_go=GtkButton("Go")
-        hbuttonbox1.pack_start(self.button_go, TRUE, TRUE, 0)
-        self.button_go.connect('clicked', self.go_clicked, None)
-
-        self.window.show_all()
-
-        threads_leave()
+            items=[]
+            for i in self.actions:
+                item=GtkListItem(i.name)
+                item.show()
+                items.append(item)
+            self.cue_list.append_items(items)
+        finally:
+            threads_leave()
 
     def ui_step_start(self):
         threads_enter()
         self.button_go.set_sensitive(0)
     
-        print 'startevt', self.get_current_step()
         if (self.get_current_step()):
             self.label_cur.set_text('Current: '+self.get_current_step().name)
         threads_leave()
@@ -822,32 +799,30 @@ class program:
         threads_leave()
 
     def ui_set_next_step(self):
+        self.cue_list.unselect_all()
+        self.label_next.set_text('Next: ---')
+        threads_enter()
         if (self.get_next_step()):
-            threads_enter()
             #self.cue_list.disconnect(self.cue_list_handler_id)
 
             self.label_next.set_text('Next: '+self.get_next_step().name)
-            self.cue_list.unselect_all()
             self.cue_list.select_item(self.next_step)
 
             #self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
 
-            threads_leave()
+        threads_leave()
 
-    def stop_clicked(self, widget, data):
+    def stop_clicked(self, widget, data=None):
         pass
 
-    def go_clicked(self, widget, data):
+    def go_clicked(self, widget, data=None):
         self.step_forward()
 
-    def selection_changed(self, widget, data):
-        print 'changed'
-        print widget.get_selection()
+    def selection_changed(self, widget, data=None):
         sel=widget.get_selection()
         if (not sel):
             return
         p=widget.child_position(sel[0])
-        print p
         if (p==self.next_step):
             return
         threads_leave()
@@ -855,9 +830,10 @@ class program:
         threads_enter()
 
     def run_destroyed(self, widget, data=None):
+        self.stop()
         self.run_menu_item.set_sensitive(1)        
 
-    def run_cb(self, widget, data):
+    def run_cb(self, widget, data=None):
         """ Called from lightboard->program->run """
 
         self.run_menu_item.set_sensitive(0)

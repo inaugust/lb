@@ -1,5 +1,6 @@
 import __main__
 import sys
+import operator
 from threading import *
 import string
 import time
@@ -135,9 +136,6 @@ class lightboard(completion, LB__POA.Client):
             self.core_names.append(str(b.binding_name[0].id))
         
     def run(self):
-        #for x in range (1, 1025):
-        #    #print x
-        #    self.instrument[str(x)]=self.core.getInstrument(str(x))
         self.write ("GTK Lightboard client\n")
         self.write (COPYRIGHT+"\n")
         self.write ("Working in show: %s\n" % self.show)
@@ -232,6 +230,12 @@ class lightboard(completion, LB__POA.Client):
         o = o.resolve([x])
         return o
 
+    def sort_by_attr(self, seq, attr):
+        intermed = map(None, map(getattr, seq, (attr,)*len(seq)),
+                       xrange(len(seq)), seq)
+        intermed.sort()
+        return map(operator.getitem, intermed, (-1,) * len(intermed))
+
     def core_attr_id (self, name):
         return instrument.attribute_mapping[name][0]
 
@@ -293,7 +297,6 @@ class lightboard(completion, LB__POA.Client):
         w.destroy()
     
     def on_open_activate (self, widget, data=None):
-        print 'open'
         wTree = GladeXML ("gtklb.glade",
                           "fileSelection")
         
@@ -305,7 +308,6 @@ class lightboard(completion, LB__POA.Client):
         self.openTree=wTree
 
     def on_save_activate (self, widget, data=None):
-        print 'save'
         if self.datafile is not None:
             self.save_show()
         else:
@@ -324,7 +326,6 @@ class lightboard(completion, LB__POA.Client):
         w.destroy()
         
     def on_save_as_activate (self, widget, data=None):
-        print 'save as'
         wTree = GladeXML ("gtklb.glade",
                           "fileSelection")
         
@@ -349,7 +350,6 @@ class lightboard(completion, LB__POA.Client):
         w.destroy()
 
     def on_properties_activate (self, widget, data=None):
-        print 'props'
         wTree = GladeXML ("gtklb.glade",
                           "nameDialog")
         
@@ -362,7 +362,6 @@ class lightboard(completion, LB__POA.Client):
         
 
     def on_exit_activate (self, widget, data=None):
-        print 'exit'
         self.exit()
 
     def receiveData(self, data):

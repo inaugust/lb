@@ -4,6 +4,7 @@ from ExpatXMLParser import ExpatXMLParser
 from os import path
 from gtk import *
 from libglade import *
+from cue import cue
 
 from omniORB import CORBA
 import CosNaming
@@ -57,7 +58,6 @@ def save():
 
 class crossFaderFactory:
     def __init__(self):
-        print 'props'
         threads_enter()
         try:
             wTree = GladeXML ("gtklb.glade",
@@ -185,7 +185,7 @@ class crossfader(LB__POA.EventListener):
         return self.corefader.setLevel(lb.value_to_core('level', level)[0])
 
     def getLevel(self):
-        return self.corefader.getLevel()
+        return lb.value_to_string('level', [self.corefader.getLevel()])
 
     def isRunning(self):
         return self.corefader.isRunning()
@@ -215,7 +215,6 @@ class crossfader(LB__POA.EventListener):
 
     def adjustment_changed(self, widget, data):
         if (not self.corefader.isRunning()):
-            #print 'updating fader'
             self.corefader.setLevel(100.0-widget.value)
 
     def run_clicked(self, widget, data=None):
@@ -230,10 +229,9 @@ class crossfader(LB__POA.EventListener):
         uptime = uptime.get_value_as_float()
         downtime = downtime.get_value_as_float()
 
-        if (self.getLevel()!=start):
+        if (lb.value_to_core('level', self.getLevel())[0]!=start):
             self.setLevel(start)
 
-        print 'setting times', downtime, uptime
         self.setTimes(downtime, uptime)
         if (downtime>uptime): intime=downtime
         else: intime=uptime
@@ -273,6 +271,7 @@ class crossfader(LB__POA.EventListener):
             
             w=wTree.get_widget ("fader")
             w.set_title("Crossfader %s" % self.name)
+            w.connect ('destroy', self.window_destroyed)
 
             t=wTree.get_widget ("topLabel")
             b=wTree.get_widget ("bottomLabel")
@@ -373,7 +372,6 @@ class crossfader(LB__POA.EventListener):
         self.core_intime = evt.value[1]
         self.core_uptime = self.corefader.getUpCueTime()
         self.core_downtime = self.corefader.getDownCueTime()
-        print 'start:', self.core_intime, self.core_downtime, self.core_uptime
         threads_enter()
         try:
             w = self.tree.get_widget("run")
@@ -403,15 +401,16 @@ class crossfader(LB__POA.EventListener):
         finally:
             threads_leave()
         
+        
     def receiveEvent(self, evt):
-#         try:
-#             m = self.event_mapping[evt.type]
-#             m(evt)
-#         except:
-#             print evt.type
-#             print 'exception'
-          m = self.event_mapping[evt.type]
-          m(evt)
+         try:
+             m = self.event_mapping[evt.type]
+             m(evt)
+         except:
+             pass
+
+    def window_destroyed(self, widget, data=None):
+        self.crossfader_open_menu_item.set_sensitive(1)        
 
     def open_cb(self, widget, data):
         """ Called from lightboard->fader->crossfader"""

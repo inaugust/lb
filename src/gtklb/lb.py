@@ -8,6 +8,7 @@ import gtk
 
 libraries=(
   'instrument',
+  'color_mixer_instrument',
   'cue',
   'fader',
   'crossfader',
@@ -15,7 +16,6 @@ libraries=(
   'program',
   'procedure',
   'process',
-#  'keyboard',
   )
 
 from lightboard import lightboard

@@ -116,11 +116,9 @@ class fader:
         self.threadlock.release()
         
     def do_run(self, fromlevel, tolevel, intime):
-        print (self.name+' '+str(fromlevel) + ' to ' + str(tolevel))
         start=time.time()
         level=fromlevel
         if (tolevel-fromlevel==0):
-            print 'nothing to do'
             self.threadlock.acquire()
             self.mythread=None
             self.threadlock.release()
@@ -147,25 +145,18 @@ class fader:
         delay=float(intime)/float(steps)
         times=range (0, steps)
 
-        print 'schedule'
         mylevel=level
         mytime=start
         for s in range (0, steps):
             mylevel=mylevel+delta
             mytime=mytime+delay
-            #print str(mylevel) + ' @ ' + str(mytime)
             times[s]=(mylevel, mytime)
 
-        print 'running'
-
         for (target_level, target_time) in times:
-            #print str(target_level) + ' @ ' + str(target_time) + ' s ' + str(max(target_time-time.time(),0))
             time.sleep (max(target_time-time.time(),0))
             self.set_level(target_level)
                         
         end=time.time()
-        print (self.name+' '+str(fromlevel) + ' to ' + str(tolevel) + ' in '+
-               str(end-start))
         self.threadlock.acquire()
         self.mythread=None
         self.threadlock.release()

@@ -68,14 +68,13 @@ void LB_Fader_i::run(double level, double time)
       this->stop();
       pthread_mutex_lock(&this->thread_lock);
     }
-  else
-    {
-      this->running=1;
-      this->thread_exists=1;
-      pthread_create(&this->my_thread, (pthread_attr_t *)NULL,
-		     bootstrap,
-		     this);
-    }
+
+  this->running=1;
+  this->thread_exists=1;
+  pthread_create(&this->my_thread, (pthread_attr_t *)NULL,
+		 bootstrap,
+		 this);
+
   pthread_mutex_unlock(&this->thread_lock);
 
   if (this->run_listeners)

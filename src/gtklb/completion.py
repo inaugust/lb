@@ -62,8 +62,6 @@ class completion(code.InteractiveConsole):
         words = []
         matches = []
 
-        print expr, '-', item, '-', attr
-        
         if (item!=None):
             i=None
             for dict in self.completion_dicts:
@@ -80,7 +78,6 @@ class completion(code.InteractiveConsole):
                 t=1
             words.sort()
             n = len(item)
-            print words
             for word in words:
                 if word[:n] == item:
                     if (t):

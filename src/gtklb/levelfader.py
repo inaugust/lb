@@ -178,8 +178,6 @@ class levelfader(LB__POA.EventListener):
         return s
 
     def run(self, level, time):
-        print lb.value_to_core('time', time)
-        print lb.value_to_core('level', level)
         time=lb.value_to_core('time', time)
         level=lb.value_to_core('level', level)[0]
         return self.corefader.run(level, time)
@@ -191,7 +189,7 @@ class levelfader(LB__POA.EventListener):
         return self.corefader.setLevel(lb.value_to_core('level', level)[0])
 
     def getLevel(self):
-        return self.corefader.getLevel()
+        return lb.value_to_string('level', [self.corefader.getLevel()])
 
     def isRunning(self):
         return self.corefader.isRunning()
@@ -216,7 +214,6 @@ class levelfader(LB__POA.EventListener):
 
     def adjustment_changed(self, widget, data):
         if (not self.corefader.isRunning()):
-            #print 'updating fader'
             self.corefader.setLevel(100.0-widget.value)
 
     def run_clicked(self, widget, data=None):
@@ -244,7 +241,6 @@ class levelfader(LB__POA.EventListener):
         name = menu.children()[0].get()
         self.setCue(name)
         self.setLevel(self.getLevel())
-        print 'changed', name
         
     def create_window (self):
         listener=self._this()
@@ -376,8 +372,7 @@ class levelfader(LB__POA.EventListener):
             m = self.event_mapping[evt.type]
             m(evt)
         except:
-            print evt.type
-            print 'exception'
+            pass
 
     def open_cb(self, widget, data):
         """ Called from lightboard->fader->levelfader"""
