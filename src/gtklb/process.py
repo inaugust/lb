@@ -7,6 +7,7 @@ import string
 import procedure
 from gtk import *
 from libglade import *
+import traceback
 
 start_menu = None
 stop_menu = None
@@ -262,7 +263,10 @@ class process:
     # private
 
     def do_run (self, process_procedure, args):
-        exec (process_procedure)
+        try:
+            exec (process_procedure)
+        except:
+            traceback.print_exc()
         self.threadlock.acquire()
         self.mythread=None
         self.stopped()

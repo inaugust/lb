@@ -32,11 +32,317 @@
     <spacing>0</spacing>
 
     <widget>
+      <class>GtkTable</class>
+      <name>table8</name>
+      <border_width>5</border_width>
+      <rows>2</rows>
+      <columns>5</columns>
+      <homogeneous>False</homogeneous>
+      <row_spacing>0</row_spacing>
+      <column_spacing>5</column_spacing>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label32</name>
+	<label>Name</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkLabel</class>
+	<name>label33</name>
+	<label>Change To</label>
+	<justify>GTK_JUSTIFY_CENTER</justify>
+	<wrap>False</wrap>
+	<xalign>0</xalign>
+	<yalign>0.5</yalign>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<child>
+	  <left_attach>0</left_attach>
+	  <right_attach>1</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment12</name>
+	<xalign>7.45058e-09</xalign>
+	<yalign>0.5</yalign>
+	<xscale>0</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>2</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkOptionMenu</class>
+	  <name>cueMenu</name>
+	  <can_focus>True</can_focus>
+	  <items></items>
+	  <initial_choice>0</initial_choice>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkAlignment</class>
+	<name>alignment11</name>
+	<xalign>7.45058e-09</xalign>
+	<yalign>0.5</yalign>
+	<xscale>0</xscale>
+	<yscale>0</yscale>
+	<child>
+	  <left_attach>1</left_attach>
+	  <right_attach>2</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+
+	<widget>
+	  <class>GtkEntry</class>
+	  <name>nameEntry</name>
+	  <can_focus>True</can_focus>
+	  <signal>
+	    <name>changed</name>
+	    <handler>on_nameEntry_changed</handler>
+	    <last_modification_time>Wed, 12 Sep 2001 20:34:49 GMT</last_modification_time>
+	  </signal>
+	  <editable>True</editable>
+	  <text_visible>True</text_visible>
+	  <text_max_length>0</text_max_length>
+	  <text></text>
+	</widget>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>save</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_save_clicked</handler>
+	  <last_modification_time>Wed, 12 Sep 2001 18:46:16 GMT</last_modification_time>
+	</signal>
+	<label>Save Cue</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<child>
+	  <left_attach>2</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>revert</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_revert_clicked</handler>
+	  <last_modification_time>Wed, 12 Sep 2001 18:46:27 GMT</last_modification_time>
+	</signal>
+	<label>Revert Cue</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<child>
+	  <left_attach>3</left_attach>
+	  <right_attach>4</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>blackout</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_blackout_clicked</handler>
+	  <last_modification_time>Wed, 12 Sep 2001 18:46:46 GMT</last_modification_time>
+	</signal>
+	<label>Blackout</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<child>
+	  <left_attach>4</left_attach>
+	  <right_attach>5</right_attach>
+	  <top_attach>1</top_attach>
+	  <bottom_attach>2</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>False</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkToggleButton</class>
+	<name>liveUpdates</name>
+	<border_width>5</border_width>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_liveUpdates_clicked</handler>
+	  <last_modification_time>Wed, 12 Sep 2001 18:46:55 GMT</last_modification_time>
+	</signal>
+	<label>Live Updates</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<active>False</active>
+	<child>
+	  <left_attach>4</left_attach>
+	  <right_attach>5</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>parents</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_parents_clicked</handler>
+	  <last_modification_time>Wed, 12 Sep 2001 18:46:21 GMT</last_modification_time>
+	</signal>
+	<label>Cue Parenting...</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<child>
+	  <left_attach>3</left_attach>
+	  <right_attach>4</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>new</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>on_new_clicked</handler>
+	  <last_modification_time>Wed, 12 Sep 2001 18:46:10 GMT</last_modification_time>
+	</signal>
+	<label>New Cue</label>
+	<relief>GTK_RELIEF_NORMAL</relief>
+	<child>
+	  <left_attach>2</left_attach>
+	  <right_attach>3</right_attach>
+	  <top_attach>0</top_attach>
+	  <bottom_attach>1</bottom_attach>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <xexpand>True</xexpand>
+	  <yexpand>False</yexpand>
+	  <xshrink>False</xshrink>
+	  <yshrink>False</yshrink>
+	  <xfill>True</xfill>
+	  <yfill>False</yfill>
+	</child>
+      </widget>
+    </widget>
+
+    <widget>
       <class>GtkVPaned</class>
       <name>vpaned1</name>
       <handle_size>10</handle_size>
       <gutter_size>6</gutter_size>
-      <position>428</position>
+      <position>394</position>
       <child>
 	<padding>0</padding>
 	<expand>True</expand>
@@ -173,7 +479,7 @@
 		<can_focus>True</can_focus>
 		<columns>3</columns>
 		<column_widths>80,80,80</column_widths>
-		<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+		<selection_mode>GTK_SELECTION_EXTENDED</selection_mode>
 		<show_titles>True</show_titles>
 		<shadow_type>GTK_SHADOW_IN</shadow_type>
 
@@ -297,7 +603,7 @@
 	  <class>GtkText</class>
 	  <name>outputText</name>
 	  <can_focus>True</can_focus>
-	  <editable>True</editable>
+	  <editable>False</editable>
 	  <text></text>
 	</widget>
       </widget>
@@ -355,14 +661,12 @@
     </widget>
 
     <widget>
-      <class>GtkHButtonBox</class>
-      <name>hbuttonbox5</name>
-      <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
-      <spacing>30</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
+      <class>GtkAlignment</class>
+      <name>alignment13</name>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xscale>0</xscale>
+      <yscale>0</yscale>
       <child>
 	<padding>8</padding>
 	<expand>False</expand>
@@ -370,49 +674,42 @@
       </child>
 
       <widget>
-	<class>GtkToggleButton</class>
-	<name>liveUpdates</name>
-	<border_width>5</border_width>
-	<can_focus>True</can_focus>
-	<label>Live Updates</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-	<active>False</active>
-      </widget>
+	<class>GtkHButtonBox</class>
+	<name>hbuttonbox5</name>
+	<layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	<spacing>30</spacing>
+	<child_min_width>85</child_min_width>
+	<child_min_height>27</child_min_height>
+	<child_ipad_x>7</child_ipad_x>
+	<child_ipad_y>0</child_ipad_y>
 
-      <widget>
-	<class>GtkButton</class>
-	<name>parents</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Cue Parenting...</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
+	<widget>
+	  <class>GtkButton</class>
+	  <name>cancel</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <signal>
+	    <name>clicked</name>
+	    <handler>on_cancel_clicked</handler>
+	    <last_modification_time>Wed, 12 Sep 2001 18:47:11 GMT</last_modification_time>
+	  </signal>
+	  <label>Cancel</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
 
-      <widget>
-	<class>GtkButton</class>
-	<name>blackout</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Blackout</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>cancel</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Cancel</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>ok</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>OK</label>
-	<relief>GTK_RELIEF_NORMAL</relief>
+	<widget>
+	  <class>GtkButton</class>
+	  <name>ok</name>
+	  <can_default>True</can_default>
+	  <can_focus>True</can_focus>
+	  <signal>
+	    <name>clicked</name>
+	    <handler>on_ok_clicked</handler>
+	    <last_modification_time>Wed, 12 Sep 2001 18:47:16 GMT</last_modification_time>
+	  </signal>
+	  <label>OK</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
+	</widget>
       </widget>
     </widget>
   </widget>

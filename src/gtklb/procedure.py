@@ -2,7 +2,7 @@ from threading import *
 from xmllib import XMLParser
 from os import path
 import string, cStringIO
-from ExpatXMLParser import ExpatXMLParser
+import ExpatXMLParser
 from gtk import *
 from libglade import *
 
@@ -100,9 +100,9 @@ def newProcedure_cb(widget, data=None):
     # that's it.
 
 
-class parser(ExpatXMLParser):
+class parser(ExpatXMLParser.ExpatXMLParser):
     def __init__(self):
-        ExpatXMLParser.__init__(self)
+        ExpatXMLParser.ExpatXMLParser.__init__(self)
         self.in_procedures=0
         self.proc = ''
         
@@ -168,7 +168,7 @@ class procedure:
             args=args+a+', '
         args=args[:-2]
         s = s + sp + '<procedure name="%s" args="%s">\n' % (self.name, args)
-        s = s +self.proc + "\n"
+        s = s + ExpatXMLParser.reverse_translate_references(self.proc) + "\n"
         s = s + sp + '</procedure>\n'
         return s
 

@@ -1,5 +1,19 @@
 from xml.parsers import expat
 
+entitydefs = {'lt':'<', 'gt':'>', 'amp':'&', 'quote':'"', 'apos':"'"}
+
+reverse_entitydefs={}
+for k,v in entitydefs.items():
+    reverse_entitydefs[v]=k
+
+def reverse_translate_references(str):
+    s = ''
+    for c in str:
+        if (c in reverse_entitydefs.keys()):
+            c = '&'+reverse_entitydefs[c]+';'
+        s=s+c
+    return s
+
 class ExpatXMLParser:
 
     def __init__(self):

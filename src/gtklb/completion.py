@@ -186,6 +186,7 @@ class completion(code.InteractiveConsole):
             widget.emit_stop_by_name('key_press_event')
             # This keeps GTK from handling it.
             return 1
+        return 0
         
     def entry_activated(self, widget, data=None):
         #widget.freeze()
