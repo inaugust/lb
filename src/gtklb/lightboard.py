@@ -11,7 +11,7 @@ from rexec import RExec
 import __builtin__
 import __main__
 from completion import completion
-from ExpatXMLParser import ExpatXMLParser, DOMNode
+from ExpatXMLParser import ExpatXMLParser, DOMNode, reverse_translate_references
 import attribute_widgets
 
 import os
@@ -81,7 +81,7 @@ class TreeWriter:
             for n in tree.children:
                 self.write(n)
             if (len (tree.data)):
-                self.s = self.s + self.indent() + tree.data + "\n"
+                self.s = self.s + self.indent() + reverse_translate_references(tree.data) + "\n"
             self.ilevel = self.ilevel - 2
             self.s=self.s+self.indent()+'</'+tree.tag+'>\n'
     
@@ -408,7 +408,10 @@ class lightboard(completion, LB__POA.Client):
                "on_cancel_clicked": self.prop_cancel}
         
         wTree.signal_autoconnect (dic)
-        
+
+        entry = wTree.get_widget("nameEntry")
+        entry.set_text(self.show)
+            
         self.propTree=wTree
         
 

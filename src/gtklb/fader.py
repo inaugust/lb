@@ -12,7 +12,15 @@ import math
 from gtk import *
 
 def initialize():
+    reset()
+
+def reset():
     threads_enter()
+
+    menubar=lb.menubar
+    for m in menubar.children():
+        if (m.children()[0].get() == "Fader"):
+            menubar.remove(m)
 
     fader_menu_item=GtkMenuItem("Fader")
     lb.menubar.append(fader_menu_item)
@@ -21,9 +29,6 @@ def initialize():
 
     lb.menubar.show_all()
     threads_leave()
-
-def reset():
-    pass
 
 def shutdown():
     pass

@@ -137,7 +137,7 @@ class Procedure:
             args=args+a+', '
         args=args[:-2]
         p = DOMNode('procedure', {'name':self.name, 'args':args})
-        data = ExpatXMLParser.reverse_translate_references(self.proc) + "\n"
+        data = self.proc + "\n"
         p.add_data(data)
         return p
 
@@ -154,16 +154,22 @@ class Procedure:
             self.args = map(string.strip, string.split(args, ','))
         
     def set_proc (self, proc):
-        self.proc = proc
-        sio=cStringIO.StringIO(self.proc)
+        sio=cStringIO.StringIO(proc)
         proc=''
+        started = 0
+        buffer = ''
         while (1):
             line=sio.readline()
             if not line: break
             if string.strip(line)=='':
-                proc=proc+'\n'
+                if started:
+                    buffer=buffer+'\n'
             else:
-                proc=proc+line
+                started = 1
+                buffer=buffer+line
+                proc = proc + buffer
+                buffer = ''
+        self.proc = proc
         self.comp=compile(proc, self.name,'exec')
 
     def argument_widget(self, args = None):

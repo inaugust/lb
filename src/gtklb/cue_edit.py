@@ -118,15 +118,17 @@ class CueEditor(completion):
         in_tree = self.editTree.get_widget("inTree")
         dict=self.cue.apparent[name]
         row = in_tree.find_row_from_data(self.cue_proxies[name])
+
+        defunct = 0
+        try: proxy = self.cue_proxies[name]
+        except:
+            proxy = defunct_instrument_cue_proxy(name)
+            name = name + " <defunct>"
+            defunct = 1
+        if not self.cue.instrument.has_key (name) and not defunct:
+            name = name + " <inherited>"
+
         if (row<0):
-            defunct = 0
-            try: proxy = self.cue_proxies[name]
-            except:
-                proxy = defunct_instrument_cue_proxy(name)
-                name = name + " <defunct>"
-                defunct = 1
-            if not self.cue.instrument.has_key (name) and not defunct:
-                name = name + " <inherited>"
             l=[name]
             for a in tree_columns:
                 if (dict.has_key(a)):
@@ -139,6 +141,7 @@ class CueEditor(completion):
             return
         
         col = 1
+        in_tree.set_text(row, 0, name)
         for a in tree_columns:
             if (dict.has_key(a)):
                 in_tree.set_text(row, col, dict[a])
