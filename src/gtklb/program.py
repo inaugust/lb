@@ -178,6 +178,9 @@ class Action:
                 value=value()
             if type(value)==type([]):
                 entry = GtkCombo()
+                entry.set_use_arrows(1)
+                entry.set_case_sensitive(0)
+                entry.entry.set_editable(0)
                 count = 0
                 current = 0
                 menuitems=[]
@@ -222,7 +225,7 @@ class Action:
             if callable(value):
                 value=value()
             if type(value)==type([]):
-                new_value = self.entryWidgets[x].children()[0].get()
+                new_value = self.entryWidgets[x].entry.get_text()
             if type(value)==type(''):
                 new_value = self.entryWidgets[x].get_text()
             self.args[args[x][0]]=new_value
