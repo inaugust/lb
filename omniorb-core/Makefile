@@ -1,0 +1,54 @@
+CPPFLAGS = -D__x86__ -D__linux__ -D__OSVERSION__=2 -I .
+LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat
+
+IDLC=omniidl
+IDL_ARGS=-bcxx -Wbuse_quotes
+
+#IDL_ARGS=-bcxx -Wbexample -Wbuse_quotes
+
+#####################################
+#
+# Implementation files that don't have anything to do with IDL
+#
+IMPL_FILES = lb
+
+#
+# Implementation files that are also IDL files
+#
+IMPL_IDL_FILES = Lightboard Instrument Fader CueFader MovingInstrument\
+	Dimmer
+
+#
+# IDL Files that don't have Implementation files
+#
+IDL_FILES = types
+
+#######################################
+#
+# Don't edit below this point
+#
+
+OBJECTS := $(foreach file,$(IMPL_FILES),$(file).o) \
+	$(foreach file,$(IMPL_IDL_FILES),$(file)_i.o $(file)SK.o) \
+	$(foreach file,$(IDL_FILES),$(file)SK.o)
+
+IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
+	$(foreach file,$(IDL_FILES),$(file).hh) 
+
+IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc) \
+	$(foreach file,$(IDL_FILES),$(file)SK.cc) 
+
+all : idl lb
+
+idl : $(IDL_H)
+
+lb : idl $(OBJECTS) 
+	$(CXX) -o lb $(LDFLAGS) $(OBJECTS) 
+
+%.hh : %.idl
+	$(IDLC) $(IDL_ARGS) $<
+
+clean:
+	rm -f $(OBJECTS) $(IDL_H) $(IDL_CC) lb *~
+
+

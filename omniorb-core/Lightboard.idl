@@ -15,8 +15,13 @@ module LB
     readonly attribute unsigned long dimmerRange;
 
     Instrument getInstrument (in string name);
+    void putInstrument (in Instrument ins);
+
     Fader getFader (in string name);
+    void putFader (in Fader fadr);
+
     Dimmer getDimmer (in string name);
+    void putDimmer (in Dimmer dimr);
   };
 };
 

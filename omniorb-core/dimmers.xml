@@ -1,0 +1,4 @@
+<dimmers>
+  <dimmerbank dev="/dev/dmx" dimmers="2048"/>
+</dimmers>
+
