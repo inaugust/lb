@@ -15,7 +15,7 @@ from ExpatXMLParser import ExpatXMLParser, DOMNode, reverse_translate_references
 import attribute_widgets
 
 import os
-os.environ['IDLPATH']=os.environ.get('IDLPATH','')+'/usr/share/idl:/usr/local/share/idl:omniorb-core'
+os.environ['IDLPATH']=os.environ.get('IDLPATH','')+':/usr/share/idl:/usr/local/share/idl:omniorb-core'
 
 from omniORB import CORBA
 import CosNaming
@@ -120,41 +120,48 @@ class lightboard(completion, LB__POA.Client):
         
         self.create_window()
 
-    def do_bindings(self):
+    def do_bindings(self,client=0):
         x=CosNaming.NameComponent("shows","")
         try:
             o = self.root_naming.resolve([x])
         except:
             o = self.root_naming.bind_new_context([x])
 
-        x=CosNaming.NameComponent(self.show,"")            
+        x=CosNaming.NameComponent(self.show,"")
         try:
             o = o.resolve([x])
         except:
             o = o.bind_new_context([x])
 
         x=CosNaming.NameComponent("clients","")
+
         try:
             client_ctx = o.resolve([x])
         except:
             client_ctx = o.bind_new_context([x])
 
         x=CosNaming.NameComponent(self.name, "Client")
+
         try:
             i = client_ctx.rebind([x], self._this())
         except:
+            
             print 'Unable to bind client'
 
         x=CosNaming.NameComponent("instruments","")
+
         try:
             ins_ctx = o.resolve([x])
         except:
+
             ins_ctx = o.bind_new_context([x])
 
         x=CosNaming.NameComponent("faders","")
+
         try:
             fad_ctx = o.resolve([x])
         except:
+
             fad_ctx = o.bind_new_context([x])
 
         self.instrument_context = ins_ctx
@@ -197,8 +204,8 @@ class lightboard(completion, LB__POA.Client):
 
     def load_show(self, datafile):
         self.write("Loading show " + datafile + "\n")
-        self.datafile = datafile
 
+        self.datafile = datafile
         f=open(datafile)
         data = f.read()
 
@@ -206,7 +213,7 @@ class lightboard(completion, LB__POA.Client):
         p.Parse(data)
         p.close()
         self.undo_bindings()        
-        self.show = p.get_name()
+        self.name = str(p.get_name())
         self.do_bindings()
 
         p=TreeParser()
@@ -276,6 +283,7 @@ class lightboard(completion, LB__POA.Client):
         x=CosNaming.NameComponent("lightboards", "")
         o = self.root_naming.resolve([x])
         x=CosNaming.NameComponent(name, "")
+        print name, x
         o = o.resolve([x])
         x=CosNaming.NameComponent("lb", "Lightboard")
         o = o.resolve([x])
@@ -338,10 +346,10 @@ class lightboard(completion, LB__POA.Client):
     def open_ok (self, widget, data=None):
         w = self.openTree.get_widget("fileSelection")
         datafile = w.get_filename()
+        w.destroy()
         threads_leave()
         self.load_show(datafile)
         threads_enter()
-        w.destroy()
 
     def open_cancel (self, widget, data=None):
         w = self.openTree.get_widget("fileSelection")

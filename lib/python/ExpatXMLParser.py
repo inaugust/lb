@@ -17,7 +17,7 @@ def reverse_translate_references(str):
 class ExpatXMLParser:
 
     def __init__(self):
-        self.parser=expat.ParserCreate()
+        self.parser=expat.ParserCreate('ASCII')
         self.parser.StartElementHandler = self.magic_start_element
         self.parser.EndElementHandler = self.magic_end_element
         self.parser.CharacterDataHandler = self.char_data
@@ -56,8 +56,19 @@ class ExpatXMLParser:
 
 class DOMNode:
     def __init__(self, tag=None, attrs={}):
-        self.tag=tag
+        self.tag=str(tag)
         self.attrs = attrs
+        for k,v in self.attrs.items():
+            try:
+                if type(k)==type(u'a'):
+                    del(self.attrs[k])
+                    k=str(k)
+                if type(v)==type(u'a'):
+                    self.attrs[k]=str(v)
+            except:
+                # Pre 2.1 we should get syntax error. But that's ok.
+                # because pre 2.1 we don't need to do this.
+                pass
         self.data = ''
         self.children=[]
         
@@ -66,6 +77,12 @@ class DOMNode:
             self.children.append(child)
 
     def add_data(self, data):
+        try:
+            if type(data)==type(u'a'):
+                data=str(data)
+        except:
+            pass #Python pre-2.1 syntax error above. But that's ok.
+        
         self.data = self.data + data
 
     def find(self, tag):
