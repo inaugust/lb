@@ -10,7 +10,7 @@ SPACE=' '
 oldtermios=None
 terminated=0
 
-def initialize(lb):
+def initialize():
     global oldtermios
     
     fd = sys.stdin.fileno()
@@ -23,12 +23,21 @@ def initialize(lb):
     t.start()
     #time.sleep(10)
 
+def reset():
+    pass
+
 def shutdown():
     global terminated
     terminated=1
     fd = sys.stdin.fileno()
     termios.tcsetattr(fd, TERMIOS.TCSANOW, oldtermios)
     
+def load(data):
+    pass
+
+def save():
+    pass
+
 def handle_key_press (key):
     global proc
     if (key==SPACE):

@@ -13,19 +13,52 @@ import instrument
 from omniORB import CORBA
 from idl import LB, LB__POA
 
-def initialize(lb):
+edit_menu=None
+
+def initialize():
+    reset()
+
+def reset():
+    global edit_menu
     lb.cue={}
-    try:
-        f=open(path.join(lb.datapath, 'cues'))
-    except:
-        f=None
-    if (f):
-        p=parser()
-        p.Parse(f.read())
-        p.close()
+    threads_enter()
+    menubar=lb.menubar
+    for m in menubar.children():
+        if (m.children()[0].get() == "Cue"):
+            menubar.remove(m)
+
+    cue1=GtkMenuItem("Cue")
+    menubar.append(cue1)
+
+    cue1_menu=GtkMenu()
+    cue1.set_submenu(cue1_menu)
+
+    edit1=GtkMenuItem("Edit")
+    cue1_menu.append(edit1)
+    edit_menu=GtkMenu()
+    edit1.set_submenu(edit_menu)
+
+    new1=GtkMenuItem("New")
+    new1.connect("activate", newCue_cb, None)
+    cue1_menu.append(new1)
+
+    menubar.show_all()
+    threads_leave()
         
 def shutdown():
     pass
+
+def load(data):
+    p=parser()
+    p.Parse(data)
+    p.close()
+
+def save():
+    s="<cues>\n\n"
+    for c in lb.cue.values():
+        s=s+c.to_xml(1)+"\n"
+    s=s+"</cues>\n"
+    return s
 
 def sort_by_attr(seq, attr):
     intermed = map(None, map(getattr, seq, (attr,)*len(seq)),
@@ -33,13 +66,59 @@ def sort_by_attr(seq, attr):
     intermed.sort()
     return map(operator.getitem, intermed, (-1,) * len(intermed))
 
+class cueFactory:
+    def __init__(self):
+        threads_enter()
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "nameDialog")
+            
+            dic = {"on_ok_clicked": self.ok_clicked,
+                   "on_cancel_clicked": self.cancel_clicked}
+            
+            wTree.signal_autoconnect (dic)
+            
+            self.tree=wTree
+        finally:
+            threads_leave()
+        
+    def ok_clicked(self, widget, data=None):
+        w = self.tree.get_widget("nameDialog")
+        e = self.tree.get_widget("nameEntry")
+        name = e.get_text()
+        if not lb.program.has_key(name):
+            threads_leave()
+            c=cue(name)
+            threads_enter()
+        w.destroy()
+    
+    def cancel_clicked(self, widget, data=None):
+        w = self.tree.get_widget("nameDialog")
+        w.destroy()
+
+
+def newCue_cb(widget, data=None):
+    # called from menu
+    threads_leave()
+    f = cueFactory()
+    threads_enter()
+    # that's it.
 
 class parser(ExpatXMLParser):
     def __init__(self):
         ExpatXMLParser.__init__(self)
+        self.in_cues=0
         self.parent=None
         
+    def start_cues (self, attrs):
+        self.in_cues = 1
+
+    def end_cues (self):
+        self.in_cues = 0
+        self.cue.validate()
+    
     def start_instrument (self, attrs):
+        if (not self.in_cues): return
         for key, value in attrs.items():
             if key == "name": continue
             self.cue.instrument[attrs['name']]={}
@@ -47,13 +126,14 @@ class parser(ExpatXMLParser):
             print attrs['name'], key, value
 
     def start_cue (self, attrs):
+        if (not self.in_cues): return        
         self.cue=cue(attrs['name'])
 
     def end_cue (self):
-        lb.cue[self.cue.name]=self.cue
-        self.cue.validate()
+        if (not self.in_cues): return        
 
     def start_parent (self, attrs):
+        if (not self.in_cues): return        
         l = attrs['level']
         if l[-1]=='%':
             l=l[:-1]
@@ -61,50 +141,54 @@ class parser(ExpatXMLParser):
         self.parent=['', l]
 
     def handle_data (self, data):
+        if (not self.in_cues): return        
         if self.parent is not None:
             self.parent[0]=data
 
     def end_parent (self):
+        if (not self.in_cues): return        
         self.cue.parents.append(self.parent)
         self.parent=None
 
 class instrument_cue_proxy:
-     def __init__ (self, name, cue):
-         # name is the name of the instrument to proxy for
-         # cue is the cue object being edited
-         self.__dict__['instrument'] = lb.instrument[name]
-         self.__dict__['cue'] = cue
-         self.__dict__['name'] = name
+    def __init__ (self, name, cue):
+        # name is the name of the instrument to proxy for
+        # cue is the cue object being edited
+        self.__dict__['instrument'] = lb.instrument[name]
+        self.__dict__['cue'] = cue
+        self.__dict__['name'] = name
 
-     def __getattr__(self, name):
-         c = self.__dict__['cue']
-         n = self.__dict__['name']
-         if (c.apparent.has_key(n)):
-             if c.apparent[n].has_key(name):
-                 return c.apparent[n][name]
-         return ''
+    def __getattr__(self, name):
+        c = self.__dict__['cue']
+        n = self.__dict__['name']
+        if (c.apparent.has_key(n)):
+            if c.apparent[n].has_key(name):
+                return c.apparent[n][name]
+        return ''
 
-     def __setattr__(self, name, value):
-         c = self.__dict__['cue']
-         n = self.__dict__['name']
-         i = self.__dict__['instrument']
-         value = lb.value_to_string(name, [value])
-         if (not c.instrument.has_key(n)):
-             c.instrument[n]={}
-         if (not c.apparent.has_key(n)):
-             c.apparent[n]={}
-         c.instrument[n][name]=value
-         c.apparent[n][name]=value
-         c.build_time=time.time()
-         if c.live_updates:
-             i.set_attribute(name, value)
-         c.update_display()
-
-   
+    def __setattr__(self, name, value):
+        c = self.__dict__['cue']
+        n = self.__dict__['name']
+        i = self.__dict__['instrument']
+        if (type(value) != type('')):
+            if (type(value) != type([])):
+                value = lb.value_to_string(name, [value])
+            else:
+                value = lb.value_to_string(name, value)
+        if (not c.instrument.has_key(n)):
+            c.instrument[n]={}
+        if (not c.apparent.has_key(n)):
+            c.apparent[n]={}
+        c.instrument[n][name]=value
+        c.apparent[n][name]=value
+        c.build_time=time.time()
+        if c.live_updates:
+            i.set_attribute(name, value)
+        c.update_display()
 
 class cue(completion):
 
-    def __init__(self, name):
+    def __init__(self, name, update_refs=1):
         self.my_locals={'lb': lb}
         completion.__init__(self, self.my_locals)
         self.instrument={}
@@ -115,6 +199,25 @@ class cue(completion):
         self.name=name
         self.core_cue = LB.Cue(name, [])
         self.live_updates=0
+
+        if (update_refs):
+            self.update_refs()
+
+    def update_refs(self):
+        if (lb.cue.has_key(self.name)):
+            old = lb.cue[self.name]
+            edit_menu.remove(old.edit_menu_item)
+        lb.cue[self.name]=self
+            
+        threads_enter()
+        try:
+            i=GtkMenuItem(self.name)
+            self.edit_menu_item=i
+            edit_menu.append(i)
+            i.connect("activate", self.edit_cb, None)
+            i.show()
+        finally:
+            threads_leave()
 
     def invalidate(self):
         self.valid = 0
@@ -150,9 +253,10 @@ class cue(completion):
             self.build_time=time.time()
         
     def copy(self):
-        c = cue(self.name)
+        c = cue(self.name, update_refs=0)
         c.parents=self.parents
         c.instrument=self.instrument.copy()
+        c.edit_menu_item = self.edit_menu_item
         c.invalidate()
         return c
     
@@ -170,6 +274,22 @@ class cue(completion):
             cue.ins.append(i)
         cue.ins=sort_by_attr(cue.ins, 'name')            
         return cue
+
+    def to_xml(self, indent=0):
+        s = ''
+        sp = '  '*indent
+        s=s+sp+'<cue name="%s">\n' % self.name
+        for name, lvl in self.parents:
+            lvl = lb.value_to_string('level', [lvl])
+            s=s+sp+'  '+'<parent level="%s">%s</parent>\n' % (lvl, name)
+        for name, idict in self.instrument.items():
+            l=sp+'  '+'<instrument name="%s"' % name
+            for attr, value in idict.items():
+                l=l+' %s="%s"' % (attr, value)
+            l=l+'/>\n'
+            s=s+l
+        s=s+sp+'</cue>\n'
+        return s
 
     def update_display(self):
         threads_enter()
@@ -377,12 +497,65 @@ class cue(completion):
 
     def edit_ok_clicked(self, widget, data=None):
         win = self.editTree.get_widget("cueEdit")
-        lb.cue[self.name]=self
+        threads_leave()
+        self.update_refs()
+        threads_enter()
         win.destroy()
-            
+
+    def edit_attr_changed(self, widget, data=None):
+        i = self.locals[self.editing_instrument]
+        threads_leave()
+        setattr(i, widget.attribute, widget.get_string_value())
+        threads_enter()
+        
+    def edit_row_selected(self, widget, row, column, data=None):
+        print self, widget, row, column, data
+        in_tree = self.editTree.get_widget("inTree")
+        table = self.editTree.get_widget("attributeTable")
+        node = in_tree.node_nth(row)
+        #node = in_tree.selection[0]
+        print node
+        name = in_tree.node_get_pixtext(node, 0)[0]
+        print name
+        
+        for c in table.children():
+            table.remove(c)
+
+        ins =lb.instrument[name]
+        self.editing_instrument=name
+
+        l = len (ins.attributes)
+        table.resize(2, l+1)
+
+        w = GtkLabel("Instrument:")
+        table.attach(w, 0,1,0,1)
+        w = GtkLabel(name)
+        table.attach(w, 1,2,0,1)
+
+        for i in range(1,l+1):
+            a = ins.attributes[i-1]
+            v = getattr(self.locals[self.editing_instrument], a)
+            w = GtkLabel(a)
+            table.attach(w, 0,1, l,l+1)
+            w = lb.attr_widget(a)(v, self.edit_attr_changed)            
+            table.attach(w.get_widget(), 1,2, l,l+1)
+        table.show_all()
+        return 1
+           
     def edit(self):
         cue = self.copy()
         cue.edit_self()
+
+    def edit_destroyed(self, widget, data=None):
+        self.edit_menu_item.set_sensitive(1)        
+
+    def edit_cb(self, widget, data):
+        """ Called from lightboard->program->edit """
+
+        self.edit_menu_item.set_sensitive(0)
+        threads_leave()
+        self.edit()
+        threads_enter()
         
     def edit_self(self):        
         threads_enter()
@@ -418,7 +591,10 @@ class cue(completion):
 
             self.out_tree = wTree.get_widget ("outTree")
             self.in_tree = wTree.get_widget ("inTree")
-            self.editTree.get_widget("cueEdit").show()
+            w=wTree.get_widget("cueEdit")
+            w.connect ('destroy', self.edit_destroyed)
+            
+            self.in_tree.connect ('select-row', self.edit_row_selected)
         finally:
             threads_leave()
 

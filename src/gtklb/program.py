@@ -10,6 +10,7 @@ from gtk import *
 from libglade import *
 
 run_menu=None
+edit_menu=None
 
 action_types={
     'xf_load': (('xf', lb.crossfader.keys), ('cue', lb.cue.keys)),
@@ -17,12 +18,19 @@ action_types={
                ('downtime', '')),
     }
 
-def initialize(lb):
-    global run_menu
-    lb.program={}
+def initialize():
+    reset()
 
+def reset():
+    global run_menu
+    global edit_menu
+    lb.program={}
     threads_enter()
     menubar=lb.menubar
+    for m in menubar.children():
+        if (m.children()[0].get() == "Program"):
+            menubar.remove(m)
+
     program1=GtkMenuItem("Program")
     menubar.append(program1)
 
@@ -34,21 +42,71 @@ def initialize(lb):
     run_menu=GtkMenu()
     run1.set_submenu(run_menu)
 
+    edit1=GtkMenuItem("Edit")
+    program1_menu.append(edit1)
+    edit_menu=GtkMenu()
+    edit1.set_submenu(edit_menu)
+
+    new1=GtkMenuItem("New")
+    new1.connect("activate", newProgram_cb, None)
+    program1_menu.append(new1)
+
     menubar.show_all()
     threads_leave()
-
-    try:
-        f=open(path.join(lb.datapath, 'programs'))
-    except:
-        f=None
-    if (f):
-        p=parser()
-        p.Parse(f.read())
-        p.close()
     
 def shutdown():
     for p in lb.program.values():
-        p.stop_real({})
+        p.stop()
+
+def load(data):
+    p=parser()
+    p.Parse(data)
+    p.close()
+
+def save():
+    s="<programs>\n\n"
+    for p in lb.program.values():
+        s=s+p.to_xml(1)+"\n"
+    s=s+"</programs>\n"
+    return s
+
+class programFactory:
+    def __init__(self):
+        threads_enter()
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "nameDialog")
+            
+            dic = {"on_ok_clicked": self.ok_clicked,
+                   "on_cancel_clicked": self.cancel_clicked}
+            
+            wTree.signal_autoconnect (dic)
+            
+            self.tree=wTree
+        finally:
+            threads_leave()
+        
+    def ok_clicked(self, widget, data=None):
+        w = self.tree.get_widget("nameDialog")
+        e = self.tree.get_widget("nameEntry")
+        name = e.get_text()
+        if not lb.program.has_key(name):
+            threads_leave()
+            p=program(name)
+            threads_enter()
+        w.destroy()
+    
+    def cancel_clicked(self, widget, data=None):
+        w = self.tree.get_widget("nameDialog")
+        w.destroy()
+
+
+def newProgram_cb(widget, data=None):
+    # called from menu
+    threads_leave()
+    f = programFactory()
+    threads_enter()
+    # that's it.
 
 class action:
     def __init__(self, my_prog):
@@ -201,28 +259,28 @@ class loop(step):
         self.actions=[]
 
 class parser(ExpatXMLParser):
-
+    def __init__(self):
+        ExpatXMLParser.__init__(self)
+        self.in_programs=0
+        
     def start_programs (self, attrs):
-        pass
+        self.in_programs=1
+
+    def end_programs (self):
+        self.in_programs=0
     
     def start_program (self, attrs):
+        if (not self.in_programs): return
         self.program=program (attrs['name'])
         self.pstack=[self.program]
         self.init=0
 
     def end_program (self):
-        lb.program[self.program.name]=self.program
-
-        threads_enter()
-        prog=GtkMenuItem(self.program.name)
-        self.program.run_menu_item=prog
-        run_menu.append(prog)
-        prog.connect("activate", self.program.run_cb, None)
-        prog.show()
-        threads_leave()
-        self.program.create_window()
-
+        if (not self.in_programs): return
+        pass
+    
     def start_step (self, attrs):
+        if (not self.in_programs): return
         s = step (self.program)
         self.pstack.append (s)
         if (attrs.has_key('name')):
@@ -231,11 +289,13 @@ class parser(ExpatXMLParser):
             s.name="None"
             
     def end_step (self):
+        if (not self.in_programs): return
         s = self.pstack.pop ()
         top = self.pstack[-1]
         top.actions.append(s)
 
     def start_loop (self, attrs):
+        if (not self.in_programs): return
         print "loops not supported!"
         return
         l=loop()
@@ -248,21 +308,21 @@ class parser(ExpatXMLParser):
             print "error"
 
     def end_loop (self):
+        if (not self.in_programs): return
         return
         l=self.pstack.pop()
         top = self.pstack[-1]
         top.actions.append(l)
         
     def start_init (self, attrs):
+        if (not self.in_programs): return
         s=step(self.program)
         self.pstack.append (s)
-        if (attrs.has_key('name')):
-            s.name=attrs['name']
-        else:
-            s.name='<init>'
+        s.name='<init>'
         self.init=self.init+1
 
     def end_init (self):
+        if (not self.in_programs): return
         self.init=self.init-1
         if (self.init==0):
             s=self.pstack.pop()
@@ -271,6 +331,7 @@ class parser(ExpatXMLParser):
             print "nested inits"
             
     def unknown_starttag (self, tag, attrs):
+        if (not self.in_programs): return
         tag=string.lower(tag)
         top=self.pstack[-1]
         act = action(self.program)
@@ -279,12 +340,12 @@ class parser(ExpatXMLParser):
         top.actions.append (act)
         
 
-
 class program:
 
     def __init__(self, name):
         self.name=name
         self.init_step=step(self)
+        self.init_step.name='<init>'
         self.actions=[]
         self.current_step=None
         self.next_step=None
@@ -292,6 +353,27 @@ class program:
         self.mythread=None
         self.threadlock=Lock()
         self.stepnumlock=Lock()
+
+        if (lb.program.has_key(self.name)):
+            old = lb.program[self.name]
+            run_menu.remove(old.run_menu_item)
+            edit_menu.remove(old.edit_menu_item)
+        lb.program[self.name]=self
+
+        threads_enter()
+        try:
+            prog=GtkMenuItem(self.name)
+            self.run_menu_item=prog
+            run_menu.append(prog)
+            prog.connect("activate", self.run_cb, None)
+            prog.show()
+            prog=GtkMenuItem(self.name)
+            self.edit_menu_item=prog
+            edit_menu.append(prog)
+            prog.connect("activate", self.edit_cb, None)
+            prog.show()
+        finally:
+            threads_leave()
 
     def get_current_step (self):
         if (self.current_step != None):
@@ -343,8 +425,31 @@ class program:
         self.ui_set_next_step()
         self.stepnumlock.release()
 
-    # private
+    def to_xml(self, indent=0):
+        s = ''
+        sp = '  '*indent
+        s=s+sp+'<program name="%s">\n' % self.name
+        s=s+sp+'  <init>\n'
+        for act in self.init_step.actions:
+            l='    <%s' % act.kind
+            for a,v in act.args.items():
+                l=l+' %s="%s"' % (a,v)
+            l=l+'/>\n'
+            s=s+sp+l
+        s=s+sp+'  </init>\n'
+        for stp in self.actions:
+            s=s+sp+'  <step name="%s">\n' % stp.name
+            for act in stp.actions:
+                l='    <%s' % act.kind
+                for a,v in act.args.items():
+                    l=l+' %s="%s"' % (a,v)
+                l=l+'/>\n'
+                s=s+sp+l
+            s=s+sp+'  </step>\n'
+        s=s+sp+'</program>\n'
+        return s
 
+    # private
 
     def do_run (self, actions):
         print 'do_run'
@@ -596,6 +701,9 @@ class program:
         if (source.level==2 and parent is None):
             return 0
         return 1
+
+    def edit_destroyed(self, widget, data=None):
+        self.edit_menu_item.set_sensitive(1)        
     
     def edit(self):
         threads_enter()
@@ -603,6 +711,8 @@ class program:
             wTree = GladeXML ("gtklb.glade",
                               "programEdit")
 
+            w = wTree.get_widget("programEdit")
+            w.connect ('destroy', self.edit_destroyed)
             w = wTree.get_widget("programTree")
             w.connect ('select_row', self.edit_row_selected)
             w.connect ('unselect_row', self.edit_row_unselected)
@@ -632,10 +742,19 @@ class program:
 
         finally:
             threads_leave()
+
+    def edit_cb(self, widget, data):
+        """ Called from lightboard->program->edit """
+
+        self.edit_menu_item.set_sensitive(0)
+        threads_leave()
+        self.edit()
+        threads_enter()
        
     def create_window(self):
         threads_enter()
         window1=GtkWindow(WINDOW_TOPLEVEL)
+        window1.connect ('destroy', self.run_destroyed)
         self.window=window1
         window1.set_title(self.name)
         window1.set_default_size(300, 200)
@@ -667,9 +786,7 @@ class program:
         scrolledwindow1.add_with_viewport(self.cue_list)
 
         items=[]
-        print self.actions
         for i in self.actions:
-            print i, i.name
             item=GtkListItem(i.name)
             items.append(item)
         self.cue_list.append_items(items)
@@ -685,6 +802,8 @@ class program:
         self.button_go=GtkButton("Go")
         hbuttonbox1.pack_start(self.button_go, TRUE, TRUE, 0)
         self.button_go.connect('clicked', self.go_clicked, None)
+
+        self.window.show_all()
 
         threads_leave()
 
@@ -735,11 +854,16 @@ class program:
         self.set_next_step(p)
         threads_enter()
 
+    def run_destroyed(self, widget, data=None):
+        self.run_menu_item.set_sensitive(1)        
+
     def run_cb(self, widget, data):
         """ Called from lightboard->program->run """
 
         self.run_menu_item.set_sensitive(0)
-        self.window.show_all()
+        threads_leave()
+        self.create_window()
+        threads_enter()
 
         threads_leave()
         self.run()

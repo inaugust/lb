@@ -24,22 +24,41 @@ attribute_mapping = {
     }
 
 
-def initialize(lb):
+def initialize():
+    reset()
+    
+def reset():
     lb.instrument={}
-    try:
-        f=open(path.join(lb.datapath, 'instruments'))
-    except:
-        f=None
-    if (f):
-        p=parser()
-        p.Parse(f.read())
-        p.close()
 
 def shutdown():
     pass
 
+def load(data):
+    p=parser()
+    p.Parse(data)
+    p.close()
+    
+def save():
+    s="<instruments>\n\n"
+    for c in lb.instrument.values():
+        s=s+c.to_xml(1)
+    s=s+"</instruments>\n"
+    return s
+
 class parser(ExpatXMLParser):
+    def __init__(self):
+        ExpatXMLParser.__init__(self)
+        self.in_instruments=0
+
+    def start_instruments (self, attrs):
+        self.in_instruments=1
+
+    def end_instruments (self):
+        self.in_instruments=0
+        
     def start_instrument (self, attrs):
+        if (not self.in_instruments):
+            return
         lb.instrument[attrs['name']]=instrument(attrs['name'],
                                                 attrs['core'],
                                                 int(attrs['dimmer']))
@@ -47,6 +66,7 @@ class parser(ExpatXMLParser):
 class instrument:
 
     attributes=('level',)
+    driver='instrument'
 
     def __init__(self, name, corename, dimmer_number):
         print name
@@ -75,6 +95,15 @@ class instrument:
         
     #public
 
+    def to_xml(self, indent=0):
+        s = ''
+        sp = '  '*indent
+        s=s+sp+'<%s name="%s" core="%s" dimmer="%s"/>\n' % (self.driver,
+                                                           self.name,
+                                                           self.corename,
+                                                           self.dimmer_number)
+        return s
+
     def get_attribute (self, name):
         if name == 'level':
             return self.get_level()
@@ -89,5 +118,5 @@ class instrument:
         self.coreinstrument.setLevel (lb.level_to_percent(level))
 
     def get_level (self):
-        return lb.percent_to_level(self.coreinstrument.getLevel ())
+        return lb.value_to_string('level', [self.coreinstrument.getLevel ()])
         

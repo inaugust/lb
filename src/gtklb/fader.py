@@ -9,6 +9,30 @@ import instrument
 import lightboard
 import time
 import math
+from gtk import *
+
+def initialize():
+    threads_enter()
+
+    fader_menu_item=GtkMenuItem("Fader")
+    lb.menubar.append(fader_menu_item)
+    lb.fader_menu=GtkMenu()
+    fader_menu_item.set_submenu(lb.fader_menu)
+
+    lb.menubar.show_all()
+    threads_leave()
+
+def reset():
+    pass
+
+def shutdown():
+    pass
+
+def load(data):
+    pass
+
+def save():
+    pass
 
 class fader:
     def __init__(self, name, callback=None, callback_arg=None, groupname=None):
@@ -147,7 +171,7 @@ class fader:
         self.threadlock.release()
         if (self.callback):
             self.callback(self.callback_arg, self.name, None)
-                
+
     def stop_real(self, args):
         self.threadlock.acquire()
         if (self.mythread):

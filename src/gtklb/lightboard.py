@@ -4,11 +4,13 @@ from threading import *
 import string
 import time
 from gtk import *
+from libglade import *
 import GDK
 from rexec import RExec
 import __builtin__
 import __main__
 from completion import completion
+from ExpatXMLParser import ExpatXMLParser
 import instrument
 
 import os
@@ -22,7 +24,19 @@ import string
 
 COPYRIGHT="Copyright 2001 In August Productions, INC."
 
-class lightboard(completion):
+class parser(ExpatXMLParser):
+
+    def start_show (self, attrs):
+        self.in_show=1
+        self.name=attrs['name']
+
+    def end_show (self):
+        self.in_show=0
+
+    def get_name (self):
+        return self.name
+
+class lightboard(completion, LB__POA.Client):
 
     _signals={}
     _event_queue=[]
@@ -33,10 +47,11 @@ class lightboard(completion):
 
     _terminated=0
 
-    def __init__(self, show, datapath):
+    def __init__(self, show, myname):
         completion.__init__(self, {'lb':self})
-        self.datapath=datapath
         self.show=show
+        self.name=myname
+        self.datafile=None
         __builtins__['lb']=self
 
         self.orb = CORBA.ORB_init(sys.argv, CORBA.ORB_ID)
@@ -45,6 +60,17 @@ class lightboard(completion):
         ns = nsi._narrow(CosNaming.NamingContext)
         self.root_naming = ns
 
+        self.do_bindings()
+
+        self.poa._get_the_POAManager().activate()
+        t=Thread (target=self.orb.run)
+        t.start()
+
+        self.check_cores()
+        
+        self.create_window()
+
+    def do_bindings(self):
         try:
             x=CosNaming.NameComponent("shows","")
             o = self.root_naming.resolve([x])
@@ -56,6 +82,18 @@ class lightboard(completion):
             o = o.resolve([x])
         except:
             o = o.bind_new_context([x])
+
+        try:
+            x=CosNaming.NameComponent("clients","")
+            client_ctx = o.resolve([x])
+        except:
+            client_ctx = o.bind_new_context([x])
+
+        try:
+            x=CosNaming.NameComponent(self.name, "Client")
+            i = client_ctx.rebind([x], self._this())
+        except:
+            print 'Unable to bind client'
 
         try:
             x=CosNaming.NameComponent("instruments","")
@@ -72,12 +110,29 @@ class lightboard(completion):
         self.instrument_context = ins_ctx
         self.fader_context = fad_ctx
 
-        self.poa._get_the_POAManager().activate()
-        t=Thread (target=self.orb.run)
-        t.start()
+    def undo_bindings(self):
+        x=CosNaming.NameComponent("shows","")
+        o = self.root_naming.resolve([x])
 
-        self.create_window()
+        x=CosNaming.NameComponent(self.show,"")
+        o = o.resolve([x])
 
+        x=CosNaming.NameComponent("clients","")
+        client_ctx = o.resolve([x])
+
+        x=CosNaming.NameComponent(self.name, "Client")
+        client_ctx.unbind([x])
+
+    def check_cores(self):
+        self.core_names=[]
+        x=CosNaming.NameComponent("lightboards","")
+        o = self.root_naming.resolve([x])
+        (foo,iterator) = o.list(0)
+        while 1:
+            (c,b)=iterator.next_one()
+            if not c:
+                break
+            self.core_names.append(str(b.binding_name[0].id))
         
     def run(self):
         #for x in range (1, 1025):
@@ -88,14 +143,8 @@ class lightboard(completion):
         self.write ("Working in show: %s\n" % self.show)
 
         names=''
-        x=CosNaming.NameComponent("lightboards","")
-        o = self.root_naming.resolve([x])
-        (foo,iterator) = o.list(0)
-        while 1:
-            (c,b)=iterator.next_one()
-            if not c:
-                break
-            names=names + " " + str(b.binding_name[0].id)
+        for name in self.core_names:
+            names=names+" "+name
         
         self.write ("Connected to core dimmer controlers: %s \n" % names)
         self.write ("Ready.\n")
@@ -104,12 +153,59 @@ class lightboard(completion):
         for lib in libs:
             print "Loading library: " + lib
             l=__import__(lib, globals(), locals(), [])
-            l.initialize(self)
+            l.initialize()
             self._libraries.append(l)
 
+    def load_show(self, datafile):
+        self.write("Loading show " + datafile + "\n")
+        self.datafile = datafile
+        f=open(datafile)
+        p=parser()
+        data = f.read()
+        p.Parse(data)
+        p.close()
+        self.undo_bindings()        
+        self.show = p.get_name()
+        self.do_bindings()
+        
+        for lib in self._libraries:
+            lib.load(data)
+        self.write("Now working in show " + self.show +"\n")
+
+    def save_show(self, datafile=None):
+        if datafile is not None:
+            self.datafile = datafile
+        else:
+            datafile = self.datafile
+
+        s = '<show name="%s">\n' % self.show
+
+        for lib in self._libraries:
+            r = lib.save()
+            if (r is not None):
+                s=s+r
+
+        s=s+ '</show>\n'
+        f=open(datafile, "w")
+        f.write(s)
+
+    def change_show(self, newname, clear=0):
+        self.datafile=None
+        self.undo_bindings()
+        self.show = newname
+        self.do_bindings()
+        if (clear):
+            for lib in self._libraries:
+                lib.reset()
+        else:
+            for lib in self._libraries:
+                lib.load(lib.save())
+        self.write("Now working in show " + self.show +"\n")
+        
     def exit (self):
         for lib in self._libraries:
             lib.shutdown()
+        sys.exit(0)
 
     def get_instrument(self, name):
         try:
@@ -128,8 +224,6 @@ class lightboard(completion):
             return None
 
     def get_core(self, name):
-        #deprecated
-        print "DON'T USE GET_CORE!"
         x=CosNaming.NameComponent("lightboards", "")
         o = self.root_naming.resolve([x])
         x=CosNaming.NameComponent(name, "")
@@ -152,66 +246,125 @@ class lightboard(completion):
 
     def create_window(self):
         threads_enter()
-        window1=GtkWindow(WINDOW_TOPLEVEL)
-        self.window=window1
-        window1.set_title("Lightboard")
-        window1.set_usize(-1, -1)
-        window1.set_default_size(300, 200)
-        window1.set_policy(FALSE, TRUE, FALSE)
-        window1.set_position(WIN_POS_NONE)
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "main")
 
-        vbox1=GtkVBox()
-        window1.add(vbox1)
-        vbox1.set_homogeneous(FALSE)
-        vbox1.set_usize(-1, -1)
-        vbox1.set_spacing(0)
+            dic = {"on_new_activate": self.on_new_activate,
+                   "on_open_activate": self.on_open_activate,
+                   "on_save_activate": self.on_save_activate,
+                   "on_save_as_activate": self.on_save_as_activate,
+                   "on_properties_activate": self.on_properties_activate,
+                   "on_exit_activate": self.on_exit_activate}
+                   
+            wTree.signal_autoconnect (dic)
 
-        self.menubar=GtkMenuBar()
-        self.menubar.set_usize(-1, -1)
-        vbox1.pack_start(self.menubar, FALSE, FALSE, 0)
+            w = wTree.get_widget("main")
 
-        fader_menu_item=GtkMenuItem("Fader")
-        self.menubar.append(fader_menu_item)
-        self.fader_menu=GtkMenu()
-        fader_menu_item.set_submenu(self.fader_menu)
+            self.window=w
+            self.windowTree=wTree
+            self.menubar = wTree.get_widget("menubar")
 
-        scrolledwindow1=GtkScrolledWindow()
-        vbox1.pack_start(scrolledwindow1, TRUE, TRUE, 0)
-        scrolledwindow1.set_usize(-1, -1)
-        scrolledwindow1.set_policy(POLICY_AUTOMATIC, POLICY_AUTOMATIC)
-        text1=GtkText()
-        text1.set_usize(-1, -1)
-        scrolledwindow1.add(text1)
-        #text1.set_flags(CAN_FOCUS)
-        text1.set_editable(FALSE)
-        text1.show()
-        self.textbox=text1
+            self.textbox=wTree.get_widget("outputText")
+            self.more_toggle=wTree.get_widget("entryMore")
+            self.entry=wTree.get_widget("entry")
 
-        hbox1=GtkHBox()
-        vbox1.pack_start(hbox1, FALSE, FALSE, 0)
-        hbox1.set_usize(-1, -1)
-        hbox1.set_homogeneous(FALSE)
-        hbox1.set_spacing(0)
-        togglebutton1=GtkToggleButton("More...")
-        hbox1.pack_start(togglebutton1, FALSE, FALSE, 0)
-        togglebutton1.set_flags(CAN_FOCUS)
-        togglebutton1.set_usize(-1, -1)
-        togglebutton1.set_sensitive(0)
-        togglebutton1.show()
-        self.more_toggle=togglebutton1
+            self.entry.connect('activate', self.entry_activated, None)
+            self.entry.connect('key_press_event', self.key_pressed, None)
 
-        entry1=GtkEntry()
-        entry1.set_usize(-1, -1)
-        hbox1.pack_start(entry1, TRUE, TRUE, 0)
-        entry1.set_flags(CAN_FOCUS)
-        entry1.set_editable(TRUE)
-        entry1.show()
-        self.entry=entry1
+        finally:
+            threads_leave()
 
-        entry1.connect('activate', self.entry_activated, None)
-        entry1.connect('key_press_event', self.key_pressed, None)
-        window1.show_all()
+    def on_new_activate (self, widget, data=None):
         threads_leave()
+        self.change_show("unnamed", clear=1)
+        threads_enter()
 
+    def open_ok (self, widget, data=None):
+        w = self.openTree.get_widget("fileSelection")
+        datafile = w.get_filename()
+        threads_leave()
+        self.load_show(datafile)
+        threads_enter()
+        w.destroy()
 
+    def open_cancel (self, widget, data=None):
+        w = self.openTree.get_widget("fileSelection")
+        w.destroy()
+    
+    def on_open_activate (self, widget, data=None):
+        print 'open'
+        wTree = GladeXML ("gtklb.glade",
+                          "fileSelection")
         
+        dic = {"on_ok_clicked": self.open_ok,
+               "on_cancel_clicked": self.open_cancel}
+        
+        wTree.signal_autoconnect (dic)
+        
+        self.openTree=wTree
+
+    def on_save_activate (self, widget, data=None):
+        print 'save'
+        if self.datafile is not None:
+            self.save_show()
+        else:
+            self.on_save_as_activate(widget, data)
+
+    def save_as_ok (self, widget, data=None):
+        w = self.saveAsTree.get_widget("fileSelection")
+        datafile = w.get_filename()
+        threads_leave()
+        self.save_show(datafile)
+        threads_enter()
+        w.destroy()
+
+    def save_as_cancel (self, widget, data=None):
+        w = self.saveAsTree.get_widget("fileSelection")
+        w.destroy()
+        
+    def on_save_as_activate (self, widget, data=None):
+        print 'save as'
+        wTree = GladeXML ("gtklb.glade",
+                          "fileSelection")
+        
+        dic = {"on_ok_clicked": self.save_as_ok,
+               "on_cancel_clicked": self.save_as_cancel}
+        
+        wTree.signal_autoconnect (dic)
+        
+        self.saveAsTree=wTree
+
+    def prop_ok (self, widget, data=None):
+        w = self.propTree.get_widget("nameDialog")
+        e = self.propTree.get_widget("nameEntry")
+        name = e.get_text()
+        threads_leave()
+        self.change_show(name)
+        threads_enter()
+        w.destroy()
+
+    def prop_cancel (self, widget, data=None):
+        w = self.propTree.get_widget("nameDialog")
+        w.destroy()
+
+    def on_properties_activate (self, widget, data=None):
+        print 'props'
+        wTree = GladeXML ("gtklb.glade",
+                          "nameDialog")
+        
+        dic = {"on_ok_clicked": self.prop_ok,
+               "on_cancel_clicked": self.prop_cancel}
+        
+        wTree.signal_autoconnect (dic)
+        
+        self.propTree=wTree
+        
+
+    def on_exit_activate (self, widget, data=None):
+        print 'exit'
+        self.exit()
+
+    def receiveData(self, data):
+        pass
+    

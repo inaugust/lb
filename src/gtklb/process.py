@@ -4,7 +4,10 @@ from os import path
 import string
 import procedure
 
-def initialize(lb):
+def initialize():
+    reset()
+
+def reset():
     lb.process={}
     lb.process_lock=Lock()    
     lb.process_num=0
@@ -13,6 +16,12 @@ def shutdown():
     for p in lb.process.values():
         p.stop_real({})
         
+def load(data):
+    pass
+
+def save():
+    pass
+
 class process:
 
     def __init__(self):
