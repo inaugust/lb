@@ -6,6 +6,7 @@ import instrument
 import lightboard
 import time
 import math
+import string
 from fader import fader
 
 def initialize(lb):
@@ -38,22 +39,22 @@ class parser(ExpatXMLParser):
 
 class transitionfader(fader):
 
-    supported_attributes = ['level']
+    supported_attributes = ['level', 'target']
 
     def __init__(self, name):
         fader.__init__(self, name, None, None, None)
         self.cue=None
-        self.attributes=[]
+        self.attributes=self.supported_attributes[:]
         self.start_cue_name=self.end_cue_name=None
         self.attribute_methods = {'level': self.do_set_level,
-                            #'location': transitionfader.do_set_location,
+                                  'target': self.do_set_target,
                             #'color': transitionfader.do_set_color
                             }
             
 
     def set_level(self, level):
-        lb.send_signal('Transition Fader Set Level', itself=self, level=level)
-        #self.set_level_real({'level':level})
+        #lb.send_signal('Transition Fader Set Level', itself=self, level=level)
+        self.set_level_real({'level':level})
     
     def set_start_cue(self, cue):
         lb.send_signal('Transition Fader Set Start Cue', itself=self, cue=cue)
@@ -146,13 +147,30 @@ class transitionfader(fader):
                 self.start_cue[name]={}
                 for attr in dict.keys():
                     self.start_cue[name][attr]=lb.instrument[name].get_attribute(attribute=attr)
+
+        # Do value conversion on the cues:
         
+        for (name, dict) in self.start_cue.items():
+            for attr, val in dict.items():
+                if (attr=='level'):
+                    dict[attr]=lb.instrument[name].make_level(val)
+                elif (attr=='target'):
+                    dict[attr]=map(lb.len_to_ft, string.split(val[1:-1], ','))
+
+        for (name, dict) in self.end_cue.items():
+            for attr, val in dict.items():
+                if (attr=='level'):
+                    dict[attr]=lb.instrument[name].make_level(val)
+                elif (attr=='target'):
+                    dict[attr]=map(lb.len_to_ft, string.split(val[1:-1], ','))
+
 
     def act_on_set_ratio(self, ratio):
         # we have the lock
         for (name, dict) in self.end_cue.items():
             for attr in dict.keys():
                 if attr in self.attributes:
+                    #print name, dict, attr, self.attributes
                     self.attribute_methods[attr](name,
                                                  self.start_cue[name][attr],
                                                  dict[attr],
@@ -161,11 +179,20 @@ class transitionfader(fader):
 
     def do_set_level(self, name, start, end, ratio):
         ins=lb.instrument[name]
-        start=ins.make_level(start)
-        end=ins.make_level(end)
         level=start+((end-start)*ratio)
         #print name, start, end, level, ratio
         ins.set_attribute_real({'attribute':'level', 'value':level,
+                                'immediately':0,
+                                'source':None, 'typ':min})
+
+    def do_set_target(self, name, start, end, ratio):
+        ins=lb.instrument[name]
+        #print start, end
+        pos=[((end[0]-start[0])*ratio),
+             ((end[1]-start[1])*ratio),
+             ((end[2]-start[2])*ratio)]
+        #print name, start, end, pos, ratio
+        ins.set_attribute_real({'attribute':'target', 'value':pos,
                                 'immediately':0,
                                 'source':None, 'typ':min})
         

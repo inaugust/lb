@@ -79,8 +79,7 @@ class instrument:
         return '/instrument/'+self.name
 
     def get_attribute(self, attribute=None):
-        if attribute=='level':
-            return self.level
+        return getattr(self, attribute)
 
 #private
 

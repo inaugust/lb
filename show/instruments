@@ -1030,6 +1030,8 @@
 
   <moving_instrument name="moving1" bank="0" dimmer="5" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving2" bank="0" dimmer="10" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
 </instruments>
 
 

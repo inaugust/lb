@@ -23,7 +23,9 @@ def shutdown():
 class parser(ExpatXMLParser):
     def start_instrument (self, attrs):
         d={}
-        d['level']=lb.instrument[attrs['name']].make_level(attrs['level'])
+        for key, value in attrs.items():
+            if key == "name": continue
+            d[key]=value
         self.cue.instrument[attrs['name']]=d
 
     def start_cue (self, attrs):

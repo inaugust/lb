@@ -32,6 +32,7 @@ def len_to_ft(l):
 def initialize(lb):
     if not hasattr(lb, 'instrument'):
         lb.instrument={}
+    lb.len_to_ft=len_to_ft
     try:
         f=open(path.join(lb.datapath, 'instruments'))
     except:
@@ -66,7 +67,7 @@ class parser(ExpatXMLParser):
 
 class moving_instrument(instrument):
 
-    attributes=('level', 'location')
+    attributes=('level', 'target')
 
     # thetadelta = beam change in x direction in degrees per dmx unit
     theta_delta = 0.05
@@ -76,6 +77,7 @@ class moving_instrument(instrument):
     
     def __init__(self, name, dimmer_number, x, y, z, theta, phi):
         instrument.__init__(self, name, dimmer_number)
+        self.target = "(0ft, 0ft, 0ft)"
         self.location = (0.0, 0.0, 0.0)
         
         # xyz location of instrument, in feet
@@ -105,22 +107,25 @@ class moving_instrument(instrument):
 
 #private
     def set_attribute_real(self, args):
-        attribute=str(args['attribute'])
-        value=str(args['value'])
+        attribute=args['attribute']
+        value=args['value']
         typ=args['typ']
         source=args['source']
         immediately=args['immediately']
         
         if (attribute=='level'):
             self.do_set_level (value, typ, source, immediately)
-        if (attribute=='location'):
-            self.do_set_location (value, typ, source, immediately)
+        if (attribute=='target'):
+            self.do_set_target (value, typ, source, immediately)
 
     def xyz_to_xy (self, value):
-        (tx, ty, tz) = string.split(value[1:-1], ',')
-        (tx, ty, tz) = map (string.strip, (tx, ty, tz))
-        # do unit conversion here.  end up with feet
-        (tx, ty, tz) = map (len_to_ft, (tx, ty, tz))
+        if (type(value)==type('string')):
+            (tx, ty, tz) = string.split(value[1:-1], ',')
+            (tx, ty, tz) = map (string.strip, (tx, ty, tz))
+            # do unit conversion here.  end up with feet
+            (tx, ty, tz) = map (len_to_ft, (tx, ty, tz))
+        else:
+            (tx, ty, tz) = value
         # i is the instrument location
         ix = self.x_location
         iy = self.y_location
@@ -148,8 +153,8 @@ class moving_instrument(instrument):
         xlevel=theta/self.theta_delta
         return (xlevel, ylevel)
         
-    def do_set_location (self, value, typ, source, immediately):
-        self.location=value
+    def do_set_target (self, value, typ, source, immediately):
+        self.target=value
         (x, y)=self.xyz_to_xy (value)
         self.x_dimmer.set_level(x, immediately)
         self.y_dimmer.set_level(y, immediately)

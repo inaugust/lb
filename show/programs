@@ -72,8 +72,10 @@
 	cue="moving1" />
       <transitionfader_set_end transitionfader="test_fader" 
 	cue="moving2" />
+<!--
       <transitionfader_set_attributes transitionfader="test_fader"
-        attributes="level" />
+        attributes="level, location" />
+-->
       <transitionfader_run transitionfader="test_fader"
 	level="100%" time="5s" />
     </step>

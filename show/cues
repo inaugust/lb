@@ -1039,6 +1039,7 @@
     <instrument name="1024" level="100%"/>
   </cue>
   <cue name="moving1">
+    <instrument name="moving1" level="100%" target="(10ft, 10ft, 0ft)"/>
     <instrument name="1" level="100%"/>
     <instrument name="3" level="100%"/>
     <instrument name="5" level="100%"/>
@@ -1066,6 +1067,7 @@
     <instrument name="49" level="100%"/>
   </cue>
   <cue name="moving2">
+    <instrument name="moving2" level="100%" target="(20ft, 20ft, 0ft)"/>
     <instrument name="2" level="100%"/>
     <instrument name="4" level="100%"/>
     <instrument name="6" level="100%"/>

@@ -15,7 +15,7 @@ def make_level (level):
     if (level[-1]=='%'):
         level=int((float(level[:-1])/100.0)*255.0)
     else:
-        level=int(level)
+        level=int(float(level))
     return level
 
 def newmatrix():
