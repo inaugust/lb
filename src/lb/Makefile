@@ -7,8 +7,6 @@ CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -D__x
 
 LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3 -lomnithread -L/usr/local/lib/omniORB3 `glib-config --libs`
 
-#
-
 IDLC=omniidl
 IDL_ARGS=-bcxx -Wbuse_quotes -Wba
 IDL_EXAMPLE_ARGS=-Wbexample
