@@ -1027,11 +1027,107 @@
   <instrument name="1023" bank ="0" dimmer="1022"/>
   <instrument name="1024" bank ="0" dimmer="1023"/>
 
-
   <moving_instrument name="moving1" bank="0" dimmer="5" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
   <moving_instrument name="moving2" bank="0" dimmer="10" 
 	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving3" bank="0" dimmer="15" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving4" bank="0" dimmer="20" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving5" bank="0" dimmer="25" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving6" bank="0" dimmer="30" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving7" bank="0" dimmer="35" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving8" bank="0" dimmer="40" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving9" bank="0" dimmer="45" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving10" bank="0" dimmer="50" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving11" bank="0" dimmer="55" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving12" bank="0" dimmer="60" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving13" bank="0" dimmer="65" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving14" bank="0" dimmer="70" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving15" bank="0" dimmer="75" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving16" bank="0" dimmer="80" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving17" bank="0" dimmer="85" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving18" bank="0" dimmer="90" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving19" bank="0" dimmer="95" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving20" bank="0" dimmer="100" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving21" bank="0" dimmer="105" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving22" bank="0" dimmer="110" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving23" bank="0" dimmer="115" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving24" bank="0" dimmer="120" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving25" bank="0" dimmer="125" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving26" bank="0" dimmer="130" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving27" bank="0" dimmer="135" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving28" bank="0" dimmer="140" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving29" bank="0" dimmer="150" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving30" bank="0" dimmer="155" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving31" bank="0" dimmer="160" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving32" bank="0" dimmer="165" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving33" bank="0" dimmer="170" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving34" bank="0" dimmer="175" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving35" bank="0" dimmer="180" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving36" bank="0" dimmer="185" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving37" bank="0" dimmer="190" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving38" bank="0" dimmer="195" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving39" bank="0" dimmer="200" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving40" bank="0" dimmer="205" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving41" bank="0" dimmer="210" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving42" bank="0" dimmer="215" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving43" bank="0" dimmer="220" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving44" bank="0" dimmer="225" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving45" bank="0" dimmer="230" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving46" bank="0" dimmer="235" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving47" bank="0" dimmer="240" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving48" bank="0" dimmer="245" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving49" bank="0" dimmer="250" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+  <moving_instrument name="moving50" bank="0" dimmer="255" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
+
 </instruments>
 
 

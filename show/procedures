@@ -56,5 +56,23 @@ if (prev):
     prev.set_attribute(attribute='level', value='0%', source=self.name)
 
   </procedure>
+
+
+  <procedure name="benchmark">
+import math, time, string
+
+ins=[]
+for x in range(1,50):
+  ins.append(lb.instrument['moving'+str(x)])
+
+s=time.time()
+for y in range(1,4*80):
+  for x in ins:
+    x.set_attribute(attribute='target', value='(10ft, 10ft, 10ft)')
+e=time.time()
+print 'set', 4*80*50 ,'instruments in ', e-s
+
+  </procedure>
+
 </procedures>
 

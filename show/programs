@@ -16,28 +16,28 @@
     <init>
     </init>
     <step name="Cue 1">
-      <xf_load xf="AB" cue="1"/>
-      <xf_run xf="AB" uptime="4s" downtime="4s" />
+      <xf_load xf="X1" cue="1"/>
+      <xf_run xf="X1" uptime="4s" downtime="4s" />
     </step>
 
     <step name="Cue 2">
-      <xf_load xf="AB" cue="2"/>
-      <xf_run xf="AB" uptime="3s" downtime="3s" />
+      <xf_load xf="X1" cue="2"/>
+      <xf_run xf="X1" uptime="3s" downtime="3s" />
     </step>
 
     <step name="Cue 1">
-      <xf_load xf="AB" cue="1"/>
-      <xf_run xf="AB" uptime="2s" downtime="2s" />
+      <xf_load xf="X1" cue="1"/>
+      <xf_run xf="X1" uptime="2s" downtime="2s" />
     </step>
 
     <step name="Cue 2">
-      <xf_load xf="AB" cue="2"/>
-      <xf_run xf="AB" uptime="1s" downtime="1s" />
+      <xf_load xf="X1" cue="2"/>
+      <xf_run xf="X1" uptime="1s" downtime="1s" />
     </step>
 
     <step name="Cue 1">
-      <xf_load xf="AB" cue="1"/>
-      <xf_run xf="AB" uptime="0.5s" downtime="0.5s" />
+      <xf_load xf="X1" cue="1"/>
+      <xf_run xf="X1" uptime="0.5s" downtime="0.5s" />
     </step>
 
   </program>
@@ -79,6 +79,13 @@
       <transitionfader_run transitionfader="test_fader"
 	level="100%" time="5s" />
     </step>
+
+  </program>
+  <program name='prog5'>
+
+    <init>
+      <proc_run id='foo' proc='benchmark' />
+    </init>
 
   </program>
 </programs>

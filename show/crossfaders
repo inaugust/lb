@@ -1,6 +1,3 @@
 <crossfaders>
-  <crossfader name="AB">
-    <fader name="A" direction="down" type="min"/>
-    <fader name="B" direction="up" type="min"/>
-  </crossfader>
+  <crossfader name="X1"/>
 </crossfaders>
