@@ -5,7 +5,7 @@
     </init>
 
     <step name="Cue 1">
-      <proc_run id='foo' proc='cyc'/>
+      <proc_run id='foo' proc='chase' instruments='moving1, 2, 3'/>
     </step>
 
   </program>

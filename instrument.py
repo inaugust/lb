@@ -43,7 +43,7 @@ class instrument:
         self.name=name
         self.dimmer_number=dimmer_number
         self.sources={}
-        self.current_level=0
+        self.level=0
         self.dimmer=lb.dimmer[self.dimmer_number]
 
 #public
@@ -81,6 +81,7 @@ class instrument:
             self.do_set_level (args['value'], args['typ'], args['source'])
 
     def do_set_level (self, value, typ, source):
+        self.level=value
         dict = lb.get_sources(typ)
         m = self.get_matrix({'level': value})
         try:
@@ -91,4 +92,9 @@ class instrument:
         dict[source]=matrix
         lb.update_dimmers()
         
-
+    def __repr__(self):
+        r='<%s "%s"' % (self.__class__.__name__, self.name)
+        for x in self.attributes:
+            r=r+' %s="%s"' % (x, getattr(self, x))
+        r=r+'>'
+        return r

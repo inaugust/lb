@@ -74,7 +74,7 @@ class moving_instrument(instrument):
     
     def __init__(self, name, dimmer_number, x, y, z, theta, phi):
         instrument.__init__(self, name, dimmer_number)
-        self.current_location = (0.0, 0.0, 0.0)
+        self.location = (0.0, 0.0, 0.0)
         
         # xyz location of instrument, in feet
         self.x_location = x
@@ -150,6 +150,7 @@ class moving_instrument(instrument):
         return (xlevel, ylevel)
         
     def do_set_location (self, value, typ, source):
+        self.location=value
         dict = lb.get_sources(typ)
         m = self.get_matrix({'location': value})
         try:
