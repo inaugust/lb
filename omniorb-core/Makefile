@@ -1,11 +1,11 @@
 #CXX = g++-3.0
 
-CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -I. -I/usr/include -I/usr/include/COS -D__x86__ -D__linux__ -D__OSVERSION__=2
+CPPFLAGS =  -O2 -D__OMNIORB3__ -D_REENTRANT  -I/usr/local/include/omniORB3 -I. -I/usr/include -I/usr/include/COS -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
 
 #Older version
 #CPPFLAGS = -D_REENTRANT -D__OMNIORB3__ -D__x86__ -D__linux__ -D__OSVERSION__=2 -I. -I/usr/include -I/usr/include/COS -I/usr/local/include/omniORB3
 
-LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3  -ltcpwrapGK -lomnithread -L/usr/local/lib/omniORB3 -lomniEvents
+LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3  -ltcpwrapGK -lomnithread -L/usr/local/lib/omniORB3 `glib-config --libs`
 
 #
 
@@ -43,7 +43,8 @@ OBJECTS := $(foreach file,$(IMPL_FILES),$(file).o) \
 	$(foreach file,$(IDL_DYN_FILES),$(file)SK.o $(file)DynSK.o) \
 
 IDL_H := $(foreach file,$(IMPL_IDL_FILES),$(file).hh) \
-	$(foreach file,$(IDL_FILES),$(file).hh) 
+	$(foreach file,$(IDL_FILES),$(file).hh) \
+	$(foreach file,$(IDL_DYN_FILES),$(file).hh) 
 
 IDL_CC := $(foreach file,$(IMPL_IDL_FILES),$(file)SK.cc) \
 	$(foreach file,$(IDL_FILES),$(file)SK.cc) \

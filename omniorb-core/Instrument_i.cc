@@ -99,6 +99,11 @@ LB_Instrument_i::LB_Instrument_i(const char *name, int dimmer_start)
   sprintf (dname, "%i", dimmer_start);
   this->level_dimmer=lb->getDimmer(dname);
 
+  pthread_mutex_init (&this->listener_lock, NULL);
+
+  this->level_listeners=NULL;
+  this->target_listeners=NULL;
+
   /*
   printf ("Instrument %s, at %i, dimmer %p\n", this->my_name, 
 	  this->dimmer_start,
@@ -125,21 +130,51 @@ void LB_Instrument_i::setLevel(CORBA::Double level)
 {
   this->my_level=level;
   this->level_dimmer->setValue(level);
-
-  /*
-  LB::InstrumentUpdateEvent data;
-  data.attr=LB::attr_level;
-  data.value=level;
-
-  CORBA::Any any;
-  any <<= data;
-  proxy_consumer->push(any);
-  */
+  if (this->level_listeners)
+    {
+      LB::Event evt;
+      //evt.source=this->_this();
+      //evt.value=level;
+      evt.something=1;
+      this->fireLevelEvent(evt);
+    }
 }
 
 CORBA::Double LB_Instrument_i::getLevel()
 {
   return this->my_level;
+}
+
+void LB_Instrument_i::fireLevelEvent(const LB::Event &evt)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  GSList *list = this->level_listeners;
+  while (list)
+    {
+      ((LB::EventListener_ptr) list->data)->sendEvent(evt);
+      list=list->next;
+    }
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Instrument_i::addLevelListener(const char *l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+
+  printf ("l = %s\n", l);
+  CORBA::Object_var obj = orb->string_to_object(l);
+  printf ("obj = %p\n", obj);
+  LB::EventListener_ptr p = LB::EventListener::_narrow(obj);
+  printf ("p = %p\n", p);
+
+  this->level_listeners=g_slist_append(this->level_listeners, p);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Instrument_i::removeLevelListener(const char *l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
 }
 
 void LB_Instrument_i::setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z)
@@ -148,4 +183,21 @@ void LB_Instrument_i::setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double 
 
 void LB_Instrument_i::getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z)
 {
+}
+
+void LB_Instrument_i::fireTargetEvent(const LB::Event &evt)
+{
+}
+
+void LB_Instrument_i::addTargetListener(const char *l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  //  this->target_listeners=g_slist_append(this->target_listeners, l);
+  pthread_mutex_unlock(&this->listener_lock);
+}
+
+void LB_Instrument_i::removeTargetListener(const char *l)
+{
+  pthread_mutex_lock(&this->listener_lock);
+  pthread_mutex_unlock(&this->listener_lock);
 }

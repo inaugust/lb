@@ -99,7 +99,7 @@ LB_MovingInstrument_i::LB_MovingInstrument_i(const char *name, int dnum,
 					     double zloc): LB_Instrument_i (name, dnum)
 {
   char dname[32];
- 
+
   sprintf (dname, "%i", dimmer_start+1);
   this->x_dimmer=lb->getDimmer(dname);
   sprintf (dname, "%i", dimmer_start+2);

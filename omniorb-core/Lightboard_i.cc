@@ -5,15 +5,15 @@
 #include "Lightboard_i.hh"
 #include <stdio.h>
 
-//
-// Example implementational code for IDL interface LB::Lightboard
-//
-LB_Lightboard_i::LB_Lightboard_i(){
-  // add extra constructor code here
+LB_Lightboard_i::LB_Lightboard_i()
+{
+
 }
-LB_Lightboard_i::~LB_Lightboard_i(){
-  // add extra destructor code here
+
+LB_Lightboard_i::~LB_Lightboard_i()
+{
 }
+
 //   Methods corresponding to IDL attributes and operations
 CORBA::ULong LB_Lightboard_i::dimmerRange()
 {

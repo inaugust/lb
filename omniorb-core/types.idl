@@ -31,11 +31,19 @@ module LB
   };
 
   typedef sequence<AttrType> AttrList;
-
-  struct InstrumentUpdateEvent
+ 
+  struct Event
   {
-    AttrType attr;
+    long something;
+    /*
+    Object source;
     sequence<double> value;
+    */
+  };
+
+  interface EventListener
+  {
+    void sendEvent(in Event evt);
   };
 
 };

@@ -10,10 +10,8 @@
 #include <CosEventChannelAdmin.hh>
 #include <EventChannelAdmin.hh>
 
-//extern CosNaming::NamingContext_ptr getRootNamingContext(CORBA::ORB_ptr orb);
-
 LB::Lightboard_ptr lb;
-CosEventChannelAdmin::ProxyPushConsumer_ptr proxy_consumer;
+CORBA::ORB_var orb;
 
 int make_level(long int level)
 {
@@ -102,7 +100,7 @@ int main(int argc, char** argv)
 {
   try {
     // Initialise the ORB.
-    CORBA::ORB_var orb = CORBA::ORB_init(argc, argv, "omniORB3");
+    orb = CORBA::ORB_init(argc, argv, "omniORB3");
 
     // Obtain a reference to the root POA.
     CORBA::Object_var obj = orb->resolve_initial_references("RootPOA");
@@ -145,259 +143,7 @@ int main(int argc, char** argv)
     initialize_cuefaders(lb);
 
 
-    /************** events **************/
-
-
-
-    char *channelName = (char *) "EventChannel";
-    char *channelKind = (char *) "EventChannel";
-    char *factoryName = (char *) "EventChannelFactory";
-    char *factoryKind = (char *) "EventChannelFactory";
-    CORBA::ULong pullRetryPeriod = 1;
-    CORBA::ULong maxQueueLength = 0;
-    CORBA::ULong maxEventsPerConsumer = 0;
-    
-    CosNaming::NamingContext_ptr rootContext;
-    rootContext = getRootNamingContext(orb);
-    
-    EventChannelAdmin::EventChannelFactory_ptr factory;
-    CosNaming::Name name;
-    name.length (1);
-    name[0].id = CORBA::string_dup (factoryName);
-    name[0].kind = CORBA::string_dup (factoryKind);
-
-    try 
-      {
-	CORBA::Object_var obj = rootContext->resolve(name);
-	factory = EventChannelAdmin::EventChannelFactory::_narrow(obj);
-	if (CORBA::is_nil(factory))
-	  {
-	    cerr << "Failed to narrow Event Channel Factory reference." << endl;
-	    exit(1);
-	  }
-	
-      }
-    catch (CORBA::COMM_FAILURE& ex) {
-      cerr << "Caught system exception COMM_FAILURE, unable to contact the "
-	   << "naming service." << endl;
-      exit(1);
-    }
-    catch (omniORB::fatalException& ex) {
-      cerr << "Caught Fatal Exception" << endl;
-      throw;
-    }
-    catch (...) {
-      cerr << "Cannot find event channel factory ! [\""
-	   << factoryName << "\", \"" << factoryKind << "\"]"
-	   << endl;
-      exit (1);
-    }
-
-    // Check that the factory is of the right type
-    CosLifeCycle::Key key;
-    key.length (1);
-    key[0].id = CORBA::string_dup ("EventChannel");
-    key[0].kind = CORBA::string_dup ("object interface");
-    try {
-      if (! factory->supports(key))
-	{
-	  cerr << "Factory does not support Event Channel Interface ! [\""
-	       << factoryName << "\", \"" << factoryKind << "\"]"
-	       << endl;
-	  exit (1);
-	}
-    }
-    catch (...)
-      {
-	cerr << "Failure contacting Event Channel Factory" << endl;
-	exit (1);
-      }  
-    
-    //
-    // Create Event Channel Object.
-    CosEventChannelAdmin::EventChannel_var channel;
-    try {
-      CORBA::Object_var channelObj;
-      CosLifeCycle::Criteria criteria;
-      criteria.length (3);
-      criteria[0].name = CORBA::string_dup ("PullRetryPeriod");
-      criteria[0].value <<= (CORBA::ULong) pullRetryPeriod;
-      criteria[1].name = CORBA::string_dup ("MaxEventsPerConsumer");
-      criteria[1].value <<= (CORBA::ULong) maxEventsPerConsumer;
-      criteria[2].name = CORBA::string_dup ("MaxQueueLength");
-      criteria[2].value <<= (CORBA::ULong) maxQueueLength;
-      
-      channelObj = factory->create_object(key, criteria);
-      if (CORBA::is_nil(channelObj))
-	{
-	  cerr << "Channel Factory returned nil reference. ! [\""
-	       << channelName << "\", \"" << channelKind << "\"]"
-	       << endl;
-	  exit(1);
-	}
-      
-      // Narrow object returned to an Event Channel
-      channel = CosEventChannelAdmin::EventChannel::_narrow(channelObj);
-      if (CORBA::is_nil(channel))
-	{
-	  cerr << "Failed to narrow Event Channel ! [\""
-	       << channelName << "\", \"" << channelKind << "\"]"
-	       << endl;
-	  exit(1);
-	}
-    }
-    catch (CosLifeCycle::NoFactory& ex) {
-      cerr << "Failed to create Event Channel : "
-	   << "Interface not supported "
-	   << endl;
-      exit(1);
-    }
-    catch (CosLifeCycle::CannotMeetCriteria& ex) {
-      cerr << "Failed to create Event Channel : "
-	   << "Cannot meet Criteria "
-	   << endl;
-      exit(1);
-    }
-    catch (...) {
-      cerr << "Failed to create Event Channel ! [\""
-	   << channelName << "\", \"" << channelKind << "\"]"
-	   << endl;
-      exit(1);
-    }
-    
-    //
-    // Register event channel with naming service
-    name.length (1);
-    name[0].id = CORBA::string_dup (channelName);
-    name[0].kind = CORBA::string_dup (channelKind);
-    try {
-      rootContext->bind (name,
-			 CosEventChannelAdmin::EventChannel::_duplicate(channel));
-    }
-    catch(CosNaming::NamingContext::AlreadyBound& ex) {
-      rootContext->rebind(name,
-			  CosEventChannelAdmin::EventChannel::_duplicate(channel));
-    }
-    catch (CORBA::COMM_FAILURE& ex) {
-      cerr << "Caught system exception COMM_FAILURE, unable to contact the "
-	   << "naming service." << endl;
-      exit(1);
-    }
-    catch (omniORB::fatalException& ex) {
-      cerr << "Caught Fatal Exception" << endl;
-      throw;
-    }
-    catch (...) {
-      cerr << "Cannot register event channel ! [\""
-	   << channelName << "\", \"" << channelKind << "\"]"
-	   << endl;
-      exit (1);
-    }
-
-    /************** supplier ************/
-
-    //
-    // Get Supplier Admin interface - retrying on Comms Failure.
-    CosEventChannelAdmin::SupplierAdmin_var supplier_admin;
-    while (1)
-      {
-	try {
-	  supplier_admin = channel->for_suppliers ();
-	  if (CORBA::is_nil(supplier_admin))
-	    {
-	      cerr << "Event Channel returned nil Supplier Admin !."
-		   << endl;
-	      exit(1);
-	    }
-	  break;
-	}
-	catch (CORBA::COMM_FAILURE& ex) {
-	  cerr << "Caught COMM_FAILURE Exception "
-	       << "obtaining Supplier Admin !. Retrying..."
-	       << endl;
-	  continue;
-	}
-	catch (...) {
-	  cerr << "Unexpected System Exeption. "
-	       << "Failed to obtain Supplier Admin !"
-	       << endl;
-	  exit(1);
-	}
-      }
-    cerr << "Obtained SupplierAdmin." << endl;
-    
-    //    while (1)
-    //  {
-    //
-    // Get proxy consumer - retrying on Comms Failure.
-    while (1)
-      {
-	try {
-	  proxy_consumer = supplier_admin->obtain_push_consumer ();
-	  if (CORBA::is_nil(proxy_consumer))
-	    {
-	      cerr << "Supplier Admin return nil proxy_consumer !."
-		   << endl;
-	      exit(1);
-	    }
-	  break;
-	}
-	catch (CORBA::COMM_FAILURE& ex) {
-	  cerr << "Caught COMM_FAILURE Exception "
-	       << "obtaining Push Consumer !. Retrying..."
-	       << endl;
-	  continue;
-	}
-	catch (...) {
-	  cerr << "Unexpected System Exeption. "
-	       << "Failed to obtain Proxy Consumer !"
-	       << endl;
-	  exit(1);
-	}
-      }
-    cerr << "Obtained ProxyPushConsumer." << endl;
-
-    proxy_consumer=proxy_consumer;
-
-    //
-    // Connect Push Supplier - retrying on Comms Failure.
-    CosEventComm::PushSupplier_ptr sptr;
-    sptr = CosEventComm::PushSupplier::_nil();
-    
-    while (1)
-      {
-	try {
-	  proxy_consumer->connect_push_supplier(sptr);
-	  break;
-	}
-	catch (CORBA::BAD_PARAM& ex) {
-	  cerr << "Caught BAD_PARAM Exception connecting Push Supplier !"
-	       << endl;
-	  exit (1);
-	}
-	catch (CosEventChannelAdmin::AlreadyConnected& ex) {
-	  cerr << "Pull Supplier already connected !"
-	       << endl;
-	  break;
-	}
-	catch (CORBA::COMM_FAILURE& ex) {
-	  cerr << "Caught COMM_FAILURE Exception "
-	       << "connecting Push Supplier !. Retrying..."
-	       << endl;
-	  continue;
-	}
-	catch (...) {
-	  cerr << "Unexpected System Exception. "
-	       << "Failed to connect Push Supplier !"
-	       << endl;
-	  exit (1);
-	}
-      }
-    cerr << "Connected Push Supplier." << endl;
-    
-    /************** events **************/
-
-
+    //    CORBA::Object_var obj = rootContext->resolve(name);
 
     orb->run();
     orb->destroy();
@@ -420,4 +166,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-

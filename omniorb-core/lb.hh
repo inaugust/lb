@@ -16,7 +16,7 @@ struct ltstr
 };
 
 extern LB::Lightboard_ptr lb;
-extern CosEventChannelAdmin::ProxyPushConsumer_ptr proxy_consumer;
+extern CORBA::ORB_var orb;
 
 int make_level(const char *level);
 double make_time(const char *t);
