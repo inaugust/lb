@@ -1,6 +1,59 @@
 #include <iostream.h>
 #include "Lightboard_i.hh"
 #include "Dimmer_i.hh"
+#include "Instrument_i.hh"
+#include "MovingInstrument_i.hh"
+#include "Fader_i.hh"
+#include "CueFader_i.hh"
+
+
+#include <CosEventChannelAdmin.hh>
+//#include <EventChannelAdmin.hh>
+extern CosNaming::NamingContext_ptr getRootNamingContext(CORBA::ORB_ptr orb);
+
+
+LB::Lightboard_ptr lb;
+
+int make_level(long int level)
+{
+  /* takes a percentage in .01 percent and returns 0-dimmerrange */
+}
+
+double make_time(const char *t)
+{
+  int len=strlen(t);
+  char *tim=strdup(t);
+  double  ftime=0.0;
+
+  if(t[len-1]=='s')
+    return atof(t);
+  if(t[len-1]=='m')
+    return atof(t)*60;
+  if(t[len-1]=='h')
+    return atof(t)*60*60;
+  
+  double  multiple=1.0;
+  char *p=strrchr(tim, ':');
+
+  while (p!=NULL)
+    {
+      double n=atof(p+1);
+      ftime=ftime+(n*multiple);
+      *p=0;
+      multiple=multiple*60.0;
+      if (multiple>3600)
+	{
+	  free(tim);
+	  return 0;
+	}
+      p=strrchr(tim, ':');
+    }
+  if (strlen(tim))
+    ftime=ftime+(atof(tim)*multiple);
+  free(tim);
+  return ftime;
+}
+
 
 int main(int argc, char** argv)
 {
@@ -24,20 +77,51 @@ int main(int argc, char** argv)
     // Obtain a reference to each object and output the stringified
     // IOR to stdout
 
+    printf ("a\n");
     /*    {  */
       // IDL interface: LB::Lightboard
-      LB::Lightboard_var ref = myLB_Lightboard_i->_this();
+      lb = myLB_Lightboard_i->_this();
       {
-      CORBA::String_var sior(orb->object_to_string(ref));
+      CORBA::String_var sior(orb->object_to_string(lb));
       cout << "IDL object LB::Lightboard IOR = '" << (char*)sior << "'" << endl;
+      FILE *f = fopen ("/tmp/lb.ior", "w");
+      fputs ((char *)sior, f);
+      fputs ("\n", f);
+      fclose (f);
       }
-
+    printf ("a\n");
     // Obtain a POAManager, and tell the POA to start accepting
     // requests on its objects.
     PortableServer::POAManager_var pman = poa->the_POAManager();
     pman->activate();
     
-    initialize_dimmers(ref);
+    initialize_dimmers(lb);
+    initialize_instruments(lb);
+    initialize_moving_instruments(lb);
+    initialize_faders(lb);
+    initialize_cuefaders(lb);
+
+
+    /************** events **************/
+
+
+
+    char *channelName = (char *) "EventChannel";
+    char *channelKind = (char *) "EventChannel";
+    char *factoryName = (char *) "EventChannelFactory";
+    char *factoryKind = (char *) "EventChannelFactory";
+    CORBA::ULong pullRetryPeriod = 1;
+    CORBA::ULong maxQueueLength = 0;
+    CORBA::ULong maxEventsPerConsumer = 0;
+    
+    CosNaming::NamingContext_ptr rootContext;
+    rootContext = getRootNamingContext(orb);
+    
+
+
+    /************** events **************/
+
+
 
     orb->run();
     orb->destroy();

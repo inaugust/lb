@@ -9,10 +9,12 @@ module LB
   {
     readonly attribute string name;
     readonly attribute string device;
-    readonly attribute unsigned short number;
+    readonly attribute long number;
 
-    void setValue (in string value);
-    string getValue ();
+    void setLevel (in double level);
+    double getLevel ();
+    void setValue (in long value);
+    long getValue ();
   };
   
 };

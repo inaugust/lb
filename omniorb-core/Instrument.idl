@@ -9,11 +9,13 @@ module LB
   {
     readonly attribute string name;
 
-    void setAttribute(in string attr, in string value);
     AttrList getAttributes();
 
-    void setLevel (in string level);
-    string getLevel ();
+    void setLevel (in double level); /* percent */
+    double getLevel ();
+
+    void setTarget(in double x, in double y, in double z);
+    void getTarget(out double x, out double y, out double z);
   };
   
 };

@@ -18,22 +18,6 @@
 
 static map<const char *, int, ltstr> dimmer_devices;
 
-static unsigned char make_level(const char *level)
-{
-  int len=strlen(level);
-  int l;
-
-  if (level[len-1]=='%')
-    {
-      float f = atof(level);
-      l=(int)((f/100.0)*255.0);
-    }
-  else
-    l=(int)(atof(level));
-
-  return l;
-}
-
 static void start(void *data, const char *el, const char **attr) 
 {
   int i;
@@ -138,7 +122,8 @@ LB_Dimmer_i::LB_Dimmer_i(const char *name, const char *device, int number)
   this->my_name=strdup(name);
   this->my_device=strdup(device);
   this->my_number=number;
-  this->my_value=strdup("0%");
+  this->my_value=0;
+  this->my_level=0.0;
   int dev=dimmer_devices[device];
   if (dev==0)
     {
@@ -167,20 +152,25 @@ char* LB_Dimmer_i::device()
   return this->my_device;
 }
 
-CORBA::UShort LB_Dimmer_i::number()
+CORBA::Long LB_Dimmer_i::number()
 {
   return this->my_number;
 }
 
-void LB_Dimmer_i::setValue(const char* value)
+void LB_Dimmer_i::setLevel(CORBA::Double level)
 {
-  /*
-  if (this->my_value)
-    free (this->my_value);
-  */
+  this->my_level=level;
+  this->my_value=long((level/100.0)*255);
+}
 
-  //  this->my_value=strdup(value);
-  unsigned char level=make_level(value);
+CORBA::Double LB_Dimmer_i::getLevel()
+{
+}
+
+void LB_Dimmer_i::setValue(CORBA::Long value)
+{
+  this->my_value=value;
+
   // lock
   // lseek(this->my_handle, this->my_number, SEEK_SET);
   // write(this->my_handle, &level, 1);
@@ -188,7 +178,7 @@ void LB_Dimmer_i::setValue(const char* value)
   // unlock
 }
 
-char* LB_Dimmer_i::getValue()
+CORBA::Long LB_Dimmer_i::getValue()
 {
 }
 

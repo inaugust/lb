@@ -1,5 +1,6 @@
-CPPFLAGS = -D__x86__ -D__linux__ -D__OSVERSION__=2 -I .
-LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat
+#CXX = g++-3.0
+CPPFLAGS = -D__x86__ -D__linux__ -D__OSVERSION__=2 -I. -I/usr/include -I/usr/include/COS
+LDFLAGS = -lomniORB3  -lomniGK_stub -lexpat -lpthread
 
 IDLC=omniidl
 IDL_ARGS=-bcxx -Wbuse_quotes

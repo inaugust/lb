@@ -9,9 +9,9 @@ module LB
   {
     readonly attribute string name;
 
-    void run (in string level, in string time);
+    void run (in double level, in double time);
     void stop ();
-    void setLevel (in string level);
+    void setLevel (in double level);
     boolean isRunning ();
     // wait for
   };

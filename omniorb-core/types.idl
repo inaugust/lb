@@ -3,10 +3,19 @@
 
 module LB
 {
+  enum AttrType
+    {
+      attr_level,     // .01 percent
+      attr_target,    // millimeter, millimeter, millimeter
+      attr_focus,     // ?
+      attr_color,     // .01 percent r, g, b
+      attr_gobo       // ?
+    };
+
   struct AttrValue
   {
-    string attr;
-    string value;
+    AttrType attr;
+    sequence<double> value;
   };
 
   struct InstAttrs
@@ -21,7 +30,7 @@ module LB
     sequence<InstAttrs> ins;
   };
 
-  typedef sequence<string> AttrList;
+  typedef sequence<AttrType> AttrList;
     
 };
 

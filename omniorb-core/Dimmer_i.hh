@@ -17,7 +17,8 @@ private:
   char *my_device;
   int my_number;
   int my_handle;
-  char *my_value;
+  double my_level;
+  long my_value;
 
 public:
   // standard constructor
@@ -27,9 +28,11 @@ public:
   // methods corresponding to defined IDL attributes and operations
   char* name();
   char* device();
-  CORBA::UShort number();
-  void setValue(const char* value);
-  char* getValue();
+  CORBA::Long number();
+  void setLevel(CORBA::Double level);
+  CORBA::Double getLevel();
+  void setValue(CORBA::Long value);
+  CORBA::Long getValue();
   
 };
 

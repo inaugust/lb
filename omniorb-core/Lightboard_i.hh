@@ -17,6 +17,8 @@ private:
   //virtual ~LB_Lightboard_i();
 
   map <const char *, LB::Dimmer_ptr, ltstr> dimmers;
+  map <const char *, LB::Instrument_ptr, ltstr> instruments;
+  map <const char *, LB::Fader_ptr, ltstr> faders;
 
 public:
   // standard constructor
