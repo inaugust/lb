@@ -22,12 +22,17 @@ def reset():
 def shutdown():
     pass
 
+
+def load_clump(tree, group = None):
+    for ins in tree.find("color_mixer_instrument"):
+        i=ColorMixerInstrument(ins.attrs['name'], ins.attrs['red'],
+                               ins.attrs['green'], ins.attrs['blue'], group)
+
 def load(tree):
     for section in tree.find("instruments"):
-        for ins in section.find("color_mixer_instrument"):
-            i=ColorMixerInstrument(ins.attrs['name'], ins.attrs['red'],
-                                   ins.attrs['green'], ins.attrs['blue'])
-
+        load_clump(section)
+        for group in section.find("group"):
+            load_clump(group, group.attrs['name'])
                          
 def save():
     # instrument's routine is sufficient
@@ -39,8 +44,9 @@ class ColorMixerInstrument(instrument.Instrument):
     attributes=('level','color',)
     module='color_mixer_instrument'
 
-    def __init__(self, name, red, green, blue):
+    def __init__(self, name, red, green, blue, group = None):
         self.parent = None
+        self.group = group
         self.hidden = 0
         self.name=name
         self.red_name = red
@@ -49,8 +55,13 @@ class ColorMixerInstrument(instrument.Instrument):
         self.level = [0.0]
         self.color = [0.0, 0.0, 0.0]
 
-        if (lb.instrument.has_key(self.name)):
-            pass
+        if group is not None:
+            if not lb.instrument_group.has_key(group):
+                lb.instrument_group[group]={}
+            lb.instrument_group[group][self.name]=self
+        else:
+            lb.instrument_group[None][self.name]=self
+
         lb.instrument[self.name]=self
 
     #public

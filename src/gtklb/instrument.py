@@ -16,6 +16,8 @@ def initialize():
     
 def reset():
     lb.instrument={}
+    lb.instrument_group={}
+    lb.instrument_group[None]={}
 
     threads_enter()
     menubar=lb.menubar
@@ -39,16 +41,45 @@ def reset():
 def shutdown():
     pass
 
+def delete_help(parent, group = None):
+    for ins in parent.children:
+        delete_help(ins, group)
+    try: del lb.instrument[parent.attrs['name']]
+    except: pass
+    try: del lb.instrument_group[group][parent.attrs['name']]
+    except: pass
+    try:
+        if len (lb.instrument_group[group]) == 0 and group is not None:
+            del lb.instrument_group[group]
+    except: pass        
+
+def load_clump (tree, group = None):
+    for ins in tree.find("instrument"):
+        i=Instrument(ins.attrs, group)
+    
 def load(tree):
     for section in tree.find("instruments"):
-        for ins in section.find("instrument"):
-            i=Instrument(ins.attrs)
-            
+        load_clump(section)
+        for group in section.find("group"):
+            load_clump(group, group.attrs['name'])
+    
+    for section in tree.find("instruments-deleted"):
+        for ins in section.children:
+            delete_help(ins)
+        for group in section.find("group"):
+            for ins in group.children:
+                delete_help(ins, group.attrs['name'])
+                
 def save():
     tree = DOMNode('instruments')
-    for i in lb.instrument.values():
-        if not i.parent:
-            tree.append(i.to_tree())
+    for name, dict in lb.instrument_group.items():
+        if name is None:
+            n = tree
+        else:
+            n = DOMNode('group', {'name': name})
+            tree.append(n)
+        for i in dict.values():
+            n.append(i.to_tree())
     return tree
 
 def editInstrument_cb(widget, data=None):
@@ -64,12 +95,13 @@ class Instrument:
     attributes=('level',)
     module='instrument'
 
-    def __init__(self, args):
+    def __init__(self, args, group = None, hidden = 0):
         self.name = args['name']
         self.driver = args['driver']
         self.corename = args['core']
         self.parent = None
-        self.hidden = 0
+        self.group = group
+        self.hidden = hidden
 
         self.arglist = []
         for n,v in args.items():
@@ -97,8 +129,13 @@ class Instrument:
                     attrlist.append(name)
         self.attributes = tuple(attrlist)
         
-        if (lb.instrument.has_key(self.name)):
-            pass
+        if not hidden:
+            if group is not None:
+                if not lb.instrument_group.has_key(group):
+                    lb.instrument_group[group]={}
+                lb.instrument_group[group][self.name]=self
+            else:
+                lb.instrument_group[None][self.name]=self
         lb.instrument[self.name]=self
 
         
@@ -186,13 +223,38 @@ class InstrumentInfo:
 
     def get_arguments_for_children(self, ins):
         return {}
-    
-instrument_info = InstrumentInfo()
 
+class GroupInfo:
+    container = 1
+    module = 'group'
+    clazz = None
+    allowable_children = ['*']
+    
+    def load(self, tree):
+        pass
+
+    def get_arguments(self, ins):
+        dict = {'name': ['', '']}
+
+        for name, value in dict.items():
+            if ins.attrs.has_key(name):
+                dict[name][0]=ins.attrs[name]
+        return dict
+
+    def get_arguments_for_children(self, ins):
+        return {}
+
+instrument_info = InstrumentInfo()
+group_info = GroupInfo()
 
 def do_insertion(tree, parent, ins):
     for i in ins.children:
         found = 0
+        if i.tag == 'group':
+            node = tree.insert_node(parent, None, [i.attrs['name']], is_leaf=FALSE)
+            do_insertion(tree, node, i)
+            tree.node_set_row_data(node, (i,group_info))
+            continue
         for m in lb.instrument_module_info.values():
             if i.tag == m.module:
                 found = 1
@@ -217,6 +279,8 @@ class InstrumentEditor:
             dic = {"on_ok_clicked": self.ok_clicked,
                    "on_cancel_clicked": self.cancel_clicked,
                    "on_add_clicked": self.add_clicked,
+                   "on_addGroup_clicked": self.add_group_clicked,
+                   "on_remove_clicked": self.remove_clicked,
                    }
             
             wTree.signal_autoconnect (dic)
@@ -268,6 +332,8 @@ class InstrumentEditor:
         if hasattr(dest_info, 'allowable_children'):
             if source_info.module in dest_info.allowable_children:
                 return 1
+            if '*' in dest_info.allowable_children:
+                return 1
         return 0
 
     def popup_handler (self, widget, event):
@@ -299,20 +365,32 @@ class InstrumentEditor:
     def ok_clicked(self, widget, data=None):
         w = self.editTree.get_widget("editInstruments")
         tree = self.editTree.get_widget ("instrumentTree")
+        self.update_attrs_from_window()
+        delroot = save()
+        delroot.tag = 'instruments-deleted'
         domroot = DOMNode('instruments')
         for treenode in tree.base_nodes():
             domroot.append(self.make_dom_tree(tree, treenode))
         domtree = DOMNode('show')
         domtree.append(domroot)
-        lb.instrument={}
+        deltree = DOMNode('show')
+        deltree.append(delroot)
         for mod in lb.instrument_module_info.values():
-            mod.load(domtree)
+            mod.load(deltree)
+        for mod in lb.instrument_module_info.values():
+            mod.load(domtree)            
+        lb.sendData(delroot)        
+        lb.sendData(domroot)
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):
         w = self.editTree.get_widget("editInstruments")
         w.destroy()
 
+    def remove_clicked(self, widget, data=None):
+        self.popup_node = self.oldSelection
+        self.popup_delete_activated(widget, data)
+        
     def add_clicked(self, widget, data=None):
         tree = self.editTree.get_widget("instrumentTree")
         menu = self.editTree.get_widget("driverMenu")        
@@ -323,6 +401,13 @@ class InstrumentEditor:
             node = tree.insert_node(None, None, ['Unnamed'], is_leaf=FALSE)
         else:
             node = tree.insert_node(None, None, ['Unnamed'], is_leaf=TRUE)
+        tree.node_set_row_data(node, (dnode, info))
+
+    def add_group_clicked(self, widget, data=None):
+        tree = self.editTree.get_widget("instrumentTree")
+        info = group_info
+        dnode = DOMNode (tag = 'group', attrs={'name': 'Unnamed'})
+        node = tree.insert_node(None, None, ['Unnamed'], is_leaf=FALSE)
         tree.node_set_row_data(node, (dnode, info))
 
     def set_table (self, dict):
@@ -383,7 +468,10 @@ class InstrumentEditor:
     def update_attrs_from_window(self, sel = None):
         tree = self.editTree.get_widget("instrumentTree")
         if (sel == None):
-            sel = tree.selection[0]
+            try:
+                sel = tree.selection[0]
+            except:
+                return
         data = tree.node_get_row_data(sel)
 
         attrs = {}
@@ -420,3 +508,5 @@ class InstrumentEditor:
         table = self.editTree.get_widget("argumentTable")
         for c in table.children():
             table.remove(c)
+
+    

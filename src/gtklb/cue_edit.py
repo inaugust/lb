@@ -155,30 +155,51 @@ class CueEditor(completion):
             ins_in_cue = []
             in_tree.clear()
             out_tree.clear()
+            groups_in_in = {}
             for name, dict in self.cue.apparent.items():
+                origname = name
                 defunct = 0
                 try: proxy = self.cue_proxies[name]
                 except:
                     proxy = defunct_instrument_cue_proxy(name)
                     name = name + " <defunct>"
                     defunct = 1
+                if not defunct:
+                    group = lb.instrument[name].group
                 if not self.cue.instrument.has_key (name) and not defunct:
                     name = name + " <inherited>"
                 l=[name]
-                ins_in_cue.append(name)
+                ins_in_cue.append(origname)
                 for a in tree_columns:
                     if (dict.has_key(a)):
                         l.append(dict[a])
                     else:
                         l.append('')
-                pos = in_tree.append (l)
-                node = in_tree.node_nth(pos)
+
+                parent = None
+                if group is not None:
+                    try: parent = groups_in_in[group]
+                    except:
+                        gl = [group]
+                        for a in tree_columns:
+                            gl.append('')
+                        parent = in_tree.insert_node(None, None, gl, is_leaf=FALSE)
+                        groups_in_in[group]=parent
+
+                node = in_tree.insert_node(parent, None, l, is_leaf=TRUE)
                 in_tree.node_set_row_data(node, proxy)
-            l = lb.instrument.keys()
+            l = lb.instrument_group.keys()
             l.sort()
             for name in l:
-                if (name not in ins_in_cue):
-                    out_tree.append([name])
+                parent = None
+                if name is not None:
+                    parent = out_tree.insert_node(None, None, [name], is_leaf=FALSE)
+                l2 = lb.instrument_group[name].keys()
+                l2.sort()
+                for name2 in l2:
+                    if (name2 not in ins_in_cue):
+                        out_tree.insert_node(parent, None, [name2], is_leaf=TRUE)
+                        
         finally:
             threads_leave()
 
@@ -187,8 +208,11 @@ class CueEditor(completion):
         out_tree = self.editTree.get_widget("outTree")
         sel = out_tree.selection
         for x in sel:
-            data = in_tree.node_get_row_data(x)
-            name = data.get_name()
+            info = out_tree.get_node_info(x)
+            leaf = info[6]
+            if not leaf:
+                continue
+            name = info[0]
             self.cue.instrument[name]={}
             self.cue.apparent[name]={}
         threads_leave()
@@ -518,6 +542,8 @@ class CueEditor(completion):
         self.editing_instruments=[]
         for n in in_tree.selection:
             data = in_tree.node_get_row_data(n)
+            if data is None:
+                continue
             name = data.get_name()
             self.editing_instruments.append(name)
         self.edit_update_attribute_widgets()

@@ -20,19 +20,25 @@ def reset():
 def shutdown():
     pass
 
+
+def load_clump(tree, group = None):
+    for ins in tree.find("meta_instrument"):
+        subs={}
+        attr_list = []
+        for subins in ins.find("instrument"):
+            sub = instrument.Instrument(subins.attrs, group=None, hidden=1)
+            small_attr_list = map(string.strip,string.split(subins.attrs['attributes'], ','))
+            attr_list = attr_list + small_attr_list
+            for attr in small_attr_list:
+                subs[attr]=sub
+        i=MetaInstrument(ins.attrs, attr_list, subs, group)
+
 def load(tree):
     for section in tree.find("instruments"):
-        for ins in section.find("meta_instrument"):
-            subs={}
-            attr_list = []
-            for subins in ins.find("instrument"):
-                sub = instrument.Instrument(subins.attrs)
-                small_attr_list = map(string.strip,string.split(subins.attrs['attributes'], ','))
-                attr_list = attr_list + small_attr_list
-                for attr in small_attr_list:
-                    subs[attr]=sub
-            i=MetaInstrument(ins.attrs, attr_list, subs)
-                         
+        load_clump(section)
+        for group in section.find("group"):
+            load_clump(group, group.attrs['name'])
+        
 def save():
     # instrument's routine is sufficient
     pass
@@ -42,19 +48,24 @@ class MetaInstrument(instrument.Instrument):
     attributes=('level',)
     module='meta_instrument'
 
-    def __init__(self, args, attr_list, subs):
+    def __init__(self, args, attr_list, subs, group = None):
         self.parent = None
+        self.group = group
         self.hidden = 0
         self.name = args['name']
         self.attributes = tuple(attr_list)
         self.subinstrument = subs
         for sub in subs.values():
             sub.parent = self
-            sub.hidden = 1
         
-        if (lb.instrument.has_key(self.name)):
-            pass
+        if group is not None:
+            if not lb.instrument_group.has_key(group):
+                lb.instrument_group[group]={}
+            lb.instrument_group[group][self.name]=self
+        else:
+            lb.instrument_group[None][self.name]=self
         lb.instrument[self.name]=self
+
 
     #public
 
