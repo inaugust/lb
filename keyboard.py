@@ -2,7 +2,7 @@
 
 from threading import *
 from select import *
-import sys, termios, TERMIOS
+import sys, termios, TERMIOS, string
 import process
 
 SPACE=' '
@@ -37,10 +37,22 @@ def handle_key_press (args):
         lb.crossfader['AB'].get_fader('B').set_cue('2')
         lb.crossfader['AB'].get_fader('B').set_level('0%')
         lb.crossfader['AB'].run()
-    if (key=='s'):
-        lb.program['prog1'].run()
+    if (key>='1' and key<='9'):
+        lb.foo_program_name='prog'+str(key)
+        lb.program[lb.foo_program_name].run()
+    if (key=='?'):
+        print lb.program.keys()
+    if (key=='o'):
+        print "Which step?"
+        stps=map(lambda x: x.name, lb.program[lb.foo_program_name].actions)
+        print stps
+        q=string.strip(sys.stdin.readline())
+        print q
+        lb.program[lb.foo_program_name].set_next_step(step=stps.index(q))
+        #lb.program[lb.foo_program_name].next_step=q
+        #lb.program[lb.foo_program_name].step_forward()
     if (key=='g'):
-        lb.program['prog1'].step_forward()
+        lb.program[lb.foo_program_name].step_forward()
     if (key=='p'):
         for e in lb.events:
             print e

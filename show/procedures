@@ -26,4 +26,28 @@ while(self.running):
   time.sleep(0.5)
 
   </procedure>
+  <procedure name="cyc">
+# arguments:  
+
+import math, time, string
+
+a=lb.instrument['25']
+b=lb.instrument['26']
+c=lb.instrument['27']
+
+print 'p start'
+while(self.running):
+  print 'p it'
+  a.set_attribute(attribute='level', value='100%', source=self.name)
+  time.sleep(0.5)
+  a.set_attribute(attribute='level', value='0%', source=self.name)
+  b.set_attribute(attribute='level', value='100%', source=self.name)
+  time.sleep(0.5)
+  b.set_attribute(attribute='level', value='0%', source=self.name)
+  c.set_attribute(attribute='level', value='100%', source=self.name)
+  time.sleep(0.5)
+  c.set_attribute(attribute='level', value='0%', source=self.name)
+
+  </procedure>
 </procedures>
+

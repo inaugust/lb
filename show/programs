@@ -1,44 +1,63 @@
 <programs>
-  <program name="prog1">
+  <program name="prog2">
     <init>
-      <levelfader_load levelfader="house_fader" instrument="house" />
+      <levelfader_load levelfader="house_fader" instrument="house1" />
     </init>
 
-    <step>
-      <levelfader_level levelfader="house_fader" level="100%" />
+    <step name="Cue 1">
+      <proc_run id='foo' proc='cyc'/>
     </step>
 
-    <step>
-      <levelfader_run levelfader="house_fader" level="50%" time="5s" />
-    </step>
+  </program>
 
-    <step>
-      <levelfader_run levelfader="house_fader" level="0%" time="5s" />
-    </step>
 
-    <step>
+  <program name="prog3">
+
+    <init>
+    </init>
+    <step name="Cue 1">
       <xf_load xf="AB" cue="1"/>
       <xf_run xf="AB" uptime="4s" downtime="4s" />
     </step>
 
-    <step>
+    <step name="Cue 2">
       <xf_load xf="AB" cue="2"/>
       <xf_run xf="AB" uptime="3s" downtime="3s" />
     </step>
 
-    <step>
+    <step name="Cue 1">
       <xf_load xf="AB" cue="1"/>
       <xf_run xf="AB" uptime="2s" downtime="2s" />
     </step>
 
-    <step>
+    <step name="Cue 2">
       <xf_load xf="AB" cue="2"/>
       <xf_run xf="AB" uptime="1s" downtime="1s" />
     </step>
 
-    <step>
+    <step name="Cue 1">
       <xf_load xf="AB" cue="1"/>
       <xf_run xf="AB" uptime="0.5s" downtime="0.5s" />
+    </step>
+
+  </program>
+
+  <program name='prog1'>
+
+    <init>
+      <levelfader_load levelfader="house_fader" cue="house" />
+    </init>
+
+    <step name="House Out">
+      <levelfader_run levelfader="house_fader" level="0%" time="5s" />
+    </step>
+
+    <step name="House Up">
+      <levelfader_level levelfader="house_fader" level="100%" />
+    </step>
+
+    <step name="House to Half">
+      <levelfader_run levelfader="house_fader" level="50%" time="5s" />
     </step>
 
   </program>

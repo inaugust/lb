@@ -1,6 +1,4 @@
-# this class is only a template for moving instruments of different brands
-# it should not be used in an actual installation
-# instead, edit it to create a new module
+# base class for moving lights
 
 from xmllib import XMLParser
 from os import path
@@ -47,9 +45,23 @@ def shutdown():
 
 class parser(XMLParser):
     def start_moving_instrument (self, attrs):
-        lb.instrument[attrs['name']]=moving_instrument(attrs['name'],
-                                                       int(attrs['bank']),
-                                                       int(attrs['dimmer']))
+        name = attrs['name']
+        bank = int(attrs['bank'])
+        dimmer = int(attrs['dimmer'])
+        if attrs.has_key('xloc'):  x = len_to_ft (attrs['xloc'])
+        else: x=0
+        if attrs.has_key('yloc'):  y = len_to_ft (attrs['yloc'])
+        else: y=0
+        if attrs.has_key('zloc'):  z = len_to_ft (attrs['zloc'])
+        else: z=0
+        if attrs.has_key('theta'):  theta = float (attrs['theta'])
+        else: theta=0
+        if attrs.has_key('phi'):  phi = float (attrs['phi'])
+        else: phi=0
+    
+        lb.instrument[attrs['name']]=moving_instrument(name, bank, dimmer,
+                                                       x, y, z, theta, phi)
+                                                       
 
 class moving_instrument(instrument):
 
@@ -61,18 +73,18 @@ class moving_instrument(instrument):
     # phidelta   = beam change in y direction in degrees per dmx unit
     phi_delta = 0.05
     
-    def __init__(self, name, bank, number):
+    def __init__(self, name, bank, number, x, y, z, theta, phi):
         instrument.__init__(self, name, bank, number)
         self.current_location = (0.0, 0.0, 0.0)
         
         # xyz location of instrument, in feet
-        self.x_location = 0.0
-        self.y_location = -20.0
-        self.z_location = 20.0
+        self.x_location = x
+        self.y_location = y
+        self.z_location = z
 
         # corrections, in degrees, for angular mounting of instrument
-        self.theta_correction = 0.0
-        self.phi_correction = 0.0
+        self.theta_correction = theta
+        self.phi_correction = phi
 
         #subclass sets these
         self.x_dimmer=lb.dimmer_bank[self.bank][self.number+1]

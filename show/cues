@@ -5,10 +5,70 @@
   </cue>
   <cue name="black">
   </cue>
+  <cue name="house">
+    <instrument name="house1" level="100%"/>
+    <instrument name="house2" level="100%"/>
+    <instrument name="house3" level="100%"/>
+  </cue>
   <cue name="1">
     <instrument name="1" level="100%"/>
+    <instrument name="3" level="100%"/>
+    <instrument name="5" level="100%"/>
+    <instrument name="7" level="100%"/>
+    <instrument name="9" level="100%"/>
+    <instrument name="11" level="100%"/>
+    <instrument name="13" level="100%"/>
+    <instrument name="15" level="100%"/>
+    <instrument name="17" level="100%"/>
+    <instrument name="19" level="100%"/>
+    <instrument name="21" level="100%"/>
+    <instrument name="23" level="100%"/>
+    <instrument name="25" level="100%"/>
+    <instrument name="27" level="100%"/>
+    <instrument name="29" level="100%"/>
+    <instrument name="31" level="100%"/>
+    <instrument name="33" level="100%"/>
+    <instrument name="35" level="100%"/>
+    <instrument name="37" level="100%"/>
+    <instrument name="39" level="100%"/>
+    <instrument name="41" level="100%"/>
+    <instrument name="43" level="100%"/>
+    <instrument name="45" level="100%"/>
+    <instrument name="47" level="100%"/>
+    <instrument name="49" level="100%"/>
   </cue>
   <cue name="2">
-    <instrument name="1" level="100%"/>
+    <instrument name="2" level="100%"/>
+    <instrument name="4" level="100%"/>
+    <instrument name="6" level="100%"/>
+    <instrument name="8" level="100%"/>
+    <instrument name="10" level="100%"/>
+    <instrument name="12" level="100%"/>
+    <instrument name="14" level="100%"/>
+    <instrument name="16" level="100%"/>
+    <instrument name="18" level="100%"/>
+    <instrument name="20" level="100%"/>
+    <instrument name="22" level="100%"/>
+    <instrument name="24" level="100%"/>
+    <instrument name="26" level="100%"/>
+    <instrument name="28" level="100%"/>
+    <instrument name="30" level="100%"/>
+    <instrument name="32" level="100%"/>
+    <instrument name="34" level="100%"/>
+    <instrument name="36" level="100%"/>
+    <instrument name="38" level="100%"/>
+    <instrument name="40" level="100%"/>
+    <instrument name="42" level="100%"/>
+    <instrument name="44" level="100%"/>
+    <instrument name="46" level="100%"/>
+    <instrument name="48" level="100%"/>
+    <instrument name="50" level="100%"/>
   </cue>
 </cues>
+
+
+
+
+
+
+

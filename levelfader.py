@@ -47,7 +47,8 @@ class levelfader(fader):
         self.instrument={}
 
     def set_level(self, level):
-        lb.send_signal('Level Fader Set Level', itself=self, level=level)
+        #lb.send_signal('Level Fader Set Level', itself=self, level=level)
+        self.set_level_real({'level':level})
 
     def set_cue(self, cue):
         lb.send_signal('Level Fader Set Cue', itself=self, cue=cue)
@@ -116,7 +117,6 @@ class levelfader(fader):
         
     def act_on_set_ratio(self, ratio):
         # we have the lock
-
         if (self.cue): 
             for (name, ins) in self.cue.instrument.items():
                 setlevel=int(float(ins['level'])*ratio)

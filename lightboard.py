@@ -79,7 +79,7 @@ class lightboard:
             self._queue_count.acquire()
             self._queue_lock.acquire()
             signal,args = self._event_queue.pop(0)
-            #print 'Event: ' + signal
+            print 'Event: ' + signal
             #self.events.append('Event: ' + signal)
             self._queue_lock.release()
             for t in self._signals[signal]:

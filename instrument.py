@@ -49,9 +49,13 @@ class instrument:
 #public
 
     def set_attribute(self, attribute, value, source, typ='min'):
-        lb.send_signal('Instrument Set Attribute', itself=self,
-                       attribute=attribute, value=value, source=source,
-                       typ=typ)
+        #lb.send_signal('Instrument Set Attribute', itself=self,
+        #               attribute=attribute, value=value, source=source,
+        #               typ=typ)
+        self.set_attribute_real_vf({'attribute':attribute,
+                                    'value':value,
+                                    'source':source,
+                                    'typ':typ})
 
     def make_level(self, level):
         return self.dimmer.make_level(level)
@@ -71,15 +75,14 @@ class instrument:
         source=args['source']
         
         if (attribute=='level'):
-            self.do_set_level (value, typ, sourc)
+            self.do_set_level (value, typ, source)
             
     def do_set_level (self, value, typ, source):
         level=self.dimmer.make_level(value)
-        
+
         if (typ=='min' and level==0):
-            if (self.sources.has_key(source) and
-                self.sources[source].has_key('level')):
-                del self.sources[source]['level']
+            if (self.sources.has_key(source)):
+                del self.sources[source]
         else:
             if (not self.sources.has_key(source)):
                 self.sources[source]={}
@@ -93,7 +96,7 @@ class instrument:
         total_subs=0
         capture=None
         blackout=None
-        
+
         for source in self.sources.values():
             (v,typ) = source['level']
             if typ=='max':

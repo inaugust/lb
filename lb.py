@@ -11,6 +11,7 @@ libraries=(
     'procedure',
     'process',
     'keyboard',
+#    'gtkui',
     )
 
 from lightboard import lightboard

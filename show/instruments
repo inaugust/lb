@@ -1,9 +1,61 @@
 <instruments>
-  <instrument name="house" bank="0" dimmer="99"/>
+  <instrument name="house1" bank="0" dimmer="65"/>
+  <instrument name="house2" bank="0" dimmer="66"/>
+  <instrument name="house3" bank="0" dimmer="67"/>
   <instrument name="1" bank="0" dimmer="0"/>
   <instrument name="2" bank="0" dimmer="1"/>
   <instrument name="3" bank="0" dimmer="2"/>
   <instrument name="4" bank="0" dimmer="3"/>
   <instrument name="5" bank="0" dimmer="4"/>
-  <moving_instrument name="moving1" bank="0" dimmer="5"/>
+  <instrument name="6" bank="0" dimmer="5"/>
+  <instrument name="7" bank="0" dimmer="6"/>
+  <instrument name="8" bank="0" dimmer="7"/>
+  <instrument name="9" bank="0" dimmer="8"/>
+  <instrument name="10" bank="0" dimmer="9"/>
+  <instrument name="11" bank="0" dimmer="10"/>
+  <instrument name="12" bank="0" dimmer="11"/>
+  <instrument name="13" bank="0" dimmer="12"/>
+  <instrument name="14" bank="0" dimmer="13"/>
+  <instrument name="15" bank="0" dimmer="14"/>
+  <instrument name="16" bank="0" dimmer="15"/>
+  <instrument name="17" bank="0" dimmer="16"/>
+  <instrument name="18" bank="0" dimmer="17"/>
+  <instrument name="19" bank="0" dimmer="18"/>
+  <instrument name="20" bank="0" dimmer="19"/>
+  <instrument name="21" bank="0" dimmer="20"/>
+  <instrument name="22" bank="0" dimmer="21"/>
+  <instrument name="23" bank="0" dimmer="22"/>
+  <instrument name="24" bank="0" dimmer="23"/>
+  <instrument name="25" bank="0" dimmer="24"/>
+  <instrument name="26" bank="0" dimmer="25"/>
+  <instrument name="27" bank="0" dimmer="26"/>
+  <instrument name="28" bank="0" dimmer="27"/>
+  <instrument name="29" bank="0" dimmer="28"/>
+  <instrument name="30" bank="0" dimmer="29"/>
+  <instrument name="31" bank="0" dimmer="30"/>
+  <instrument name="32" bank="0" dimmer="31"/>
+  <instrument name="33" bank="0" dimmer="32"/>
+  <instrument name="34" bank="0" dimmer="33"/>
+  <instrument name="35" bank="0" dimmer="34"/>
+  <instrument name="36" bank="0" dimmer="35"/>
+  <instrument name="37" bank="0" dimmer="36"/>
+  <instrument name="38" bank="0" dimmer="37"/>
+  <instrument name="39" bank="0" dimmer="38"/>
+  <instrument name="40" bank="0" dimmer="39"/>
+  <instrument name="41" bank="0" dimmer="40"/>
+  <instrument name="42" bank="0" dimmer="41"/>
+  <instrument name="43" bank="0" dimmer="42"/>
+  <instrument name="44" bank="0" dimmer="43"/>
+  <instrument name="45" bank="0" dimmer="44"/>
+  <instrument name="46" bank="0" dimmer="45"/>
+  <instrument name="47" bank="0" dimmer="46"/>
+  <instrument name="48" bank="0" dimmer="47"/>
+  <instrument name="49" bank="0" dimmer="48"/>
+  <instrument name="50" bank="0" dimmer="49"/>
+
+  <moving_instrument name="moving1" bank="0" dimmer="5" 
+	xloc="0ft" yloc="-20ft" zloc="20ft"/>
 </instruments>
+
+
+
