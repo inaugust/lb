@@ -112,7 +112,6 @@ class parser(ExpatXMLParser):
 
     def end_cues (self):
         self.in_cues = 0
-        self.cue.validate()
     
     def start_instrument (self, attrs):
         if (not self.in_cues): return
@@ -127,6 +126,7 @@ class parser(ExpatXMLParser):
 
     def end_cue (self):
         if (not self.in_cues): return        
+        self.cue.validate()
 
     def start_parent (self, attrs):
         if (not self.in_cues): return        
@@ -223,6 +223,13 @@ class cue(completion):
             i.show()
         finally:
             threads_leave()
+
+    def send_update(self):
+        s="<cues>\n\n"
+        s=s+self.to_xml(1)+"\n"
+        s=s+"</cues>\n"
+        lb.sendData(s)
+
 
     def invalidate(self):
         self.valid = 0
@@ -376,6 +383,13 @@ class cue(completion):
         else:
             self.live_updates = 0
             
+    def has_parent(self, name):
+        if (self.name == name):
+            return 1
+        for (pname, level) in self.parents:
+            if (lb.cue[pname].has_parent(name)):
+                return 1
+        return 0
 
     def update_parents_display_help(self, tree, parent_node, level, in_cue):
         level = lb.value_to_string('level', [level])
@@ -402,7 +416,8 @@ class cue(completion):
             l.sort()
             for name in l:
                 if (name not in parents_in_cue):
-                    out_tree.append([name])
+                    if (not lb.cue[name].has_parent(self.name)):
+                        out_tree.append([name])
         finally:
             threads_leave()
 
@@ -521,6 +536,7 @@ class cue(completion):
         win = self.editTree.get_widget("cueEdit")
         threads_leave()
         self.update_refs()
+        self.send_update()
         threads_enter()
         win.destroy()
 

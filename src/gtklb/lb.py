@@ -20,12 +20,24 @@ libraries=(
 
 from lightboard import lightboard
 
-if (len(sys.argv)>1):
-  datafile = sys.argv[1]
-else:
-  datafile = None
-  
-clientname='gtklb1'
+datafile = None
+clientname = 'gtklb'
+
+name = None
+for arg in sys.argv[1:]:
+  print arg
+  if (name is None):
+    name = arg
+    continue
+  else:
+    value = arg
+  print name,value
+  if (name == '--clientname'):
+    clientname = value
+  if (name == '--show'):
+    datafile = value
+  name = None
+    
 
 def gtk_main():
   gtk.threads_enter()
@@ -34,6 +46,8 @@ def gtk_main():
 
 t=Thread (target=gtk_main)
 t.start()
+
+print clientname
 
 lb = lightboard(clientname)
 lb.load_libraries(libraries)

@@ -110,6 +110,7 @@ class lightboard(completion, LB__POA.Client):
 
         self.instrument_context = ins_ctx
         self.fader_context = fad_ctx
+        self.client_context = client_ctx
 
     def undo_bindings(self):
         x=CosNaming.NameComponent("shows","")
@@ -196,8 +197,15 @@ class lightboard(completion, LB__POA.Client):
             for lib in self._libraries:
                 lib.reset()
         else:
+            s = '<show name="%s">\n' % self.show
             for lib in self._libraries:
-                lib.load(lib.save())
+                r = lib.save()
+                if (r is not None):
+                    s=s+r
+            s=s+ '</show>\n'
+            print s
+            for lib in self._libraries:                    
+                lib.load(s)
         self.write("Now working in show " + self.show +"\n")
         
     def exit (self):
@@ -365,5 +373,29 @@ class lightboard(completion, LB__POA.Client):
         self.exit()
 
     def receiveData(self, data):
-        pass
-    
+        print 'got data', data
+        for lib in self._libraries:                    
+            lib.load(data)
+
+    def sendData(self, data):
+        s = '<show name="%s">\n' % self.show
+        s = s + data
+        s = s + '</show>\n'
+        data = s
+        (foo,iterator) = self.client_context.list(0)
+        while 1:
+            (c,b)=iterator.next_one()
+            if not c:
+                break
+            print 'name',  b.binding_name[0].id
+            if (b.binding_name[0].id==self.name):
+                continue
+            client = self.client_context.resolve(b.binding_name)
+            print 'sending data to ', client
+            try:
+                client.receiveData(data)
+            except:
+                print 'exception'
+                
+
+
