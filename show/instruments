@@ -5,4 +5,5 @@
   <instrument name="3" bank="0" dimmer="2"/>
   <instrument name="4" bank="0" dimmer="3"/>
   <instrument name="5" bank="0" dimmer="4"/>
+  <moving_instrument name="moving1" bank="0" dimmer="5"/>
 </instruments>

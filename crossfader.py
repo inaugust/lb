@@ -22,8 +22,8 @@ def shutdown():
 class parser(XMLParser):
 
     def start_crossfader (self, attrs):
-        type=attrs.get('type', 'min')
-        self.crossfader=crossfader (attrs['name'], type)
+        typ=attrs.get('type', 'min')
+        self.crossfader=crossfader (attrs['name'], typ)
 
     def end_crossfader (self):
         lb.crossfader[self.crossfader.name]=self.crossfader
@@ -44,11 +44,11 @@ class parser(XMLParser):
             
 class crossfader:
 
-    def __init__(self, name, type='min'):
+    def __init__(self, name, typ='min'):
         self.name=name
         self.sourcename='crossfader.'+name
         self.level=0
-        self.type=type
+        self.typ=typ
         self.up={}
         self.down={}
         self.levels={} #1 entry per fader which is a dict of (ins, level) 
@@ -113,7 +113,7 @@ class crossfader:
 
         for (name, level) in instrument.items():
             instrument=lb.instrument[name]
-            instrument.set_attribute(attribute='level', value=level, source=self.sourcename, type=self.type)
+            instrument.set_attribute(attribute='level', value=level, source=self.sourcename, typ=self.typ)
 
     def set_level_real(self, args):
         self.threadlock.acquire()

@@ -47,7 +47,7 @@ def handle_key_press (args):
         lb.events=[]
     if (key=='c'):
         proc=process.process()
-        proc.start(lb.procedure['circle'], instrument='1', center=(10, 10), radius=5)
+        proc.start(lb.procedure['circle'], instrument='moving1', center=(10, 10), radius=5)
     if (key=='a'):
         proc.stop()
     if (key=='q'):

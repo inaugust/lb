@@ -35,14 +35,14 @@ class parser(XMLParser):
 
     def start_levelfader (self, attrs):
         name=attrs['name']
-        type=attrs['type']
-        lb.levelfader[name]=levelfader (name, type)
+        typ=attrs['type']
+        lb.levelfader[name]=levelfader (name, typ)
 
 class levelfader(fader):
 
-    def __init__(self, name, type='min', callback=None, callback_arg=None):
+    def __init__(self, name, typ='min', callback=None, callback_arg=None):
         fader.__init__(self, name, callback, callback_arg)
-        self.type=type
+        self.typ=typ
         self.cue=None
         self.instrument={}
 
@@ -57,7 +57,7 @@ class levelfader(fader):
                        instrument=instrument)
 
     def set_type(self, cue):
-        lb.send_signal('Level Fader Set Type', itself=self, type=type)
+        lb.send_signal('Level Fader Set Type', itself=self, typ=typ)
 
     def run(self, level, time=0):
         lb.send_signal('Level Fader Run', itself=self, level=level, time=time)
@@ -110,7 +110,7 @@ class levelfader(fader):
         self.threadlock.release()
         self.levellock.acquire()
 
-        self.type=args['type']
+        self.typ=args['typ']
 
         self.levellock.release()
         
@@ -123,7 +123,7 @@ class levelfader(fader):
                 self.instrument[name]=setlevel
                 if (not self.callback):
                     instrument=lb.instrument[name]
-                    instrument.set_attribute(attribute='level', value=setlevel, source=self.sourcename, type=self.type)
+                    instrument.set_attribute(attribute='level', value=setlevel, source=self.sourcename, typ=self.typ)
         else:
             for (name, level) in self.instrument.items():
                 ins = lb.instrument[name]

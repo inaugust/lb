@@ -19,8 +19,9 @@ while(self.running):
   print 'instrument='+str(instrument)
   print center_x+(radius*math.cos(t))
   print center_y+(radius*math.sin(t))
-  #instrument.set_x(math.cos(t))
-  #instrument.set_y(math.sin(t))
+  lb.instrument[instrument].set_attribute(attribute='location',
+	value='('+str(math.cos(t))+'ft, '+ str(math.sin(t))+'ft, 0ft)',
+	source=self.name)
   t=t+.1
   time.sleep(0.5)
 
