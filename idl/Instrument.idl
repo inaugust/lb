@@ -5,12 +5,7 @@
 
 module LB
 {
-  interface InstrumentLevelListener
-  {
-    void levelChanged(in Event evt);
-  };
-
-  interface Instrument
+  interface Instrument : EventSender
   {
     readonly attribute string name;
 
@@ -20,22 +15,19 @@ module LB
   
     void setLevel (in double level); /* percent */
     double getLevel ();
-    void addLevelListener (in InstrumentLevelListener l);
-    void removeLevelListener (in InstrumentLevelListener l);
+    void addLevelListener (in EventListener l);
+    void removeLevelListener (in EventListener l);
 
     void setTarget(in double x, in double y, in double z);
     void getTarget(out double x, out double y, out double z);
-    void addTargetListener (in string l);
-    void removeTargetListener (in string l);
+    void addTargetListener (in EventListener l);
+    void removeTargetListener (in EventListener l);
 
 
 
     /*** Intra-core use only ***/
 
     /* Don't call these from clients, only other cores */
-
-    void doFireLevelEvent(in Event evt);
-    void doFireTargetEvent(in Event evt);
   };
 
 };

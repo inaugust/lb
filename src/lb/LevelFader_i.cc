@@ -23,8 +23,30 @@ LB_LevelFader_i::~LB_LevelFader_i()
 void LB_LevelFader_i::setCue(const LB::Cue& incue)
 {
   this->cue=incue;  // Deep copy, I suspect.
+  printf ("set\n");
+  if (this->source_listeners)
+    {
+      printf ("source evt\n");
+      LB::Event evt;
+      evt.source=this->POA_LB::LevelFader::_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_source;
+      lb->addEvent(evt);
+    }
 }
 
+char *LB_LevelFader_i::getCueName()
+{
+  CORBA::String_var ret;
+
+  if (strlen(this->cue.name))
+    {
+      ret=this->cue.name;   //also a String_, deep copy
+    }
+  else
+    ret=CORBA::string_dup("");
+  return ret._retn();
+}
 
 void LB_LevelFader_i::act_on_set_ratio (double ratio)
 {

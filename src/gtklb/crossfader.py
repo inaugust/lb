@@ -123,11 +123,8 @@ class parser(ExpatXMLParser):
         if (not self.in_crossfaders): return
         self.crossfader=crossfader (attrs['name'], attrs['core'])
 
-    def end_crossfader (self):
-        if (not self.in_crossfaders): return
-        
 
-class crossfader(LB__POA.FaderLevelListener):
+class crossfader(LB__POA.EventListener):
     """ Python wrapper for core Crossfader class"""
 
     def __init__(self, name, corename):

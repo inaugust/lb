@@ -43,7 +43,8 @@ module LB
       event_fader_level,
       event_fader_run,
       event_fader_stop,
-      event_fader_complete
+      event_fader_complete,
+      event_fader_source
     };
  
   struct Event
@@ -51,6 +52,16 @@ module LB
     EventType type;
     Object source;
     sequence<double> value;
+  };
+
+  interface EventListener
+  {
+    void receiveEvent(in Event evt);
+  };
+
+  interface EventSender
+  {
+    void sendEvent(in Event evt);
   };
 
 };

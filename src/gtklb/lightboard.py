@@ -47,9 +47,9 @@ class lightboard(completion, LB__POA.Client):
 
     _terminated=0
 
-    def __init__(self, show, myname):
+    def __init__(self, myname):
         completion.__init__(self, {'lb':self})
-        self.show=show
+        self.show='unnamed'
         self.name=myname
         self.datafile=None
         __builtins__['lb']=self

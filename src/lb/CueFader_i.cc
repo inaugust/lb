@@ -43,6 +43,14 @@ LB_CueFader_i::~LB_CueFader_i()
 void LB_CueFader_i::setCues(const LB::Cue& startcue, const LB::Cue& endcue)
 {
   normalize_cues (startcue, endcue, this->start_cue, this->end_cue);
+  if (this->source_listeners)
+    {
+      LB::Event evt;
+      evt.source=this->POA_LB::CueFader::_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_source;
+      lb->addEvent(evt);
+    }
 }
 
 void LB_CueFader_i::setAttributes(const LB::AttrList& attr)

@@ -11,6 +11,7 @@ libraries=(
   'cue',
   'fader',
   'crossfader',
+  'levelfader',
   'program',
   'procedure',
   'process',
@@ -19,7 +20,11 @@ libraries=(
 
 from lightboard import lightboard
 
-show='unnamed'
+if (len(sys.argv)>1):
+  datafile = sys.argv[1]
+else:
+  datafile = None
+  
 clientname='gtklb1'
 
 def gtk_main():
@@ -30,8 +35,10 @@ def gtk_main():
 t=Thread (target=gtk_main)
 t.start()
 
-lb = lightboard(show, clientname)
+lb = lightboard(clientname)
 lb.load_libraries(libraries)
+if (datafile is not None):
+  lb.load_show(datafile)
 lb.run()
 
 

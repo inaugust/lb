@@ -354,45 +354,10 @@ void LB_Lightboard_i::do_run_events(void)
 	{
 	  LB::Event *d = (LB::Event *)p->data;
 
-	  switch (d->type)
-	    {
-	    case LB::event_instrument_level:
-	      {
-		LB::Instrument_ptr src;
-		src = LB::Instrument::_narrow(d->source);
-		src->doFireLevelEvent(*d);
-	      }
-	      break;
-	    case LB::event_fader_level:
-	      {
-		LB::Fader_ptr src;
-		src = LB::Fader::_narrow(d->source);
-		src->doFireLevelEvent(*d);
-	      }
-	      break;
-	    case LB::event_fader_run:
-	      {
-		LB::Fader_ptr src;
-		src = LB::Fader::_narrow(d->source);
-		src->doFireRunEvent(*d);
-	      }
-	      break;
-	    case LB::event_fader_stop:
-	      {
-		LB::Fader_ptr src;
-		src = LB::Fader::_narrow(d->source);
-		src->doFireStopEvent(*d);
-	      }
-	      break;
-	    case LB::event_fader_complete:
-	      {
-		LB::Fader_ptr src;
-		src = LB::Fader::_narrow(d->source);
-		src->doFireCompleteEvent(*d);
-	      }
-	      break;
-
-	    }
+	  LB::EventSender_ptr src;
+	  src = LB::EventSender::_narrow(d->source);
+	  src->sendEvent(*d);
+	  
 	  delete d;
 	  g_slist_free_1(p);
 	}

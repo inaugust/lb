@@ -8,6 +8,7 @@ module LB
   interface LevelFader : Fader
   {
     void setCue (in Cue incue);
+    string getCueName ();
     void clear ();
   };
 

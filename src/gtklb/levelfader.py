@@ -2,127 +2,338 @@ from threading import *
 from xmllib import XMLParser
 from ExpatXMLParser import ExpatXMLParser
 from os import path
-import instrument
 import lightboard
 import time
 import math
-from fader import fader
+from gtk import *
+from libglade import *
 
-def initialize(lb):
+from omniORB import CORBA
+import CosNaming
+from idl import LB, LB__POA
+
+levelfader_open_menu=None
+
+def initialize():
+    reset()
+
+def reset():
+    global levelfader_open_menu
     lb.levelfader={}
-    try:
-        f=open(path.join(lb.datapath, 'levelfaders'))
-    except:
-        f=None
-    if (f):
-        p=parser()
-        p.Parse(f.read())
-        p.close()
-    lb.add_signal ('Level Fader Set Cue', levelfader.set_cue_real)
-    lb.add_signal ('Level Fader Set Instrument',
-                   levelfader.set_instrument_real)
-    lb.add_signal ('Level Fader Set Type', levelfader.set_type_real)
-    lb.add_signal ('Level Fader Set Level', levelfader.set_level_real)
-    lb.add_signal ('Level Fader Run', levelfader.run_real)
-    lb.add_signal ('Level Fader Stop', levelfader.stop_real)
-    lb.add_signal ('Level Fader Clear', levelfader.clear_real)
+    threads_enter()
+    for m in lb.fader_menu.children():
+        if (m.children()[0].get() == "Levelfader"):
+            lb.fader_menu.remove(m)
+
+    levelfader1=GtkMenuItem("Levelfader")
+    lb.fader_menu.append(levelfader1)
+    levelfader_menu=GtkMenu()
+    levelfader1.set_submenu(levelfader_menu)
+
+    open1=GtkMenuItem("Open")
+    levelfader_menu.append(open1)
+    levelfader_open_menu=GtkMenu()
+    open1.set_submenu(levelfader_open_menu)
+
+    new1=GtkMenuItem("New")
+    new1.connect("activate", newLevelFader_cb, None)
+    levelfader_menu.append(new1)
+
+    lb.menubar.show_all()
+    threads_leave()
     
 def shutdown():
     pass
+
+def load(data):
+    p=parser()
+    p.Parse(data)
+    p.close()
+
+def save():
+    s="<levelfaders>\n\n"
+    for c in lb.levelfader.values():
+        s=s+c.to_xml(1)
+    s=s+"</levelfaders>\n"
+    return s
+
+class levelFaderFactory:
+    def __init__(self):
+        threads_enter()
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "newCoreItem")
+            
+            dic = {"on_ok_clicked": self.ok_clicked,
+                   "on_cancel_clicked": self.cancel_clicked}
+            
+            wTree.signal_autoconnect (dic)
+            
+            e=wTree.get_widget ("nameEntry")
+            coreMenu=wTree.get_widget ("coreMenu")
+            
+            menu=GtkMenu()
+            coreMenu.set_menu(menu)
+            lb.check_cores()
+            for n in lb.core_names:
+                i=GtkMenuItem(n)
+                i.show()
+                menu.append(i)
+            coreMenu.set_history(0)
+            menu.show()
+            
+            self.tree=wTree
+        finally:
+            threads_leave()
+        
+    def ok_clicked(self, widget, data=None):
+        w = self.tree.get_widget("newCoreItem")
+        e = self.tree.get_widget("nameEntry")
+        name = e.get_text()
+        o = self.tree.get_widget("coreMenu")
+        corename = o.children()[0].get()
+        if not lb.levelfader.has_key(name):
+            threads_leave()
+            c = levelfader(name, corename)
+            threads_enter()
+        w.destroy()
+    
+    def cancel_clicked(self, widget, data=None):
+        w = self.tree.get_widget("newCoreItem")
+        w.destroy()
+
+def newLevelFader_cb(widget, data=None):
+    # called from menu
+    threads_leave()
+    f = levelFaderFactory()
+    threads_enter()
+    # that's it.
+
 
 class dummy:
     pass
 
 class parser(ExpatXMLParser):
+    def __init__(self):
+        ExpatXMLParser.__init__(self)
+        self.in_levelfaders=0
+
+    def start_levelfaders (self, attrs):
+        self.in_levelfaders=1
+
+    def end_levelfaders (self):
+        self.in_levelfaders=0
 
     def start_levelfader (self, attrs):
+        if (not self.in_levelfaders): return
         name=attrs['name']
-        typ=attrs['type']
-        lb.levelfader[name]=levelfader (name, typ)
+        core=attrs['core']
+        self.levelfader = levelfader (name, core)
 
-class levelfader(fader):
-
-    def __init__(self, name, typ='min', callback=None, callback_arg=None,
-                 groupname=None):
-        fader.__init__(self, name, callback, callback_arg, groupname)
-        self.typ=typ
-        self.cue=None
-        self.sourcedict=lb.get_sources(typ)
-
-    def set_level(self, level):
-        lb.send_signal('Level Fader Set Level', itself=self, level=level)
-        #self.set_level_real({'level':level})
+class levelfader(LB__POA.EventListener):
+    """ Python wrapper for core Levelfader class"""
     
-    def set_cue(self, cue):
-        lb.send_signal('Level Fader Set Cue', itself=self, cue=cue)
-        #self.set_cue_real({'cue':cue})
-        
-    def set_instrument(self, instrument):
-        lb.send_signal('Level Fader Set Instrument', itself=self,
-                       instrument=instrument)
+    def __init__(self, name, corename):
+        self.event_mapping = {LB.event_fader_level: self.levelChanged,
+                              LB.event_fader_source: self.sourceChanged}
+        self.name=name
+        self.corename=corename
+        self.corefader=lb.get_fader(name)
+        if (self.corefader is not None):
+            e=0
+            try:
+                e=self.corefader._non_existent()
+            except:
+                self.corefader=None
+            if (e): self.corefader=None
+        if (self.corefader is None):
+            c = lb.get_core(corename)
+            c.createLevelFader (lb.show, name)
+        self.corefader=lb.get_fader(name)
 
-    def set_type(self, cue):
-        lb.send_signal('Level Fader Set Type', itself=self, typ=typ)
+        listener=self._this()
+        self.corefader.addLevelListener(listener)
+        self.corefader.addSourceListener(listener)
 
-    def run(self, level, time=0):
-        lb.send_signal('Level Fader Run', itself=self, level=level, time=time)
+        if (lb.levelfader.has_key(self.name)):
+            oldf = lb.levelfader[self.name]
+            levelfader_open_menu.remove(oldf.levelfader_open_menu_item)
+        lb.levelfader[self.name]=self
+
+        threads_enter()
+        try:
+            fad=GtkMenuItem(self.name)
+            self.levelfader_open_menu_item=fad
+            levelfader_open_menu.append(fad)
+            fad.connect("activate", self.open_cb, None)
+            fad.show()
+        finally:
+            threads_leave()
+
+
+    def to_xml(self, indent=0):
+        s = ''
+        sp = '  '*indent
+        s=s+sp+'<levelfader name="%s" core="%s"/>\n' % (self.name,
+                                                        self.corename)
+        return s
+
+    def run(self, level, time):
+        print lb.value_to_core('time', time)
+        print lb.value_to_core('level', level)
+        time=lb.value_to_core('time', time)
+        level=lb.value_to_core('level', level)[0]
+        return self.corefader.run(level, time)
 
     def stop(self):
-        lb.send_signal('Level Fader Stop', itself=self)
+        return self.corefader.stop()
 
+    def setLevel(self, level):
+        return self.corefader.setLevel(lb.value_to_core('level', level)[0])
+
+    def getLevel(self):
+        return self.corefader.getLevel()
+
+    def isRunning(self):
+        return self.corefader.isRunning()
+
+    def setCue(self, cue):
+        if (type(cue) == type('')):
+            return self.corefader.setCue(lb.cue[cue].core_cue)
+        else:
+            return self.corefader.setCue(cue.core_cue)
+
+    def setTime(self, time):
+        time=lb.value_to_core('time', time)[0]
+        return self.corefader.setTime(time)
+
+    def getCueName(self):
+        return self.corefader.getCueName()
+    
     def clear(self):
-        lb.send_signal('Level Fader Clear', itself=self)
+        return self.corefader.clear()
 
     #private
-    
-    def set_cue_real (self, args):
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        self.threadlock.release()
-        self.levellock.acquire()
 
-        self.cue=lb.cue[args['cue']]
-        print 'setting ',args['cue'], self.cue
-        self.levellock.release()
+    def adjustment_changed(self, widget, data):
+        if (not self.corefader.isRunning()):
+            #print 'updating fader'
+            self.corefader.setLevel(100.0-widget.value)
 
-    def set_instrument_real (self, args):
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        self.threadlock.release()
-        self.levellock.acquire()
+    def run_clicked(self, widget, data=None):
+        if self.isRunning(): return
+        start = self.tree.get_widget("fromSpin")
+        end = self.tree.get_widget("toSpin")
+        intime = self.tree.get_widget("timeSpin")
 
-        self.cue=dummy()
-        self.cue.matrix=lb.instrument[args['instrument']].get_matrix({'level':'100%'})
-        self.levellock.release()
+        start = start.get_value_as_float()
+        end = end.get_value_as_float()
+        intime = intime.get_value_as_float()
+
+        if (self.getLevel()!=start):
+            self.setLevel(start)
         
-    def set_type_real(self, args):
-        self.threadlock.acquire()
-        if (self.mythread):
-            self.threadlock.release()
-            self.mythread.join()
-            self.threadlock.acquire()
-        self.threadlock.release()
-        self.levellock.acquire()
+        self.run(end, intime)
 
-        self.typ=args['typ']
-        self.sourcedict=lb.get_sources(self.typ)
-        self.levellock.release()
-        
-    def act_on_set_ratio(self, ratio):
-        # we have the lock
-        self.matrix=self.cue.matrix*ratio
+    def stop_clicked(self, widget, data=None):
+        if not self.isRunning(): return
+        self.stop()
 
-        if not self.callback:
-            self.sourcedict[self.sourcename]=self.matrix
-            lb.update_dimmers()
+    def cue_menu_changed(self, widget, data=None):
+        if self.isRunning(): return
+        menu = self.tree.get_widget("topCueMenu")
+        name = menu.children()[0].get()
+        self.setCue(name)
+        self.setLevel(self.getLevel())
+        print 'changed', name
         
-    def clear_real (self, args):
-        self.wait_for()
-        self.set_level_real({'level':0})
-        self.cue=None
+    def create_window (self):
+        threads_enter()
+        try:
+            wTree = GladeXML ("gtklb.glade",
+                              "fader")
+            
+            dic = {"on_run_clicked": self.run_clicked,
+                   "on_stop_clicked": self.stop_clicked}
+            
+            wTree.signal_autoconnect (dic)
+            
+            w=wTree.get_widget ("fader")
+            w.set_title("Levelfader %s" % self.name)
+
+            t=wTree.get_widget ("topLabel")
+            b=wTree.get_widget ("bottomLabel")
+            t.set_text("Cue: ---")
+            b.set_text("")
+            self.label=t
+
+            t=wTree.get_widget ("topCueLabel")
+            b=wTree.get_widget ("bottomCueLabel")
+            t.set_text("Cue")
+            b.set_text("")
+
+            t=wTree.get_widget ("topCueMenu")
+            b=wTree.get_widget ("bottomCueMenu")
+            b.hide()
+
+            self.fromSpin=wTree.get_widget ("fromSpin")
+            self.toSpin=wTree.get_widget ("toSpin")
+            self.timeSpin=wTree.get_widget ("timeSpin")
+            
+            menu=GtkMenu()
+            menu.connect ("selection-done", self.cue_menu_changed, None)
+            t.set_menu(menu)
+            for n in lb.cue.keys():
+                i=GtkMenuItem(n)
+                i.show()
+                menu.append(i)
+            t.set_history(0)
+            menu.show()
+            
+            scale = wTree.get_widget("vscale")
+            self.adjustment=GtkAdjustment(100.0, 0.0, 110.0, 1.0, 10.0, 10.0)
+            self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
+            scale.set_adjustment(self.adjustment)
+
+            self.tree=wTree
+        finally:
+            threads_leave()
+
+    def levelChanged(self, evt):
+        threads_enter()
+        try:
+            self.adjustment.disconnect(self.adjustment_handler_id)
+            self.adjustment.set_value(100.0-evt.value[0])
+            self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
+            self.fromSpin.set_value(evt.value[0])
+            if (len(evt.value)>1):
+                self.timeSpin.set_value(evt.value[1])
+            gdk_flush()
+        finally:
+            threads_leave()
+
+    def sourceChanged(self, evt):
+        print self.getCueName()
+        threads_enter()
+        try:
+            self.label.set_text("Cue: %s" % self.getCueName())
+        finally:
+            threads_leave()
+
+    def receiveEvent(self, evt):
+        try:
+            m = self.event_mapping[evt.type]
+            m(evt)
+        except:
+            print 'exception'
+
+    def open_cb(self, widget, data):
+        """ Called from lightboard->fader->levelfader"""
+
+        self.levelfader_open_menu_item.set_sensitive(0)
+        threads_leave()
+        self.create_window()
+        threads_enter()
+
+# see gtk_signal_handler_block_by_func
+# at http://developer.gnome.org/doc/API/gtk/gtkeditable.html

@@ -32,6 +32,7 @@ public:
 
   // methods corresponding to defined IDL attributes and operations
   void setCue(const LB::Cue& incue);
+  char* getCueName();
   void clear();
 
   /*

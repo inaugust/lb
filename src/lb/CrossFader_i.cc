@@ -64,6 +64,14 @@ void LB_CrossFader_i::setCues(const LB::Cue& downcue, const LB::Cue& upcue)
   printf ("Cue2\n");
   print_cue (up_cue);
   */
+  if (this->source_listeners)
+    {
+      LB::Event evt;
+      evt.source=this->POA_LB::CrossFader::_this();
+      evt.value.length(0);
+      evt.type=LB::event_fader_source;
+      lb->addEvent(evt);
+    }
 }
 
 void LB_CrossFader_i::setTimes(CORBA::Double downtime, CORBA::Double uptime)

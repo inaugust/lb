@@ -45,17 +45,16 @@ public:
   virtual void setLevel(CORBA::Double level);
   virtual CORBA::Double getLevel();
   
-  void addLevelListener(const LB::InstrumentLevelListener_ptr l);
-  void removeLevelListener(const LB::InstrumentLevelListener_ptr l);
+  void addLevelListener(const LB::EventListener_ptr l);
+  void removeLevelListener(const LB::EventListener_ptr l);
 
   virtual void setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z);
   virtual void getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z);
 
-  void addTargetListener(const char *l);
-  void removeTargetListener(const char *l);
+  void addTargetListener(const LB::EventListener_ptr l);
+  void removeTargetListener(const LB::EventListener_ptr l);
 
-  virtual void doFireLevelEvent(const LB::Event& evt);
-  virtual void doFireTargetEvent(const LB::Event& evt);
+  void sendEvent(const LB::Event& evt);
 };
 
 #endif __INSTRUMENT_I_HH__

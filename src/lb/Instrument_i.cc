@@ -228,32 +228,51 @@ CORBA::Double LB_Instrument_i::getLevel()
   return this->my_level;
 }
 
-void LB_Instrument_i::doFireLevelEvent(const LB::Event &evt)
+void LB_Instrument_i::sendEvent(const LB::Event &evt)
 {
   pthread_mutex_lock(&this->listener_lock);
-  GSList *list = this->level_listeners;
+  GSList *list, **handle;
+  switch (evt.type)
+    {
+    case LB::event_instrument_level:  handle = &this->level_listeners;   break;
+    case LB::event_instrument_target: handle = &this->target_listeners;  break;
+    }
+  list = *handle;
+  GSList *to_remove = NULL;
   while (list)
     {
-      ((LB::InstrumentLevelListener_ptr) list->data)->levelChanged(evt);
+      try
+	{
+	  ((LB::EventListener_ptr) list->data)->receiveEvent(evt);
+	}
+      catch (...)
+	{
+	  to_remove = g_slist_append(to_remove, list->data);
+	}
       list=list->next;
+    }
+  if (to_remove)
+    {
+      while (to_remove)
+	{
+	  *handle=g_slist_remove(*handle, to_remove->data);
+	  to_remove=to_remove->next;
+	}
+      g_slist_free(to_remove);
     }
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-void LB_Instrument_i::addLevelListener(const LB::InstrumentLevelListener_ptr l)
+
+void LB_Instrument_i::addLevelListener(const LB::EventListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
-
-  //printf ("l = %s\n", l);
-
-  LB::InstrumentLevelListener_ptr p = LB::InstrumentLevelListener::_duplicate(l);
-  //printf ("p = %p\n", p);
-
+  LB::EventListener_ptr p = LB::EventListener::_duplicate(l);
   this->level_listeners=g_slist_append(this->level_listeners, p);
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-void LB_Instrument_i::removeLevelListener(const LB::InstrumentLevelListener_ptr l)
+void LB_Instrument_i::removeLevelListener(const LB::EventListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
   pthread_mutex_unlock(&this->listener_lock);
@@ -267,28 +286,15 @@ void LB_Instrument_i::getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Doubl
 {
 }
 
-void LB_Instrument_i::doFireTargetEvent(const LB::Event &evt)
+void LB_Instrument_i::addTargetListener(const LB::EventListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
-  /*
-  GSList *list = this->target_listeners;
-  while (list)
-    {
-      ((LB::InstrumentTargetListener_ptr) list->data)->targetChanged(evt);
-      list=list->next;
-    }
-  */
+  LB::EventListener_ptr p = LB::EventListener::_duplicate(l);
+  this->target_listeners=g_slist_append(this->target_listeners, p);
   pthread_mutex_unlock(&this->listener_lock);
 }
 
-void LB_Instrument_i::addTargetListener(const char *l)
-{
-  pthread_mutex_lock(&this->listener_lock);
-  //this->target_listeners=g_slist_append(this->target_listeners, l);
-  pthread_mutex_unlock(&this->listener_lock);
-}
-
-void LB_Instrument_i::removeTargetListener(const char *l)
+void LB_Instrument_i::removeTargetListener(const LB::EventListener_ptr l)
 {
   pthread_mutex_lock(&this->listener_lock);
   pthread_mutex_unlock(&this->listener_lock);

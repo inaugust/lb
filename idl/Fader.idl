@@ -5,56 +5,32 @@
 
 module LB
 {
-  interface FaderLevelListener
-  {
-    void levelChanged(in Event evt);
-  };
-  interface FaderRunListener
-  {
-    void runStarted(in Event evt);
-  };
-  interface FaderStopListener
-  {
-    void runStopped(in Event evt);
-  };
-  interface FaderCompleteListener
-  {
-    void runCompleted(in Event evt);
-  };
-  interface Fader
+  interface Fader : EventSender
   {
     readonly attribute string name;
 
     void run (in double level, in double time);
-    void addRunListener (in FaderRunListener l);
-    void removeRunListener (in FaderRunListener l);
+    void addRunListener (in EventListener l);
+    void removeRunListener (in EventListener l);
 
     void stop ();
-    void addStopListener (in FaderStopListener l);
-    void removeStopListener (in FaderStopListener l);
+    void addStopListener (in EventListener l);
+    void removeStopListener (in EventListener l);
 
     void setLevel (in double level);
-    void addLevelListener (in FaderLevelListener l);
-    void removeLevelListener (in FaderLevelListener l);
+    double getLevel ();
+    void addLevelListener (in EventListener l);
+    void removeLevelListener (in EventListener l);
 
-    void addCompleteListener (in FaderCompleteListener l);
-    void removeCompleteListener (in FaderCompleteListener l);
+    void addCompleteListener (in EventListener l);
+    void removeCompleteListener (in EventListener l);
+
+    void addSourceListener (in EventListener l);
+    void removeSourceListener (in EventListener l);
 
     boolean isRunning ();
     // wait for
-
-
-
-    /*** Intra-core use only ***/
-
-    /* Don't call these from clients, only other cores */
-
-    void doFireLevelEvent(in Event evt);
-    void doFireRunEvent(in Event evt);
-    void doFireStopEvent(in Event evt);
-    void doFireCompleteEvent(in Event evt);
   };
-
 };
 
 #endif /* _FADER_IDL_ */
