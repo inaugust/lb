@@ -94,4 +94,4 @@ public:
 
   void sendEvent(const LB::Event& evt);
 };
-#endif __FADER_I_HH__
+#endif

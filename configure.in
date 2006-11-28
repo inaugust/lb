@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT('lb', '0.3.0', 'bugs-lb@inaugust.com')
-AM_INIT_AUTOMAKE($PACKAGE_NAME,$PACKAGE_VERSION)
 AC_CONFIG_AUX_DIR(config)
+AM_INIT_AUTOMAKE($PACKAGE_NAME,$PACKAGE_VERSION)
 AC_CONFIG_SRCDIR([src/lb/CrossFader_i.cc])
 AM_CONFIG_HEADER(config.h)
 
@@ -15,11 +15,11 @@ AC_CHECK_LIB([expat], [main])
 # FIXME: Replace `main' with a function in `-libs':
 AC_CHECK_LIB([ibs], [main])
 # FIXME: Replace `main' with a function in `-lomniDynamic3':
-AC_CHECK_LIB([omniDynamic3], [main])
+AC_CHECK_LIB([omniDynamic4], [main])
 # FIXME: Replace `main' with a function in `-lomniGK_stub':
 AC_CHECK_LIB([omniGK_stub], [main])
 # FIXME: Replace `main' with a function in `-lomniORB3':
-AC_CHECK_LIB([omniORB3], [main])
+AC_CHECK_LIB([omniORB4], [main])
 # FIXME: Replace `main' with a function in `-lomnithread':
 AC_CHECK_LIB([omnithread], [main])
 # FIXME: Replace `main' with a function in `-lpthread':

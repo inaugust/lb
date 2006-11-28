@@ -5,8 +5,6 @@ from threading import *
 import string
 import time
 from gtk import *
-from libglade import *
-import GDK
 from rexec import RExec
 import __builtin__
 import __main__

@@ -39,4 +39,4 @@ public:
   */  
 };
 
-#endif __LEVELFADER_I_HH__
+#endif

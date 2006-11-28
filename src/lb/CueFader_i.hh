@@ -46,4 +46,4 @@ public:
   */
 };
 
-#endif __CUEFADER_I_HH__
+#endif

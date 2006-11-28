@@ -87,4 +87,4 @@ public:
 				      const LB::ArgList& arguments);
 };
 
-#endif __INSTRUMENT_I_HH__
+#endif

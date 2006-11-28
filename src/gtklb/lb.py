@@ -4,7 +4,7 @@ from threading import *
 import socket
 import sys
 
-import gtk
+import gtk, gtk.glade
 
 libraries=(
   'attribute_widgets',

@@ -48,4 +48,4 @@ public:
   
 };
 
-#endif _DIMMER_I_HH_
+#endif

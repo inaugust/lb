@@ -39,4 +39,4 @@ void
 recursive_unbind_and_destroy(CosNaming::NamingContext_ptr context, 
 			     CosNaming::Name name);
 
-#endif __LB_HH__
+#endif

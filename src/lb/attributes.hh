@@ -9,4 +9,4 @@ void interpolate_attribute_values(LB::AttrValue &start, LB::AttrValue &end,
 				  double ratio, LB::AttrValue &out);
 
 
-#endif __ATTRIBUTES_HH__
+#endif

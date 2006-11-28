@@ -211,7 +211,7 @@ void normalize_cues (const LB::Cue& incue1, const LB::Cue& incue2,
       outcue2.ins[pos].name = incue2.ins[i].name;
       outcue1.ins[pos].inst = incue2.ins[i].inst;
       outcue2.ins[pos].inst = incue2.ins[i].inst;
-      g_hash_table_insert (hash2, incue2.ins[i].name, (gpointer)(i+1));
+      g_hash_table_insert (hash2, (gpointer)incue2.ins[i].name, (gpointer)(i+1));
       pos++;
     }
 

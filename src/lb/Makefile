@@ -1,8 +1,8 @@
 #CXX = g++-3.0
 
-CPPFLAGS =  -O2 -g -D__OMNIORB3__ -D_REENTRANT  -I. -I.. -D__x86__ -D__linux__ -D__OSVERSION__=2 `glib-config --cflags`
+CPPFLAGS =  -O2 -g -D__OMNIORB4__ -D_REENTRANT  -I. -I.. -D__x86__ -D__linux__ -D__OSVERSION__=2 `pkg-config --cflags glib-2.0`
 
-LDFLAGS = -rdynamic -export-dynamic -ldl -lomniORB3  -lomniGK_stub -lexpat -lpthread -lomniDynamic3 -lomnithread  `glib-config --libs`
+LDFLAGS = -rdynamic -export-dynamic -ldl -lomniORB4  -lomniGK_stub -lexpat -lpthread -lomniDynamic4 -lomnithread  `pkg-config --libs glib-2.0`
 
 IDLC=omniidl
 IDL_ARGS=-bcxx -Wba #-Wbuse_quotes

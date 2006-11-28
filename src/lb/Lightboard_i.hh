@@ -61,4 +61,4 @@ public:
   void print_queue();
 };
 
-#endif _LIGHTBOARD_I_HH_
+#endif

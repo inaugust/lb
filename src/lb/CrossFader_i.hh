@@ -49,4 +49,4 @@ public:
   */
 };
 
-#endif __CROSSFADER_I_HH__
+#endif
