@@ -7,10 +7,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int initialize_instruments (LB::Lightboard_ptr lb);
+int initialize_instruments(LB::Lightboard_ptr lb);
 
-class LB_Instrument_i: public POA_LB::Instrument,
-                public PortableServer::RefCountServantBase {
+
+class LB_Instrument_i : public POA_LB::Instrument,
+                        public PortableServer::RefCountServantBase
+{
 protected:
   // Make sure all instances are built on the heap by making the
   // destructor non-public
@@ -22,7 +24,7 @@ protected:
   int dimmer_start;
 
   LB::Dimmer_ptr level_dimmer;
-  
+
   GSList *level_listeners;
   GSList *target_listeners;
   GSList *gobo_rpm_listeners;
@@ -39,17 +41,17 @@ protected:
   CORBA::Long addListener(GSList **list, const LB::EventListener_ptr l);
   void removeListener(GSList **list, CORBA::Long id);
 
-public:
 
+public:
   // standard constructor
   LB_Instrument_i(const char *name, int dimmer_start);
   virtual ~LB_Instrument_i();
 
   // methods corresponding to defined IDL attributes and operations
-  char* name();
-  LB::AttrList* getAttributes();
+  char *name();
+  LB::AttrList *getAttributes();
 
-  virtual void setLevelFromSource(CORBA::Double level, const char* source);
+  virtual void setLevelFromSource(CORBA::Double level, const char *source);
 
   virtual void setLevel(CORBA::Double level);
   virtual CORBA::Double getLevel();
@@ -57,7 +59,9 @@ public:
   void removeLevelListener(CORBA::Long id);
 
   virtual void setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z);
-  virtual void getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z);
+  virtual void getTarget(CORBA::Double& x,
+                         CORBA::Double& y,
+                         CORBA::Double& z);
   CORBA::Long addTargetListener(const LB::EventListener_ptr l);
   void removeTargetListener(CORBA::Long id);
 
@@ -70,21 +74,20 @@ public:
 };
 
 
-class LB_InstrumentFactory_i: public POA_LB::InstrumentFactory,
-			      public PortableServer::RefCountServantBase {
+class LB_InstrumentFactory_i : public POA_LB::InstrumentFactory,
+                               public PortableServer::RefCountServantBase
+{
 protected:
   // Make sure all instances are built on the heap by making the
   // destructor non-public
   //virtual ~LB_InstrumentFactory_i();
-
 public:
-
   // standard constructor
   LB_InstrumentFactory_i();
   virtual ~LB_InstrumentFactory_i();
 
-  LB::Instrument_ptr createInstrument(const char* name, 
-				      const LB::ArgList& arguments);
+  LB::Instrument_ptr createInstrument(const char *name,
+                                      const LB::ArgList& arguments);
 };
 
 #endif

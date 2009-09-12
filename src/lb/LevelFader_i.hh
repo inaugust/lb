@@ -3,11 +3,12 @@
 
 #include "Fader_i.hh"
 
-int initialize_levelfaders (LB::Lightboard_ptr lb);
+int initialize_levelfaders(LB::Lightboard_ptr lb);
 
-class LB_LevelFader_i: public POA_LB::LevelFader,
-		       //public PortableServer::RefCountServantBase 
-		       public LB_Fader_i
+
+class LB_LevelFader_i : public POA_LB::LevelFader,
+//public PortableServer::RefCountServantBase
+                        public LB_Fader_i
 {
 private:
   // Make sure all instances are built on the heap by making the
@@ -16,9 +17,9 @@ private:
 
   LB::Cue cue;
   LB::Instrument_ptr *instruments;
-
 protected:
-  void act_on_set_ratio (double ratio);
+  void act_on_set_ratio(double ratio);
+
 
 public:
   // standard constructor
@@ -27,16 +28,17 @@ public:
 
   // methods corresponding to defined IDL attributes and operations
   void setCue(const LB::Cue& incue);
-  char* getCueName();
+  char *getCueName();
   void clear();
 
+
   /*
-  char* name();
-  void run(CORBA::Double level, CORBA::Double time);
-  void stop();
-  void setLevel(CORBA::Double level);
-  CORBA::Boolean isRunning();
-  */  
+   *  char* name();
+   *  void run(CORBA::Double level, CORBA::Double time);
+   *  void stop();
+   *  void setLevel(CORBA::Double level);
+   *  CORBA::Boolean isRunning();
+   */
 };
 
 #endif

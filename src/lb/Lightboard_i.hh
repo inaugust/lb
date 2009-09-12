@@ -16,8 +16,9 @@
 //
 // Example class implementing IDL interface LB::Lightboard
 //
-class LB_Lightboard_i: public POA_LB::Lightboard,
-                public PortableServer::RefCountServantBase {
+class LB_Lightboard_i : public POA_LB::Lightboard,
+                        public PortableServer::RefCountServantBase
+{
 private:
   // Make sure all instances are built on the heap by making the
   // destructor non-public
@@ -32,30 +33,33 @@ private:
   GHashTable *driver_args;
 
   char *my_name;
-
 public:
   // standard constructor
   LB_Lightboard_i(const char *name);
   virtual ~LB_Lightboard_i();
 
   // methods corresponding to defined IDL attributes and operations
-  char* name();
+  char *name();
   CORBA::ULong dimmerRange();
 
-  CORBA::Long createInstrument(const char* show, const char* name, 
-			       const char* driver, 
-			       const LB::ArgList& arguments);
+  CORBA::Long createInstrument(const char *show,
+                               const char *name,
+                               const char *driver,
+                               const LB::ArgList& arguments);
 
-  CORBA::Long createLevelFader(const char* show, const char* name);
-  CORBA::Long createCueFader(const char* show, const char* name);
-  CORBA::Long createCrossFader(const char* show, const char* name);
+  CORBA::Long createLevelFader(const char *show, const char *name);
+  CORBA::Long createCueFader(const char *show, const char *name);
+  CORBA::Long createCrossFader(const char *show, const char *name);
 
-  LB::StringList* enumerateDrivers();
-  LB::StringList* enumerateDriverArguments(const char* driver);
- 
+  LB::StringList *enumerateDrivers();
+  LB::StringList *enumerateDriverArguments(const char *driver);
+
+
   /* This function is not public.  I mean it.  Don't call it! */
   void addEvent(const LB::Event& evt);
-  void addDriver(const char* name, const LB::StringList& arguments, LB::InstrumentFactory_ptr fact);
+  void addDriver(const char *name,
+                 const LB::StringList& arguments,
+                 LB::InstrumentFactory_ptr fact);
 
   void do_run_events();
   void print_queue();

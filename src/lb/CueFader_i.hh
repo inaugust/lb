@@ -3,14 +3,15 @@
 
 #include "Fader_i.hh"
 
-int initialize_cuefaders (LB::Lightboard_ptr lb);
+int initialize_cuefaders(LB::Lightboard_ptr lb);
+
 
 //
 // Example class implementing IDL interface LB::CueFader
 //
-class LB_CueFader_i: public POA_LB::CueFader,
-						//		     public PortableServer::RefCountServantBase,
-		     public LB_Fader_i
+class LB_CueFader_i : public POA_LB::CueFader,
+//		     public PortableServer::RefCountServantBase,
+                      public LB_Fader_i
 {
 private:
   // Make sure all instances are built on the heap by making the
@@ -24,8 +25,10 @@ private:
 
   int hasAttribute(LB::AttrType attr);
 
+
 protected:
-  void act_on_set_ratio (double ratio);
+  void act_on_set_ratio(double ratio);
+
 
 public:
   // standard constructor
@@ -37,13 +40,15 @@ public:
 
   void setAttributes(const LB::AttrList& attr);
   void clear();
+
+
   /*
-  char* name();
-  void run(const char* level, const char* time);
-  void stop();
-  void setLevel(const char* level);
-  CORBA::Boolean isRunning();
-  */
+   *  char* name();
+   *  void run(const char* level, const char* time);
+   *  void stop();
+   *  void setLevel(const char* level);
+   *  CORBA::Boolean isRunning();
+   */
 };
 
 #endif

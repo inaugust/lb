@@ -3,11 +3,12 @@
 #include "Instrument_i.hh"
 #include "lb.hh"
 
-int initialize_moving_instruments (LB::Lightboard_ptr lb);
+int initialize_moving_instruments(LB::Lightboard_ptr lb);
 
-class LB_MovingInstrument_i: public POA_LB::MovingInstrument,
-			     //                public PortableServer::RefCountServantBase 
-			     public LB_Instrument_i
+
+class LB_MovingInstrument_i : public POA_LB::MovingInstrument,
+//                public PortableServer::RefCountServantBase
+                              public LB_Instrument_i
 {
 private:
   // Make sure all instances are built on the heap by making the
@@ -26,14 +27,14 @@ private:
   LB::Dimmer_ptr x_dimmer;
   LB::Dimmer_ptr y_dimmer;
 
-  void xyz_to_xy(double inx, double iny, double inz,
-		 long &outx, long &outy);
+  void xyz_to_xy(double inx, double iny, double inz, long& outx, long& outy);
+
 
 public:
   // standard constructor
   LB_MovingInstrument_i(const char *name, int dnum,
-					     double xloc, double yloc,
-					     double zloc);
+                        double xloc, double yloc,
+                        double zloc);
   virtual ~LB_MovingInstrument_i();
 
   // methods corresponding to defined IDL attributes and operations
@@ -41,11 +42,11 @@ public:
   void setTarget(CORBA::Double x, CORBA::Double y, CORBA::Double z);
   void getTarget(CORBA::Double& x, CORBA::Double& y, CORBA::Double& z);
 
+
   /*
-  char* name();
-  LB::AttrList* getAttributes();
-  void setLevel(const char* level);
-  char* getLevel();
-  */
-  
+   *  char* name();
+   *  LB::AttrList* getAttributes();
+   *  void setLevel(const char* level);
+   *  char* getLevel();
+   */
 };
