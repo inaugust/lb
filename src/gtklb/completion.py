@@ -196,7 +196,7 @@ class completion(code.InteractiveConsole):
     
     def key_pressed(self, widget, event, data=None):
         handled=0
-        if (event.keyval==GDK.Tab):
+        if (event.keyval==gtk.gdk.Tab):
             handled=1
             alltext = widget.get_text()
             text = alltext[:widget.get_position()]
@@ -217,16 +217,16 @@ class completion(code.InteractiveConsole):
         else:
             self.complete_state=0
 
-        if (event.keyval==GDK.Up or
-            event.keyval==GDK.KP_Up ):
+        if (event.keyval==gtk.gdk.Up or
+            event.keyval==gtk.gdk.KP_Up ):
             handled=1
             if (len(self.command_history) and
                 self.command_history_index+1 < len(self.command_history)):
                 self.command_history_index=self.command_history_index+1
                 widget.set_text(self.command_history[self.command_history_index])
 
-        if (event.keyval==GDK.Down or
-            event.keyval==GDK.KP_Down ):
+        if (event.keyval==gtk.gdk.Down or
+            event.keyval==gtk.gdk.KP_Down ):
             handled=1
             if (self.command_history_index > -1):
                 self.command_history_index=self.command_history_index-1
@@ -253,12 +253,12 @@ class completion(code.InteractiveConsole):
 
         old = sys.stdout
 
-        threads_leave()
+        gdk.threads_leave()
         self.write(">>> "+command+"\n")
         sys.stdout=self
         r=self.push(command)
         sys.stdout=old
-        threads_enter()
+        gdk.threads_enter()
 
         if (r):
             self.more_toggle.set_active(1)
@@ -269,6 +269,6 @@ class completion(code.InteractiveConsole):
 
     def write(self, data):
         """ Write interpreter output """
-        threads_enter()
-        self.textbox.insert_defaults(data)
-        threads_leave()
+        gdk.threads_enter()
+        self.textbox.get_buffer().insert_at_cursor(data)
+        gdk.threads_leave()

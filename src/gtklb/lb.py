@@ -46,10 +46,12 @@ def gtk_main():
   gtk.main()
   gtk.gdk.threads_leave()
 
-#t=Thread (target=gtk_main)
-#t.start()
+gtk.gdk.threads_init()
 
-#print clientname
+t=Thread (target=gtk_main)
+t.start()
+
+print clientname
 
 lb = lightboard(clientname)
 lb.load_libraries(libraries)

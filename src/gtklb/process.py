@@ -5,8 +5,9 @@ from ExpatXMLParser import ExpatXMLParser, DOMNode
 from os import path
 import string
 import procedure
+import gtk
 from gtk import *
-from libglade import *
+from gtk.glade import *
 import traceback
 
 start_menu = None
@@ -45,39 +46,39 @@ def reset():
     lb.process={}
     lb.process_lock=Lock()    
     lb.process_num=0
-    threads_enter()
+    gdk.threads_enter()
     menubar=lb.menubar
-    for m in menubar.children():
-        if (m.children()[0].get() == "Process"):
+    for m in menubar.get_children():
+        if (m.get_children()[0].get() == "Process"):
             menubar.remove(m)
 
-    process1=GtkMenuItem("Process")
+    process1=gtk.MenuItem("Process")
     menubar.append(process1)
 
-    process1_menu=GtkMenu()
+    process1_menu=gtk.Menu()
     process1.set_submenu(process1_menu)
 
-    start1=GtkMenuItem("Start")
+    start1=gtk.MenuItem("Start")
     process1_menu.append(start1)
-    start_menu=GtkMenu()
+    start_menu=gtk.Menu()
     start1.set_submenu(start_menu)
 
-    stop1=GtkMenuItem("Stop")
+    stop1=gtk.MenuItem("Stop")
     process1_menu.append(stop1)
-    stop_menu=GtkMenu()
+    stop_menu=gtk.Menu()
     stop1.set_submenu(stop_menu)
 
-    edit1=GtkMenuItem("Edit")
+    edit1=gtk.MenuItem("Edit")
     process1_menu.append(edit1)
-    edit_menu=GtkMenu()
+    edit_menu=gtk.Menu()
     edit1.set_submenu(edit_menu)
 
-    new1=GtkMenuItem("New")
+    new1=gtk.MenuItem("New")
     new1.connect("activate", newProcess_cb, None)
     process1_menu.append(new1)
 
     menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
     
 def shutdown():
     for p in lb.process.values():
@@ -108,16 +109,16 @@ class processFactory:
         win = self.newTree.get_widget("editProcess")
         menu = self.newTree.get_widget("procMenu")
         entry = self.newTree.get_widget("nameEntry")
-        pname = menu.children()[0].get()
+        pname = menu.get_children()[0].get()
         proc = lb.procedure[pname]
         args = proc.argument_dict_from_widget (self.widget_list)
         name = entry.get_text()
         if (string.strip(name) != ''):
             if not lb.process.has_key(name):
-                threads_leave()
+                gdk.threads_leave()
                 p=Process(name, pname, args)
                 p.send_update()
-                threads_enter()
+                gdk.threads_enter()
         win.destroy()
 
     def cancel_clicked(self, widget, data=None):
@@ -126,18 +127,18 @@ class processFactory:
 
     def procedure_changed(self, widget, data=None):
         menu = self.newTree.get_widget("procMenu")
-        name = menu.children()[0].get()
+        name = menu.get_children()[0].get()
         proc = lb.procedure[name]
         w, self.widget_list = proc.argument_widget()
         frame = self.newTree.get_widget("frame")
-        for c in frame.children():
+        for c in frame.get_children():
             frame.remove(c)
         frame.add(w)
 
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "editProcess")
             self.newTree = wTree
             
@@ -148,24 +149,24 @@ class processFactory:
             
             frame = wTree.get_widget("frame")
             entry = wTree.get_widget("procMenu")
-            menu=GtkMenu()
+            menu=gtk.Menu()
             menu.connect ("selection-done", self.procedure_changed, None)
             for proc in lb.procedure.keys():
-                i=GtkMenuItem(proc)
+                i=gtk.MenuItem(proc)
                 menu.append(i)
             entry.set_history(0)
             menu.show_all()
             entry.set_menu(menu)
             self.procedure_changed(menu)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
 
 def newProcess_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = processFactory()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
 
 
@@ -209,38 +210,38 @@ class Process:
             self.update_refs()
 
     def update_refs(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
             if (lb.process.has_key(self.name)):
                 old = lb.process[self.name]
-                threads_leave()
+                gdk.threads_leave()
                 old.stop()
-                threads_enter()
+                gdk.threads_enter()
                 start_menu.remove(old.start_menu_item)
                 stop_menu.remove(old.stop_menu_item)
                 edit_menu.remove(old.edit_menu_item)
 
             lb.process[self.name]=self
 
-            i=GtkMenuItem(self.name)
+            i=gtk.MenuItem(self.name)
             self.start_menu_item=i
             start_menu.append(i)
             i.connect("activate", self.start_cb, None)
             i.show()
-            i=GtkMenuItem(self.name)
+            i=gtk.MenuItem(self.name)
             self.stop_menu_item=i
             stop_menu.append(i)
             i.connect("activate", self.stop_cb, None)
             i.set_sensitive(0)
             i.show()
-            i=GtkMenuItem(self.name)
+            i=gtk.MenuItem(self.name)
             self.edit_menu_item=i
             edit_menu.append(i)
             i.connect("activate", self.edit_cb, None)
             i.show()
 
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def copy(self):
         p = Process(self.name, self.procedure, self.args, update_refs=0)
@@ -299,30 +300,30 @@ class Process:
 
 
     def started(self):
-        threads_enter()
+        gdk.threads_enter()
         self.start_menu_item.set_sensitive(0)
         self.stop_menu_item.set_sensitive(1)
         self.edit_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         
     def stopped(self):
-        threads_enter()
+        gdk.threads_enter()
         self.start_menu_item.set_sensitive(1)
         self.stop_menu_item.set_sensitive(0)
         self.edit_menu_item.set_sensitive(1)
-        threads_leave()
+        gdk.threads_leave()
         
     def start_cb(self, widget, data=None):
         """ Called from lightboard->process->start """
-        threads_leave()
+        gdk.threads_leave()
         self.start()
-        threads_enter()
+        gdk.threads_enter()
 
     def stop_cb(self, widget, data=None):
         """ Called from lightboard->process->stop """
-        threads_leave()
+        gdk.threads_leave()
         self.stop()
-        threads_enter()
+        gdk.threads_enter()
 
     def edit(self):
         p = self.copy()
@@ -331,24 +332,24 @@ class Process:
     def edit_cb(self, widget, data):
         """ Called from lightboard->process->edit """
         self.edit_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         self.edit()
-        threads_enter()
+        gdk.threads_enter()
 
 
     def edit_ok_clicked(self, widget, data=None):
         win = self.editTree.get_widget("editProcess")
         menu = self.editTree.get_widget("procMenu")
-        pname = menu.children()[0].get()
+        pname = menu.get_children()[0].get()
         proc = lb.procedure[pname]
         args = proc.argument_dict_from_widget (self.widget_list)
 
-        threads_leave()
+        gdk.threads_leave()
         self.procedure = pname
         self.args = args
         self.update_refs()
         self.send_update()
-        threads_enter()
+        gdk.threads_enter()
         
         win.destroy()
 
@@ -361,21 +362,21 @@ class Process:
 
     def procedure_changed(self, widget, data=None):
         menu = self.editTree.get_widget("procMenu")
-        name = menu.children()[0].get()
+        name = menu.get_children()[0].get()
         proc = lb.procedure[name]
         args = None
         if name == self.procedure:
             args = self.args
         w, self.widget_list = proc.argument_widget(args)
         frame = self.editTree.get_widget("frame")
-        for c in frame.children():
+        for c in frame.get_children():
             frame.remove(c)
         frame.add(w)
 
     def edit_self(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "editProcess")
             self.editTree = wTree
             
@@ -393,14 +394,14 @@ class Process:
             
             frame = wTree.get_widget("frame")
             entry = wTree.get_widget("procMenu")
-            menu=GtkMenu()
+            menu=gtk.Menu()
             menu.connect ("selection-done", self.procedure_changed, None)
             count = 0
             current = 0
             for proc in lb.procedure.keys():
                 if proc == self.procedure:
                     current = count
-                i=GtkMenuItem(proc)
+                i=gtk.MenuItem(proc)
                 menu.append(i)
                 count = count+1
             entry.set_history(current)
@@ -408,5 +409,5 @@ class Process:
             entry.set_menu(menu)
             self.procedure_changed(menu)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 

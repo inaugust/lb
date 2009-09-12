@@ -2,8 +2,9 @@ from threading import *
 from xmllib import XMLParser
 from ExpatXMLParser import ExpatXMLParser, DOMNode
 from os import path
+import gtk
 from gtk import *
-from libglade import *
+from gtk.glade import *
 import string
 from cue import Cue
 
@@ -70,27 +71,27 @@ def reset():
     global crossfader_open_menu
     lb.crossfader={}
 
-    threads_enter()
-    for m in lb.fader_menu.children():
-        if (m.children()[0].get() == "Crossfader"):
+    gdk.threads_enter()
+    for m in lb.fader_menu.get_children():
+        if (m.get_children()[0].get() == "Crossfader"):
             lb.fader_menu.remove(m)
 
-    crossfader1=GtkMenuItem("Crossfader")
+    crossfader1=gtk.MenuItem("Crossfader")
     lb.fader_menu.append(crossfader1)
-    crossfader_menu=GtkMenu()
+    crossfader_menu=gtk.Menu()
     crossfader1.set_submenu(crossfader_menu)
 
-    open1=GtkMenuItem("Open")
+    open1=gtk.MenuItem("Open")
     crossfader_menu.append(open1)
-    crossfader_open_menu=GtkMenu()
+    crossfader_open_menu=gtk.Menu()
     open1.set_submenu(crossfader_open_menu)
 
-    new1=GtkMenuItem("New")
+    new1=gtk.MenuItem("New")
     new1.connect("activate", newCrossFader_cb, None)
     crossfader_menu.append(new1)
 
     lb.menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
 
 def shutdown():
     pass
@@ -108,9 +109,9 @@ def save():
 
 class crossFaderFactory:
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "newCoreItem")
             
             dic = {"on_ok_clicked": self.ok_clicked,
@@ -121,11 +122,11 @@ class crossFaderFactory:
             e=wTree.get_widget ("nameEntry")
             coreMenu=wTree.get_widget ("coreMenu")
             
-            menu=GtkMenu()
+            menu=gtk.Menu()
             coreMenu.set_menu(menu)
             lb.check_cores()
             for n in lb.core_names:
-                i=GtkMenuItem(n)
+                i=gtk.MenuItem(n)
                 i.show()
                 menu.append(i)
             coreMenu.set_history(0)
@@ -133,7 +134,7 @@ class crossFaderFactory:
             
             self.tree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
         
     def ok_clicked(self, widget, data=None):
         w = self.tree.get_widget("newCoreItem")
@@ -141,12 +142,12 @@ class crossFaderFactory:
         name = e.get_text()
         if (string.strip(name) != ''):
             o = self.tree.get_widget("coreMenu")
-            corename = o.children()[0].get()
+            corename = o.get_children()[0].get()
             if not lb.crossfader.has_key(name):
-                threads_leave()
+                gdk.threads_leave()
                 c = CrossFader(name, corename)
                 c.send_update()
-                threads_enter()
+                gdk.threads_enter()
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):
@@ -155,9 +156,9 @@ class crossFaderFactory:
 
 def newCrossFader_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = crossFaderFactory()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
 
 
@@ -192,15 +193,15 @@ class CrossFader(LB__POA.EventListener):
 
         lb.crossfader[self.name]=self
 
-        threads_enter()
+        gdk.threads_enter()
         try:
-            fad=GtkMenuItem(self.name)
+            fad=gtk.MenuItem(self.name)
             self.crossfader_open_menu_item=fad
             crossfader_open_menu.append(fad)
             fad.connect("activate", self.open_cb, None)
             fad.show()
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
 
     def to_tree(self):
@@ -298,9 +299,9 @@ class CrossFader(LB__POA.EventListener):
     def load_clicked(self, widget, data=None):
         if self.isRunning(): return
         menu = self.tree.get_widget("topCueMenu")
-        upname = menu.children()[0].get()
+        upname = menu.get_children()[0].get()
         menu = self.tree.get_widget("bottomCueMenu")
-        downname = menu.children()[0].get()
+        downname = menu.get_children()[0].get()
         self.setCues(downname, upname)
         self.setLevel(self.getLevel())
 
@@ -311,9 +312,9 @@ class CrossFader(LB__POA.EventListener):
         self.run_listener_id = self.corefader.addRunListener(listener)
         self.stop_listener_id = self.corefader.addStopListener(listener)
         self.complete_listener_id = self.corefader.addCompleteListener(listener)
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "fader")
             
             dic = {"on_run_clicked": self.run_clicked,
@@ -361,19 +362,19 @@ class CrossFader(LB__POA.EventListener):
             t=wTree.get_widget ("topCueMenu")
             b=wTree.get_widget ("bottomCueMenu")
 
-            menu=GtkMenu()
+            menu=gtk.Menu()
             t.set_menu(menu)
             for n in lb.cue.keys():
-                i=GtkMenuItem(n)
+                i=gtk.MenuItem(n)
                 i.show()
                 menu.append(i)
             t.set_history(0)
             menu.show()
 
-            menu=GtkMenu()
+            menu=gtk.Menu()
             b.set_menu(menu)
             for n in lb.cue.keys():
-                i=GtkMenuItem(n)
+                i=gtk.MenuItem(n)
                 i.show()
                 menu.append(i)
             b.set_history(0)
@@ -386,10 +387,10 @@ class CrossFader(LB__POA.EventListener):
 
             self.tree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def levelChanged(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             self.adjustment.disconnect(self.adjustment_handler_id)
             self.adjustment.set_value(100.0-evt.value[0])
@@ -412,48 +413,48 @@ class CrossFader(LB__POA.EventListener):
                 self.downTimeSpin.set_value(dtr)
             gdk_flush()
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def sourceChanged(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             self.up_label.set_text("Up Cue: %s" % self.getUpCueName())
             self.down_label.set_text("Down Cue: %s" % self.getDownCueName())
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def runStarted(self, evt):
         self.core_intime = evt.value[1]
         self.core_uptime = self.corefader.getUpCueTime()
         self.core_downtime = self.corefader.getDownCueTime()
-        threads_enter()
+        gdk.threads_enter()
         try:
             w = self.tree.get_widget("run")
             w.set_sensitive(0)
             w = self.tree.get_widget("stop")
             w.set_sensitive(1)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def runStopped(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             w = self.tree.get_widget("run")
             w.set_sensitive(1)
             w = self.tree.get_widget("stop")
             w.set_sensitive(0)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def runCompleted(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             w = self.tree.get_widget("run")
             w.set_sensitive(1)
             w = self.tree.get_widget("stop")
             w.set_sensitive(0)
         finally:
-            threads_leave()
+            gdk.threads_leave()
         
         
     def receiveEvent(self, evt):
@@ -475,9 +476,9 @@ class CrossFader(LB__POA.EventListener):
         """ Called from lightboard->fader->crossfader"""
 
         self.crossfader_open_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         self.create_window()
-        threads_enter()
+        gdk.threads_enter()
 
 # see gtk_signal_handler_block_by_func
 # at http://developer.gnome.org/doc/API/gtk/gtkeditable.html

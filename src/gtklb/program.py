@@ -5,9 +5,9 @@ import string
 import process
 from ExpatXMLParser import ExpatXMLParser, DOMNode
 import time
+import gtk
 from gtk import *
-import GDK
-from libglade import *
+from gtk.glade import *
 import crossfader
 import levelfader
 
@@ -31,38 +31,38 @@ def reset():
     global edit_menu
     lb.program={}
     lb.program_clipboard = None
-    threads_enter()
+    gdk.threads_enter()
     menubar=lb.menubar
-    for m in menubar.children():
-        if (m.children()[0].get() == "Program"):
+    for m in menubar.get_children():
+        if (m.get_children()[0].get() == "Program"):
             menubar.remove(m)
 
-    program1=GtkMenuItem("Program")
+    program1=gtk.MenuItem("Program")
     menubar.append(program1)
 
-    program1_menu=GtkMenu()
+    program1_menu=gtk.Menu()
     program1.set_submenu(program1_menu)
 
-    run1=GtkMenuItem("Run")
+    run1=gtk.MenuItem("Run")
     program1_menu.append(run1)
-    run_menu=GtkMenu()
+    run_menu=gtk.Menu()
     run1.set_submenu(run_menu)
 
-    edit1=GtkMenuItem("Edit")
+    edit1=gtk.MenuItem("Edit")
     program1_menu.append(edit1)
-    edit_menu=GtkMenu()
+    edit_menu=gtk.Menu()
     edit1.set_submenu(edit_menu)
 
-    new1=GtkMenuItem("New")
+    new1=gtk.MenuItem("New")
     new1.connect("activate", newProgram_cb, None)
     program1_menu.append(new1)
 
-    new1=GtkMenuItem("New With Druid")
+    new1=gtk.MenuItem("New With Druid")
     new1.connect("activate", newDruid_cb, None)
     program1_menu.append(new1)
 
     menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
     
 def shutdown():
     for p in lb.program.values():
@@ -101,9 +101,9 @@ def save():
 
 class programFactory:
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "nameDialog")
             
             dic = {"on_ok_clicked": self.ok_clicked,
@@ -113,7 +113,7 @@ class programFactory:
             
             self.tree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
         
     def ok_clicked(self, widget, data=None):
         w = self.tree.get_widget("nameDialog")
@@ -121,10 +121,10 @@ class programFactory:
         name = e.get_text()
         if (string.strip(name) != ''):
             if not lb.program.has_key(name):
-                threads_leave()
+                gdk.threads_leave()
                 p=Program(name)
                 p.send_update()
-                threads_enter()
+                gdk.threads_enter()
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):
@@ -134,16 +134,16 @@ class programFactory:
 
 def newProgram_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = programFactory()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
 
 def newDruid_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = programDruid()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
 
 class Action:
@@ -160,11 +160,11 @@ class Action:
     
     def window_change(self, widget=None, data=None):
         menu = self.editTree.get_widget("actionTypeMenu")
-        name = menu.children()[0].get()
+        name = menu.get_children()[0].get()
         args = lb.program_action_type[name][1]
         l = len(args)
         table = self.editTree.get_widget("table")
-        for c in table.children():
+        for c in table.get_children():
             table.remove(c)
         table.resize(2,l)
         self.entryWidgets=[]
@@ -212,7 +212,7 @@ class Action:
     def ok_clicked(self, widget, data=None):
         menu = self.editTree.get_widget("actionTypeMenu")
         win = self.editTree.get_widget("programActionEdit")
-        name = menu.children()[0].get()
+        name = menu.get_children()[0].get()
         args = lb.program_action_type[name][1]
         l = len(args)
 
@@ -233,7 +233,7 @@ class Action:
         win.destroy()
             
     def edit(self):
-        wTree = GladeXML ("gtklb.glade",
+        wTree = glade.XML ("gtklb.glade",
                           "programActionEdit")
         table = wTree.get_widget("table")
         self.editTree = wTree
@@ -245,7 +245,7 @@ class Action:
         cancel = self.editTree.get_widget("cancel")
         cancel.connect("clicked", win.destroy)
         
-        menu=GtkMenu()
+        menu=gtk.Menu()
         menu.connect ("selection-done", self.window_change, None)
         count = 0
         current = 0
@@ -254,7 +254,7 @@ class Action:
         for t in l:
             if t == self.kind:
                 current = count
-            i=GtkMenuItem(t)
+            i=gtk.MenuItem(t)
             i.show()
             menu.append(i)
             count = count +1
@@ -285,7 +285,7 @@ class Step:
         win.destroy()
 
     def edit(self):
-        wTree = GladeXML ("gtklb.glade",
+        wTree = glade.XML ("gtklb.glade",
                           "programStepEdit")
 
         self.nameTree = wTree
@@ -319,20 +319,20 @@ class Program:
             edit_menu.remove(old.edit_menu_item)
         lb.program[self.name]=self
 
-        threads_enter()
+        gdk.threads_enter()
         try:
-            prog=GtkMenuItem(self.name)
+            prog=gtk.MenuItem(self.name)
             self.run_menu_item=prog
             run_menu.append(prog)
             prog.connect("activate", self.run_cb, None)
             prog.show()
-            prog=GtkMenuItem(self.name)
+            prog=gtk.MenuItem(self.name)
             self.edit_menu_item=prog
             edit_menu.append(prog)
             prog.connect("activate", self.edit_cb, None)
             prog.show()
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def get_current_step (self):
         if (self.current_step != None):
@@ -490,34 +490,34 @@ class Program:
         l=self.editTree.get_widget("programTree").selection
         if len(l) == 0:
             b = self.editTree.get_widget("addStep")
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("addAction")
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("remove")
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("edit")
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
 
     def edit_row_selected(self, widget, row, column, data=None):
         l=self.editTree.get_widget("programTree").selection
         if l[0].level==1:
             b = self.editTree.get_widget("addAction")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
             b = self.editTree.get_widget("addStep")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
             b = self.editTree.get_widget("remove")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
             b = self.editTree.get_widget("edit")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
         else:
             b = self.editTree.get_widget("addAction")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
             b = self.editTree.get_widget("addStep")
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("remove")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
             b = self.editTree.get_widget("edit")
-            b.children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(1)
                 
     def update_tree(self, nodeData=None):
         tree = self.editTree.get_widget ("programTree")
@@ -648,7 +648,7 @@ class Program:
         tree.remove_node(self.popup_node)
 
     def popup_handler (self, widget, event):
-        if (event.type == GDK.BUTTON_PRESS):
+        if (event.type == gtk.gdk.BUTTON_PRESS):
             if (event.button == 3):
                 (row, col) =  widget.get_selection_info (event.x, event.y)
                 self.popup_node=widget.node_nth(row)
@@ -659,9 +659,9 @@ class Program:
     
     def edit(self):
         self.child_windows = []
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "programEdit")
 
             w = wTree.get_widget("programEdit")
@@ -670,20 +670,20 @@ class Program:
             w.connect ('select_row', self.edit_row_selected)
             w.connect ('unselect_row', self.edit_row_unselected)
             w.set_drag_compare_func(self.edit_drag_compare)
-            menu = GtkMenu()
-            i=GtkMenuItem("Edit")
+            menu = gtk.Menu()
+            i=gtk.MenuItem("Edit")
             i.connect("activate", self.popup_edit_activated, None)
             menu.append(i)
-            i=GtkMenuItem("Cut")
+            i=gtk.MenuItem("Cut")
             i.connect("activate", self.popup_cut_activated, None)
             menu.append(i)
-            i=GtkMenuItem("Copy")
+            i=gtk.MenuItem("Copy")
             i.connect("activate", self.popup_copy_activated, None)
             menu.append(i)
-            i=GtkMenuItem("Paste")
+            i=gtk.MenuItem("Paste")
             i.connect("activate", self.popup_paste_activated, None)
             menu.append(i)
-            i=GtkMenuItem("Delete")
+            i=gtk.MenuItem("Delete")
             i.connect("activate", self.popup_delete_activated, None)
             menu.append(i)
             menu.show_all()
@@ -694,16 +694,16 @@ class Program:
 
             b = self.editTree.get_widget("addAction")
             b.connect("clicked", self.edit_add_action_clicked)
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("addStep")
             b.connect("clicked", self.edit_add_step_clicked)
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("remove")
             b.connect("clicked", self.edit_remove_clicked)
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("edit")
             b.connect("clicked", self.edit_edit_clicked)
-            b.children()[0].set_sensitive(0)
+            b.get_children()[0].set_sensitive(0)
 
             b = self.editTree.get_widget("ok")
             b.connect("clicked", self.edit_ok_clicked)
@@ -713,20 +713,20 @@ class Program:
             self.update_tree()
 
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def edit_cb(self, widget, data):
         """ Called from lightboard->program->edit """
 
         self.edit_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         self.edit()
-        threads_enter()
+        gdk.threads_enter()
        
     def create_window(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "programRun")
             
             dic = {"on_go_clicked": self.go_clicked,
@@ -755,23 +755,23 @@ class Program:
                 items.append(item)
             self.cue_list.append_items(items)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def ui_step_start(self):
-        threads_enter()
+        gdk.threads_enter()
         self.button_go.set_sensitive(0)
     
         if (self.get_current_step()):
             self.label_cur.set_text('Current: '+self.get_current_step().name)
-        threads_leave()
+        gdk.threads_leave()
 
     def ui_step_complete(self):
-        threads_enter()
+        gdk.threads_enter()
         self.button_go.set_sensitive(1)
-        threads_leave()
+        gdk.threads_leave()
 
     def ui_set_next_step(self):
-        threads_enter()
+        gdk.threads_enter()
         self.cue_list.unselect_all()
         self.label_next.set_text('Next: ---')
         if (self.get_next_step()):
@@ -783,7 +783,7 @@ class Program:
 
             #self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
 
-        threads_leave()
+        gdk.threads_leave()
 
     def stop_clicked(self, widget, data=None):
         pass
@@ -798,9 +798,9 @@ class Program:
         p=widget.child_position(sel[0])
         if (p==self.next_step):
             return
-        threads_leave()
+        gdk.threads_leave()
         self.set_next_step(p)
-        threads_enter()
+        gdk.threads_enter()
 
     def run_destroyed(self, widget, data=None):
         self.stop()
@@ -810,10 +810,10 @@ class Program:
         """ Called from lightboard->program->run """
 
         self.run_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         self.create_window()
         self.run()
-        threads_enter()
+        gdk.threads_enter()
 
     
 class programDruid:
@@ -821,9 +821,9 @@ class programDruid:
     target = [('text/cuename',0,-1)]
     
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "programDruid")
             
             dic = {"on_ok_clicked": self.ok_clicked,
@@ -845,11 +845,11 @@ class programDruid:
             tree.set_reorderable(1)
 
             optionMenu = wTree.get_widget("faderMenu")
-            menu=GtkMenu()
+            menu=gtk.Menu()
             faders = lb.crossfader.keys() + lb.levelfader.keys()
             faders.sort()
             for f in faders:
-                i=GtkMenuItem(f)
+                i=gtk.MenuItem(f)
                 i.show()
                 menu.append(i)
             menu.show_all()
@@ -859,7 +859,7 @@ class programDruid:
 
             self.newTree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
     
     def ok_clicked(self, widget, data=None):
         window = self.newTree.get_widget("programDruid")
@@ -868,8 +868,8 @@ class programDruid:
         name = e.get_text()
         if (string.strip(name) != ''):        
             if not lb.program.has_key(name):
-                threads_leave()
-                fader_name = self.newTree.get_widget('faderMenu').children()[0].get()
+                gdk.threads_leave()
+                fader_name = self.newTree.get_widget('faderMenu').get_children()[0].get()
                 fade_time = self.newTree.get_widget('timeEntry').get_text()
                 try:
                     f = lb.crossfader[fader_name]
@@ -907,7 +907,7 @@ class programDruid:
                     count = count + 1
                     p.actions.append(s)
                 p.send_update()
-                threads_enter()
+                gdk.threads_enter()
         window.destroy()
     
     def cancel_clicked(self, widget, data=None):

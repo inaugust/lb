@@ -9,26 +9,27 @@ import instrument
 import lightboard
 import time
 import math
+import gtk
 from gtk import *
 
 def initialize():
     reset()
 
 def reset():
-    threads_enter()
+    gdk.threads_enter()
 
     menubar=lb.menubar
-    for m in menubar.children():
-        if (m.children()[0].get() == "Fader"):
+    for m in menubar.get_children():
+        if (m.get_children()[0].get() == "Fader"):
             menubar.remove(m)
 
-    fader_menu_item=GtkMenuItem("Fader")
+    fader_menu_item=gtk.MenuItem("Fader")
     lb.menubar.append(fader_menu_item)
-    lb.fader_menu=GtkMenu()
+    lb.fader_menu=gtk.Menu()
     fader_menu_item.set_submenu(lb.fader_menu)
 
     lb.menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
 
 def shutdown():
     pass

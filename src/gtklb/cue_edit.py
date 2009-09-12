@@ -4,7 +4,7 @@ import string
 import lightboard
 from ExpatXMLParser import ExpatXMLParser
 from gtk import *
-from libglade import *
+from gtk.glade import *
 from completion import completion
 import time
 import instrument
@@ -153,7 +153,7 @@ class CueEditor(completion):
 
     def update_display(self):
         """should be called redraw"""
-        threads_enter()
+        gdk.threads_enter()
         in_tree = self.editTree.get_widget("inTree")
         out_tree = self.editTree.get_widget("outTree")
         try:
@@ -209,7 +209,7 @@ class CueEditor(completion):
                         out_tree.insert_node(parent, None, [name2], is_leaf=TRUE)
                         
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
 
     def edit_add_clicked(self, widget, data=None):
@@ -223,9 +223,9 @@ class CueEditor(completion):
             name = info[0]
             self.cue.instrument[name]={}
             self.cue.apparent[name]={}
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
     
     def edit_remove_clicked(self, widget, data=None):
         in_tree = self.editTree.get_widget("inTree")
@@ -238,9 +238,9 @@ class CueEditor(completion):
             except:
                 pass
         self.cue.invalidate()
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
         self.edit_row_selection_changed(None, None, None)
 
     def edit_updates_clicked(self, widget, data=None):
@@ -267,7 +267,7 @@ class CueEditor(completion):
         return in_cue
     
     def update_parents_display(self, node=None):
-        threads_enter()
+        gdk.threads_enter()
 
         in_tree=self.parentTree.get_widget("inTree")
         out_tree=self.parentTree.get_widget("outTree")
@@ -282,7 +282,7 @@ class CueEditor(completion):
                     if (not lb.cue[name].has_parent(self.cue.name)):
                         out_tree.append([name])
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def parent_add_clicked(self, widget, data=None):
         out_tree=self.parentTree.get_widget("outTree")
@@ -291,9 +291,9 @@ class CueEditor(completion):
             # this works whether it's text or pixtext
             name = out_tree.get_node_info(x)[0]
             self.cue.parent.append([name, 0.0])
-        threads_leave()
+        gdk.threads_leave()
         self.update_parents_display()
-        threads_enter()
+        gdk.threads_enter()
     
     def parent_remove_clicked(self, widget, data=None):
         in_tree=self.parentTree.get_widget("inTree")
@@ -309,9 +309,9 @@ class CueEditor(completion):
                 count=count+1
         for i in to_remove:
             del self.cue.parent[i]
-        threads_leave()
+        gdk.threads_leave()
         self.update_parents_display()
-        threads_enter()
+        gdk.threads_enter()
 
     def parent_destroyed(self, widget, data=None):
         win = self.parentTree.get_widget("cueParent")
@@ -330,9 +330,9 @@ class CueEditor(completion):
         win = self.parentTree.get_widget("cueParent")
         win.destroy()
         self.cue.invalidate()
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
         
     def parent_level_changed (self, widget, data=None):
         in_tree = self.parentTree.get_widget("inTree")
@@ -352,9 +352,9 @@ class CueEditor(completion):
             for name, idict in self.cue.apparent.items():
                 for attr, value in idict.items():
                     lb.instrument[name].set_attribute(attr, value)
-            threads_leave()
+            gdk.threads_leave()
             self.update_display()
-            threads_enter()
+            gdk.threads_enter()
         
     def parent_row_selected(self, widget, row, column, data=None):
         in_tree = self.parentTree.get_widget("inTree")
@@ -380,9 +380,9 @@ class CueEditor(completion):
         
     def edit_parents(self):
         self.cues_old_parents = self.cue.parent[:]
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "cueParent")
             self.parentTree = wTree
 
@@ -407,22 +407,22 @@ class CueEditor(completion):
             win = self.parentTree.get_widget("cueParent")
             win.connect("destroy", self.parent_destroyed)
         finally:
-            threads_leave()
+            gdk.threads_leave()
         self.update_parents_display()
         return win
         
     def edit_parents_clicked(self, widget, data=None):
-        threads_leave()
+        gdk.threads_leave()
         self.child_windows.append(self.edit_parents())
-        threads_enter()
+        gdk.threads_enter()
     
     def edit_blackout_clicked(self, widget, data=None):
         for name, ins in lb.instrument.items():
             self.cue.instrument[name]={'level': '0%'}
         self.cue.invalidate()
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
     
     def edit_cancel_clicked(self, widget, data=None):
         win = self.editTree.get_widget("cueEdit")
@@ -433,9 +433,9 @@ class CueEditor(completion):
         newcue = cue.Cue('', update_refs = 0)
         newcue.editor=self
         self.set_cue(newcue)
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
 
     def edit_new_child_clicked(self, widget, data=None):
         self.cue.set_editing(0)
@@ -444,18 +444,18 @@ class CueEditor(completion):
         newcue.editor=self
         newcue.validate()
         self.set_cue(newcue)
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
         
     def do_save_actions(self):
-        threads_leave()
+        gdk.threads_leave()
         self.cue.invalidate()
         self.cue.update_refs()
         self.cue.send_update()
         for c in lb.cue.values():
             c.validate()
-        threads_enter()
+        gdk.threads_enter()
         self.editTree.get_widget ("nameEntry").set_sensitive(0)
         self.update_cue_menu()
         self.cue.set_editing(1)
@@ -478,9 +478,9 @@ class CueEditor(completion):
             newcue = cue.Cue('', update_refs = 0)
             newcue.editor=self
             self.set_cue(newcue)
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
 
     def nameEntry_changed(self, widget, event=None, data=None):
         s = widget.get_text()
@@ -514,7 +514,7 @@ class CueEditor(completion):
 
     def edit_update_attribute_widgets(self):
         table = self.editTree.get_widget("attributeTable")
-        for c in table.children():
+        for c in table.get_children():
             table.remove(c)
 
         if (len (self.editing_instruments) == 0):
@@ -581,9 +581,9 @@ class CueEditor(completion):
         self.cue.set_editing(0)
         newcue.editor=self
         self.set_cue(newcue, update_menu=0)
-        threads_leave()
+        gdk.threads_leave()
         self.update_display()
-        threads_enter()
+        gdk.threads_enter()
 
     def update_cue_menu(self):
         combo = self.editTree.get_widget("cueMenu")
@@ -605,9 +605,9 @@ class CueEditor(completion):
             self.my_locals[name]=p
             self.cue_proxies[name]=p
 
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "cueEdit")
             self.editTree = wTree
 
@@ -645,7 +645,7 @@ class CueEditor(completion):
             self.initialized = 1
             self.set_cue(self.cue, reinit=1)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
         self.update_display()
 

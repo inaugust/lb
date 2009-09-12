@@ -3,8 +3,9 @@ from os import path
 import string
 import lightboard
 from ExpatXMLParser import ExpatXMLParser, DOMNode
+import gtk
 from gtk import *
-from libglade import *
+from gtk.glade import *
 from completion import completion
 import time
 import instrument
@@ -22,29 +23,29 @@ def initialize():
 def reset():
     global edit_menu
     lb.cue={}
-    threads_enter()
+    gdk.threads_enter()
     menubar=lb.menubar
-    for m in menubar.children():
-        if (m.children()[0].get() == "Cue"):
+    for m in menubar.get_children():
+        if (m.get_children()[0].get() == "Cue"):
             menubar.remove(m)
 
-    cue1=GtkMenuItem("Cue")
+    cue1=gtk.MenuItem("Cue")
     menubar.append(cue1)
 
-    cue1_menu=GtkMenu()
+    cue1_menu=gtk.Menu()
     cue1.set_submenu(cue1_menu)
 
-    edit1=GtkMenuItem("Edit")
+    edit1=gtk.MenuItem("Edit")
     cue1_menu.append(edit1)
-    edit_menu=GtkMenu()
+    edit_menu=gtk.Menu()
     edit1.set_submenu(edit_menu)
 
-    new1=GtkMenuItem("New")
+    new1=gtk.MenuItem("New")
     new1.connect("activate", newCue_cb, None)
     cue1_menu.append(new1)
 
     menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
         
 def shutdown():
     pass
@@ -77,14 +78,14 @@ def save():
 
 def newCue_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     c = Cue('', update_refs=0)
     editor = cue_edit.CueEditor()
     c.editor = editor
     c.set_editing(1)
     editor.set_cue(c)
     editor.edit()
-    threads_enter()
+    gdk.threads_enter()
     
 
 class Cue:
@@ -103,7 +104,7 @@ class Cue:
             self.update_refs()
 
     def update_refs(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
             if (lb.cue.has_key(self.name)):
                 old = lb.cue[self.name]
@@ -111,13 +112,13 @@ class Cue:
 
             lb.cue[self.name]=self
             
-            i=GtkMenuItem(self.name)
+            i=gtk.MenuItem(self.name)
             self.edit_menu_item=i
             edit_menu.append(i)
             i.connect("activate", self.edit_cb, None)
             i.show()
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def has_parent(self, name):
         if (self.name == name):
@@ -211,9 +212,9 @@ class Cue:
     def edit_cb(self, widget, data):
         """ Called from lightboard->program->edit """
 
-        threads_leave()
+        gdk.threads_leave()
         self.edit()
-        threads_enter()
+        gdk.threads_enter()
         
     def set_editing(self, editing):
         if (editing):

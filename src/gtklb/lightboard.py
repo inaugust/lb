@@ -5,6 +5,8 @@ from threading import *
 import string
 import time
 from gtk import *
+import gtk
+from gtk import glade
 from rexec import RExec
 import __builtin__
 import __main__
@@ -306,7 +308,7 @@ class lightboard(completion, LB__POA.Client):
         return attribute_widgets.attribute_mapping[name][2](value)
 
     def create_window(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
             wTree = glade.XML ("gtklb.glade", "main")
 
@@ -333,27 +335,27 @@ class lightboard(completion, LB__POA.Client):
             self.entry.connect('key_press_event', self.key_pressed, None)
 
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def on_new_activate (self, widget, data=None):
-        threads_leave()
+        gdk.threads_leave()
         self.change_show("unnamed", clear=1)
-        threads_enter()
+        gdk.threads_enter()
 
     def open_ok (self, widget, data=None):
         w = self.openTree.get_widget("fileSelection")
         datafile = w.get_filename()
         w.destroy()
-        threads_leave()
+        gdk.threads_leave()
         self.load_show(datafile)
-        threads_enter()
+        gdk.threads_enter()
 
     def open_cancel (self, widget, data=None):
         w = self.openTree.get_widget("fileSelection")
         w.destroy()
     
     def on_open_activate (self, widget, data=None):
-        wTree = GladeXML ("gtklb.glade",
+        wTree = glade.XML ("gtklb.glade",
                           "fileSelection")
         
         dic = {"on_ok_clicked": self.open_ok,
@@ -372,9 +374,9 @@ class lightboard(completion, LB__POA.Client):
     def save_as_ok (self, widget, data=None):
         w = self.saveAsTree.get_widget("fileSelection")
         datafile = w.get_filename()
-        threads_leave()
+        gdk.threads_leave()
         self.save_show(datafile)
-        threads_enter()
+        gdk.threads_enter()
         w.destroy()
 
     def save_as_cancel (self, widget, data=None):
@@ -382,7 +384,7 @@ class lightboard(completion, LB__POA.Client):
         w.destroy()
         
     def on_save_as_activate (self, widget, data=None):
-        wTree = GladeXML ("gtklb.glade",
+        wTree = glade.XML ("gtklb.glade",
                           "fileSelection")
         
         dic = {"on_ok_clicked": self.save_as_ok,
@@ -396,9 +398,9 @@ class lightboard(completion, LB__POA.Client):
         w = self.propTree.get_widget("nameDialog")
         e = self.propTree.get_widget("nameEntry")
         name = e.get_text()
-        threads_leave()
+        gdk.threads_leave()
         self.change_show(name)
-        threads_enter()
+        gdk.threads_enter()
         w.destroy()
 
     def prop_cancel (self, widget, data=None):
@@ -406,7 +408,7 @@ class lightboard(completion, LB__POA.Client):
         w.destroy()
 
     def on_properties_activate (self, widget, data=None):
-        wTree = GladeXML ("gtklb.glade",
+        wTree = glade.XML ("gtklb.glade",
                           "nameDialog")
         
         dic = {"on_ok_clicked": self.prop_ok,

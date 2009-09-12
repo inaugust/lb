@@ -2,8 +2,8 @@ from os import path
 import lightboard
 import time
 from gtk import *
-import GDK
-from libglade import *
+import gtk
+from gtk.glade import *
 import attribute_widgets
 
 from ExpatXMLParser import ExpatXMLParser, DOMNode
@@ -19,24 +19,24 @@ def reset():
     lb.instrument_group={}
     lb.instrument_group[None]={}
 
-    threads_enter()
+    gdk.threads_enter()
     menubar=lb.menubar
-    for m in menubar.children():
-        if (m.children()[0].get() == "Instrument"):
+    for m in menubar.get_children():
+        if (m.get_children()[0].get() == "Instrument"):
             menubar.remove(m)
 
-    program1=GtkMenuItem("Instrument")
+    program1=gtk.MenuItem("Instrument")
     menubar.append(program1)
 
-    program1_menu=GtkMenu()
+    program1_menu=gtk.Menu()
     program1.set_submenu(program1_menu)
 
-    new1=GtkMenuItem("Edit")
+    new1=gtk.MenuItem("Edit")
     new1.connect("activate", editInstrument_cb, None)
     program1_menu.append(new1)
 
     menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
 
 def shutdown():
     pass
@@ -84,9 +84,9 @@ def save():
 
 def editInstrument_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = InstrumentEditor()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
 
 
@@ -273,9 +273,9 @@ def do_insertion(tree, parent, ins):
 class InstrumentEditor:
    
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "editInstruments")
             
             dic = {"on_ok_clicked": self.ok_clicked,
@@ -293,8 +293,8 @@ class InstrumentEditor:
             tree.connect ('unselect_row', self.row_unselected)
             tree.set_drag_compare_func(self.drag_compare)
 
-            menu = GtkMenu()
-            i=GtkMenuItem("Delete")
+            menu = gtk.Menu()
+            i=gtk.MenuItem("Delete")
             i.connect("activate", self.popup_delete_activated, None)
             menu.append(i)
             menu.show_all()
@@ -307,11 +307,11 @@ class InstrumentEditor:
             do_insertion(tree, None, ins)
             
             optionMenu = wTree.get_widget("driverMenu")
-            menu=GtkMenu()
+            menu=gtk.Menu()
             mods = lb.instrument_module_info.keys()
             mods.sort()
             for m in mods:
-                i=GtkMenuItem(m)
+                i=gtk.MenuItem(m)
                 i.show()
                 menu.append(i)
             menu.show_all()
@@ -321,7 +321,7 @@ class InstrumentEditor:
 
             self.editTree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def drag_compare(self, source, parent, sibling):
         if (parent is None):
@@ -339,7 +339,7 @@ class InstrumentEditor:
         return 0
 
     def popup_handler (self, widget, event):
-        if (event.type == GDK.BUTTON_PRESS):
+        if (event.type == gtk.gdk.BUTTON_PRESS):
             if (event.button == 3):
                 (row, col) =  widget.get_selection_info (event.x, event.y)
                 self.popup_node=widget.node_nth(row)
@@ -353,7 +353,7 @@ class InstrumentEditor:
         if self.oldSelection == self.popup_node:
             self.oldSelection = None
             table = self.editTree.get_widget("argumentTable")
-            for c in table.children():
+            for c in table.get_children():
                 table.remove(c)
         tree.remove_node(self.popup_node)
 
@@ -396,7 +396,7 @@ class InstrumentEditor:
     def add_clicked(self, widget, data=None):
         tree = self.editTree.get_widget("instrumentTree")
         menu = self.editTree.get_widget("driverMenu")        
-        name = menu.children()[0].get()
+        name = menu.get_children()[0].get()
         info = lb.instrument_module_info[name]
         dnode = DOMNode (tag = info.module, attrs={'name': 'Unnamed'})
         if info.container:
@@ -415,7 +415,7 @@ class InstrumentEditor:
     def set_table (self, dict):
         l = len(dict)
         table = self.editTree.get_widget("argumentTable")
-        for c in table.children():
+        for c in table.get_children():
             table.remove(c)
         table.resize(2,l)
         self.entryWidgets=[]
@@ -432,14 +432,14 @@ class InstrumentEditor:
                 value=value(dict)
             if type(value)==type([]):
                 entry = GtkOptionMenu()
-                menu=GtkMenu()
+                menu=gtk.Menu()
                 menu.connect ("selection-done", self.update_and_redraw, None)
                 count = 0
                 current = 0
                 for v in value:
                     if v == curval:
                         current = count
-                    i=GtkMenuItem(v)
+                    i=gtk.MenuItem(v)
                     menu.append(i)
                     count = count +1
                 menu.show_all()
@@ -480,7 +480,7 @@ class InstrumentEditor:
         for n,w in self.entryWidgets:
             new_value = ''
             if isinstance (w, GtkOptionMenu):
-                new_value = w.children()[0].get()
+                new_value = w.get_children()[0].get()
             if isinstance (w, GtkEntry):            
                 new_value = w.get_text()
             attrs[n]=new_value
@@ -508,7 +508,7 @@ class InstrumentEditor:
             self.update_attrs_from_window(self.oldSelection)
         self.oldSelection = None
         table = self.editTree.get_widget("argumentTable")
-        for c in table.children():
+        for c in table.get_children():
             table.remove(c)
 
     

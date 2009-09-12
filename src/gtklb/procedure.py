@@ -3,8 +3,9 @@ from os import path
 import string, cStringIO
 from ExpatXMLParser import DOMNode
 import ExpatXMLParser
+import gtk
 from gtk import *
-from libglade import *
+from gtk.glade import *
 
 edit_menu = None
 
@@ -14,29 +15,29 @@ def initialize():
 def reset():
     global edit_menu
     lb.procedure={}
-    threads_enter()
+    gdk.threads_enter()
     menubar=lb.menubar
-    for m in menubar.children():
-        if (m.children()[0].get() == "Procedure"):
+    for m in menubar.get_children():
+        if (m.get_children()[0].get() == "Procedure"):
             menubar.remove(m)
 
-    procedure1=GtkMenuItem("Procedure")
+    procedure1=gtk.MenuItem("Procedure")
     menubar.append(procedure1)
 
-    procedure1_menu=GtkMenu()
+    procedure1_menu=gtk.Menu()
     procedure1.set_submenu(procedure1_menu)
 
-    edit1=GtkMenuItem("Edit")
+    edit1=gtk.MenuItem("Edit")
     procedure1_menu.append(edit1)
-    edit_menu=GtkMenu()
+    edit_menu=gtk.Menu()
     edit1.set_submenu(edit_menu)
 
-    new1=GtkMenuItem("New")
+    new1=gtk.MenuItem("New")
     new1.connect("activate", newProcedure_cb, None)
     procedure1_menu.append(new1)
 
     menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
     
 def shutdown():
     pass
@@ -64,11 +65,11 @@ class procedureFactory:
         source = text.get_chars(0, text.get_length())
         if (string.strip(name) != ''):
             if not lb.procedure.has_key(name):
-                threads_leave()
+                gdk.threads_leave()
                 p=Procedure(name, args)
                 p.set_proc(source)
                 p.send_update()
-                threads_enter()
+                gdk.threads_enter()
         win.destroy()
 
     def cancel_clicked(self, widget, data=None):
@@ -76,9 +77,9 @@ class procedureFactory:
         win.destroy()
 
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "editProcedure")
             self.newTree = wTree
             
@@ -88,14 +89,14 @@ class procedureFactory:
             wTree.signal_autoconnect (dic)
             
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
 
 def newProcedure_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = procedureFactory()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
         
 class Procedure:
@@ -108,7 +109,7 @@ class Procedure:
             self.update_refs()
 
     def update_refs(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
             if (lb.procedure.has_key(self.name)):
                 old = lb.procedure[self.name]
@@ -116,14 +117,14 @@ class Procedure:
 
             lb.procedure[self.name]=self
 
-            i=GtkMenuItem(self.name)
+            i=gtk.MenuItem(self.name)
             self.edit_menu_item=i
             edit_menu.append(i)
             i.connect("activate", self.edit_cb, None)
             i.show()
 
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def copy(self):
         p = Procedure(self.name, self.argstr, update_refs = 0)
@@ -203,9 +204,9 @@ class Procedure:
     def edit_cb(self, widget, data):
         """ Called from lightboard->procedure->edit """
         self.edit_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         self.edit()
-        threads_enter()
+        gdk.threads_enter()
 
 
     def edit_ok_clicked(self, widget, data=None):
@@ -215,14 +216,14 @@ class Procedure:
         args = argEntry.get_text()
         source = text.get_chars(0, text.get_length())
 
-        threads_leave()
+        gdk.threads_leave()
         
         self.set_args(args)
         self.set_proc(source)
         self.update_refs()
         self.send_update()
 
-        threads_enter()
+        gdk.threads_enter()
         win.destroy()
 
     def edit_cancel_clicked(self, widget, data=None):
@@ -237,9 +238,9 @@ class Procedure:
         p.edit_self()
     
     def edit_self(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "editProcedure")
             self.editTree = wTree
             
@@ -261,7 +262,7 @@ class Procedure:
             w.insert_defaults(self.proc)
             
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
 
 

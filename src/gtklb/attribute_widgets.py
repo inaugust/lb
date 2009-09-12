@@ -18,7 +18,7 @@ def initialize():
     while 1:
         l = f.readline()
         if (not l): break
-        if (l[0]=='!'): continue
+        if (l[0]=='#'): continue
         m = p.match(l)
         if m is not None:
           r,g,b,n = m.group(1), m.group(2), m.group(3), m.group(4)

@@ -5,8 +5,9 @@ from os import path
 import lightboard
 import time
 import math
+import gtk
 from gtk import *
-from libglade import *
+from gtk.glade import *
 import string
 
 from omniORB import CORBA
@@ -47,27 +48,27 @@ def initialize():
 def reset():
     global levelfader_open_menu
     lb.levelfader={}
-    threads_enter()
-    for m in lb.fader_menu.children():
-        if (m.children()[0].get() == "Levelfader"):
+    gdk.threads_enter()
+    for m in lb.fader_menu.get_children():
+        if (m.get_children()[0].get() == "Levelfader"):
             lb.fader_menu.remove(m)
 
-    levelfader1=GtkMenuItem("Levelfader")
+    levelfader1=gtk.MenuItem("Levelfader")
     lb.fader_menu.append(levelfader1)
-    levelfader_menu=GtkMenu()
+    levelfader_menu=gtk.Menu()
     levelfader1.set_submenu(levelfader_menu)
 
-    open1=GtkMenuItem("Open")
+    open1=gtk.MenuItem("Open")
     levelfader_menu.append(open1)
-    levelfader_open_menu=GtkMenu()
+    levelfader_open_menu=gtk.Menu()
     open1.set_submenu(levelfader_open_menu)
 
-    new1=GtkMenuItem("New")
+    new1=gtk.MenuItem("New")
     new1.connect("activate", newLevelFader_cb, None)
     levelfader_menu.append(new1)
 
     lb.menubar.show_all()
-    threads_leave()
+    gdk.threads_leave()
     
 def shutdown():
     pass
@@ -85,9 +86,9 @@ def save():
 
 class levelFaderFactory:
     def __init__(self):
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "newCoreItem")
             
             dic = {"on_ok_clicked": self.ok_clicked,
@@ -98,11 +99,11 @@ class levelFaderFactory:
             e=wTree.get_widget ("nameEntry")
             coreMenu=wTree.get_widget ("coreMenu")
             
-            menu=GtkMenu()
+            menu=gtk.Menu()
             coreMenu.set_menu(menu)
             lb.check_cores()
             for n in lb.core_names:
-                i=GtkMenuItem(n)
+                i=gtk.MenuItem(n)
                 i.show()
                 menu.append(i)
             coreMenu.set_history(0)
@@ -110,7 +111,7 @@ class levelFaderFactory:
             
             self.tree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
         
     def ok_clicked(self, widget, data=None):
         w = self.tree.get_widget("newCoreItem")
@@ -118,12 +119,12 @@ class levelFaderFactory:
         name = e.get_text()
         if (string.strip(name) != ''):
             o = self.tree.get_widget("coreMenu")
-            corename = o.children()[0].get()
+            corename = o.get_children()[0].get()
             if not lb.levelfader.has_key(name):
-                threads_leave()
+                gdk.threads_leave()
                 c = LevelFader (name, corename)
                 c.send_update()
-                threads_enter()
+                gdk.threads_enter()
         w.destroy()
     
     def cancel_clicked(self, widget, data=None):
@@ -132,9 +133,9 @@ class levelFaderFactory:
 
 def newLevelFader_cb(widget, data=None):
     # called from menu
-    threads_leave()
+    gdk.threads_leave()
     f = levelFaderFactory()
-    threads_enter()
+    gdk.threads_enter()
     # that's it.
 
 
@@ -170,15 +171,15 @@ class LevelFader (LB__POA.EventListener):
             levelfader_open_menu.remove(oldf.levelfader_open_menu_item)
         lb.levelfader[self.name]=self
 
-        threads_enter()
+        gdk.threads_enter()
         try:
-            fad=GtkMenuItem(self.name)
+            fad=gtk.MenuItem(self.name)
             self.levelfader_open_menu_item=fad
             levelfader_open_menu.append(fad)
             fad.connect("activate", self.open_cb, None)
             fad.show()
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
 
     def to_tree(self):
@@ -257,7 +258,7 @@ class LevelFader (LB__POA.EventListener):
     def load_clicked(self, widget, data=None):
         if self.isRunning(): return
         menu = self.tree.get_widget("topCueMenu")
-        name = menu.children()[0].get()
+        name = menu.get_children()[0].get()
         self.setCue(name)
         self.setLevel(self.getLevel())
         
@@ -268,9 +269,9 @@ class LevelFader (LB__POA.EventListener):
         self.run_listener_id = self.corefader.addRunListener(listener)
         self.stop_listener_id = self.corefader.addStopListener(listener)
         self.complete_listener_id = self.corefader.addCompleteListener(listener)
-        threads_enter()
+        gdk.threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
+            wTree = glade.XML ("gtklb.glade",
                               "fader")
             
             dic = {"on_run_clicked": self.run_clicked,
@@ -320,10 +321,10 @@ class LevelFader (LB__POA.EventListener):
             b=wTree.get_widget ("bottomCueMenu")
             b.hide()
 
-            menu=GtkMenu()
+            menu=gtk.Menu()
             t.set_menu(menu)
             for n in lb.cue.keys():
-                i=GtkMenuItem(n)
+                i=gtk.MenuItem(n)
                 i.show()
                 menu.append(i)
             t.set_history(0)
@@ -336,10 +337,10 @@ class LevelFader (LB__POA.EventListener):
 
             self.tree=wTree
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def levelChanged(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             self.adjustment.disconnect(self.adjustment_handler_id)
             self.adjustment.set_value(100.0-evt.value[0])
@@ -349,44 +350,44 @@ class LevelFader (LB__POA.EventListener):
                 self.timeSpin.set_value(evt.value[1])
             gdk_flush()
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def sourceChanged(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             self.label.set_text("Cue: %s" % self.getCueName())
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def runStarted(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             w = self.tree.get_widget("run")
             w.set_sensitive(0)
             w = self.tree.get_widget("stop")
             w.set_sensitive(1)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def runStopped(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             w = self.tree.get_widget("run")
             w.set_sensitive(1)
             w = self.tree.get_widget("stop")
             w.set_sensitive(0)
         finally:
-            threads_leave()
+            gdk.threads_leave()
 
     def runCompleted(self, evt):
-        threads_enter()
+        gdk.threads_enter()
         try:
             w = self.tree.get_widget("run")
             w.set_sensitive(1)
             w = self.tree.get_widget("stop")
             w.set_sensitive(0)
         finally:
-            threads_leave()
+            gdk.threads_leave()
         
     def receiveEvent(self, evt):
         try:
@@ -408,9 +409,9 @@ class LevelFader (LB__POA.EventListener):
         """ Called from lightboard->fader->levelfader"""
 
         self.levelfader_open_menu_item.set_sensitive(0)
-        threads_leave()
+        gdk.threads_leave()
         self.create_window()
-        threads_enter()
+        gdk.threads_enter()
 
 # see gtk_signal_handler_block_by_func
 # at http://developer.gnome.org/doc/API/gtk/gtkeditable.html
