@@ -308,8 +308,7 @@ class lightboard(completion, LB__POA.Client):
     def create_window(self):
         threads_enter()
         try:
-            wTree = GladeXML ("gtklb.glade",
-                              "main")
+            wTree = glade.XML ("gtklb.glade", "main")
 
             dic = {"on_new_activate": self.on_new_activate,
                    "on_open_activate": self.on_open_activate,

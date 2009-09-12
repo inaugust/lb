@@ -14,14 +14,15 @@ rgb_table = {}
 def initialize():
     global rgb_table
     p = re.compile("\s*(\S+)\s*(\S+)\s*(\S+)\s*(.*)")
-    f = open ("/etc/X11/rgb.txt")
+    f = open ("/usr/share/emacs/22.2/etc/rgb.txt")
     while 1:
         l = f.readline()
         if (not l): break
         if (l[0]=='!'): continue
         m = p.match(l)
-        r,g,b,n = m.group(1), m.group(2), m.group(3), m.group(4)
-        rgb_table[n]=(float(r)/255.0*100.0, float(g)/255.0*100.0, float(b)/255.0*100.0)
+        if m is not None:
+          r,g,b,n = m.group(1), m.group(2), m.group(3), m.group(4)
+          rgb_table[n]=(float(r)/255.0*100.0, float(g)/255.0*100.0, float(b)/255.0*100.0)
     f.close()
 
 def reset():

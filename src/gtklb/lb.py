@@ -42,14 +42,14 @@ for arg in sys.argv[1:]:
     
 
 def gtk_main():
-  gtk.threads_enter()
-  gtk.mainloop()
-  gtk.threads_leave()
+  gtk.gdk.threads_enter()
+  gtk.main()
+  gtk.gdk.threads_leave()
 
-t=Thread (target=gtk_main)
-t.start()
+#t=Thread (target=gtk_main)
+#t.start()
 
-print clientname
+#print clientname
 
 lb = lightboard(clientname)
 lb.load_libraries(libraries)
