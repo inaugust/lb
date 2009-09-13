@@ -175,20 +175,20 @@ class Procedure:
 
     def argument_widget(self, args = None):
         l = len(self.args)
-        table = GtkTable(rows=l, cols=2)
+        table = gtk.Table(rows=l, cols=2)
         widget_list = []
         for x in range(0,l):
             name = self.args[x]
-            label = GtkLabel(name)
+            label = gtk.Label(name)
             label.set_alignment(1.0, 0.5)
             label.show()
             table.attach(label, 0, 1, x, x+1, xoptions=FILL, yoptions=0)
-            entry = GtkEntry()
+            entry = gtk.Entry()
             if args and args.has_key(name):
                 entry.set_text(args[name])
             entry.show_all()
             widget_list.append((name, entry))
-            align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+            align = gtk.Alignment(0.0, 0.5, 0.0, 0.0)
             align.add(entry)
             align.show()
             table.attach(align, 1, 2, x, x+1, xoptions=FILL, yoptions=0)

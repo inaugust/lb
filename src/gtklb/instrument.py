@@ -421,7 +421,7 @@ class InstrumentEditor:
         self.entryWidgets=[]
         x = 0
         for name, value in dict.items():
-            label = GtkLabel(name)
+            label = gtk.Label(name)
             label.set_alignment(1.0, 0.5)
             label.show()
             table.attach(label, 0, 1, x, x+1, xoptions=FILL, yoptions=0)
@@ -431,7 +431,7 @@ class InstrumentEditor:
             if callable(value):
                 value=value(dict)
             if type(value)==type([]):
-                entry = GtkOptionMenu()
+                entry = gtk.OptionMenu()
                 menu=gtk.Menu()
                 menu.connect ("selection-done", self.update_and_redraw, None)
                 count = 0
@@ -446,10 +446,10 @@ class InstrumentEditor:
                 entry.set_menu(menu)
                 entry.set_history(current)
             if type(value)==type(''):
-                entry = GtkEntry()
+                entry = gtk.Entry()
                 entry.set_text(curval)
             entry.show_all()
-            align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+            align = gtk.Alignment(0.0, 0.5, 0.0, 0.0)
             align.add(entry)
             align.show()
             self.entryWidgets.append((name, entry))
@@ -479,9 +479,9 @@ class InstrumentEditor:
         attrs = {}
         for n,w in self.entryWidgets:
             new_value = ''
-            if isinstance (w, GtkOptionMenu):
+            if isinstance (w, gtk.OptionMenu):
                 new_value = w.get_children()[0].get()
-            if isinstance (w, GtkEntry):            
+            if isinstance (w, gtk.Entry):            
                 new_value = w.get_text()
             attrs[n]=new_value
         data[0].attrs = attrs

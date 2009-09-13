@@ -534,24 +534,24 @@ class CueEditor(completion):
         l = len (common_attrs)
         table.resize(2, l+1)
 
-        w = GtkLabel("Instrument:")
+        w = gtk.Label("Instrument:")
         table.attach(w, 0,1,0,1, xoptions=FILL, yoptions=0)
         s = self.editing_instruments[0]
         for n in self.editing_instruments[1:]:
             s=s+", "+n
-        w = GtkLabel(s)
-        align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+        w = gtk.Label(s)
+        align = gtk.Alignment(0.0, 0.5, 0.0, 0.0)
         align.add(w)
         table.attach(align, 1,2,0,1, xoptions=FILL, yoptions=0)
 
         for i in range(1,l+1):
             a = common_attrs[i-1]
             v = getattr(self.cue_proxies[self.editing_instruments[0]], a)
-            w = GtkLabel(a)
+            w = gtk.Label(a)
             table.attach(w, 0,1, i,i+1, xoptions=FILL, yoptions=0)
             w = lb.attr_widget(a)(v, self.edit_attr_changed)            
             self.attribute_widgets[a]=w
-            align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+            align = gtk.Alignment(0.0, 0.5, 0.0, 0.0)
             align.add(w.get_widget())
             table.attach(align, 1,2, i,i+1, xoptions=FILL, yoptions=0)
         table.show_all()

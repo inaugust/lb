@@ -169,7 +169,7 @@ class Action:
         table.resize(2,l)
         self.entryWidgets=[]
         for x in range (0, l):
-            label = GtkLabel(args[x][0])
+            label = gtk.Label(args[x][0])
             label.set_alignment(1.0, 0.5)
             label.show()
             table.attach(label, 0, 1, x, x+1, xoptions=FILL, yoptions=0)
@@ -177,7 +177,7 @@ class Action:
             if callable(value):
                 value=value()
             if type(value)==type([]):
-                entry = GtkCombo()
+                entry = gtk.Combo()
                 entry.set_use_arrows(1)
                 entry.set_case_sensitive(0)
                 entry.entry.set_editable(0)
@@ -195,7 +195,7 @@ class Action:
                 entry.set_popdown_strings(menuitems)
                 entry.entry.set_text(value[current])
             if type(value)==type(''):
-                entry = GtkEntry()
+                entry = gtk.Entry()
                 current = ''
                 try:
                     current = data[args[x][0]]
@@ -203,7 +203,7 @@ class Action:
                     pass
                 entry.set_text(current)
             entry.show_all()
-            align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+            align = gtk.Alignment(0.0, 0.5, 0.0, 0.0)
             align.add(entry)
             align.show()
             self.entryWidgets.append(entry)
@@ -486,38 +486,30 @@ class Program:
         n = tree.node_get_row_data(current)
         self.child_windows.append(n.edit())
 
-    def edit_row_unselected(self, widget, row, column, data=None):
-        l=self.editTree.get_widget("programTree").selection
-        if len(l) == 0:
-            b = self.editTree.get_widget("addStep")
-            b.get_children()[0].set_sensitive(0)
-            b = self.editTree.get_widget("addAction")
-            b.get_children()[0].set_sensitive(0)
-            b = self.editTree.get_widget("remove")
-            b.get_children()[0].set_sensitive(0)
-            b = self.editTree.get_widget("edit")
-            b.get_children()[0].set_sensitive(0)
-
     def edit_row_selected(self, widget, row, column, data=None):
-        l=self.editTree.get_widget("programTree").selection
-        if l[0].level==1:
-            b = self.editTree.get_widget("addAction")
-            b.get_children()[0].set_sensitive(1)
+        l=self.editTree.get_widget("programTree").get_selection()
+        if l.count_selected_rows() == 0:
             b = self.editTree.get_widget("addStep")
-            b.get_children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(0)
+            b = self.editTree.get_widget("addAction")
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("remove")
-            b.get_children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("edit")
-            b.get_children()[0].set_sensitive(1)
+            b.get_children()[0].set_sensitive(0)
         else:
             b = self.editTree.get_widget("addAction")
             b.get_children()[0].set_sensitive(1)
-            b = self.editTree.get_widget("addStep")
-            b.get_children()[0].set_sensitive(0)
             b = self.editTree.get_widget("remove")
             b.get_children()[0].set_sensitive(1)
             b = self.editTree.get_widget("edit")
             b.get_children()[0].set_sensitive(1)
+            b = self.editTree.get_widget("addStep")
+            if l.get_selected()[0].level==1:
+                b.get_children()[0].set_sensitive(1)
+            else:
+                b.get_children()[0].set_sensitive(0)
+
                 
     def update_tree(self, nodeData=None):
         tree = self.editTree.get_widget ("programTree")
@@ -667,9 +659,7 @@ class Program:
             w = wTree.get_widget("programEdit")
             w.connect ('destroy', self.edit_destroyed)
             w = wTree.get_widget("programTree")
-            w.connect ('select_row', self.edit_row_selected)
-            w.connect ('unselect_row', self.edit_row_unselected)
-            w.set_drag_compare_func(self.edit_drag_compare)
+            w.get_selection().connect ('changed', self.edit_row_selected)
             menu = gtk.Menu()
             i=gtk.MenuItem("Edit")
             i.connect("activate", self.popup_edit_activated, None)
@@ -750,7 +740,7 @@ class Program:
 
             items=[]
             for i in self.actions:
-                item=GtkListItem(i.name)
+                item=gtk.ListItem(i.name)
                 item.show()
                 items.append(item)
             self.cue_list.append_items(items)

@@ -110,7 +110,7 @@ class LevelWidget(AttributeWidget):
     def __init__(self, value, changed_callback):
         AttributeWidget.__init__(self)
         self.changed_callback=changed_callback
-        self.widget = GtkSpinButton()
+        self.widget = gtk.SpinButton()
         self.widget.set_digits(2)
         self.widget.set_usize(70,-1)
         adj = self.widget.get_adjustment()
@@ -209,16 +209,16 @@ class ColorWidget(AttributeWidget):
         AttributeWidget.__init__(self)
         self.changed_callback=changed_callback
 
-        self.widget = GtkVBox()
+        self.widget = gtk.VBox()
 
-        self.color_widget = GtkColorSelection()
+        self.color_widget = gtk.ColorSelection()
         self.color_widget.connect('color_changed', self.changed)
         self.color_widget.show()
         
-        self.entry_widget = GtkEntry()
+        self.entry_widget = gtk.Entry()
         self.entry_widget.connect('activate', self.changed)
 
-        align = GtkAlignment(0.0, 0.5, 0.0, 0.0)
+        align = gtk.Alignment(0.0, 0.5, 0.0, 0.0)
         align.add(self.entry_widget)
 
         self.widget.pack_start(self.color_widget)
@@ -291,7 +291,7 @@ class GoboRPMWidget(AttributeWidget):
     def __init__(self, value, changed_callback):
         AttributeWidget.__init__(self)
         self.changed_callback=changed_callback
-        self.widget = GtkSpinButton()
+        self.widget = gtk.SpinButton()
         self.widget.set_digits(2)
         self.widget.set_usize(70,-1)
         adj = self.widget.get_adjustment()

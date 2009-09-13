@@ -381,7 +381,7 @@ class CrossFader(LB__POA.EventListener):
             menu.show()
             
             scale = wTree.get_widget("vscale")
-            self.adjustment=GtkAdjustment(100.0, 0.0, 110.0, 1.0, 10.0, 10.0)
+            self.adjustment=gtk.Adjustment(100.0, 0.0, 110.0, 1.0, 10.0, 10.0)
             self.adjustment_handler_id = self.adjustment.connect('value_changed', self.adjustment_changed, None)
             scale.set_adjustment(self.adjustment)
 
