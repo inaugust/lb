@@ -46,7 +46,7 @@ module LB
 
   typedef sequence<string> StringList;
 
-  enum EventType
+  enum TypeOfEvent
     {
       event_instrument_level,
       event_instrument_target,
@@ -61,7 +61,7 @@ module LB
  
   struct Event
   {
-    EventType type;
+    TypeOfEvent type;
     Object source;
     sequence<double> value;
   };

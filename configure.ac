@@ -1,19 +1,21 @@
-# Process this file with autoconf to produce a configure script.
-AC_INIT('lb', '0.3.0', 'bugs-lb@inaugust.com')
-AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE($PACKAGE_NAME,$PACKAGE_VERSION)
-AC_CONFIG_SRCDIR([src/lb/CrossFader_i.cc])
-AM_CONFIG_HEADER(config.h)
 
-# Checks for programs.
-AC_PROG_CXX
-AC_PROG_CC
+AC_INIT([lb], [0.3.0], [bugs-lb@inaugust.com])
+AC_CONFIG_AUX_DIR(config)
+AM_INIT_AUTOMAKE(nostdinc subdir-objects foreign)
+AC_CONFIG_SRCDIR([lb/lb.cc])
+AM_CONFIG_HEADER(config.h)
+AC_CONFIG_MACRO_DIR([m4])
+
+
+LT_INIT
+LT_LANG(C++)
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lexpat':
 AC_CHECK_LIB([expat], [main])
 # FIXME: Replace `main' with a function in `-libs':
 AC_CHECK_LIB([ibs], [main])
+AC_LANG_PUSH(C++)
 # FIXME: Replace `main' with a function in `-lomniDynamic3':
 AC_CHECK_LIB([omniDynamic4], [main])
 # FIXME: Replace `main' with a function in `-lomniGK_stub':
@@ -22,8 +24,16 @@ AC_CHECK_LIB([omniGK_stub], [main])
 AC_CHECK_LIB([omniORB4], [main])
 # FIXME: Replace `main' with a function in `-lomnithread':
 AC_CHECK_LIB([omnithread], [main])
-# FIXME: Replace `main' with a function in `-lpthread':
-AC_CHECK_LIB([pthread], [main])
+AC_LANG_POP()
+
+AC_CHECK_LIB([dl], [dlopen])
+
+
+ACX_PTHREAD
+AM_PATH_PYTHON
+CXXFLAGS="${PTHREAD_CFLAGS} ${CXXFLAGS}"
+
+
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -38,8 +48,5 @@ AC_HEADER_TIME
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([gettimeofday pow sqrt strdup strrchr])
 
-AC_CONFIG_FILES([
-	Makefile 
-	src/Makefile
-	src/lb/Makefile])
+AC_CONFIG_FILES([ Makefile ])
 AC_OUTPUT

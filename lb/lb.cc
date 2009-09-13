@@ -505,7 +505,7 @@ static void load_modules(void)
     name= (char *)malloc(len);
     snprintf(name, len, "%s.so", (char *)l->data);
 
-    handle= dlopen(name, RTLD_NOW | RTLD_GLOBAL);
+    handle= dlopen(name, RTLD_LAZY | RTLD_GLOBAL);
 
     if (handle == NULL)
     {
