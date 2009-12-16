@@ -76,7 +76,8 @@ BUILT_PYTHON_FILES= \
 	gtklb/idl/Fader_idl.py \
 	gtklb/idl/Instrument_idl.py \
 	gtklb/idl/LevelFader_idl.py \
-	gtklb/idl/Lightboard_idl.py
+	gtklb/idl/Lightboard_idl.py \
+	gtklb/idl/types_idl.py
 
 lb_modules_GoboRotator_la_SOURCES= lb/modules/GoboRotator.cc
 lb_modules_GoboRotator_la_LDFLAGS= -avoid-version -module -disable-static ${AM_LDFLAGS}
