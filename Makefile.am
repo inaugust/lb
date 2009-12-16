@@ -70,6 +70,7 @@ liblbidl_liblbidl_la_SOURCES= \
 
 
 BUILT_PYTHON_FILES= \
+	gtklb/idl/Client_idl.py \
 	gtklb/idl/CrossFader_idl.py \
 	gtklb/idl/CueFader_idl.py \
 	gtklb/idl/Dimmer_idl.py \
@@ -80,6 +81,7 @@ BUILT_PYTHON_FILES= \
 	gtklb/idl/types_idl.py
 
 lb_modules_GoboRotator_la_SOURCES= lb/modules/GoboRotator.cc
+lb_modules_GoboRotator_la_CXXFLAGS= ${AM_CXXFLAGS} ${NO_WERROR}
 lb_modules_GoboRotator_la_LDFLAGS= -avoid-version -module -disable-static ${AM_LDFLAGS}
 lb_modules_GoboRotator_la_LIBADD= liblbidl/liblbidl.la lb/liblb.la
 
