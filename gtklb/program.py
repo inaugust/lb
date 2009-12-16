@@ -8,6 +8,7 @@ import time
 import gtk
 from gtk import *
 from gtk.glade import *
+import gobject
 import crossfader
 import levelfader
 
@@ -738,12 +739,13 @@ class Program:
         
             self.cue_list=wTree.get_widget("list")
 
-            items=[]
+            items=gtk.ListStore(gobject.TYPE_STRING)
             for i in self.actions:
-                item=gtk.ListItem(i.name)
-                item.show()
-                items.append(item)
-            self.cue_list.append_items(items)
+                items.append([i.name])
+            #    #item=gtk.ListItem(i.name)
+            #    #item.show()
+            #    #items.append(item)
+            self.cue_list.set_model(items)
         finally:
             gdk.threads_leave()
 
@@ -762,14 +764,16 @@ class Program:
 
     def ui_set_next_step(self):
         gdk.threads_enter()
-        self.cue_list.unselect_all()
+        # @TODO: How do we do unselect_all on a tree_view
+        # self.cue_list.unselect_all()
         self.label_next.set_text('Next: ---')
         if (self.get_next_step()):
             #self.cue_list.disconnect(self.cue_list_handler_id)
 
             self.label_next.set_text('Next: '+self.get_next_step().name)
-            self.cue_list.select_item(self.next_step)
-            self.cue_list.scroll_vertical(SCROLL_JUMP, float(self.next_step)/float(len(self.actions)))
+            self.cue_list.scroll_to_cell(self.cue_list.get_model()[self.next_step].path)
+            #self.cue_list.select_item(self.next_step)
+            #self.cue_list.scroll_vertical(SCROLL_JUMP, float(self.next_step)/float(len(self.actions)))
 
             #self.cue_list_handler_id=self.cue_list.connect('selection_changed', self.selection_changed, None)
 

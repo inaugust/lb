@@ -70,6 +70,7 @@ liblbidl_liblbidl_la_SOURCES= \
 
 
 BUILT_PYTHON_FILES= \
+	gtklb/idl/Client_idl.py \
 	gtklb/idl/CrossFader_idl.py \
 	gtklb/idl/CueFader_idl.py \
 	gtklb/idl/Dimmer_idl.py \
